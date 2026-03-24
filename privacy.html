@@ -54,7 +54,7 @@
 
 <section>
   <div class="container legal-content">
-    <p><strong>עדכון אחרון:</strong> מרץ 2026</p>
+    <p><strong>עדכון אחרו��:</strong> מרץ 2026</p>
 
     <h2>1. כללי</h2>
     <p>אהרון לנדובר ("אנחנו", "החברה") מכבד את פרטיות המשתמשים באתר www.lendover.co.il ("האתר"). מדיניות פרטיות זו מסבירה כיצד אנו אוספים, משתמשים ומגנים על המידע שלך.</p>
@@ -98,9 +98,32 @@
 </footer>
 
 <script>
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'));
-  });
+  // Mobile menu handling
+  (function() {
+    const navLinks = document.querySelector('.nav-links');
+
+    // Close mobile menu when clicking a regular link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        // If this link has a dropdown sibling, toggle it on mobile
+        const parent = this.parentElement;
+        const dropdown = parent.querySelector('.dropdown');
+        if (dropdown && window.innerWidth <= 768) {
+          e.preventDefault();
+          dropdown.classList.toggle('mobile-open');
+          return;
+        }
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('nav') && navLinks.classList.contains('open')) {
+        navLinks.classList.remove('open');
+      }
+    });
+  })();
 </script>
 <script src="accessibility-widget.js"></script>
 </body>

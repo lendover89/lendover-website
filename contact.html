@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>יצירת קשר | אהרון לנדובר - יעוץ התחדשות עירונית</title>
+  <title>יצטרת קשר | אהרון לנדובר - יעוץ התחדשות עירונית</title>
   <meta name="description" content="צרו קשר עם אהרון לנדובר לייעוץ אסטרטגי בהתחדשות עירונית. ליווי בעלי דירות וחברות יזמיות בפרויקטי פינוי בינוי ותמ״א 38. טלפון: 050-8102661." />
   <link rel="canonical" href="https://www.lendover.co.il/contact.html" />
   <link rel="alternate" hreflang="he" href="https://www.lendover.co.il/contact.html" />
@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="style.css" />
   <!-- Open Graph -->
-  <meta property="og:title" content="יצירת קשר | אהרון לנדובר - יעוץ התחדשות עירונית" />
+  <meta property="og:title" content="יצטרת קשר | אהרון לנדובר - יעוץ התחדשות עירונית" />
   <meta property="og:description" content="צרו קשר לייעוץ אסטרטגי בהתחדשות עירונית. ליווי בעלי דירות וחברות יזמיות." />
   <meta property="og:image" content="https://www.lendover.co.il/aharon-portrait.jpg" />
   <meta property="og:url" content="https://www.lendover.co.il/contact.html" />
@@ -90,7 +90,7 @@
         <meta itemprop="position" content="1" />
       </li>
       <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <span itemprop="name">יצירת קשר</span>
+        <span itemprop="name">יצטרת קשר</span>
         <meta itemprop="position" content="2" />
       </li>
     </ol>
@@ -186,9 +186,32 @@
 </footer>
 
 <script>
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open'));
-  });
+  // Mobile menu handling
+  (function() {
+    const navLinks = document.querySelector('.nav-links');
+
+    // Close mobile menu when clicking a regular link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        // If this link has a dropdown sibling, toggle it on mobile
+        const parent = this.parentElement;
+        const dropdown = parent.querySelector('.dropdown');
+        if (dropdown && window.innerWidth <= 768) {
+          e.preventDefault();
+          dropdown.classList.toggle('mobile-open');
+          return;
+        }
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('nav') && navLinks.classList.contains('open')) {
+        navLinks.classList.remove('open');
+      }
+    });
+  })();
 </script>
 <script src="accessibility-widget.js"></script>
 </body>
