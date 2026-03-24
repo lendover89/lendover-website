@@ -34,7 +34,7 @@
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "TabuTab",
-      "description": "המרת נסח טאבו לקובץ אקסל מסודר - חיסכון זמן בעבודה עם נסחי טאבו",
+      "description": "המרת נסח טאבו לקובץ אקסל מסודר - חיסכון זמן בעװודה עם נסחי טאבו",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ILS" },
@@ -62,15 +62,15 @@
         "name": "מהו מחשבון תכסית בניה BuildCalc?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "BuildCalc הוא מחשבון חינמי לחישוב שטחי בנייה, זכויות בנייה ותמהילי דירות בפרויקטי התחדשות עירונית. הכלי מאפשר סימולציה של תרחישים שונים ובחינת כדאיות ראשונית של פרויקטים."
+          "text": "BuildCalc הוב מחשבון חינמי לחישוב שטחי בנייה, זכויות בנייה ותמהילי דירות בפרויקטי התחדשות עירונית. הכלי מאפשר סימולציה של תרחישים שונים ובחינת כדאיות ראשונית של פרויקטים."
         }
       },
       {
         "@type": "Question",
-        "name": "מהו TabuTab ואיך הוא חוסך זמן?",
+        "name": "מהו TabuTab ואיך הוב חוסך זמן?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "TabuTab הוא כלי חינמי להמרה אוטומטית של נסח טאבו לקובץ אקסל מסודר. הכלי חוסך שעות עבודה ידנית ומאפשר עבודה יעילה עם נתוני בעלויות ורישום מקרקעין."
+          "text": "TabuTab הוא כלי חינמי להמרה אוטומטית של נסח טאבו Lendover.co.il מסודר. הכלי חוסך שעשות עבודה ידנית ומאפשר עבודה יעילה עם נתוני בעלויות ורישום מקרקעין."
         }
       },
       {
@@ -191,7 +191,7 @@
       </div>
       <div class="faq-item">
         <h3>מהו TabuCaunt ולמה הוא משמש?</h3>
-        <p>TabuCaunt הוא כלי חינמי לבדיקה מהירה של כמות בעלים רשומים בגוש וחלקה. זהו כלי חיוני לשלב ההיתכנות הראשוני של פרויקטי התחדשות עירונית.</p>
+        <p>TabuCaunt הוב כלי חינמי לבדיקה מהירה של כמות בעלים רשומים בגוש וחלקה. זהו כלי חיוני לשלג ההיתכנות הראשוני של פרויקטי התחדשות עירונית.</p>
       </div>
       <div class="faq-item">
         <h3>האם השימוש בכלים חינמי?</h3>
@@ -235,11 +235,32 @@
 </footer>
 
 <script>
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      document.querySelector('.nav-links').classList.remove('open');
+  // Mobile menu handling
+  (function() {
+    const navLinks = document.querySelector('.nav-links');
+
+    // Close mobile menu when clicking a regular link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        // If this link has a dropdown sibling, toggle it on mobile
+        const parent = this.parentElement;
+        const dropdown = parent.querySelector('.dropdown');
+        if (dropdown && window.innerWidth <= 768) {
+          e.preventDefault();
+          dropdown.classList.toggle('mobile-open');
+          return;
+        }
+        navLinks.classList.remove('open');
+      });
     });
-  });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('nav') && navLinks.classList.contains('open')) {
+        navLinks.classList.remove('open');
+      }
+    });
+  })();
 </script>
 
 <script src="accessibility-widget.js"></script>
