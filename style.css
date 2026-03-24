@@ -23,7 +23,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ─── HEADER / NAV ─── */
+/* âââ HEADER / NAV âââ */
 header {
   position: fixed;
   top: 0; right: 0; left: 0;
@@ -115,7 +115,8 @@ nav {
 
 .nav-links li:hover .dropdown { display: block; }
 
-.dropdown a {  ppadding: 12px 18px;
+.dropdown a {
+  padding: 12px 18px;
   font-size: 14px;
   border-bottom: 1px solid #f0f0f0;
 }
@@ -141,7 +142,7 @@ nav {
   transition: transform 0.3s, opacity 0.3s;
 }
 
-/* ─── HERO ─── */
+/* âââ HERO âââ */
 .hero {
   height: 100vh;
   min-height: 500px;
@@ -220,7 +221,7 @@ nav {
   font-size: clamp(32px, 5vw, 52px);
 }
 
-/* ─── SECTIONS GENERAL ─── */
+/* âââ SECTIONS GENERAL âââ */
 section {
   padding: 80px 20px;
 }
@@ -258,7 +259,7 @@ section {
   transform: translateX(50%);
 }
 
-/* ─── ABOUT ─── */
+/* âââ ABOUT âââ */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1.4fr;
@@ -297,7 +298,7 @@ section {
 
 .about-text p:last-child { margin-bottom: 0; }
 
-/* ─── SERVICES (homepage cards) ─── */
+/* âââ SERVICES (homepage cards) âââ */
 .services-section {
   background: var(--color-cream);
 }
@@ -341,7 +342,7 @@ section {
 
 .service-card p:last-child { margin-bottom: 0; }
 
-/* ─── SERVICE DETAIL PAGE ─── */
+/* âââ SERVICE DETAIL PAGE âââ */
 .service-detail-section {
   background: var(--color-white);
 }
@@ -383,7 +384,7 @@ section {
 
 .service-item p:last-child { margin-bottom: 0; }
 
-/* ─── TOOLS ─── */
+/* âââ TOOLS âââ */
 .tools-intro {
   font-size: 16px;
   line-height: 1.85;
@@ -448,7 +449,7 @@ section {
   background: var(--color-bronze);
 }
 
-/* ─── ABOUT PAGE (detailed) ─── */
+/* âââ ABOUT PAGE (detailed) âââ */
 .about-detail-content {
   max-width: 850px;
 }
@@ -468,7 +469,7 @@ section {
   margin-bottom: 16px;
 }
 
-/* ─── WHATSAPP FLOATING BUTTON ─── */
+/* âââ WHATSAPP FLOATING BUTTON âââ */
 .whatsapp-float {
   position: fixed;
   bottom: 28px;
@@ -498,7 +499,7 @@ section {
   flex-shrink: 0;
 }
 
-/* ─── FOOTER ─── */
+/* âââ FOOTER âââ */
 footer {
   background: var(--color-dark);
   color: rgba(255,255,255,0.6);
@@ -514,7 +515,7 @@ footer a {
 
 footer a:hover { color: white; }
 
-/* ─── RESPONSIVE ─── */
+/* âââ RESPONSIVE âââ */
 
 /* Tablet */
 @media (max-width: 960px) {
@@ -709,7 +710,7 @@ footer a:hover { color: white; }
   .service-card { padding: 20px 16px; }
 }
 
-/* ─── BREADCRUMBS ─── */
+/* âââ BREADCRUMBS âââ */
 .breadcrumbs {
   background: #f5f5f5;
   padding: 12px 20px;
@@ -744,7 +745,7 @@ footer a:hover { color: white; }
 
 .breadcrumbs li:last-child { color: #666; }
 
-/* ─── FAQ SECTION ─── */
+/* âââ FAQ SECTION âââ */
 .faq-section {
   background: var(--color-cream);
   padding: 60px 20px;
@@ -778,7 +779,7 @@ footer a:hover { color: white; }
   color: #4a4a4a;
 }
 
-/* ─── CTA SECTION ─── */
+/* âââ CTA SECTION âââ */
 .cta-section {
   background: var(--color-dark);
   text-align: center;
@@ -815,7 +816,7 @@ footer a:hover { color: white; }
   transform: translateY(-2px);
 }
 
-/* ─── CONTACT PAGE ─── */
+/* âââ CONTACT PAGE âââ */
 .contact-grid {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -899,7 +900,7 @@ footer a:hover { color: white; }
 
 .contact-item a:hover { color: var(--color-bronze); }
 
-/* ─── FOOTER (ENHANCED) ─── */
+/* âââ FOOTER (ENHANCED) âââ */
 .footer-content {
   max-width: 1100px;
   margin: 0 auto;
@@ -928,7 +929,7 @@ footer a:hover { color: white; }
 
 .footer-links a:hover { color: white; }
 
-/* ─── ACCESSIBILITY ─── */
+/* âââ ACCESSIBILITY âââ */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1212,3 +1213,30 @@ body.a11y-keyboard-nav *:focus {
     bottom: 76px;
     left: 16px;
     width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .a11y-panel {
+    bottom: 126px;
+    left: 16px;
+    right: 16px;
+    width: auto;
+  }
+}
+
+/* âââ LEGAL PAGES âââ */
+.legal-content h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+
+.legal-content p {
+  font-size: 15px;
+  line-height: 1.85;
+  color: #4a4a4a;
+  margin-bottom: 16px;
+}
