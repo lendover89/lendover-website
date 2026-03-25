@@ -73,6 +73,7 @@
     // Close mobile menu when clicking a regular link
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', function(e) {
+        // If this link has a dropdown sibling, toggle it on mobile
         const parent = this.parentElement;
         const dropdown = parent.querySelector('.dropdown');
         if (dropdown && window.innerWidth <= 768) {
@@ -84,6 +85,7 @@
       });
     });
 
+    // Close menu when clicking outside
     document.addEventListener('click', function(e) {
       if (!e.target.closest('nav') && navLinks.classList.contains('open')) {
         navLinks.classList.remove('open');
