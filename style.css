@@ -23,7 +23,7 @@ body {
   overflow-x: hidden;
 }
 
-/* âââ HEADER / NAV âââ */
+/* ─── HEADER / NAV ─── */
 header {
   position: fixed;
   top: 0; right: 0; left: 0;
@@ -142,7 +142,7 @@ nav {
   transition: transform 0.3s, opacity 0.3s;
 }
 
-/* âââ HERO âââ */
+/* ─── HERO ─── */
 .hero {
   height: 100vh;
   min-height: 500px;
@@ -221,7 +221,7 @@ nav {
   font-size: clamp(32px, 5vw, 52px);
 }
 
-/* âââ SECTIONS GENERAL âââ */
+/* ─── SECTIONS GENERAL ─── */
 section {
   padding: 80px 20px;
 }
@@ -259,7 +259,7 @@ section {
   transform: translateX(50%);
 }
 
-/* âââ ABOUT âââ */
+/* ─── ABOUT ─── */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1.4fr;
@@ -298,7 +298,7 @@ section {
 
 .about-text p:last-child { margin-bottom: 0; }
 
-/* âââ SERVICES (homepage cards) âââ */
+/* ─── SERVICES (homepage cards) ─── */
 .services-section {
   background: var(--color-cream);
 }
@@ -342,7 +342,7 @@ section {
 
 .service-card p:last-child { margin-bottom: 0; }
 
-/* âââ SERVICE DETAIL PAGE âââ */
+/* ─── SERVICE DETAIL PAGE ─── */
 .service-detail-section {
   background: var(--color-white);
 }
@@ -384,7 +384,7 @@ section {
 
 .service-item p:last-child { margin-bottom: 0; }
 
-/* âââ TOOLS âââ */
+/* ─── TOOLS ─── */
 .tools-intro {
   font-size: 16px;
   line-height: 1.85;
@@ -449,7 +449,7 @@ section {
   background: var(--color-bronze);
 }
 
-/* âââ ABOUT PAGE (detailed) âââ */
+/* ─── ABOUT PAGE (detailed) ─── */
 .about-detail-content {
   max-width: 850px;
 }
@@ -469,7 +469,7 @@ section {
   margin-bottom: 16px;
 }
 
-/* âââ WHATSAPP FLOATING BUTTON âââ */
+/* ─── WHATSAPP FLOATING BUTTON ─── */
 .whatsapp-float {
   position: fixed;
   bottom: 28px;
@@ -499,7 +499,7 @@ section {
   flex-shrink: 0;
 }
 
-/* âââ FOOTER âââ */
+/* ─── FOOTER ─── */
 footer {
   background: var(--color-dark);
   color: rgba(255,255,255,0.6);
@@ -515,7 +515,7 @@ footer a {
 
 footer a:hover { color: white; }
 
-/* âââ RESPONSIVE âââ */
+/* ─── RESPONSIVE ─── */
 
 /* Tablet */
 @media (max-width: 960px) {
@@ -710,7 +710,7 @@ footer a:hover { color: white; }
   .service-card { padding: 20px 16px; }
 }
 
-/* âââ BREADCRUMBS âââ */
+/* ─── BREADCRUMBS ─── */
 .breadcrumbs {
   background: #f5f5f5;
   padding: 12px 20px;
@@ -745,7 +745,7 @@ footer a:hover { color: white; }
 
 .breadcrumbs li:last-child { color: #666; }
 
-/* âââ FAQ SECTION âââ */
+/* ─── FAQ SECTION ─── */
 .faq-section {
   background: var(--color-cream);
   padding: 60px 20px;
@@ -779,7 +779,7 @@ footer a:hover { color: white; }
   color: #4a4a4a;
 }
 
-/* âââ CTA SECTION âââ */
+/* ─── CTA SECTION ─── */
 .cta-section {
   background: var(--color-dark);
   text-align: center;
@@ -816,7 +816,7 @@ footer a:hover { color: white; }
   transform: translateY(-2px);
 }
 
-/* âââ CONTACT PAGE âââ */
+/* ─── CONTACT PAGE ─── */
 .contact-grid {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -900,7 +900,7 @@ footer a:hover { color: white; }
 
 .contact-item a:hover { color: var(--color-bronze); }
 
-/* âââ FOOTER (ENHANCED) âââ */
+/* ─── FOOTER (ENHANCED) ─── */
 .footer-content {
   max-width: 1100px;
   margin: 0 auto;
@@ -929,7 +929,7 @@ footer a:hover { color: white; }
 
 .footer-links a:hover { color: white; }
 
-/* âââ ACCESSIBILITY âââ */
+/* ─── ACCESSIBILITY ─── */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1225,7 +1225,7 @@ body.a11y-keyboard-nav *:focus {
   }
 }
 
-/* âââ LEGAL PAGES âââ */
+/* ─── LEGAL PAGES ─── */
 .legal-content h2 {
   font-size: 22px;
   font-weight: 700;
