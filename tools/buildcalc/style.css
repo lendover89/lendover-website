@@ -36,15 +36,31 @@ body {
 nav {
   background: var(--bg-white);
   border-bottom: 1px solid var(--border);
-  padding: 4px 24px;
+  padding: 10px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-app-brand {
+  text-decoration: none;
   display: flex;
   align-items: center;
 }
-.nav-brand { text-decoration: none; }
-.nav-logo {
-  height: 150px;
+.nav-app-logo {
+  height: 72px;
   width: auto;
-  display: block;
+}
+.nav-site-brand {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.nav-site-brand:hover { opacity: 1; }
+.nav-site-logo {
+  height: 40px;
+  width: auto;
 }
 
 /* ── Hero ────────────────────────────────── */
