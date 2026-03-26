@@ -1,0 +1,456 @@
+/* style.css — מחשבון תכסית | lendover.co.il */
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --copper:       #B8743D;
+  --copper-dark:  #9A5F2E;
+  --copper-light: #F5E9DC;
+  --teal:         #5BC8C4;
+  --teal-light:   #E0F7F6;
+  --charcoal:     #3C3C3C;
+  --text:         #2C2C2C;
+  --text-muted:   #777777;
+  --bg:           #F0EDE6;
+  --bg-white:     #FFFFFF;
+  --border:       #E2DDD6;
+  --red:          #C0392B;
+  --green:        #2E7D52;
+  --radius:       4px;
+  --shadow:       0 2px 12px rgba(0,0,0,0.08);
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+  padding-bottom: 48px;
+}
+
+/* ── Navbar ──────────────────────────────── */
+nav {
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border);
+  padding: 4px 24px;
+  display: flex;
+  align-items: center;
+}
+.nav-brand { text-decoration: none; }
+.nav-logo {
+  height: 150px;
+  width: auto;
+  display: block;
+}
+
+/* ── Hero ────────────────────────────────── */
+.hero {
+  background: var(--charcoal);
+  color: #fff;
+  text-align: center;
+  padding: 28px 24px 24px;
+}
+.hero h1 { font-size: 1.7rem; font-weight: 700; margin-bottom: 8px; }
+.hero p  { font-size: 1rem; color: rgba(255,255,255,0.75); font-weight: 300; }
+
+/* ── Container ───────────────────────────── */
+.container {
+  max-width: 720px;
+  margin: 36px auto 0;
+  padding: 0 16px;
+}
+
+/* ── Section title ───────────────────────── */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  position: relative;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--copper);
+}
+
+/* ── Card ────────────────────────────────── */
+.card {
+  background: var(--bg-white);
+  border-top: 3px solid var(--copper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+
+/* ── Parcel rows (multi-parcel input) ────── */
+.parcel-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 8px;
+}
+.remove-parcel-btn {
+  padding: 9px 11px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  flex-shrink: 0;
+  align-self: flex-end;
+  line-height: 1;
+}
+.remove-parcel-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ── Search row actions ───────────────────── */
+.search-row-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+  align-items: center;
+}
+#add-parcel-btn {
+  flex: 1;
+  padding: 9px 14px;
+  background: transparent;
+  border: 1.5px dashed var(--copper);
+  border-radius: var(--radius);
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--copper);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#add-parcel-btn:hover { background: var(--copper-light); }
+
+/* ── Search row (legacy — kept for reference) */
+.search-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 100px;
+}
+.field-group label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.field-group input {
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: 'Heebo', sans-serif;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--bg-white);
+  transition: border-color 0.15s;
+  text-align: center;
+}
+.field-group input:focus {
+  outline: none;
+  border-color: var(--copper);
+}
+
+#search-btn {
+  padding: 10px 28px;
+  background: var(--copper);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'Heebo', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+  align-self: flex-end;
+}
+#search-btn:hover:not(:disabled) { background: var(--copper-dark); }
+#search-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── Spinner ─────────────────────────────── */
+#spinner {
+  display: none;
+  text-align: center;
+  padding: 18px 0 4px;
+}
+.spin {
+  display: inline-block;
+  width: 34px; height: 34px;
+  border: 3px solid var(--copper-light);
+  border-top-color: var(--copper);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+#spinner p { margin-top: 10px; font-size: 0.88rem; color: var(--text-muted); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Error ───────────────────────────────── */
+#error-box {
+  display: none;
+  background: #FEF0F0;
+  border: 1px solid #F5BCBC;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  color: var(--red);
+  font-size: 0.88rem;
+  margin-top: 16px;
+  font-weight: 600;
+}
+
+/* ── Info grid ───────────────────────────── */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+  margin-bottom: 16px;
+}
+.info-item label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+.info-item span {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--charcoal);
+}
+.info-item.wide { grid-column: 1 / -1; }
+
+/* ── Warnings note ───────────────────────── */
+.warnings-note {
+  background: #FEF6ED;
+  border: 1px solid #F0C68A;
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: #8A5A1A;
+  margin-bottom: 16px;
+}
+.error-note {
+  background: #FEF0F0;
+  border: 1px solid #F5BCBC;
+  color: var(--red);
+}
+
+/* ── SVG container ───────────────────────── */
+#svg-container {
+  background: #FAFAFA;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 18px 0;
+  overflow: hidden;
+  line-height: 0;
+}
+#parcel-svg { display: block; width: 100%; }
+
+/* ── Preset row ──────────────────────────── */
+.preset-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.preset-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.preset-btn {
+  padding: 5px 14px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.preset-btn:hover {
+  border-color: var(--copper);
+  background: var(--copper-light);
+  color: var(--copper-dark);
+}
+
+/* ── Setback controls ────────────────────── */
+.setback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding-right: 2px;
+}
+.setback-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  background: var(--bg);
+  border-radius: var(--radius);
+  transition: background 0.15s;
+}
+.setback-row.highlighted {
+  background: var(--copper-light);
+  border: 1px solid var(--copper);
+}
+.edge-label {
+  flex: 1;
+  font-size: 0.82rem;
+  color: var(--charcoal);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.edge-num {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  background: var(--copper);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+.setback-input {
+  width: 68px;
+  padding: 5px 8px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.92rem;
+  text-align: center;
+  color: var(--text);
+  background: var(--bg-white);
+  transition: border-color 0.15s;
+}
+.setback-input:focus {
+  outline: none;
+  border-color: var(--copper);
+}
+.unit-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* ── Coverage summary ────────────────────── */
+.coverage-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  background: var(--teal-light);
+  border: 1px solid var(--teal);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-top: 16px;
+  text-align: center;
+}
+.coverage-item label {
+  display: block;
+  font-size: 0.73rem;
+  color: #3A7572;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+.coverage-item span {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #1E5C59;
+}
+.coverage-item--pct span {
+  font-size: 1.7rem;
+  color: var(--copper-dark);
+}
+.coverage-item small {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #3A7572;
+  margin-right: 2px;
+}
+
+/* ── Buttons ─────────────────────────────── */
+#export-svg-btn {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  padding: 12px;
+  background: var(--charcoal);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#export-svg-btn:hover { background: #555; }
+
+#reset-btn {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: transparent;
+  color: var(--copper);
+  border: 1.5px solid var(--copper);
+  border-radius: var(--radius);
+  font-family: 'Heebo', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#reset-btn:hover { background: var(--copper-light); }
+
+/* ── Privacy ─────────────────────────────── */
+.privacy-note {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+/* ── Responsive ──────────────────────────── */
+@media (max-width: 540px) {
+  nav { padding: 8px 16px; }
+  .hero { padding: 24px 14px 20px; }
+  .hero h1 { font-size: 1.35rem; }
+  .card { padding: 18px 14px; }
+  .info-grid { grid-template-columns: 1fr; }
+  .info-item.wide { grid-column: 1; }
+  .coverage-summary { grid-template-columns: 1fr; gap: 8px; }
+  .parcel-row { flex-wrap: wrap; }
+  .search-row-actions { flex-direction: column; }
+  #add-parcel-btn, #search-btn { width: 100%; }
+}
