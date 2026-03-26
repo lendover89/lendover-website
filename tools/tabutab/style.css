@@ -35,32 +35,31 @@ body {
 nav {
   background: var(--bg-white);
   border-bottom: 1px solid var(--border);
-  padding: 10px 40px;
+  padding: 10px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.nav-brand {
+.nav-app-brand {
+  text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 12px;
-  text-decoration: none;
 }
-.nav-logo {
-  height: 120px;
+.nav-app-logo {
+  height: 72px;
   width: auto;
 }
-.nav-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--charcoal);
-  line-height: 1.3;
+.nav-site-brand {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
+  transition: opacity 0.2s;
 }
-.nav-title span {
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 400;
-  color: var(--text-muted);
+.nav-site-brand:hover { opacity: 1; }
+.nav-site-logo {
+  height: 40px;
+  width: auto;
 }
 
 /* ── Hero banner ─────────────────────────── */
@@ -354,7 +353,8 @@ nav {
 /* ── Responsive ──────────────────────────── */
 @media (max-width: 520px) {
   nav { padding: 8px 16px; }
-  .nav-logo { height: 80px; }
+  .nav-app-logo { height: 52px; }
+  .nav-site-logo { height: 30px; }
   .hero { padding: 32px 16px 28px; }
   .hero h1 { font-size: 1.35rem; }
   .card { padding: 20px 16px; }
