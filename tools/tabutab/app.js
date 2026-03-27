@@ -101,7 +101,24 @@ convertBtn.addEventListener('click', async () => {
   }, 5000);
 
   try {
-    const resp = await fetch('https://tabutab.lendover.co.il/convert', { method: 'POST', body: formData });
+    const resp = await fetch('https://tabutab.lendover.co.il/convert', { method: 'POST', body: formData, credentials: 'include' });
+
+    // Auth required — show login modal and retry
+    if (resp.status === 401) {
+      clearTimeout(coldStartTimer);
+      setLoading(false);
+      await handleAuth401();
+      convertBtn.click();
+      return;
+    }
+
+    // Rate limited
+    if (resp.status === 429) {
+      clearTimeout(coldStartTimer);
+      showError('יותר מדי בקשות. נסה שוב בעוד מספר דקות.');
+      return;
+    }
+
     const data = await resp.json();
     clearTimeout(coldStartTimer);
 
@@ -171,7 +188,7 @@ function renderResults(data) {
 
 // ── Download ─────────────────────────────────────────────────────
 
-downloadBtn.addEventListener('click', () => {
+downloadBtn.addEventListener('click', async () => {
   if (!downloadId) return;
 
   const params = new URLSearchParams({ count: String(lastBuildings.length) });
@@ -179,9 +196,35 @@ downloadBtn.addEventListener('click', () => {
     params.set('gush',   lastBuildings[0].gush   || '');
     params.set('chalka', lastBuildings[0].chalka || '');
   }
-  const a = document.createElement('a');
-  a.href = `https://tabutab.lendover.co.il/download/${downloadId}?${params}`;
-  a.click();
+  const url = `https://tabutab.lendover.co.il/download/${downloadId}?${params}`;
+
+  // Use fetch to check auth before downloading
+  try {
+    const resp = await fetch(url, { method: 'GET', credentials: 'include' });
+    if (resp.status === 401) {
+      await handleAuth401();
+      // Retry download after auth
+      downloadBtn.click();
+      return;
+    }
+    // Download the file
+    const blob = await resp.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    // Extract filename from Content-Disposition or use default
+    const cd = resp.headers.get('Content-Disposition');
+    let filename = 'טאבו.xlsx';
+    if (cd) {
+      const match = cd.match(/filename\*=UTF-8''(.+)/);
+      if (match) filename = decodeURIComponent(match[1]);
+    }
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(blobUrl);
+  } catch (err) {
+    showError('שגיאת רשת — בדוק את החיבור');
+  }
 });
 
 // ── Reset ────────────────────────────────────────────────────────
