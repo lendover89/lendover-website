@@ -6,7 +6,16 @@
 
 (function () {
 
-  const AUTH_API = 'https://auth.lendover.co.il';
+  // Detect tool subdomain and route auth through its /auth/ proxy
+  // to avoid cross-origin cookie issues
+  const AUTH_API = (function () {
+    const path = window.location.pathname;
+    const toolMatch = path.match(/\/tools\/(tabutab|tabucaunt|buildcalc)\//);
+    if (toolMatch) {
+      return 'https://' + toolMatch[1] + '.lendover.co.il/auth';
+    }
+    return 'https://auth.lendover.co.il';
+  })();
 
   // ── State ────────────────────────────────────────────────────────
 
