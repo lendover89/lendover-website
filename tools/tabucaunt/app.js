@@ -45,7 +45,22 @@ form.addEventListener('submit', async (e) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ gush, halka }),
+      credentials: 'include',
     });
+
+    // Auth required — show login modal and retry
+    if (resp.status === 401) {
+      setLoading(false);
+      await handleAuth401();
+      form.dispatchEvent(new Event('submit'));
+      return;
+    }
+
+    // Rate limited
+    if (resp.status === 429) {
+      showError('יותר מדי בקשות. נסה שוב בעוד מספר דקות.');
+      return;
+    }
 
     const data = await resp.json();
 
