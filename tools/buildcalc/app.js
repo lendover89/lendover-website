@@ -295,7 +295,22 @@ async function requestSetback() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ rings: [currentRing], setbacks: currentSetbacks }),
       signal: pendingAbort.signal,
+      credentials: 'include',
     });
+
+    // Auth required — show login modal and retry
+    if (resp.status === 401) {
+      await handleAuth401();
+      requestSetback();
+      return;
+    }
+
+    // Rate limited
+    if (resp.status === 429) {
+      showSetbackWarning('יותר מדי בקשות. נסה שוב בעוד מספר דקות.');
+      return;
+    }
+
     const data = await resp.json();
     if (!data.success) {
       showSetbackWarning(data.error || 'שגיאה לא ידועה');
@@ -445,7 +460,23 @@ async function searchParcel() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
+      credentials: 'include',
     });
+
+    // Auth required — show login modal and retry
+    if (resp.status === 401) {
+      setSearching(false);
+      await handleAuth401();
+      searchParcel();
+      return;
+    }
+
+    // Rate limited
+    if (resp.status === 429) {
+      showError('יותר מדי בקשות. נסה שוב בעוד מספר דקות.');
+      return;
+    }
+
     const data = await resp.json();
     if (!data.success) {
       showError(data.error || 'חלקה לא נמצאה');
