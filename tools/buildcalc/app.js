@@ -13,10 +13,13 @@ let parcelPolygon = null;     // L.polygon currently on the map
 let streetLayer = null;       // OSM tile layer
 let satelliteLayer = null;    // ESRI satellite tile layer
 
-// ITM (EPSG:2039) projection string — matches PARCEL_ALL.prj
-const _ITM_PROJ = '+proj=tmerc +lat_0=31.73439361111111 +lon_0=35.20451694444445 +k=1.0000067 +x_0=219529.584 +y_0=626907.39 +ellps=GRS80 +towgs84=-24.0024,-17.1032,-17.844,-0.33187,-1.85269,1.66969,5.4248 +units=m +no_defs';
-// Lazy factory — proj4 is loaded after this script
-const _toWgs84 = () => proj4(_ITM_PROJ, 'WGS84');
+// Register EPSG:2039 (ITM — Israel Transverse Mercator) exactly as defined on epsg.io
+// towgs84 per EPSG:1074 (Datum Israel 1993 → WGS84), same as QGIS
+proj4.defs('EPSG:2039',
+  '+proj=tmerc +lat_0=31.7343936111111 +lon_0=35.2045169444444' +
+  ' +k=1.0000067 +x_0=219529.584 +y_0=626907.39' +
+  ' +ellps=GRS80 +towgs84=-48,55,52,0,0,0,0 +units=m +no_defs');
+const _toWgs84 = () => proj4('EPSG:2039', 'WGS84');
 
 // ── DOM refs ───────────────────────────────────────────────────────────────────
 
