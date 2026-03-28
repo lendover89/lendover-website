@@ -180,6 +180,18 @@
     }
   }
 
+  // ── Cookie helper ───────────────────────────────────────────────
+
+  function setSessionCookie(token) {
+    const maxAge = 30 * 24 * 3600; // 30 days
+    document.cookie = 'session_token=' + encodeURIComponent(token)
+      + '; domain=lendover.co.il'
+      + '; path=/'
+      + '; max-age=' + maxAge
+      + '; secure'
+      + '; samesite=lax';
+  }
+
   // ── Auth API helper ──────────────────────────────────────────────
 
   async function authPost(endpoint, body) {
@@ -336,6 +348,9 @@
           showError(modal, data.error || 'שגיאה בהתחברות');
           return;
         }
+
+        // Set session cookie from JS (cross-origin Set-Cookie is blocked by browsers)
+        if (data.token) setSessionCookie(data.token);
 
         // Success
         closeOverlay();
@@ -521,7 +536,10 @@
           return;
         }
 
-        // Success — cookie set by server
+        // Set session cookie from JS
+        if (data.token) setSessionCookie(data.token);
+
+        // Success
         closeOverlay();
         if (_onSuccess) _onSuccess();
 
