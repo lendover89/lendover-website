@@ -11,6 +11,7 @@ let pendingAbort = null;      // AbortController for debounced setback request
 let svgTransform = null;      // current SVG coordinate transform
 let leafletMap = null;        // Leaflet map instance (created once)
 let parcelPolygon = null;     // L.polygon currently on the map
+let innerPolygon = null;      // L.polygon for setback/coverage inner ring
 let streetLayer = null;       // OSM tile layer
 let satelliteLayer = null;    // ESRI satellite tile layer
 
@@ -343,12 +344,14 @@ function updateSetbackResult(data) {
   if (!data.valid) {
     showSetbackWarning(data.warning || 'הנסיגה לא תקינה');
     renderSVG(currentRing, null, false);
+    updateMapInner(null);
     updateCoverageUI({ inner_area: 0, coverage_pct: 0, outer_area: data.outer_area });
     return;
   }
 
   hideSetbackWarning();
   renderSVG(currentRing, data.inner_ring, true);
+  updateMapInner(data.wgs84_inner_ring || null);
   updateCoverageUI(data);
 }
 
@@ -571,7 +574,7 @@ function initMap() {
   }).addTo(leafletMap);
   satelliteLayer = L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    { attribution: '© Esri', maxZoom: 21 }
+    { attribution: '© Esri', maxZoom: 21, maxNativeZoom: 19 }
   );
 }
 
@@ -579,13 +582,25 @@ function updateMap(wgs84Ring) {
   if (!wgs84Ring) return;
   initMap();
   if (parcelPolygon) { parcelPolygon.remove(); parcelPolygon = null; }
+  if (innerPolygon)  { innerPolygon.remove();  innerPolygon  = null; }
   // wgs84Ring is [[lon, lat], ...] — Leaflet needs [lat, lon]
   const latlngs = wgs84Ring.map(p => [p[1], p[0]]);
   parcelPolygon = L.polygon(latlngs, {
     color: '#B8743D', weight: 2.5,
-    fillColor: '#B8743D', fillOpacity: 0.15,
+    fillColor: '#B8743D', fillOpacity: 0.08,
   }).addTo(leafletMap);
   leafletMap.fitBounds(parcelPolygon.getBounds(), { padding: [20, 20] });
+}
+
+function updateMapInner(wgs84InnerRing) {
+  if (!leafletMap) return;
+  if (innerPolygon) { innerPolygon.remove(); innerPolygon = null; }
+  if (!wgs84InnerRing || wgs84InnerRing.length < 3) return;
+  const latlngs = wgs84InnerRing.map(p => [p[1], p[0]]);
+  innerPolygon = L.polygon(latlngs, {
+    color: '#5BC8C4', weight: 2, dashArray: '5,4',
+    fillColor: '#5BC8C4', fillOpacity: 0.18,
+  }).addTo(leafletMap);
 }
 
 // ── View toggle + Map layer toggle — event delegation ─────────────────────────
@@ -653,6 +668,7 @@ resetBtn.addEventListener('click', () => {
   currentWgs84Ring = null;
   currentSetbacks = [];
   if (parcelPolygon) { parcelPolygon.remove(); parcelPolygon = null; }
+  if (innerPolygon)  { innerPolygon.remove();  innerPolygon  = null; }
   setbackList.innerHTML = '';
   while (svg.firstChild) svg.removeChild(svg.firstChild);
   hideSetbackWarning();
