@@ -208,7 +208,7 @@
       box-shadow: var(--shadow);
       overflow-x: auto;
     }
-    table.users { width: 100%; border-collapse: collapse; min-width: 700px; }
+    table.users { width: 100%; border-collapse: collapse; min-width: 900px; }
     table.users th {
       background: var(--cream);
       padding: 11px 14px;
@@ -257,6 +257,23 @@
     }
     .page-btn:hover { border-color: var(--bronze); color: var(--bronze); }
     .page-btn.active { background: var(--bronze); color: #fff; border-color: var(--bronze); }
+
+    /* ── Usage Tab ── */
+    .usage-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    @media(max-width:600px) { .usage-cards { grid-template-columns: 1fr; } }
+    .usage-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      text-align: center;
+    }
+    .usage-card .tool-name { font-size: 13px; font-weight: 700; color: var(--sage); margin-bottom: 6px; }
+    .usage-card .total { font-size: 36px; font-weight: 700; color: var(--bronze); line-height: 1; }
+    .usage-card .breakdown { font-size: 12px; color: var(--sage); margin-top: 6px; line-height: 1.6; }
+
+    .top-users-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    @media(max-width:700px) { .top-users-grid { grid-template-columns: 1fr; } }
 
     /* ── Loading / Empty ── */
     .loader { text-align: center; padding: 40px; color: var(--sage); font-size: 14px; }
@@ -308,6 +325,7 @@
   <div class="tabs">
     <button class="tab active" onclick="switchTab('dashboard',this)">📊 דשבורד</button>
     <button class="tab" onclick="switchTab('users',this)">👥 משתמשים</button>
+    <button class="tab" onclick="switchTab('usage',this)">📈 שימוש בכלים</button>
   </div>
 
   <div class="content">
@@ -367,11 +385,14 @@
               <th>סטטוס</th>
               <th>נרשם</th>
               <th>כניסה אחרונה</th>
+              <th title="TabuTab — מספר שימושים">TabuTab</th>
+              <th title="TabuCaunt — מספר שימושים">TabuCaunt</th>
+              <th title="BuildCalc — מספר שימושים">BuildCalc</th>
               <th>פעולה</th>
             </tr>
           </thead>
           <tbody id="users-body">
-            <tr><td colspan="10" class="loader">טוען...</td></tr>
+            <tr><td colspan="13" class="loader">טוען...</td></tr>
           </tbody>
         </table>
         <div class="pagination" id="pagination" style="display:none">
@@ -379,6 +400,51 @@
           <div class="page-btns" id="pg-btns"></div>
         </div>
       </div>
+    </div>
+
+    <!-- Usage Tab -->
+    <div class="tab-panel" id="tab-usage">
+
+      <div class="usage-cards" id="usage-cards">
+        <div class="usage-card">
+          <div class="tool-name">TabuTab</div>
+          <div class="total" id="u-tabutab-total">—</div>
+          <div class="breakdown" id="u-tabutab-sub"></div>
+        </div>
+        <div class="usage-card">
+          <div class="tool-name">TabuCaunt</div>
+          <div class="total" id="u-tabucaunt-total">—</div>
+          <div class="breakdown" id="u-tabucaunt-sub"></div>
+        </div>
+        <div class="usage-card">
+          <div class="tool-name">BuildCalc</div>
+          <div class="total" id="u-buildcalc-total">—</div>
+          <div class="breakdown" id="u-buildcalc-sub"></div>
+        </div>
+      </div>
+
+      <div class="chart-wrap">
+        <h3>שימוש יומי לפי כלי — 30 הימים האחרונים</h3>
+        <div class="chart-container">
+          <canvas id="usage-chart"></canvas>
+        </div>
+      </div>
+
+      <div class="top-users-grid">
+        <div class="table-wrap">
+          <h3>TabuTab — משתמשים מובילים</h3>
+          <table class="mini-table"><tbody id="tbl-top-tabutab"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
+        </div>
+        <div class="table-wrap">
+          <h3>TabuCaunt — משתמשים מובילים</h3>
+          <table class="mini-table"><tbody id="tbl-top-tabucaunt"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
+        </div>
+        <div class="table-wrap">
+          <h3>BuildCalc — משתמשים מובילים</h3>
+          <table class="mini-table"><tbody id="tbl-top-buildcalc"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -391,8 +457,10 @@
 
 var API = 'https://auth.lendover.co.il';
 var dailyChart = null;
+var usageChart = null;
 var usersState = { page: 1, pages: 1, search: '' };
 var searchTimer = null;
+var usageLoaded = false;
 
 // ── Auth ──────────────────────────────────────────────────────────
 
@@ -463,6 +531,9 @@ function switchTab(name, btn) {
   document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
   btn.classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'usage' && !usageLoaded) {
+    loadUsage();
+  }
 }
 
 // ── Stats / Dashboard ─────────────────────────────────────────────
@@ -561,7 +632,7 @@ async function loadUsers(page) {
   if (search) params += '&search=' + encodeURIComponent(search);
 
   var tbody = document.getElementById('users-body');
-  tbody.innerHTML = '<tr><td colspan="10" class="loader">טוען...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="13" class="loader">טוען...</td></tr>';
   document.getElementById('pagination').style.display = 'none';
 
   try {
@@ -571,14 +642,14 @@ async function loadUsers(page) {
     var d = await res.json();
     renderUsers(d);
   } catch(e) {
-    tbody.innerHTML = '<tr><td colspan="10" class="empty">שגיאה בטעינה</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="13" class="empty">שגיאה בטעינה</td></tr>';
   }
 }
 
 function renderUsers(d) {
   var tbody = document.getElementById('users-body');
   if (!d.users || !d.users.length) {
-    tbody.innerHTML = '<tr><td colspan="10" class="empty">לא נמצאו משתמשים</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="13" class="empty">לא נמצאו משתמשים</td></tr>';
     return;
   }
 
@@ -593,6 +664,15 @@ function renderUsers(d) {
       ? '<button class="btn btn-success btn-sm" onclick="setBlock(' + u.id + ',false)">שחרר</button>'
       : '<button class="btn btn-danger btn-sm" onclick="setBlock(' + u.id + ',true)">חסום</button>';
 
+    var ttUses  = u.tabutab_uses   || 0;
+    var tcUses  = u.tabucaunt_uses || 0;
+    var bcUses  = u.buildcalc_uses || 0;
+
+    function usageCell(n) {
+      return '<td style="text-align:center;font-weight:' + (n > 0 ? '700' : '400') +
+             ';color:' + (n > 0 ? 'var(--bronze)' : 'var(--sage)') + '">' + n + '</td>';
+    }
+
     return '<tr>' +
       '<td>' + u.id + '</td>' +
       '<td>' + esc(u.name) + '</td>' +
@@ -603,6 +683,9 @@ function renderUsers(d) {
       '<td>' + blockBadge + '</td>' +
       '<td>' + fmtDate(u.created_at) + '</td>' +
       '<td>' + fmtDate(u.last_login) + '</td>' +
+      usageCell(ttUses) +
+      usageCell(tcUses) +
+      usageCell(bcUses) +
       '<td>' + blockBtn + '</td>' +
       '</tr>';
   }).join('');
@@ -660,6 +743,87 @@ async function setBlock(userId, block) {
 
 function exportUsers() {
   window.open(API + '/admin/users/export', '_blank');
+}
+
+// ── Usage Tab ─────────────────────────────────────────────────────
+
+async function loadUsage() {
+  usageLoaded = true;
+  try {
+    var res = await apiFetch('/admin/usage/summary');
+    if (res.status === 401 || res.status === 403) { doLogout(); return; }
+    if (!res.ok) throw new Error();
+    var d = await res.json();
+    renderUsage(d);
+  } catch(e) {
+    toast('שגיאה בטעינת נתוני שימוש', 'err');
+  }
+}
+
+function renderUsage(d) {
+  var tools = ['tabutab', 'tabucaunt', 'buildcalc'];
+
+  // Summary cards
+  tools.forEach(function(tool) {
+    var td = d.totals && d.totals[tool] ? d.totals[tool] : {};
+    document.getElementById('u-' + tool + '-total').textContent = fmt(td.all_time || 0);
+    document.getElementById('u-' + tool + '-sub').innerHTML =
+      '30 יום: ' + fmt(td.last_30d || 0) + '<br>7 ימים: ' + fmt(td.last_7d || 0);
+  });
+
+  // Daily chart
+  renderUsageChart(d.daily || []);
+
+  // Top users per tool
+  tools.forEach(function(tool) {
+    var top = (d.top_users && d.top_users[tool]) || [];
+    var tbodyId = 'tbl-top-' + tool;
+    var tbody = document.getElementById(tbodyId);
+    if (!top.length) {
+      tbody.innerHTML = '<tr><td colspan="3" class="empty">אין נתונים עדיין</td></tr>';
+      return;
+    }
+    tbody.innerHTML = top.map(function(u, i) {
+      return '<tr>' +
+        '<td class="rank">' + (i+1) + '</td>' +
+        '<td class="name">' + esc(u.name || u.email || '—') + '</td>' +
+        '<td class="count">' + fmt(u.uses) + '</td>' +
+        '</tr>';
+    }).join('');
+  });
+}
+
+function renderUsageChart(daily) {
+  // daily = [{day, tabutab, tabucaunt, buildcalc}, ...]
+  var labels    = daily.map(function(r){ return r.day ? r.day.slice(5) : ''; });
+  var ttData    = daily.map(function(r){ return r.tabutab   || 0; });
+  var tcData    = daily.map(function(r){ return r.tabucaunt || 0; });
+  var bcData    = daily.map(function(r){ return r.buildcalc || 0; });
+
+  if (usageChart) usageChart.destroy();
+  var ctx = document.getElementById('usage-chart').getContext('2d');
+  usageChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        { label: 'TabuTab',   data: ttData, backgroundColor: 'rgba(184,126,88,.75)', borderRadius: 3 },
+        { label: 'TabuCaunt', data: tcData, backgroundColor: 'rgba(144,164,159,.75)', borderRadius: 3 },
+        { label: 'BuildCalc', data: bcData, backgroundColor: 'rgba(65,65,65,.5)',    borderRadius: 3 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 12 }, boxWidth: 14, padding: 16 } }
+      },
+      scales: {
+        x: { stacked: false, grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 0 } },
+        y: { beginAtZero: true, ticks: { font: { size: 11 }, stepSize: 1 } }
+      }
+    }
+  });
 }
 
 // ── Utils ─────────────────────────────────────────────────────────
