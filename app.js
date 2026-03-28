@@ -1,267 +1,166 @@
-/* app.js — המרת נסחי טאבו לאקסל */
+/* app.js — TabuCaunt lookup */
 'use strict';
 
-const dropZone    = document.getElementById('drop-zone');
-const fileInput   = document.getElementById('file-input');
-const fileList    = document.getElementById('file-list');
-const convertBtn  = document.getElementById('convert-btn');
-const spinner     = document.getElementById('spinner');
-const spinnerMsg  = document.getElementById('spinner-msg');
-const resultCard  = document.getElementById('result-card');
-const errorBox    = document.getElementById('error-box');
-const downloadBtn = document.getElementById('download-btn');
-const resetBtn    = document.getElementById('reset-btn');
+const form           = document.getElementById('lookup-form');
+const gushInput      = document.getElementById('gush');
+const halkaInput     = document.getElementById('halka');
+const lookupBtn      = document.getElementById('lookup-btn');
+const spinner        = document.getElementById('spinner');
+const errorBox       = document.getElementById('error-box');
+const notFoundCard   = document.getElementById('not-found-card');
+const notFoundText   = document.getElementById('not-found-text');
+const resultCard     = document.getElementById('result-card');
+const rGush          = document.getElementById('r-gush');
+const rHalka         = document.getElementById('r-halka');
+const rTotal         = document.getElementById('r-total');
+const rType          = document.getElementById('r-type');
+const rSummary       = document.getElementById('r-summary');
+const breakdownSec   = document.getElementById('breakdown-section');
+const breakdownList  = document.getElementById('breakdown-list');
+const resetBtn       = document.getElementById('reset-btn');
+const resetBtn2      = document.getElementById('reset-btn-2');
 
-const buildingsList   = document.getElementById('buildings-list');
-const totalSummary    = document.getElementById('total-summary');
-const fTotalSubunits  = document.getElementById('f-total-subunits');
-const fTotalOwners    = document.getElementById('f-total-owners');
-const warningsNote    = document.getElementById('warnings-note');
+const MIN_DISPLAY_MS = 200; // prevent result "flash" on instant responses
 
-// רשימת קבצים שנבחרו (Map: שם → File)
-let selectedFiles = new Map();
-let downloadId    = null;
-let lastBuildings = [];
+// ── Form submission ───────────────────────────────────────────────
 
-// ── Drag & Drop ──────────────────────────────────────────────────
-
-dropZone.addEventListener('click', () => fileInput.click());
-
-dropZone.addEventListener('dragover', e => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  dropZone.classList.add('dragover');
-});
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop', e => {
-  e.preventDefault();
-  dropZone.classList.remove('dragover');
-  addFiles(e.dataTransfer.files);
-});
 
-fileInput.addEventListener('change', () => {
-  addFiles(fileInput.files);
-  fileInput.value = ''; // מאפשר בחירה חוזרת של אותו קובץ
-});
+  const gush  = gushInput.value.trim();
+  const halka = halkaInput.value.trim();
 
-function addFiles(fileArr) {
-  for (const f of fileArr) {
-    if (!f.name.toLowerCase().endsWith('.pdf')) {
-      showError(`"${f.name}" — יש להעלות קובצי PDF בלבד`);
-      continue;
-    }
-    selectedFiles.set(f.name, f);
+  if (!gush || !halka) {
+    showError('נא להזין גוש וחלקה');
+    return;
   }
-  renderFileList();
-  hideError();
-  hideResult();
-}
-
-function renderFileList() {
-  fileList.innerHTML = '';
-  for (const [name] of selectedFiles) {
-    const li = document.createElement('li');
-    li.className = 'file-item';
-    li.innerHTML = `
-      <span class="file-icon">📄</span>
-      <span class="file-name">${escHtml(name)}</span>
-      <button class="remove-btn" data-name="${escHtml(name)}" title="הסר">✕</button>
-    `;
-    fileList.appendChild(li);
-  }
-
-  // לחצני הסרה
-  fileList.querySelectorAll('.remove-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      selectedFiles.delete(btn.dataset.name);
-      renderFileList();
-    });
-  });
-
-  convertBtn.disabled = selectedFiles.size === 0;
-  dropZone.classList.toggle('has-file', selectedFiles.size > 0);
-}
-
-// ── Convert ──────────────────────────────────────────────────────
-
-convertBtn.addEventListener('click', async () => {
-  if (selectedFiles.size === 0) return;
 
   setLoading(true);
-  hideError();
-  hideResult();
+  hideAll();
 
-  const formData = new FormData();
-  for (const f of selectedFiles.values()) {
-    formData.append('files', f);
-  }
-
-  // הודעת cold start אחרי 5 שניות
-  const coldStartTimer = setTimeout(() => {
-    spinnerMsg.textContent = 'השרת מתעורר, זה עשוי לקחת עד דקה...';
-  }, 5000);
+  const t0 = Date.now();
 
   try {
-    const resp = await fetch('https://tabutab.lendover.co.il/convert', { method: 'POST', body: formData, credentials: 'include' });
+    const resp = await fetch('https://tabucaunt.lendover.co.il/lookup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ gush, halka }),
+      credentials: 'include',
+    });
 
     // Auth required — show login modal and retry
     if (resp.status === 401) {
-      clearTimeout(coldStartTimer);
       setLoading(false);
       await handleAuth401();
-      convertBtn.click();
+      form.dispatchEvent(new Event('submit'));
       return;
     }
 
     // Rate limited
     if (resp.status === 429) {
-      clearTimeout(coldStartTimer);
       showError('יותר מדי בקשות. נסה שוב בעוד מספר דקות.');
       return;
     }
 
     const data = await resp.json();
-    clearTimeout(coldStartTimer);
 
-    if (!resp.ok || !data.success) {
-      showError(data.error || 'שגיאה לא ידועה');
+    // Ensure spinner shows for at least MIN_DISPLAY_MS
+    const elapsed = Date.now() - t0;
+    if (elapsed < MIN_DISPLAY_MS) {
+      await delay(MIN_DISPLAY_MS - elapsed);
+    }
+
+    if (!resp.ok) {
+      showError(data.error || 'שגיאת שרת — נסה שוב');
       return;
     }
 
-    downloadId    = data.download_id;
-    lastBuildings = data.buildings || [];
+    if (!data.found) {
+      showNotFound(gush, halka);
+      return;
+    }
 
-    renderResults(data);
-    showResult();
+    renderResult(gush, halka, data);
+    resultCard.style.display = 'block';
 
-  } catch (err) {
-    clearTimeout(coldStartTimer);
-    showError('שגיאת רשת — בדוק את החיבור ונסה שוב');
+  } catch (_err) {
+    showError('שגיאת רשת — בדוק שהשרת פועל ונסה שוב');
   } finally {
     setLoading(false);
   }
 });
 
-function renderResults(data) {
-  buildingsList.innerHTML = '';
+// ── Render result ────────────────────────────────────────────────
 
-  data.buildings.forEach(b => {
-    const div = document.createElement('div');
-    div.className = 'building-row';
-    div.innerHTML = `
-      <div class="info-grid">
-        <div class="info-item">
-          <label>גוש</label><span>${escHtml(b.gush || '—')}</span>
-        </div>
-        <div class="info-item">
-          <label>חלקה</label><span>${escHtml(b.chalka || '—')}</span>
-        </div>
-        <div class="info-item wide">
-          <label>כתובת</label><span>${escHtml(b.address || '—')}</span>
-        </div>
-        <div class="info-item">
-          <label>תת-חלקות</label><span>${b.subunit_count}</span>
-        </div>
-        <div class="info-item">
-          <label>בעלים</label><span>${b.owner_count}</span>
-        </div>
-      </div>
-    `;
-    buildingsList.appendChild(div);
+function renderResult(gush, halka, data) {
+  rGush.textContent  = gush;
+  rHalka.textContent = halka;
+  rTotal.textContent = data.total_owners;
+  rType.textContent  = data.ownership_type;
+  rSummary.textContent =
+    'סה"כ ' + data.total_owners + ' רשומות בעלות — גוש ' + gush + ', חלקה ' + halka;
 
-    // קו מפריד בין בניינים (אם יש יותר מאחד)
-    if (data.buildings.length > 1) {
-      div.classList.add('building-row--bordered');
+  breakdownList.innerHTML = '';
+
+  if (data.is_mixed && data.breakdown) {
+    breakdownSec.style.display = 'block';
+    for (const [type, count] of Object.entries(data.breakdown)) {
+      const row   = document.createElement('div');
+      row.className = 'breakdown-row';
+
+      const label = document.createElement('span');
+      label.className   = 'breakdown-label';
+      label.textContent = type || 'לא ידוע';
+
+      const pill  = document.createElement('span');
+      pill.className   = 'breakdown-count';
+      pill.textContent = count;
+
+      row.appendChild(label);
+      row.appendChild(pill);
+      breakdownList.appendChild(row);
     }
-  });
-
-  // סיכום כולל — רק אם יש יותר מקובץ אחד
-  if (data.buildings.length > 1) {
-    fTotalSubunits.textContent = data.total_subunits;
-    fTotalOwners.textContent   = data.total_owners;
-    totalSummary.style.display = 'block';
   } else {
-    totalSummary.style.display = 'none';
+    breakdownSec.style.display = 'none';
   }
-
-  warningsNote.style.display = data.warnings_count > 0 ? 'block' : 'none';
 }
-
-// ── Download ─────────────────────────────────────────────────────
-
-downloadBtn.addEventListener('click', async () => {
-  if (!downloadId) return;
-
-  const params = new URLSearchParams({ count: String(lastBuildings.length) });
-  if (lastBuildings.length === 1) {
-    params.set('gush',   lastBuildings[0].gush   || '');
-    params.set('chalka', lastBuildings[0].chalka || '');
-  }
-  const url = `https://tabutab.lendover.co.il/download/${downloadId}?${params}`;
-
-  // Use fetch to check auth before downloading
-  try {
-    const resp = await fetch(url, { method: 'GET', credentials: 'include' });
-    if (resp.status === 401) {
-      await handleAuth401();
-      // Retry download after auth
-      downloadBtn.click();
-      return;
-    }
-    // Download the file
-    const blob = await resp.blob();
-    const blobUrl = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = blobUrl;
-    // Extract filename from Content-Disposition or use default
-    const cd = resp.headers.get('Content-Disposition');
-    let filename = 'טאבו.xlsx';
-    if (cd) {
-      const match = cd.match(/filename\*=UTF-8''(.+)/);
-      if (match) filename = decodeURIComponent(match[1]);
-    }
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(blobUrl);
-  } catch (err) {
-    showError('שגיאת רשת — בדוק את החיבור');
-  }
-});
 
 // ── Reset ────────────────────────────────────────────────────────
 
-resetBtn.addEventListener('click', reset);
-
-function reset() {
-  selectedFiles.clear();
-  downloadId    = null;
-  lastBuildings = [];
-  fileInput.value = '';
-  renderFileList();
-  hideResult();
-  hideError();
+function doReset() {
+  gushInput.value  = '';
+  halkaInput.value = '';
+  hideAll();
+  gushInput.focus();
 }
 
-// ── UI helpers ───────────────────────────────────────────────────
+resetBtn.addEventListener('click',  doReset);
+resetBtn2.addEventListener('click', doReset);
+
+// ── UI helpers ────────────────────────────────────────────────────
 
 function setLoading(on) {
-  spinner.style.display  = on ? 'block' : 'none';
-  convertBtn.disabled    = on;
-  spinnerMsg.textContent = 'מעבד את הקבצים...';
+  spinner.style.display = on ? 'block' : 'none';
+  lookupBtn.disabled    = on;
 }
 
-function showResult()  { resultCard.style.display = 'block'; }
-function hideResult()  { resultCard.style.display = 'none';  }
+function hideAll() {
+  errorBox.style.display    = 'none';
+  notFoundCard.style.display = 'none';
+  resultCard.style.display   = 'none';
+}
 
 function showError(msg) {
   errorBox.textContent   = '⚠ ' + msg;
   errorBox.style.display = 'block';
 }
-function hideError() { errorBox.style.display = 'none'; }
 
-function escHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+function showNotFound(gush, halka) {
+  notFoundText.textContent  =
+    'לא נמצאו רשומות עבור גוש ' + gush + ', חלקה ' + halka;
+  notFoundCard.style.display = 'block';
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
