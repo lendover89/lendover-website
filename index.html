@@ -1,695 +1,445 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>לוח ניהול — לנדובר</title>
-  <meta name="robots" content="noindex, nofollow">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bronze:  #B87E58;
-      --bronze-d:#8F5E3A;
-      --sage:    #90A49F;
-      --dark:    #414141;
-      --cream:   #F6F6EE;
-      --white:   #FFFFFF;
-      --border:  #E2DDD6;
-      --danger:  #C0392B;
-      --success: #27AE60;
-      --radius:  8px;
-      --shadow:  0 2px 8px rgba(0,0,0,.08);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>אהרון לנדובר | יעוץ וניהול אסטרטגי בהתחדשות עירונית - פינוי בינוי</title>
+  <meta name="description" content="אהרון לנדובר - יועץ אסטרטגי מוביל בהתחדשות עירונית עם 15 שנות ניסיון. ליווי בעלי דירות וחברות יזמיות בפרויקטי פינוי בינוי ותמ״א 38 בפריסה ארצית." />
+  <link rel="canonical" href="https://www.lendover.co.il/" />
+  <link rel="alternate" hreflang="he" href="https://www.lendover.co.il/" />
+  <link rel="icon" type="image/png" href="logo-transparent.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="אהרון לנדובר | יעוץ וניהול אסטרטגי בהתחדשות עירונית" />
+  <meta property="og:description" content="יועץ אסטרטגי מוביל בהתחדשות עירונית עם 15 שנות ניסיון. ליווי בעלי דירות וחברות יזמיות בפרויקטי פינוי בינוי." />
+  <meta property="og:image" content="https://www.lendover.co.il/aharon-portrait.jpg" />
+  <meta property="og:url" content="https://www.lendover.co.il/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="he_IL" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "אהרון לנדובר - יעוץ וניהול אסטרטגי בהתחדשות עירונית",
+    "description": "יועץ אסטרטגי מוביל בתחום ההתחדשות העירונית בישראל. ליווי בעלי דירות וחברות יזמיות בפרויקטי פינוי בינוי ותמ״א 38.",
+    "url": "https://www.lendover.co.il",
+    "telephone": "+972-50-810-2661",
+    "email": "Aharon@Lendover.co.il",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "רוטשילד 124",
+      "addressLocality": "ראשון לציון",
+      "addressCountry": "IL"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "אהרון לנדובר",
+      "jobTitle": "יועץ אסטרטגי בהתחדשות עירונית",
+      "award": "40UNDER40 מגדילים 2023",
+      "knowsAbout": ["התחדשות עירונית", "פינוי בינוי", "תמ״א 38", "ליווי בעלי דירות", "ליווי חברות יזמיות"]
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "Israel"
+    },
+    "knowsAbout": ["התחדשות עירונית", "פינוי בינוי", "תמ״א 38", "ליווי דיירים", "ליווי יזמים", "בדיקות היתכנות", "מכרזי יזמים"],
+    "serviceArea": [
+      {"@type": "City", "name": "ראשון לציון"},
+      {"@type": "City", "name": "תל אביב"},
+      {"@type": "City", "name": "רמת גן"},
+      {"@type": "City", "name": "גבעתיים"},
+      {"@type": "City", "name": "פתח תקווה"},
+      {"@type": "City", "name": "חולון"},
+      {"@type": "City", "name": "בת ים"},
+      {"@type": "City", "name": "אשדוד"},
+      {"@type": "City", "name": "נתניה"},
+      {"@type": "City", "name": "חיפה"}
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/in/aharon-lendover-911b23111/"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "אהרון לנדובר - יעוץ וניהול אסטרטגי בהתחדשות עירונית",
+    "url": "https://www.lendover.co.il",
+    "telephone": "+972-50-810-2661",
+    "email": "Aharon@Lendover.co.il",
+    "image": "https://www.lendover.co.il/aharon-portrait.jpg",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "רוטשילד 124",
+      "addressLocality": "ראשון לציון",
+      "addressCountry": "IL"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 31.9730,
+      "longitude": 34.7925
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "Israel"
+    },
+    "priceRange": "$$$$",
+    "sameAs": [
+      "https://www.linkedin.com/in/aharon-lendover-911b23111/"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "מה ההבדל בין פינוי בינוי לתמ\"א 38?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "פינוי בינוי ותמ\"א 38 הם שני מסלולי ההתחדשות העירונית העיקריים בישראל. פינוי בינוי (מסלול ב') מיועד לאזורים שהוכרזו ע\"י הממשלה כאזורי פינוי בינוי: מהרסים את הבניין כולו ובונים מחדש, בדרך כלל יותר יחידות דיור. תמ\"א 38 מיועדת לחיזוק מבנים מפני רעידות אדמה: אפשר לחזק בלי להרוס (תמ\"א 38/1) או להרוס ולבנות מחדש (תמ\"א 38/2). פינוי בינוי בדרך כלל מאפשר תמורות גבוהות יותר לבעלי הדירות, אך התהליך ארוך יותר ומורכב יותר מבחינה תכנונית."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "האם אפשר לסרב לפרויקט פינוי בינוי?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "כן, בעל דירה רשאי לסרב לחתום על הסכם פינוי בינוי. אולם חוק פינוי בינוי קובע שאם 80% מבעלי הדירות חתמו, ניתן להגיש תביעת פיצויים נגד המסרב ('דייר סרבן') אם סירובו אינו סביר. בית המשפט בוחן את הסירוב לפי הנסיבות: גיל, מצב בריאות, תנאי ההסכם, ועוד. לכן חשוב שבעלי דירות יקבלו ייעוץ מקצועי לפני חתימה ולפני קבלת החלטת סירוב."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "מה מקבלים בעלי דירות בפרויקט פינוי בינוי?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "בעלי דירות בפרויקט פינוי בינוי מקבלים בדרך כלל: דירה חדשה גדולה יותר (תוספת של 12–25 מ\"ר בדרך כלל), מרפסת שמש, חניה, מחסן, ומפרט טכני חדיש. לעתים ניתנות גם תמורות נוספות כמו כסף מזומן, דירת שכ\"ד לתקופת הבנייה, ופטורים ממיסים שונים. גובה התמורות תלוי בזכויות הבנייה בקרקע, במצב השוק המקומי, ובכוח המיקוח של הדיירים — לכן ייעוץ מקצועי יכול לשפר משמעותית את ההצעה שתקבלו."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "כמה זמן לוקח תהליך פינוי בינוי מתחילתו ועד קבלת מפתח?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "תהליך פינוי בינוי שלם נמשך בדרך כלל 7–12 שנים: התארגנות דיירים וחתימות (שנה–שנתיים), בחירת יזם ומשא ומתן (חצי שנה–שנה), קידום תכנית בניין עיר תב\"ע ואישורים (3–5 שנים), קבלת היתר בנייה ופינוי (חצי שנה), ובנייה עצמה (2–3 שנים). השלב הארוך ביותר הוא לרוב קידום התב\"ע, שתלוי בוועדות תכנון מקומיות ומחוזיות. מעקב מקצועי לאורך כל הדרך מסייע לזרז תהליכים ולמנוע תקיעות."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "האם צריך יועץ לפרויקט פינוי בינוי?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "בעוד שהחוק אינו מחייב מינוי יועץ, ייעוץ מקצועי מוכיח את עצמו כשווה רבות: יועץ אסטרטגי מייצר תמורות גבוהות יותר ממה שדיירים יקבלו לבד, מגן מפני טעויות חוזיות, מנהל את המכרז מול היזמים ומתווך בין עשרות בעלי דירות בעלי אינטרסים שונים. שכר טרחתו של יועץ מוסכם בדרך כלל כחלק מהסכם עם היזם, ולכן אינו בא על חשבון הדיירים."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "אהרון לנדובר - יעוץ וניהול אסטרטגי בהתחדשות עירונית",
+    "url": "https://www.lendover.co.il",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.lendover.co.il/?s={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
     }
-
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: var(--cream);
-      color: var(--dark);
-      min-height: 100vh;
-      font-size: 15px;
-    }
-
-    /* ── Login ── */
-    #login-screen {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: var(--cream);
-    }
-    .login-box {
-      background: var(--white);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      padding: 40px;
-      width: 360px;
-      max-width: 95vw;
-      text-align: center;
-    }
-    .login-box .logo {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--bronze);
-      margin-bottom: 6px;
-    }
-    .login-box .subtitle {
-      color: var(--sage);
-      font-size: 13px;
-      margin-bottom: 28px;
-    }
-    .login-box input[type=password] {
-      width: 100%;
-      padding: 12px 14px;
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      font-size: 15px;
-      text-align: center;
-      outline: none;
-      margin-bottom: 14px;
-      transition: border-color .2s;
-    }
-    .login-box input[type=password]:focus { border-color: var(--bronze); }
-    .login-box .error { color: var(--danger); font-size: 13px; margin-bottom: 10px; min-height: 18px; }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 10px 22px;
-      border: none;
-      border-radius: var(--radius);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background .2s, opacity .2s;
-    }
-    .btn:disabled { opacity: .5; cursor: not-allowed; }
-    .btn-primary { background: var(--bronze); color: #fff; }
-    .btn-primary:hover:not(:disabled) { background: var(--bronze-d); }
-    .btn-sm { padding: 6px 14px; font-size: 13px; }
-    .btn-danger  { background: var(--danger);  color: #fff; }
-    .btn-success { background: var(--success); color: #fff; }
-    .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--dark); }
-    .btn-outline:hover:not(:disabled) { border-color: var(--bronze); color: var(--bronze); }
-
-    /* ── App Shell ── */
-    #app { display: none; flex-direction: column; min-height: 100vh; }
-
-    header {
-      background: var(--white);
-      border-bottom: 2px solid var(--border);
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 56px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    header .brand { font-weight: 700; color: var(--bronze); font-size: 17px; }
-    header .actions { display: flex; gap: 10px; align-items: center; }
-
-    /* ── Tabs ── */
-    .tabs {
-      background: var(--white);
-      border-bottom: 2px solid var(--border);
-      display: flex;
-      padding: 0 24px;
-    }
-    .tab {
-      padding: 14px 20px;
-      border: none;
-      background: none;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--sage);
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      margin-bottom: -2px;
-      transition: color .2s, border-color .2s;
-    }
-    .tab.active { color: var(--bronze); border-color: var(--bronze); }
-
-    /* ── Content ── */
-    .content { flex: 1; padding: 24px; max-width: 1200px; margin: 0 auto; width: 100%; }
-
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    /* ── Stat Cards ── */
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
-    .card {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px;
-      text-align: center;
-    }
-    .card .label { font-size: 12px; color: var(--sage); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
-    .card .value { font-size: 32px; font-weight: 700; color: var(--bronze); line-height: 1; }
-    .card .sub { font-size: 12px; color: var(--sage); margin-top: 4px; }
-
-    /* ── Chart ── */
-    .chart-wrap {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px;
-      margin-bottom: 24px;
-    }
-    .chart-wrap h3 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
-    .chart-container { position: relative; height: 220px; }
-
-    /* ── Tables (stats) ── */
-    .tables-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-    @media(max-width:700px) { .tables-row { grid-template-columns: 1fr; } }
-
-    .table-wrap {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .table-wrap h3 { font-size: 14px; font-weight: 700; color: var(--dark); padding: 14px 16px 10px; border-bottom: 1px solid var(--border); }
-    .mini-table { width: 100%; border-collapse: collapse; }
-    .mini-table td { padding: 9px 16px; font-size: 13px; border-bottom: 1px solid var(--border); }
-    .mini-table tr:last-child td { border-bottom: none; }
-    .mini-table .rank { color: var(--sage); width: 28px; font-weight: 600; }
-    .mini-table .count { color: var(--bronze); font-weight: 700; text-align: left; direction: ltr; white-space: nowrap; }
-    .mini-table .name { color: var(--dark); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .mini-table .name.empty { color: var(--sage); font-style: italic; }
-
-    /* ── Users Table ── */
-    .toolbar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-    .toolbar input[type=search] {
-      padding: 9px 14px;
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      font-size: 14px;
-      outline: none;
-      flex: 1;
-      min-width: 180px;
-      transition: border-color .2s;
-    }
-    .toolbar input[type=search]:focus { border-color: var(--bronze); }
-
-    .users-table-wrap {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow-x: auto;
-    }
-    table.users { width: 100%; border-collapse: collapse; min-width: 700px; }
-    table.users th {
-      background: var(--cream);
-      padding: 11px 14px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--sage);
-      text-align: right;
-      border-bottom: 2px solid var(--border);
-      white-space: nowrap;
-    }
-    table.users td { padding: 11px 14px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-    table.users tr:last-child td { border-bottom: none; }
-    table.users tr:hover td { background: #faf9f6; }
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-    .badge-green { background: #d4edda; color: #155724; }
-    .badge-red   { background: #f8d7da; color: #721c24; }
-    .badge-gray  { background: #e9ecef; color: #6c757d; }
-
-    .pagination {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 16px;
-      border-top: 1px solid var(--border);
-      font-size: 13px;
-      color: var(--sage);
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .pagination .page-btns { display: flex; gap: 6px; }
-    .page-btn {
-      width: 32px;
-      height: 32px;
-      border: 1.5px solid var(--border);
-      border-radius: 6px;
-      background: none;
-      cursor: pointer;
-      font-size: 13px;
-      transition: background .15s, border-color .15s;
-    }
-    .page-btn:hover { border-color: var(--bronze); color: var(--bronze); }
-    .page-btn.active { background: var(--bronze); color: #fff; border-color: var(--bronze); }
-
-    /* ── Loading / Empty ── */
-    .loader { text-align: center; padding: 40px; color: var(--sage); font-size: 14px; }
-    .loader::before { content: '⏳ '; }
-    .empty { text-align: center; padding: 40px; color: var(--sage); font-size: 14px; }
-
-    /* ── Toast ── */
-    #toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(80px);
-      background: var(--dark);
-      color: #fff;
-      padding: 10px 22px;
-      border-radius: 24px;
-      font-size: 14px;
-      transition: transform .3s;
-      z-index: 9999;
-      white-space: nowrap;
-    }
-    #toast.show { transform: translateX(-50%) translateY(0); }
-    #toast.ok   { background: var(--success); }
-    #toast.err  { background: var(--danger); }
-  </style>
+  }
+  </script>
 </head>
 <body>
 
-<!-- ── Login Screen ── -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="logo">לנדובר</div>
-    <div class="subtitle">לוח ניהול</div>
-    <div class="error" id="login-error"></div>
-    <input type="password" id="login-pass" placeholder="סיסמת ניהול" autocomplete="current-password">
-    <button class="btn btn-primary" style="width:100%" id="login-btn" onclick="doLogin()">כניסה</button>
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="header-top">
+    <a href="tel:+972508102661">050-8102661</a>
   </div>
-</div>
+  <nav>
+    <a class="nav-logo" href="index.html"><img src="logo-transparent.png" alt="לוגו אהרון לנדובר" />אהרון לנדובר</a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="תפריט">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">בית</a></li>
+      <li><a href="about.html">אודות</a></li>
+      <li>
+        <a href="services-owners.html">השירותים ▾</a>
+        <ul class="dropdown">
+          <li><a href="services-owners.html">ליווי בעלי דירות וקרקע</a></li>
+          <li><a href="services-developers.html">ליווי חברות יזמיות</a></li>
+        </ul>
+      </li>
+      <li><a href="tools.html">כלים מתקדמים</a></li>
+      <li><a href="contact.html">יצירת קשר</a></li>
+    </ul>
+  </nav>
+</header>
 
-<!-- ── App Shell ── -->
-<div id="app">
-  <header>
-    <div class="brand">לנדובר — ניהול</div>
-    <div class="actions">
-      <button class="btn btn-outline btn-sm" onclick="doLogout()">יציאה</button>
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="iStock-2149918736.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>ליווי אסטרטגי בהתחדשות עירונית</h1>
+    <p>כי הפרטים הקטנים זה מה שקובע</p>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:28px;">
+      <a href="services-owners.html" class="btn-cta" style="background:#fff; color:var(--color-dark); border:2px solid #fff;">אני בעל דירה / קרקע</a>
+      <a href="services-developers.html" class="btn-cta" style="background:transparent; border:2px solid #fff;">אני חברה יזמית</a>
     </div>
-  </header>
-
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('dashboard',this)">📊 דשבורד</button>
-    <button class="tab" onclick="switchTab('users',this)">👥 משתמשים</button>
   </div>
+</section>
 
-  <div class="content">
-
-    <!-- Dashboard Tab -->
-    <div class="tab-panel active" id="tab-dashboard">
-      <div class="cards" id="stat-cards">
-        <div class="card"><div class="label">ביקורים היום</div><div class="value" id="s-today">—</div></div>
-        <div class="card"><div class="label">ביקורים השבוע</div><div class="value" id="s-week">—</div></div>
-        <div class="card"><div class="label">ביקורים החודש</div><div class="value" id="s-month">—</div></div>
-        <div class="card"><div class="label">מבקרים חדשים (חודש)</div><div class="value" id="s-new">—</div><div class="sub" id="s-new-sub"></div></div>
+<!-- ─── STATS BAR ─── -->
+<section style="background:var(--color-dark); color:var(--color-white); padding:32px 0;">
+  <div class="container">
+    <div style="display:flex; justify-content:center; gap:48px; flex-wrap:wrap; text-align:center;">
+      <div>
+        <div style="font-size:36px; font-weight:700; color:var(--color-bronze);">15+</div>
+        <div style="font-size:14px; margin-top:4px; opacity:0.85;">שנות ניסיון בנדל"ן</div>
       </div>
-
-      <div class="chart-wrap">
-        <h3>ביקורים יומיים — 30 הימים האחרונים</h3>
-        <div class="chart-container">
-          <canvas id="daily-chart"></canvas>
-        </div>
+      <div>
+        <div style="font-size:36px; font-weight:700; color:var(--color-bronze);">10+</div>
+        <div style="font-size:14px; margin-top:4px; opacity:0.85;">שנות התמחות בהתחדשות עירונית</div>
       </div>
-
-      <div class="tables-row">
-        <div class="table-wrap">
-          <h3>עמודים פופולריים</h3>
-          <table class="mini-table"><tbody id="tbl-pages"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
-        </div>
-        <div class="table-wrap">
-          <h3>מפנים (Referrers)</h3>
-          <table class="mini-table"><tbody id="tbl-refs"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
-        </div>
+      <div>
+        <div style="font-size:36px; font-weight:700; color:var(--color-bronze);">עשרות</div>
+        <div style="font-size:14px; margin-top:4px; opacity:0.85;">פרויקטים בפריסה ארצית</div>
       </div>
-
-      <div class="tables-row" style="grid-template-columns:1fr">
-        <div class="table-wrap">
-          <h3>פילוח לפי מקור</h3>
-          <table class="mini-table"><tbody id="tbl-sources"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Users Tab -->
-    <div class="tab-panel" id="tab-users">
-      <div class="toolbar">
-        <input type="search" id="user-search" placeholder="חיפוש לפי שם / אימייל / טלפון" oninput="debounceSearch()">
-        <button class="btn btn-outline btn-sm" onclick="exportUsers()">📥 ייצוא CSV</button>
-        <button class="btn btn-primary btn-sm" onclick="loadUsers(1)">רענן</button>
-      </div>
-      <div class="users-table-wrap">
-        <table class="users">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>שם</th>
-              <th>אימייל</th>
-              <th>טלפון</th>
-              <th>חברה</th>
-              <th>מאומת</th>
-              <th>סטטוס</th>
-              <th>נרשם</th>
-              <th>כניסה אחרונה</th>
-              <th>פעולה</th>
-            </tr>
-          </thead>
-          <tbody id="users-body">
-            <tr><td colspan="10" class="loader">טוען...</td></tr>
-          </tbody>
-        </table>
-        <div class="pagination" id="pagination" style="display:none">
-          <span id="pg-info"></span>
-          <div class="page-btns" id="pg-btns"></div>
-        </div>
+      <div>
+        <div style="font-size:36px; font-weight:700; color:var(--color-bronze);">40U40</div>
+        <div style="font-size:14px; margin-top:4px; opacity:0.85;">מגדילים 2023</div>
       </div>
     </div>
-
   </div>
-</div>
+</section>
 
-<div id="toast"></div>
+<!-- ─── AUDIENCE SPLIT ─── -->
+<section style="padding:64px 0; background:var(--color-cream);">
+  <div class="container">
+    <h2 class="section-title center">במה אני יכול לעזור לכם?</h2>
+    <div class="services-grid" style="margin-top:32px;">
+
+      <a class="service-card" href="services-owners.html" style="border-top:4px solid var(--color-bronze);">
+        <h3 style="font-size:22px;">בעלי דירות וקרקע</h3>
+        <p>יש לכם דירה או קרקע שאולי מתאימה לפינוי בינוי? לא בטוחים מה מגיע לכם, מי היזמים הנכונים, ואיך שומרים על האינטרסים שלכם?</p>
+        <p>אני לצדכם — מהרגע שבודקים אם הפרויקט אפשרי, דרך בחירת היזם וניהול המו"מ, עד שהמפתח בדלת הדירה החדשה.</p>
+        <p style="color:var(--color-bronze); font-weight:600; margin-top:12px;">למידע על ליווי בעלי דירות ←</p>
+      </a>
+
+      <a class="service-card" href="services-developers.html" style="border-top:4px solid var(--color-sage);">
+        <h3 style="font-size:22px;">חברות יזמיות</h3>
+        <p>מנהלים פרויקט התחדשות עירונית ומחפשים ניסיון מקצועי בלי לגייס מנהל פנימי? צריכים מישהו שיוביל מו"מ מול דיירים, יבנה את המערך, ויוצר ודאות לאורך כל הדרך?</p>
+        <p>ניהול אסטרטגי במיקור חוץ — עם הגמישות של יועץ חיצוני ועומק הידע של ניהול פנימי.</p>
+        <p style="color:var(--color-bronze); font-weight:600; margin-top:12px;">למידע על ליווי חברות יזמיות ←</p>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROCESS ─── -->
+<section style="padding:64px 0; background:#fff;">
+  <div class="container">
+    <h2 class="section-title center">איך עובדים יחד</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:32px; margin-top:40px; text-align:center;">
+      <div>
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--color-bronze); color:#fff; font-size:22px; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">1</div>
+        <h3 style="font-size:18px; margin-bottom:8px; font-weight:600;">שיחת היכרות</h3>
+        <p style="font-size:15px; color:#555; line-height:1.6;">מבינים את המצב. ללא עלות וללא התחייבות.</p>
+      </div>
+      <div>
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--color-bronze); color:#fff; font-size:22px; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">2</div>
+        <h3 style="font-size:18px; margin-bottom:8px; font-weight:600;">בדיקת היתכנות</h3>
+        <p style="font-size:15px; color:#555; line-height:1.6;">בחינה כלכלית ותכנונית של הפרויקט, כדי שתיכנסו לשלב הבא עם מספרים ברורים.</p>
+      </div>
+      <div>
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--color-bronze); color:#fff; font-size:22px; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">3</div>
+        <h3 style="font-size:18px; margin-bottom:8px; font-weight:600;">ליווי שוטף</h3>
+        <p style="font-size:15px; color:#555; line-height:1.6;">ליווי רצוף בכל שלב — בחירת יזם, מו"מ, קידום התב"ע, תכנון. כשיש שאלה, יש לאן לפנות.</p>
+      </div>
+      <div>
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--color-bronze); color:#fff; font-size:22px; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">4</div>
+        <h3 style="font-size:18px; margin-bottom:8px; font-weight:600;">מימוש הפרויקט</h3>
+        <p style="font-size:15px; color:#555; line-height:1.6;">מהחוזה ועד מסירת הדירות — לוודא שמה שסוכם אכן מתממש.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section id="about" style="background:var(--color-cream);">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-photo-col">
+        <img class="about-photo" src="aharon-portrait.jpg" alt="אהרון לנדובר - יועץ אסטרטגי בהתחדשות עירונית" />
+        <a href="https://magdilim.co.il/40under40-2023/ahrl/" target="_blank" rel="noopener" aria-label="כתבה על אהרון לנדובר ברשימת 40UNDER40 מגדילים 2023"><img class="badge-40under40"
+          src="https://static.wixstatic.com/media/9d455d_e4a8e7089f2f4a6e83a7f4cc82da7cc7~mv2.png/v1/fill/w_141,h_141,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/single40-2023-logo.png"
+          alt="40UNDER40 אתר מגדילים" /></a>
+      </div>
+      <div class="about-text">
+        <h2 class="section-title">אהרון לנדובר</h2>
+        <p><strong>15 שנות ניסיון בנדל"ן, מתוכן עשור של התמחות מעשית בהתחדשות עירונית.</strong> עשרות פרויקטים בפריסה ארצית — מהבדיקה הראשונה ועד המפתח.</p>
+        <p>מה שבאמת קשה בפרויקטי התחדשות: לזהות חסמים לפני שהם הופכים לבעיות, ולוודא שההחלטות הכלכליות והתכנוניות לא נופלות בין הכיסאות.</p>
+        <p><strong><a href="https://magdilim.co.il/40under40-2023/ahrl/" target="_blank" rel="noopener" style="color:inherit;">40UNDER40 מגדילים 2023</a></strong> — רשימת אנשי המקצוע המשפיעים בתחום ההתחדשות העירונית בישראל.</p>
+        <p style="margin-top:24px;"><a href="about.html" style="color:var(--color-bronze); text-decoration:none; font-weight:600;">קראו עוד על הרקע המקצועי ←</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TOOLS BANNER ─── -->
+<section style="padding:40px 0; background:#fff; border-top:1px solid #eee; border-bottom:1px solid #eee;">
+  <div class="container" style="text-align:center;">
+    <h2 style="font-size:20px; font-weight:600; margin-bottom:8px;">בודקים פרויקט לבד קודם?</h2>
+    <p style="color:#555; margin-bottom:20px; font-size:16px;">הכלים החינמיים שלנו — BuildCalc, TabuTab ו-TabuCaunt — נותנים לכם תמונה ראשונית עוד לפני שמדברים עם יזם.</p>
+    <a href="tools.html" class="btn-cta">לכלים החינמיים</a>
+  </div>
+</section>
+
+<!-- ─── WHATSAPP FLOAT ─── -->
+<a class="whatsapp-float" href="https://wa.me/972508102661" target="_blank" rel="noopener" title="WhatsApp">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+  WhatsApp
+</a>
+
+<!-- ─── FAQ ─── -->
+<section style="padding:64px 0; background:var(--color-cream);" itemscope itemtype="https://schema.org/FAQPage">
+  <div class="container" style="max-width:800px;">
+    <h2 class="section-title center">שאלות נפוצות על פינוי בינוי</h2>
+    <div style="margin-top:40px;">
+
+      <details style="border:1px solid #ddd; border-radius:8px; margin-bottom:12px; background:#fff; overflow:hidden;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary style="padding:18px 20px; cursor:pointer; font-weight:600; font-size:17px; list-style:none; display:flex; justify-content:space-between; align-items:center;" itemprop="name">
+          מה ההבדל בין פינוי בינוי לתמ"א 38?
+          <span style="font-size:20px; color:var(--color-bronze);">+</span>
+        </summary>
+        <div style="padding:0 20px 18px;" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">פינוי בינוי ותמ"א 38 הם שני מסלולי ההתחדשות העירונית העיקריים בישראל. <strong>פינוי בינוי</strong> מיועד לאזורים מוכרזים — הורסים את הבניין כולו ובונים מחדש עם יותר יחידות. <strong>תמ"א 38</strong> מיועדת לחיזוק מבנים מפני רעידות אדמה: ניתן לחזק בלי להרוס (תמ"א 38/1) או להרוס ולבנות מחדש (תמ"א 38/2). פינוי בינוי מאפשר בדרך כלל תמורות גבוהות יותר, אך התהליך ארוך ומורכב יותר מבחינה תכנונית.</p>
+        </div>
+      </details>
+
+      <details style="border:1px solid #ddd; border-radius:8px; margin-bottom:12px; background:#fff; overflow:hidden;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary style="padding:18px 20px; cursor:pointer; font-weight:600; font-size:17px; list-style:none; display:flex; justify-content:space-between; align-items:center;" itemprop="name">
+          האם אפשר לסרב לפרויקט פינוי בינוי?
+          <span style="font-size:20px; color:var(--color-bronze);">+</span>
+        </summary>
+        <div style="padding:0 20px 18px;" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">כן, בעל דירה רשאי לסרב לחתום. אולם חוק פינוי בינוי קובע שאם 80% מבעלי הדירות חתמו, ניתן להגיש תביעת פיצויים נגד "דייר סרבן" אם סירובו אינו סביר. בית המשפט בוחן את הסירוב לפי גיל, מצב בריאות, תנאי ההסכם ועוד. לכן חשוב לקבל ייעוץ מקצועי לפני קבלת כל החלטה — הן לפני חתימה והן לפני סירוב.</p>
+        </div>
+      </details>
+
+      <details style="border:1px solid #ddd; border-radius:8px; margin-bottom:12px; background:#fff; overflow:hidden;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary style="padding:18px 20px; cursor:pointer; font-weight:600; font-size:17px; list-style:none; display:flex; justify-content:space-between; align-items:center;" itemprop="name">
+          מה מקבלים בעלי דירות בפרויקט פינוי בינוי?
+          <span style="font-size:20px; color:var(--color-bronze);">+</span>
+        </summary>
+        <div style="padding:0 20px 18px;" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">בעלי דירות מקבלים בדרך כלל: דירה חדשה גדולה יותר (תוספת של 12–25 מ"ר בממוצע), מרפסת שמש, חניה, מחסן ומפרט טכני חדיש. לעתים ניתנות תמורות נוספות: דמי שכירות לתקופת הבנייה, פטורים ממיסים, ולעתים תשלום כספי. גובה התמורות תלוי בזכויות הבנייה, בשוק המקומי ובכוח המיקוח של הדיירים — לכן ייעוץ מקצועי יכול לשפר משמעותית את ההצעה שתקבלו.</p>
+        </div>
+      </details>
+
+      <details style="border:1px solid #ddd; border-radius:8px; margin-bottom:12px; background:#fff; overflow:hidden;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary style="padding:18px 20px; cursor:pointer; font-weight:600; font-size:17px; list-style:none; display:flex; justify-content:space-between; align-items:center;" itemprop="name">
+          כמה זמן לוקח תהליך פינוי בינוי?
+          <span style="font-size:20px; color:var(--color-bronze);">+</span>
+        </summary>
+        <div style="padding:0 20px 18px;" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">תהליך פינוי בינוי שלם נמשך בדרך כלל 7–12 שנים: התארגנות דיירים וחתימות (1–2 שנים), בחירת יזם ומשא ומתן (חצי–שנה), קידום תב"ע ואישורים (3–5 שנים), קבלת היתר ופינוי (חצי שנה), ובנייה עצמה (2–3 שנים). השלב הארוך ביותר הוא קידום התב"ע. מעקב מקצועי מסייע לזרז תהליכים, לזהות חסמים מוקדם ולמנוע תקיעות יקרות.</p>
+        </div>
+      </details>
+
+      <details style="border:1px solid #ddd; border-radius:8px; margin-bottom:12px; background:#fff; overflow:hidden;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary style="padding:18px 20px; cursor:pointer; font-weight:600; font-size:17px; list-style:none; display:flex; justify-content:space-between; align-items:center;" itemprop="name">
+          האם צריך יועץ לפרויקט פינוי בינוי?
+          <span style="font-size:20px; color:var(--color-bronze);">+</span>
+        </summary>
+        <div style="padding:0 20px 18px;" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">החוק אינו מחייב מינוי יועץ, אך ייעוץ מקצועי מוכיח את עצמו כשווה רבות: יועץ מייצר תמורות גבוהות יותר ממה שדיירים יקבלו לבד, מגן מפני טעויות חוזיות, מנהל את המכרז מול היזמים ומתווך בין עשרות בעלי דירות. שכר הטרחה מוסכם בדרך כלל כחלק מהסכם עם היזם ואינו בא על חשבון הדיירים.</p>
+        </div>
+      </details>
+
+    </div>
+    <div style="text-align:center; margin-top:32px;">
+      <a href="services-owners.html" style="color:var(--color-bronze); font-weight:600; text-decoration:underline;">עוד שאלות נפוצות בדף הליווי לבעלי דירות ←</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta-section">
+  <div class="container">
+    <h2>מוכנים לדעת מה שווה לכם הפרויקט?</h2>
+    <p>שיחה קצרה, בלי תשלום. מסתכלים על הפרויקט שלכם ורואים מה יש בו.</p>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:8px;">
+      <a href="contact.html" class="btn-cta">קבעו שיחה עכשיו</a>
+      <a href="https://wa.me/972508102661" class="btn-cta" style="background:transparent; border:2px solid white;" target="_blank" rel="noopener">וואטסאפ ישיר</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-info">
+      <p>אהרון לנדובר | יעוץ וניהול אסטרטגי בהתחדשות עירונית</p>
+      <p>רוטשילד 124, ראשון לציון | <a href="tel:+972508102661">050-8102661</a> | <a href="mailto:Aharon@Lendover.co.il">Aharon@Lendover.co.il</a></p>
+    </div>
+    <div class="footer-links">
+      <a href="privacy.html">מדיניות פרטיות</a>
+      <a href="terms.html">תנאי שימוש</a>
+      <a href="accessibility.html">הצהרת נגישות</a>
+      <a href="https://www.linkedin.com/in/aharon-lendover-911b23111/" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
+    </div>
+    <p>&copy; 2026 Aharon Lendover. כל הזכויות שמורות.</p>
+  </div>
+</footer>
 
 <script>
-'use strict';
+  // Mobile menu handling
+  (function() {
+    const navLinks = document.querySelector('.nav-links');
 
-var API = 'https://auth.lendover.co.il';
-var dailyChart = null;
-var usersState = { page: 1, pages: 1, search: '' };
-var searchTimer = null;
-
-// ── Auth ──────────────────────────────────────────────────────────
-
-function apiFetch(path, opts) {
-  return fetch(API + path, Object.assign({
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' }
-  }, opts || {}));
-}
-
-async function doLogin() {
-  var pass = document.getElementById('login-pass').value;
-  var btn  = document.getElementById('login-btn');
-  var err  = document.getElementById('login-error');
-
-  if (!pass) { err.textContent = 'נא להזין סיסמה'; return; }
-  btn.disabled = true;
-  err.textContent = '';
-
-  try {
-    var res = await apiFetch('/admin/login', {
-      method: 'POST',
-      body: JSON.stringify({ password: pass })
+    // Close mobile menu when clicking a regular link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        // If this link has a dropdown sibling, toggle it on mobile
+        const parent = this.parentElement;
+        const dropdown = parent.querySelector('.dropdown');
+        if (dropdown && window.innerWidth <= 768) {
+          e.preventDefault();
+          dropdown.classList.toggle('mobile-open');
+          return;
+        }
+        navLinks.classList.remove('open');
+      });
     });
-    if (res.ok) {
-      showApp();
-    } else {
-      var d = await res.json().catch(function(){ return {}; });
-      err.textContent = d.error || 'שגיאה בכניסה';
-    }
-  } catch (e) {
-    err.textContent = 'שגיאת חיבור לשרת';
-  } finally {
-    btn.disabled = false;
-  }
-}
 
-document.getElementById('login-pass').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') doLogin();
-});
-
-async function checkSession() {
-  try {
-    var res = await apiFetch('/admin/stats');
-    if (res.ok) showApp();
-    // else stay on login
-  } catch(e) { /* stay on login */ }
-}
-
-async function doLogout() {
-  await apiFetch('/admin/logout', { method: 'POST' }).catch(function(){});
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('login-pass').value = '';
-}
-
-function showApp() {
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  loadStats();
-  loadUsers(1);
-}
-
-// ── Tabs ─────────────────────────────────────────────────────────
-
-function switchTab(name, btn) {
-  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
-  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
-  btn.classList.add('active');
-  document.getElementById('tab-' + name).classList.add('active');
-}
-
-// ── Stats / Dashboard ─────────────────────────────────────────────
-
-async function loadStats() {
-  try {
-    var res = await apiFetch('/admin/stats');
-    if (res.status === 401 || res.status === 403) { doLogout(); return; }
-    if (!res.ok) throw new Error();
-    var d = await res.json();
-    renderStats(d);
-  } catch(e) {
-    toast('שגיאה בטעינת הנתונים', 'err');
-  }
-}
-
-function renderStats(d) {
-  document.getElementById('s-today').textContent  = fmt(d.visits_today);
-  document.getElementById('s-week').textContent   = fmt(d.visits_week);
-  document.getElementById('s-month').textContent  = fmt(d.visits_month);
-  document.getElementById('s-new').textContent    = fmt(d.visits_month > 0
-    ? Math.round(d.visits_month * d.new_visitors_pct / 100) : 0);
-  document.getElementById('s-new-sub').textContent = d.new_visitors_pct + '%';
-
-  renderDailyChart(d.daily || []);
-  renderMiniTable('tbl-pages', d.top_pages || [], 'path', 'visits', '/');
-  renderMiniTable('tbl-refs', d.top_referrers || [], 'referrer', 'visits', 'ישיר');
-  renderMiniTable('tbl-sources', d.top_sources || [], 'source', 'visits', '');
-}
-
-function fmt(n) {
-  if (n == null) return '0';
-  return Number(n).toLocaleString('he-IL');
-}
-
-function renderDailyChart(daily) {
-  var labels = daily.map(function(r){ return r.day ? r.day.slice(5) : ''; });
-  var data   = daily.map(function(r){ return r.visits; });
-
-  if (dailyChart) dailyChart.destroy();
-  var ctx = document.getElementById('daily-chart').getContext('2d');
-  dailyChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'ביקורים',
-        data: data,
-        borderColor: '#B87E58',
-        backgroundColor: 'rgba(184,126,88,.12)',
-        borderWidth: 2,
-        pointRadius: 3,
-        tension: .35,
-        fill: true
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 11 }, maxRotation: 0 } },
-        y: { beginAtZero: true, ticks: { font: { size: 11 }, stepSize: 1 } }
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('nav') && navLinks.classList.contains('open')) {
+        navLinks.classList.remove('open');
       }
-    }
-  });
-}
-
-function renderMiniTable(id, rows, keyField, countField, emptyLabel) {
-  var tbody = document.getElementById(id);
-  if (!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="3" class="empty">אין נתונים עדיין</td></tr>';
-    return;
-  }
-  tbody.innerHTML = rows.map(function(r, i) {
-    var name = r[keyField] || emptyLabel;
-    return '<tr><td class="rank">' + (i+1) + '</td>' +
-      '<td class="name' + (!r[keyField] ? ' empty' : '') + '">' + esc(name) + '</td>' +
-      '<td class="count">' + fmt(r[countField]) + '</td></tr>';
-  }).join('');
-}
-
-// ── Users ─────────────────────────────────────────────────────────
-
-function debounceSearch() {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(function(){ loadUsers(1); }, 350);
-}
-
-async function loadUsers(page) {
-  var search = document.getElementById('user-search').value.trim();
-  usersState.search = search;
-  usersState.page = page;
-
-  var params = '?page=' + page + '&per_page=50';
-  if (search) params += '&search=' + encodeURIComponent(search);
-
-  var tbody = document.getElementById('users-body');
-  tbody.innerHTML = '<tr><td colspan="10" class="loader">טוען...</td></tr>';
-  document.getElementById('pagination').style.display = 'none';
-
-  try {
-    var res = await apiFetch('/admin/users' + params);
-    if (res.status === 401 || res.status === 403) { doLogout(); return; }
-    if (!res.ok) throw new Error();
-    var d = await res.json();
-    renderUsers(d);
-  } catch(e) {
-    tbody.innerHTML = '<tr><td colspan="10" class="empty">שגיאה בטעינה</td></tr>';
-  }
-}
-
-function renderUsers(d) {
-  var tbody = document.getElementById('users-body');
-  if (!d.users || !d.users.length) {
-    tbody.innerHTML = '<tr><td colspan="10" class="empty">לא נמצאו משתמשים</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = d.users.map(function(u) {
-    var verBadge = u.verified
-      ? '<span class="badge badge-green">כן</span>'
-      : '<span class="badge badge-gray">לא</span>';
-    var blockBadge = u.blocked
-      ? '<span class="badge badge-red">חסום</span>'
-      : '<span class="badge badge-green">פעיל</span>';
-    var blockBtn = u.blocked
-      ? '<button class="btn btn-success btn-sm" onclick="setBlock(' + u.id + ',false)">שחרר</button>'
-      : '<button class="btn btn-danger btn-sm" onclick="setBlock(' + u.id + ',true)">חסום</button>';
-
-    return '<tr>' +
-      '<td>' + u.id + '</td>' +
-      '<td>' + esc(u.name) + '</td>' +
-      '<td style="direction:ltr;text-align:right">' + esc(u.email) + '</td>' +
-      '<td style="direction:ltr;text-align:right">' + esc(u.phone) + '</td>' +
-      '<td>' + esc(u.company || '—') + '</td>' +
-      '<td>' + verBadge + '</td>' +
-      '<td>' + blockBadge + '</td>' +
-      '<td>' + fmtDate(u.created_at) + '</td>' +
-      '<td>' + fmtDate(u.last_login) + '</td>' +
-      '<td>' + blockBtn + '</td>' +
-      '</tr>';
-  }).join('');
-
-  // Pagination
-  usersState.pages = d.pages || 1;
-  renderPagination(d.page, d.pages, d.total);
-}
-
-function renderPagination(page, pages, total) {
-  var pg = document.getElementById('pagination');
-  if (pages <= 1 && total <= 50) { pg.style.display = 'none'; return; }
-  pg.style.display = 'flex';
-
-  document.getElementById('pg-info').textContent =
-    'מציג ' + ((page-1)*50+1) + '–' + Math.min(page*50, total) + ' מתוך ' + fmt(total);
-
-  var btns = document.getElementById('pg-btns');
-  btns.innerHTML = '';
-
-  var start = Math.max(1, page-2), end = Math.min(pages, page+2);
-  if (start > 1) addPageBtn(btns, 1, page);
-  if (start > 2) addEllipsis(btns);
-  for (var i = start; i <= end; i++) addPageBtn(btns, i, page);
-  if (end < pages-1) addEllipsis(btns);
-  if (end < pages) addPageBtn(btns, pages, page);
-}
-
-function addPageBtn(container, n, current) {
-  var btn = document.createElement('button');
-  btn.className = 'page-btn' + (n === current ? ' active' : '');
-  btn.textContent = n;
-  btn.onclick = (function(p){ return function(){ loadUsers(p); }; })(n);
-  container.appendChild(btn);
-}
-function addEllipsis(container) {
-  var s = document.createElement('span');
-  s.textContent = '…';
-  s.style.padding = '0 4px';
-  container.appendChild(s);
-}
-
-async function setBlock(userId, block) {
-  var action = block ? 'block' : 'unblock';
-  try {
-    var res = await apiFetch('/admin/users/' + userId + '/' + action, { method: 'POST' });
-    if (res.status === 401 || res.status === 403) { doLogout(); return; }
-    if (!res.ok) throw new Error();
-    toast(block ? 'המשתמש נחסם' : 'החסימה הוסרה', 'ok');
-    loadUsers(usersState.page);
-  } catch(e) {
-    toast('שגיאה בביצוע הפעולה', 'err');
-  }
-}
-
-function exportUsers() {
-  window.open(API + '/admin/users/export', '_blank');
-}
-
-// ── Utils ─────────────────────────────────────────────────────────
-
-function fmtDate(dt) {
-  if (!dt) return '—';
-  return dt.replace('T', ' ').slice(0, 16);
-}
-
-function esc(s) {
-  if (!s) return '';
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-var toastTimer;
-function toast(msg, type) {
-  var el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'show ' + (type || '');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(function(){ el.className = ''; }, 3000);
-}
-
-// ── Boot ──────────────────────────────────────────────────────────
-
-checkSession();
+    });
+  })();
 </script>
+
+<script src="accessibility-widget.js"></script>
+<script src="/tools/tracker.js"></script>
 </body>
 </html>
