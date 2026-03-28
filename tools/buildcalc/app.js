@@ -8,6 +8,15 @@ let currentSetbacks = [];     // float[] — one per edge
 let parcelCache = {};         // cache key → API response
 let pendingAbort = null;      // AbortController for debounced setback request
 let svgTransform = null;      // current SVG coordinate transform
+let leafletMap = null;        // Leaflet map instance (created once)
+let parcelPolygon = null;     // L.polygon currently on the map
+let streetLayer = null;       // OSM tile layer
+let satelliteLayer = null;    // ESRI satellite tile layer
+
+// ITM (EPSG:2039) projection string — matches PARCEL_ALL.prj
+const _ITM_PROJ = '+proj=tmerc +lat_0=31.73439361111111 +lon_0=35.20451694444445 +k=1.0000067 +x_0=219529.584 +y_0=626907.39 +ellps=GRS80 +units=m +no_defs';
+// Lazy factory — proj4 is loaded after this script
+const _toWgs84 = () => proj4(_ITM_PROJ, 'WGS84');
 
 // ── DOM refs ───────────────────────────────────────────────────────────────────
 
@@ -528,12 +537,81 @@ function displayParcel(data) {
   // Render SVG (initial, without inner polygon)
   renderSVG(currentRing, null, false);
 
+  // Update map / reset view
+  const onMap = document.querySelector('.view-btn[data-view="map"]')?.classList.contains('active');
+  if (parcelPolygon) { parcelPolygon.remove(); parcelPolygon = null; }
+  if (onMap) {
+    updateMap(currentRing);
+  } else {
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === 'svg'));
+    document.getElementById('svg-container').style.display = '';
+    document.getElementById('map-container').style.display = 'none';
+  }
+
   // Render setback controls
   renderSetbackControls(currentRing);
 
   // Request initial setback calculation
   requestSetback();
 }
+
+// ── Leaflet map ────────────────────────────────────────────────────────────────
+
+function initMap() {
+  if (leafletMap) return;
+  leafletMap = L.map('parcel-map', { center: [31.5, 34.8], zoom: 7 });
+  streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 21,
+  }).addTo(leafletMap);
+  satelliteLayer = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    { attribution: '© Esri', maxZoom: 21 }
+  );
+}
+
+function updateMap(ring) {
+  initMap();
+  if (parcelPolygon) { parcelPolygon.remove(); parcelPolygon = null; }
+  const toWgs = _toWgs84();
+  const latlngs = ring.map(p => { const [lon, lat] = toWgs.forward(p); return [lat, lon]; });
+  parcelPolygon = L.polygon(latlngs, {
+    color: '#B8743D', weight: 2.5,
+    fillColor: '#B8743D', fillOpacity: 0.15,
+  }).addTo(leafletMap);
+  leafletMap.fitBounds(parcelPolygon.getBounds(), { padding: [20, 20] });
+}
+
+// ── View toggle (ציור ↔ מפה) ───────────────────────────────────────────────────
+
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const view = btn.dataset.view;
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b === btn));
+    document.getElementById('svg-container').style.display  = view === 'svg' ? '' : 'none';
+    document.getElementById('map-container').style.display  = view === 'map' ? '' : 'none';
+    if (view === 'map' && currentRing) {
+      updateMap(currentRing);
+      requestAnimationFrame(() => leafletMap && leafletMap.invalidateSize());
+    }
+  });
+});
+
+// ── Map layer toggle (רחוב ↔ לוויין) ──────────────────────────────────────────
+
+document.querySelectorAll('.map-layer-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const layer = btn.dataset.layer;
+    document.querySelectorAll('.map-layer-btn').forEach(b => b.classList.toggle('active', b === btn));
+    if (layer === 'satellite') {
+      leafletMap.removeLayer(streetLayer);
+      satelliteLayer.addTo(leafletMap);
+    } else {
+      leafletMap.removeLayer(satelliteLayer);
+      streetLayer.addTo(leafletMap);
+    }
+  });
+});
 
 // ── SVG Export ─────────────────────────────────────────────────────────────────
 
@@ -568,6 +646,7 @@ resetBtn.addEventListener('click', () => {
   resultCard.style.display = 'none';
   currentRing = null;
   currentSetbacks = [];
+  if (parcelPolygon) { parcelPolygon.remove(); parcelPolygon = null; }
   setbackList.innerHTML = '';
   while (svg.firstChild) svg.removeChild(svg.firstChild);
   hideSetbackWarning();
