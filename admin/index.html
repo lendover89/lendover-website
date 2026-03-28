@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>לוח ניהול — לנדובר</title>
+  <meta name="robots" content="noindex, nofollow">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bronze:  #B87E58;
+      --bronze-d:#8F5E3A;
+      --sage:    #90A49F;
+      --dark:    #414141;
+      --cream:   #F6F6EE;
+      --white:   #FFFFFF;
+      --border:  #E2DDD6;
+      --danger:  #C0392B;
+      --success: #27AE60;
+      --radius:  8px;
+      --shadow:  0 2px 8px rgba(0,0,0,.08);
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      min-height: 100vh;
+      font-size: 15px;
+    }
+
+    /* ── Login ── */
+    #login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: var(--cream);
+    }
+    .login-box {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 40px;
+      width: 360px;
+      max-width: 95vw;
+      text-align: center;
+    }
+    .login-box .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--bronze);
+      margin-bottom: 6px;
+    }
+    .login-box .subtitle {
+      color: var(--sage);
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
+    .login-box input[type=password] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 15px;
+      text-align: center;
+      outline: none;
+      margin-bottom: 14px;
+      transition: border-color .2s;
+    }
+    .login-box input[type=password]:focus { border-color: var(--bronze); }
+    .login-box .error { color: var(--danger); font-size: 13px; margin-bottom: 10px; min-height: 18px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 22px;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, opacity .2s;
+    }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-primary { background: var(--bronze); color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: var(--bronze-d); }
+    .btn-sm { padding: 6px 14px; font-size: 13px; }
+    .btn-danger  { background: var(--danger);  color: #fff; }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--dark); }
+    .btn-outline:hover:not(:disabled) { border-color: var(--bronze); color: var(--bronze); }
+
+    /* ── App Shell ── */
+    #app { display: none; flex-direction: column; min-height: 100vh; }
+
+    header {
+      background: var(--white);
+      border-bottom: 2px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header .brand { font-weight: 700; color: var(--bronze); font-size: 17px; }
+    header .actions { display: flex; gap: 10px; align-items: center; }
+
+    /* ── Tabs ── */
+    .tabs {
+      background: var(--white);
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      padding: 0 24px;
+    }
+    .tab {
+      padding: 14px 20px;
+      border: none;
+      background: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--sage);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: color .2s, border-color .2s;
+    }
+    .tab.active { color: var(--bronze); border-color: var(--bronze); }
+
+    /* ── Content ── */
+    .content { flex: 1; padding: 24px; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Stat Cards ── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      text-align: center;
+    }
+    .card .label { font-size: 12px; color: var(--sage); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+    .card .value { font-size: 32px; font-weight: 700; color: var(--bronze); line-height: 1; }
+    .card .sub { font-size: 12px; color: var(--sage); margin-top: 4px; }
+
+    /* ── Chart ── */
+    .chart-wrap {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .chart-wrap h3 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
+    .chart-container { position: relative; height: 220px; }
+
+    /* ── Tables (stats) ── */
+    .tables-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    @media(max-width:700px) { .tables-row { grid-template-columns: 1fr; } }
+
+    .table-wrap {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .table-wrap h3 { font-size: 14px; font-weight: 700; color: var(--dark); padding: 14px 16px 10px; border-bottom: 1px solid var(--border); }
+    .mini-table { width: 100%; border-collapse: collapse; }
+    .mini-table td { padding: 9px 16px; font-size: 13px; border-bottom: 1px solid var(--border); }
+    .mini-table tr:last-child td { border-bottom: none; }
+    .mini-table .rank { color: var(--sage); width: 28px; font-weight: 600; }
+    .mini-table .count { color: var(--bronze); font-weight: 700; text-align: left; direction: ltr; white-space: nowrap; }
+    .mini-table .name { color: var(--dark); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mini-table .name.empty { color: var(--sage); font-style: italic; }
+
+    /* ── Users Table ── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .toolbar input[type=search] {
+      padding: 9px 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 14px;
+      outline: none;
+      flex: 1;
+      min-width: 180px;
+      transition: border-color .2s;
+    }
+    .toolbar input[type=search]:focus { border-color: var(--bronze); }
+
+    .users-table-wrap {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+    table.users { width: 100%; border-collapse: collapse; min-width: 700px; }
+    table.users th {
+      background: var(--cream);
+      padding: 11px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--sage);
+      text-align: right;
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+    table.users td { padding: 11px 14px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    table.users tr:last-child td { border-bottom: none; }
+    table.users tr:hover td { background: #faf9f6; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-green { background: #d4edda; color: #155724; }
+    .badge-red   { background: #f8d7da; color: #721c24; }
+    .badge-gray  { background: #e9ecef; color: #6c757d; }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--sage);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pagination .page-btns { display: flex; gap: 6px; }
+    .page-btn {
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      background: none;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background .15s, border-color .15s;
+    }
+    .page-btn:hover { border-color: var(--bronze); color: var(--bronze); }
+    .page-btn.active { background: var(--bronze); color: #fff; border-color: var(--bronze); }
+
+    /* ── Loading / Empty ── */
+    .loader { text-align: center; padding: 40px; color: var(--sage); font-size: 14px; }
+    .loader::before { content: '⏳ '; }
+    .empty { text-align: center; padding: 40px; color: var(--sage); font-size: 14px; }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--dark);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 24px;
+      font-size: 14px;
+      transition: transform .3s;
+      z-index: 9999;
+      white-space: nowrap;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.ok   { background: var(--success); }
+    #toast.err  { background: var(--danger); }
+  </style>
+</head>
+<body>
+
+<!-- ── Login Screen ── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="logo">לנדובר</div>
+    <div class="subtitle">לוח ניהול</div>
+    <div class="error" id="login-error"></div>
+    <input type="password" id="login-pass" placeholder="סיסמת ניהול" autocomplete="current-password">
+    <button class="btn btn-primary" style="width:100%" id="login-btn" onclick="doLogin()">כניסה</button>
+  </div>
+</div>
+
+<!-- ── App Shell ── -->
+<div id="app">
+  <header>
+    <div class="brand">לנדובר — ניהול</div>
+    <div class="actions">
+      <button class="btn btn-outline btn-sm" onclick="doLogout()">יציאה</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('dashboard',this)">📊 דשבורד</button>
+    <button class="tab" onclick="switchTab('users',this)">👥 משתמשים</button>
+  </div>
+
+  <div class="content">
+
+    <!-- Dashboard Tab -->
+    <div class="tab-panel active" id="tab-dashboard">
+      <div class="cards" id="stat-cards">
+        <div class="card"><div class="label">ביקורים היום</div><div class="value" id="s-today">—</div></div>
+        <div class="card"><div class="label">ביקורים השבוע</div><div class="value" id="s-week">—</div></div>
+        <div class="card"><div class="label">ביקורים החודש</div><div class="value" id="s-month">—</div></div>
+        <div class="card"><div class="label">מבקרים חדשים (חודש)</div><div class="value" id="s-new">—</div><div class="sub" id="s-new-sub"></div></div>
+      </div>
+
+      <div class="chart-wrap">
+        <h3>ביקורים יומיים — 30 הימים האחרונים</h3>
+        <div class="chart-container">
+          <canvas id="daily-chart"></canvas>
+        </div>
+      </div>
+
+      <div class="tables-row">
+        <div class="table-wrap">
+          <h3>עמודים פופולריים</h3>
+          <table class="mini-table"><tbody id="tbl-pages"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
+        </div>
+        <div class="table-wrap">
+          <h3>מפנים (Referrers)</h3>
+          <table class="mini-table"><tbody id="tbl-refs"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <div class="tables-row" style="grid-template-columns:1fr">
+        <div class="table-wrap">
+          <h3>פילוח לפי מקור</h3>
+          <table class="mini-table"><tbody id="tbl-sources"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Users Tab -->
+    <div class="tab-panel" id="tab-users">
+      <div class="toolbar">
+        <input type="search" id="user-search" placeholder="חיפוש לפי שם / אימייל / טלפון" oninput="debounceSearch()">
+        <button class="btn btn-outline btn-sm" onclick="exportUsers()">📥 ייצוא CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="loadUsers(1)">רענן</button>
+      </div>
+      <div class="users-table-wrap">
+        <table class="users">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>שם</th>
+              <th>אימייל</th>
+              <th>טלפון</th>
+              <th>חברה</th>
+              <th>מאומת</th>
+              <th>סטטוס</th>
+              <th>נרשם</th>
+              <th>כניסה אחרונה</th>
+              <th>פעולה</th>
+            </tr>
+          </thead>
+          <tbody id="users-body">
+            <tr><td colspan="10" class="loader">טוען...</td></tr>
+          </tbody>
+        </table>
+        <div class="pagination" id="pagination" style="display:none">
+          <span id="pg-info"></span>
+          <div class="page-btns" id="pg-btns"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+'use strict';
+
+var API = 'https://auth.lendover.co.il';
+var dailyChart = null;
+var usersState = { page: 1, pages: 1, search: '' };
+var searchTimer = null;
+
+// ── Auth ──────────────────────────────────────────────────────────
+
+function apiFetch(path, opts) {
+  return fetch(API + path, Object.assign({
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' }
+  }, opts || {}));
+}
+
+async function doLogin() {
+  var pass = document.getElementById('login-pass').value;
+  var btn  = document.getElementById('login-btn');
+  var err  = document.getElementById('login-error');
+
+  if (!pass) { err.textContent = 'נא להזין סיסמה'; return; }
+  btn.disabled = true;
+  err.textContent = '';
+
+  try {
+    var res = await apiFetch('/admin/login', {
+      method: 'POST',
+      body: JSON.stringify({ password: pass })
+    });
+    if (res.ok) {
+      showApp();
+    } else {
+      var d = await res.json().catch(function(){ return {}; });
+      err.textContent = d.error || 'שגיאה בכניסה';
+    }
+  } catch (e) {
+    err.textContent = 'שגיאת חיבור לשרת';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+document.getElementById('login-pass').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+
+async function checkSession() {
+  try {
+    var res = await apiFetch('/admin/stats');
+    if (res.ok) showApp();
+    // else stay on login
+  } catch(e) { /* stay on login */ }
+}
+
+async function doLogout() {
+  await apiFetch('/admin/logout', { method: 'POST' }).catch(function(){});
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-pass').value = '';
+}
+
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  loadStats();
+  loadUsers(1);
+}
+
+// ── Tabs ─────────────────────────────────────────────────────────
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ── Stats / Dashboard ─────────────────────────────────────────────
+
+async function loadStats() {
+  try {
+    var res = await apiFetch('/admin/stats');
+    if (res.status === 401 || res.status === 403) { doLogout(); return; }
+    if (!res.ok) throw new Error();
+    var d = await res.json();
+    renderStats(d);
+  } catch(e) {
+    toast('שגיאה בטעינת הנתונים', 'err');
+  }
+}
+
+function renderStats(d) {
+  document.getElementById('s-today').textContent  = fmt(d.visits_today);
+  document.getElementById('s-week').textContent   = fmt(d.visits_week);
+  document.getElementById('s-month').textContent  = fmt(d.visits_month);
+  document.getElementById('s-new').textContent    = fmt(d.visits_month > 0
+    ? Math.round(d.visits_month * d.new_visitors_pct / 100) : 0);
+  document.getElementById('s-new-sub').textContent = d.new_visitors_pct + '%';
+
+  renderDailyChart(d.daily || []);
+  renderMiniTable('tbl-pages', d.top_pages || [], 'path', 'visits', '/');
+  renderMiniTable('tbl-refs', d.top_referrers || [], 'referrer', 'visits', 'ישיר');
+  renderMiniTable('tbl-sources', d.top_sources || [], 'source', 'visits', '');
+}
+
+function fmt(n) {
+  if (n == null) return '0';
+  return Number(n).toLocaleString('he-IL');
+}
+
+function renderDailyChart(daily) {
+  var labels = daily.map(function(r){ return r.day ? r.day.slice(5) : ''; });
+  var data   = daily.map(function(r){ return r.visits; });
+
+  if (dailyChart) dailyChart.destroy();
+  var ctx = document.getElementById('daily-chart').getContext('2d');
+  dailyChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'ביקורים',
+        data: data,
+        borderColor: '#B87E58',
+        backgroundColor: 'rgba(184,126,88,.12)',
+        borderWidth: 2,
+        pointRadius: 3,
+        tension: .35,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, maxRotation: 0 } },
+        y: { beginAtZero: true, ticks: { font: { size: 11 }, stepSize: 1 } }
+      }
+    }
+  });
+}
+
+function renderMiniTable(id, rows, keyField, countField, emptyLabel) {
+  var tbody = document.getElementById(id);
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="3" class="empty">אין נתונים עדיין</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(function(r, i) {
+    var name = r[keyField] || emptyLabel;
+    return '<tr><td class="rank">' + (i+1) + '</td>' +
+      '<td class="name' + (!r[keyField] ? ' empty' : '') + '">' + esc(name) + '</td>' +
+      '<td class="count">' + fmt(r[countField]) + '</td></tr>';
+  }).join('');
+}
+
+// ── Users ─────────────────────────────────────────────────────────
+
+function debounceSearch() {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(function(){ loadUsers(1); }, 350);
+}
+
+async function loadUsers(page) {
+  var search = document.getElementById('user-search').value.trim();
+  usersState.search = search;
+  usersState.page = page;
+
+  var params = '?page=' + page + '&per_page=50';
+  if (search) params += '&search=' + encodeURIComponent(search);
+
+  var tbody = document.getElementById('users-body');
+  tbody.innerHTML = '<tr><td colspan="10" class="loader">טוען...</td></tr>';
+  document.getElementById('pagination').style.display = 'none';
+
+  try {
+    var res = await apiFetch('/admin/users' + params);
+    if (res.status === 401 || res.status === 403) { doLogout(); return; }
+    if (!res.ok) throw new Error();
+    var d = await res.json();
+    renderUsers(d);
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="10" class="empty">שגיאה בטעינה</td></tr>';
+  }
+}
+
+function renderUsers(d) {
+  var tbody = document.getElementById('users-body');
+  if (!d.users || !d.users.length) {
+    tbody.innerHTML = '<tr><td colspan="10" class="empty">לא נמצאו משתמשים</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = d.users.map(function(u) {
+    var verBadge = u.verified
+      ? '<span class="badge badge-green">כן</span>'
+      : '<span class="badge badge-gray">לא</span>';
+    var blockBadge = u.blocked
+      ? '<span class="badge badge-red">חסום</span>'
+      : '<span class="badge badge-green">פעיל</span>';
+    var blockBtn = u.blocked
+      ? '<button class="btn btn-success btn-sm" onclick="setBlock(' + u.id + ',false)">שחרר</button>'
+      : '<button class="btn btn-danger btn-sm" onclick="setBlock(' + u.id + ',true)">חסום</button>';
+
+    return '<tr>' +
+      '<td>' + u.id + '</td>' +
+      '<td>' + esc(u.name) + '</td>' +
+      '<td style="direction:ltr;text-align:right">' + esc(u.email) + '</td>' +
+      '<td style="direction:ltr;text-align:right">' + esc(u.phone) + '</td>' +
+      '<td>' + esc(u.company || '—') + '</td>' +
+      '<td>' + verBadge + '</td>' +
+      '<td>' + blockBadge + '</td>' +
+      '<td>' + fmtDate(u.created_at) + '</td>' +
+      '<td>' + fmtDate(u.last_login) + '</td>' +
+      '<td>' + blockBtn + '</td>' +
+      '</tr>';
+  }).join('');
+
+  // Pagination
+  usersState.pages = d.pages || 1;
+  renderPagination(d.page, d.pages, d.total);
+}
+
+function renderPagination(page, pages, total) {
+  var pg = document.getElementById('pagination');
+  if (pages <= 1 && total <= 50) { pg.style.display = 'none'; return; }
+  pg.style.display = 'flex';
+
+  document.getElementById('pg-info').textContent =
+    'מציג ' + ((page-1)*50+1) + '–' + Math.min(page*50, total) + ' מתוך ' + fmt(total);
+
+  var btns = document.getElementById('pg-btns');
+  btns.innerHTML = '';
+
+  var start = Math.max(1, page-2), end = Math.min(pages, page+2);
+  if (start > 1) addPageBtn(btns, 1, page);
+  if (start > 2) addEllipsis(btns);
+  for (var i = start; i <= end; i++) addPageBtn(btns, i, page);
+  if (end < pages-1) addEllipsis(btns);
+  if (end < pages) addPageBtn(btns, pages, page);
+}
+
+function addPageBtn(container, n, current) {
+  var btn = document.createElement('button');
+  btn.className = 'page-btn' + (n === current ? ' active' : '');
+  btn.textContent = n;
+  btn.onclick = (function(p){ return function(){ loadUsers(p); }; })(n);
+  container.appendChild(btn);
+}
+function addEllipsis(container) {
+  var s = document.createElement('span');
+  s.textContent = '…';
+  s.style.padding = '0 4px';
+  container.appendChild(s);
+}
+
+async function setBlock(userId, block) {
+  var action = block ? 'block' : 'unblock';
+  try {
+    var res = await apiFetch('/admin/users/' + userId + '/' + action, { method: 'POST' });
+    if (res.status === 401 || res.status === 403) { doLogout(); return; }
+    if (!res.ok) throw new Error();
+    toast(block ? 'המשתמש נחסם' : 'החסימה הוסרה', 'ok');
+    loadUsers(usersState.page);
+  } catch(e) {
+    toast('שגיאה בביצוע הפעולה', 'err');
+  }
+}
+
+function exportUsers() {
+  window.open(API + '/admin/users/export', '_blank');
+}
+
+// ── Utils ─────────────────────────────────────────────────────────
+
+function fmtDate(dt) {
+  if (!dt) return '—';
+  return dt.replace('T', ' ').slice(0, 16);
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+var toastTimer;
+function toast(msg, type) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show ' + (type || '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ el.className = ''; }, 3000);
+}
+
+// ── Boot ──────────────────────────────────────────────────────────
+
+checkSession();
+</script>
+</body>
+</html>
