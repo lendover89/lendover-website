@@ -4,6 +4,7 @@
 // ── State ──────────────────────────────────────────────────────────────────────
 
 let currentRing = null;       // outer ring: [[x,y], ...] in ITM coords (open)
+let currentWgs84Ring = null;  // same ring pre-converted to [[lon,lat], ...] WGS84 by server
 let currentSetbacks = [];     // float[] — one per edge
 let parcelCache = {};         // cache key → API response
 let pendingAbort = null;      // AbortController for debounced setback request
@@ -522,6 +523,7 @@ function displayParcel(data) {
 
   // Set up ring + setbacks
   currentRing = data.rings[0].map(p => [p[0], p[1]]);
+  currentWgs84Ring = data.wgs84_ring || null;
   // Strip closing point if present
   if (currentRing.length > 1) {
     const first = currentRing[0], last = currentRing[currentRing.length - 1];
@@ -544,7 +546,7 @@ function displayParcel(data) {
   const onMap = document.querySelector('.view-btn[data-view="map"]')?.classList.contains('active');
   if (parcelPolygon) { parcelPolygon.remove(); parcelPolygon = null; }
   if (onMap) {
-    updateMap(currentRing);
+    updateMap(currentWgs84Ring);
   } else {
     document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === 'svg'));
     document.getElementById('svg-container').style.display = '';
@@ -573,11 +575,12 @@ function initMap() {
   );
 }
 
-function updateMap(ring) {
+function updateMap(wgs84Ring) {
+  if (!wgs84Ring) return;
   initMap();
   if (parcelPolygon) { parcelPolygon.remove(); parcelPolygon = null; }
-  const toWgs = _toWgs84();
-  const latlngs = ring.map(p => { const [lon, lat] = toWgs.forward(p); return [lat, lon]; });
+  // wgs84Ring is [[lon, lat], ...] — Leaflet needs [lat, lon]
+  const latlngs = wgs84Ring.map(p => [p[1], p[0]]);
   parcelPolygon = L.polygon(latlngs, {
     color: '#B8743D', weight: 2.5,
     fillColor: '#B8743D', fillOpacity: 0.15,
@@ -594,8 +597,8 @@ document.addEventListener('click', e => {
     document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b === viewBtn));
     document.getElementById('svg-container').style.display = view === 'svg' ? '' : 'none';
     document.getElementById('map-container').style.display = view === 'map' ? '' : 'none';
-    if (view === 'map' && currentRing) {
-      updateMap(currentRing);
+    if (view === 'map' && currentWgs84Ring) {
+      updateMap(currentWgs84Ring);
       requestAnimationFrame(() => leafletMap && leafletMap.invalidateSize());
     }
     return;
@@ -647,6 +650,7 @@ exportBtn.addEventListener('click', () => {
 resetBtn.addEventListener('click', () => {
   resultCard.style.display = 'none';
   currentRing = null;
+  currentWgs84Ring = null;
   currentSetbacks = [];
   if (parcelPolygon) { parcelPolygon.remove(); parcelPolygon = null; }
   setbackList.innerHTML = '';
