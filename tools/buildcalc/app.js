@@ -582,27 +582,26 @@ function updateMap(ring) {
   leafletMap.fitBounds(parcelPolygon.getBounds(), { padding: [20, 20] });
 }
 
-// ── View toggle (ציור ↔ מפה) ───────────────────────────────────────────────────
+// ── View toggle + Map layer toggle — event delegation ─────────────────────────
 
-document.querySelectorAll('.view-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const view = btn.dataset.view;
-    document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b === btn));
-    document.getElementById('svg-container').style.display  = view === 'svg' ? '' : 'none';
-    document.getElementById('map-container').style.display  = view === 'map' ? '' : 'none';
+document.addEventListener('click', e => {
+  const viewBtn = e.target.closest('.view-btn');
+  if (viewBtn) {
+    const view = viewBtn.dataset.view;
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b === viewBtn));
+    document.getElementById('svg-container').style.display = view === 'svg' ? '' : 'none';
+    document.getElementById('map-container').style.display = view === 'map' ? '' : 'none';
     if (view === 'map' && currentRing) {
       updateMap(currentRing);
       requestAnimationFrame(() => leafletMap && leafletMap.invalidateSize());
     }
-  });
-});
+    return;
+  }
 
-// ── Map layer toggle (רחוב ↔ לוויין) ──────────────────────────────────────────
-
-document.querySelectorAll('.map-layer-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const layer = btn.dataset.layer;
-    document.querySelectorAll('.map-layer-btn').forEach(b => b.classList.toggle('active', b === btn));
+  const layerBtn = e.target.closest('.map-layer-btn');
+  if (layerBtn && leafletMap) {
+    const layer = layerBtn.dataset.layer;
+    document.querySelectorAll('.map-layer-btn').forEach(b => b.classList.toggle('active', b === layerBtn));
     if (layer === 'satellite') {
       leafletMap.removeLayer(streetLayer);
       satelliteLayer.addTo(leafletMap);
@@ -610,7 +609,7 @@ document.querySelectorAll('.map-layer-btn').forEach(btn => {
       leafletMap.removeLayer(satelliteLayer);
       streetLayer.addTo(leafletMap);
     }
-  });
+  }
 });
 
 // ── SVG Export ─────────────────────────────────────────────────────────────────
