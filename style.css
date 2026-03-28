@@ -1,4 +1,4 @@
-/* style.css — המרת נסח טאבו לאקסל | סגנון lendover.co.il */
+/* style.css — TabuCaunt | בדיקת בעלים בטאבו | lendover.co.il */
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -61,7 +61,6 @@ nav {
   height: 40px;
   width: auto;
 }
-
 /* ── Hero banner ─────────────────────────── */
 .hero {
   background: var(--charcoal);
@@ -87,7 +86,7 @@ nav {
   padding: 0 16px;
 }
 
-/* ── Section heading style ───────────────── */
+/* ── Section heading ─────────────────────── */
 .section-title {
   font-size: 1.15rem;
   font-weight: 700;
@@ -116,83 +115,43 @@ nav {
   margin-bottom: 20px;
 }
 
-/* ── Drop zone ───────────────────────────── */
-#drop-zone {
-  border: 2px dashed var(--border);
-  border-radius: var(--radius);
-  padding: 36px 24px;
-  text-align: center;
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
-  user-select: none;
+/* ── Lookup form ─────────────────────────── */
+.field-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
 }
-#drop-zone:hover,
-#drop-zone.dragover {
-  border-color: var(--copper);
-  background: var(--copper-light);
-}
-#drop-zone.has-file {
-  border-style: solid;
-  border-color: var(--copper);
-  background: var(--copper-light);
-}
-#drop-zone .icon { font-size: 44px; margin-bottom: 10px; }
-#drop-zone .main-text {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--charcoal);
-}
-#drop-zone .sub-text {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  margin-top: 4px;
-}
-
-#file-input { display: none; }
-
-/* ── File list ───────────────────────────── */
-#file-list {
-  list-style: none;
-  margin-top: 14px;
+.field-group {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-.file-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--copper-light);
-  border-radius: var(--radius);
-  padding: 7px 10px;
-  font-size: 0.88rem;
-}
-.file-icon { flex-shrink: 0; }
-.file-name {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--charcoal);
-  font-weight: 600;
-}
-.remove-btn {
-  flex-shrink: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-muted);
+.field-group label {
   font-size: 0.85rem;
-  padding: 0 2px;
-  transition: color 0.15s;
+  font-weight: 600;
+  color: var(--charcoal);
 }
-.remove-btn:hover { color: var(--red); }
+.field-group input[type="text"] {
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: 'Heebo', sans-serif;
+  font-size: 1.05rem;
+  color: var(--text);
+  background: var(--bg-white);
+  transition: border-color 0.2s;
+  text-align: right;
+}
+.field-group input[type="text"]:focus {
+  outline: none;
+  border-color: var(--copper);
+}
 
-/* ── Convert button ──────────────────────── */
-#convert-btn {
+/* ── Lookup button ───────────────────────── */
+#lookup-btn {
   display: block;
   width: 100%;
-  margin-top: 20px;
   padding: 13px;
   background: var(--copper);
   color: #fff;
@@ -205,8 +164,8 @@ nav {
   transition: background 0.2s, opacity 0.2s;
   letter-spacing: 0.02em;
 }
-#convert-btn:hover:not(:disabled) { background: var(--copper-dark); }
-#convert-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+#lookup-btn:hover:not(:disabled) { background: var(--copper-dark); }
+#lookup-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
 /* ── Spinner ─────────────────────────────── */
 #spinner {
@@ -229,26 +188,38 @@ nav {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── Error box (technical) ───────────────── */
+#error-box {
+  display: none;
+  background: #FEF0F0;
+  border: 1px solid #F5BCBC;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  color: var(--red);
+  font-size: 0.88rem;
+  margin-top: 16px;
+  font-weight: 600;
+}
+
+/* ── Not-found card (neutral) ────────────── */
+#not-found-card { display: none; }
+
+.not-found-msg {
+  text-align: center;
+  padding: 10px 0 16px;
+}
+.not-found-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 10px;
+}
+.not-found-msg p {
+  color: var(--text-muted);
+  font-size: 0.97rem;
+}
+
 /* ── Result card ─────────────────────────── */
 #result-card { display: none; }
-
-#result-card h2 {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--green);
-  margin-bottom: 20px;
-}
-
-.building-row { margin-bottom: 8px; }
-.building-row--bordered {
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 14px;
-  margin-bottom: 14px;
-}
-.building-row--bordered:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-}
 
 .info-grid {
   display: grid;
@@ -270,7 +241,32 @@ nav {
 }
 .info-item.wide { grid-column: 1 / -1; }
 
-/* ── Total summary ───────────────────────── */
+/* ── Breakdown list ──────────────────────── */
+#breakdown-section { display: none; }
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.93rem;
+}
+.breakdown-row:last-child { border-bottom: none; }
+.breakdown-label {
+  color: var(--charcoal);
+  font-weight: 500;
+}
+.breakdown-count {
+  background: var(--copper-light);
+  color: var(--copper-dark);
+  font-weight: 700;
+  padding: 2px 12px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+}
+
+/* ── Total summary bar ───────────────────── */
 .total-summary {
   background: var(--copper-light);
   border-radius: var(--radius);
@@ -282,37 +278,9 @@ nav {
   font-weight: 500;
 }
 
-/* ── Warnings ────────────────────────────── */
-.warnings-note {
-  background: #FEF6ED;
-  border: 1px solid #F0C68A;
-  border-radius: var(--radius);
-  padding: 8px 12px;
-  font-size: 0.82rem;
-  color: #8A5A1A;
-  margin-bottom: 16px;
-}
-
-/* ── Download button ─────────────────────── */
-#download-btn {
-  display: block;
-  width: 100%;
-  padding: 13px;
-  background: var(--charcoal);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  font-family: 'Heebo', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  text-align: center;
-  transition: background 0.2s;
-  margin-top: 18px;
-}
-#download-btn:hover { background: #555; }
-
-#reset-btn {
+/* ── Reset button ────────────────────────── */
+#reset-btn,
+#reset-btn-2 {
   display: block;
   width: 100%;
   margin-top: 10px;
@@ -327,20 +295,8 @@ nav {
   cursor: pointer;
   transition: background 0.2s;
 }
-#reset-btn:hover { background: var(--copper-light); }
-
-/* ── Error ───────────────────────────────── */
-#error-box {
-  display: none;
-  background: #FEF0F0;
-  border: 1px solid #F5BCBC;
-  border-radius: var(--radius);
-  padding: 12px 16px;
-  color: var(--red);
-  font-size: 0.88rem;
-  margin-top: 16px;
-  font-weight: 600;
-}
+#reset-btn:hover,
+#reset-btn-2:hover { background: var(--copper-light); }
 
 /* ── Privacy note ────────────────────────── */
 .privacy-note {
@@ -352,12 +308,13 @@ nav {
 
 /* ── Responsive ──────────────────────────── */
 @media (max-width: 520px) {
-  nav { padding: 8px 16px; }
+  nav { padding: 4px 12px; }
   .nav-app-logo { height: 52px; }
   .nav-site-logo { height: 30px; }
   .hero { padding: 32px 16px 28px; }
   .hero h1 { font-size: 1.35rem; }
   .card { padding: 20px 16px; }
+  .field-row { flex-direction: column; gap: 12px; }
   .info-grid { grid-template-columns: 1fr; }
   .info-item.wide { grid-column: 1; }
 }
