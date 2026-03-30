@@ -1,4 +1,4 @@
-/* app.js — TabuCaunt lookup */
+/* app.js — TabuCount lookup */
 'use strict';
 
 const form           = document.getElementById('lookup-form');
