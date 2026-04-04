@@ -298,6 +298,23 @@
     #toast.show { transform: translateX(-50%) translateY(0); }
     #toast.ok   { background: var(--success); }
     #toast.err  { background: var(--danger); }
+
+    /* ── Live indicator ── */
+    .live-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      margin-left: 6px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .3; }
+    }
+    .card.live-card { border-top: 3px solid var(--success); }
+    .btn-delete { background: #7f1d1d; color: #fff; }
+    .btn-delete:hover:not(:disabled) { background: #991b1b; }
   </style>
 </head>
 <body>
@@ -333,10 +350,15 @@
     <!-- Dashboard Tab -->
     <div class="tab-panel active" id="tab-dashboard">
       <div class="cards" id="stat-cards">
+        <div class="card live-card"><div class="label">מבקרים עכשיו <span class="live-dot"></span></div><div class="value" id="s-live">—</div><div class="sub">5 דקות אחרונות</div></div>
         <div class="card"><div class="label">ביקורים היום</div><div class="value" id="s-today">—</div></div>
+        <div class="card"><div class="label">מבקרים ייחודיים היום</div><div class="value" id="s-unique-today">—</div></div>
         <div class="card"><div class="label">ביקורים השבוע</div><div class="value" id="s-week">—</div></div>
         <div class="card"><div class="label">ביקורים החודש</div><div class="value" id="s-month">—</div></div>
         <div class="card"><div class="label">מבקרים חדשים (חודש)</div><div class="value" id="s-new">—</div><div class="sub" id="s-new-sub"></div></div>
+        <div class="card"><div class="label">משתמשים רשומים</div><div class="value" id="s-total-users">—</div></div>
+        <div class="card"><div class="label">חיבורים פעילים</div><div class="value" id="s-sessions">—</div></div>
+        <div class="card"><div class="label">כניסות שנכשלו</div><div class="value" id="s-failed-logins">—</div><div class="sub" id="s-failed-logins-sub">24 שעות</div></div>
       </div>
 
       <div class="chart-wrap">
@@ -517,11 +539,25 @@ async function doLogout() {
   document.getElementById('login-pass').value = '';
 }
 
+var liveInterval = null;
+
+async function refreshLive() {
+  try {
+    var res = await apiFetch('/admin/live');
+    if (!res.ok) return;
+    var d = await res.json();
+    document.getElementById('s-live').textContent = fmt(d.live_visitors);
+    document.getElementById('s-sessions').textContent = fmt(d.active_sessions);
+  } catch(e) {}
+}
+
 function showApp() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
   loadStats();
   loadUsers(1);
+  if (liveInterval) clearInterval(liveInterval);
+  liveInterval = setInterval(refreshLive, 30000);
 }
 
 // ── Tabs ─────────────────────────────────────────────────────────
@@ -558,7 +594,15 @@ function renderStats(d) {
     ? Math.round(d.visits_month * d.new_visitors_pct / 100) : 0);
   document.getElementById('s-new-sub').textContent = d.new_visitors_pct + '%';
 
-  renderDailyChart(d.daily || []);
+  document.getElementById('s-live').textContent = fmt(d.live_visitors);
+  document.getElementById('s-total-users').textContent = fmt(d.total_users);
+  document.getElementById('s-sessions').textContent = fmt(d.active_sessions);
+  document.getElementById('s-unique-today').textContent = fmt(d.unique_today);
+  document.getElementById('s-failed-logins').textContent = fmt(d.failed_logins_24h);
+  document.getElementById('s-failed-logins-sub').textContent =
+    '24 שעות | 7 ימים: ' + fmt(d.failed_logins_7d);
+
+  renderDailyChart(d.daily || [], d.registrations_daily || []);
   renderMiniTable('tbl-pages', d.top_pages || [], 'path', 'visits', '/');
   renderMiniTable('tbl-refs', d.top_referrers || [], 'referrer', 'visits', 'ישיר');
   renderMiniTable('tbl-sources', d.top_sources || [], 'source', 'visits', '');
@@ -569,9 +613,13 @@ function fmt(n) {
   return Number(n).toLocaleString('he-IL');
 }
 
-function renderDailyChart(daily) {
+function renderDailyChart(daily, registrations) {
   var labels = daily.map(function(r){ return r.day ? r.day.slice(5) : ''; });
   var data   = daily.map(function(r){ return r.visits; });
+
+  var regMap = {};
+  (registrations || []).forEach(function(r) { regMap[r.day] = r.count; });
+  var regData = daily.map(function(r) { return regMap[r.day] || 0; });
 
   if (dailyChart) dailyChart.destroy();
   var ctx = document.getElementById('daily-chart').getContext('2d');
@@ -579,24 +627,37 @@ function renderDailyChart(daily) {
     type: 'line',
     data: {
       labels: labels,
-      datasets: [{
-        label: 'ביקורים',
-        data: data,
-        borderColor: '#B87E58',
-        backgroundColor: 'rgba(184,126,88,.12)',
-        borderWidth: 2,
-        pointRadius: 3,
-        tension: .35,
-        fill: true
-      }]
+      datasets: [
+        {
+          label: 'ביקורים',
+          data: data,
+          borderColor: '#B87E58',
+          backgroundColor: 'rgba(184,126,88,.12)',
+          borderWidth: 2,
+          pointRadius: 3,
+          tension: .35,
+          fill: true,
+          yAxisID: 'y'
+        },
+        {
+          label: 'הרשמות חדשות',
+          data: regData,
+          type: 'bar',
+          backgroundColor: 'rgba(39,174,96,.35)',
+          borderRadius: 3,
+          yAxisID: 'y1',
+          order: 2
+        }
+      ]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 12 }, boxWidth: 14, padding: 16 } } },
       scales: {
         x: { grid: { display: false }, ticks: { font: { size: 11 }, maxRotation: 0 } },
-        y: { beginAtZero: true, ticks: { font: { size: 11 }, stepSize: 1 } }
+        y: { beginAtZero: true, ticks: { font: { size: 11 }, stepSize: 1 }, position: 'right' },
+        y1: { beginAtZero: true, grid: { display: false }, ticks: { font: { size: 10 } }, position: 'left' }
       }
     }
   });
@@ -663,6 +724,8 @@ function renderUsers(d) {
     var blockBtn = u.blocked
       ? '<button class="btn btn-success btn-sm" onclick="setBlock(' + u.id + ',false)">שחרר</button>'
       : '<button class="btn btn-danger btn-sm" onclick="setBlock(' + u.id + ',true)">חסום</button>';
+    var deleteBtn = '<button class="btn btn-delete btn-sm" style="margin-right:4px" ' +
+      'onclick="deleteUser(' + u.id + ',\'' + esc(u.name).replace(/'/g, "\\'") + '\')">מחק</button>';
 
     var ttUses  = u.tabutab_uses   || 0;
     var tcUses  = u.tabucaunt_uses || 0;
@@ -686,7 +749,7 @@ function renderUsers(d) {
       usageCell(ttUses) +
       usageCell(tcUses) +
       usageCell(bcUses) +
-      '<td>' + blockBtn + '</td>' +
+      '<td style="white-space:nowrap">' + blockBtn + ' ' + deleteBtn + '</td>' +
       '</tr>';
   }).join('');
 
@@ -738,6 +801,20 @@ async function setBlock(userId, block) {
     loadUsers(usersState.page);
   } catch(e) {
     toast('שגיאה בביצוע הפעולה', 'err');
+  }
+}
+
+async function deleteUser(userId, userName) {
+  if (!confirm('האם אתה בטוח שברצונך למחוק את המשתמש "' + userName + '"?\nפעולה זו בלתי הפיכה!')) return;
+  if (!confirm('אישור סופי: כל הנתונים של המשתמש יימחקו לצמיתות. להמשיך?')) return;
+  try {
+    var res = await apiFetch('/admin/users/' + userId + '/delete', { method: 'DELETE' });
+    if (res.status === 401 || res.status === 403) { doLogout(); return; }
+    if (!res.ok) throw new Error();
+    toast('המשתמש נמחק', 'ok');
+    loadUsers(usersState.page);
+  } catch(e) {
+    toast('שגיאה במחיקת המשתמש', 'err');
   }
 }
 
