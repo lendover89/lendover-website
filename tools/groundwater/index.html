@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מחשבון עומק מי תהום לפי מיקום / גוש וחלקה | לנדובר</title>
+  <meta name="description" content="חישוב עומק הקרקע עד מי התהום לכל נקודה בישראל — קליק על המפה, סימון שטח, או גוש/חלקה. מבוסס GIS. חינם." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.lendover.co.il/tools/groundwater/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.lendover.co.il/tools/groundwater/" />
+  <meta property="og:title" content="מחשבון עומק מי תהום — לנדובר" />
+  <meta property="og:description" content="מחשבון ארצי לבדיקת עומק מי התהום — קליק על המפה, סימון שטח, או גוש וחלקה. חינם." />
+  <meta property="og:image" content="https://www.lendover.co.il/logo-transparent-new.png" />
+  <meta property="og:locale" content="he_IL" />
+  <meta property="og:site_name" content="לנדובר — כלי נדל&quot;ן" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="מחשבון עומק מי תהום — לנדובר" />
+  <meta name="twitter:description" content="חשב מיידית את עומק הקרקע עד מי התהום בכל נקודה." />
+  <meta name="twitter:image" content="https://www.lendover.co.il/logo-transparent-new.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "מחשבון עומק מי תהום",
+        "url": "https://www.lendover.co.il/tools/groundwater/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "he",
+        "description": "חישוב עומק הקרקע עד מפלס מי התהום לפי מיקום במפה, פוליגון או גוש/חלקה. מבוסס על קווי גובה ארציים ושכבת מפלס מי תהום של אקוויפר החוף.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ILS" },
+        "author": { "@type": "Person", "name": "אהרון לנדובר", "url": "https://www.lendover.co.il" },
+        "publisher": { "@type": "Organization", "name": "לנדובר — ייעוץ והתחדשות עירונית", "url": "https://www.lendover.co.il" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "איך המחשבון מחשב את העומק?",
+            "acceptedAnswer": { "@type": "Answer", "text": "המחשבון מדגים את גובה הקרקע מקווי הגובה הארציים ואת מפלס מי התהום מנתוני רשות המים, שניהם במטרים מעל פני הים. העומק הוא ההפרש ביניהם — כמה מטר צריך לחפור עד שמגיעים למי התהום." } },
+          { "@type": "Question", "name": "איזה אזורים מכוסים?",
+            "acceptedAnswer": { "@type": "Answer", "text": "נכון להיום — רק אקוויפר החוף (בערך מחיפה עד אשקלון). אזורים אחרים יתווספו בהמשך ככל שיפורסמו נתונים ציבוריים." } },
+          { "@type": "Question", "name": "מה הדיוק?",
+            "acceptedAnswer": { "@type": "Answer", "text": "הרסטר ברזולוציה של 10 מ'. גובה הקרקע מדויק סביב מטר אחד. מפלס מי התהום מבוסס על קווי מפלס דלילים יותר — הדיוק במקומות שצפופים בקווים הוא כמה מטרים; באזורים מרוחקים מקו מדוד קיימת אי-ודאות גדולה יותר." } }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+  <link rel="stylesheet" href="style.css?v=1" />
+  <link rel="icon" href="https://www.lendover.co.il/logo-transparent-new.png" />
+
+  <script src="https://www.lendover.co.il/tools/auth-gate.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="https://www.lendover.co.il" class="site-logo">
+    <img src="https://www.lendover.co.il/logo-transparent-new.png" alt="לנדובר" height="36">
+  </a>
+  <nav class="site-nav">
+    <a href="https://www.lendover.co.il/tools.html">כל הכלים</a>
+    <a href="https://www.lendover.co.il/about.html">אודות</a>
+    <a href="https://www.lendover.co.il/contact.html">צרו קשר</a>
+  </nav>
+</header>
+
+<main class="app-shell">
+
+  <aside class="panel">
+    <h1 class="panel-title">מחשבון עומק מי תהום</h1>
+    <p class="panel-sub">בחר מיקום וקבל את עומק הקרקע עד מי התהום.</p>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="point">נקודה</button>
+      <button class="tab" data-tab="polygon">שטח</button>
+      <button class="tab" data-tab="parcel">גוש/חלקה</button>
+    </div>
+
+    <section class="tab-pane active" id="pane-point">
+      <p class="hint">לחץ על המפה כדי לקבל עומק בנקודה בודדת.</p>
+      <button class="btn-secondary" id="clear-point" type="button">נקה סימון</button>
+    </section>
+
+    <section class="tab-pane" id="pane-polygon">
+      <p class="hint">סמן מצולע על המפה. בסיום לחיצה כפולה — יוצג min / max / ממוצע.</p>
+      <button class="btn" id="start-draw" type="button">התחל סימון שטח</button>
+      <button class="btn-secondary" id="clear-polygon" type="button">נקה</button>
+    </section>
+
+    <section class="tab-pane" id="pane-parcel">
+      <form id="parcel-form" novalidate>
+        <div class="field">
+          <label for="gush">גוש</label>
+          <input type="number" id="gush" name="gush" min="1" inputmode="numeric" placeholder="לדוגמה 6905" required />
+        </div>
+        <div class="field">
+          <label for="parcel">חלקה</label>
+          <input type="number" id="parcel" name="parcel" min="1" inputmode="numeric" placeholder="לדוגמה 1" required />
+        </div>
+        <button class="btn" type="submit">חשב</button>
+      </form>
+    </section>
+
+    <!-- Result card -->
+    <section class="result" id="result" hidden>
+      <div class="result-title" id="result-title"></div>
+
+      <div class="result-main" id="result-main"></div>
+
+      <dl class="result-meta" id="result-meta"></dl>
+
+      <p class="result-note" id="result-note" hidden></p>
+    </section>
+
+    <div class="msg error" id="error" hidden></div>
+    <div class="msg info"  id="info"  hidden></div>
+
+    <details class="about">
+      <summary>על המחשבון</summary>
+      <p>המחשבון מדגים את גובה הקרקע מקווי הגובה הארציים ואת מפלס מי התהום מנתוני רשות המים, שניהם במטרים מעל פני הים. העומק הוא ההפרש ביניהם.</p>
+      <p>נכון להיום הכיסוי הוא אקוויפר החוף בלבד (אזור צבוע תכלת במפה). מחוץ לאזור זה המחשבון יחזיר "אין נתונים".</p>
+      <p class="disclaimer">כלי אינדיקטיבי בלבד — לקבלת מידע הנדסי מחייב נדרש סקר קרקע מקצועי.</p>
+    </details>
+  </aside>
+
+  <div id="map" class="map"></div>
+</main>
+
+<footer class="site-footer">
+  <small>© לנדובר · <a href="https://www.lendover.co.il/privacy.html">פרטיות</a> · <a href="https://www.lendover.co.il/terms.html">תנאי שימוש</a></small>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script src="app.js?v=1"></script>
+
+</body>
+</html>
