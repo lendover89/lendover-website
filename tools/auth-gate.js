@@ -10,7 +10,7 @@
   // to avoid cross-origin cookie issues
   const AUTH_API = (function () {
     const path = window.location.pathname;
-    const toolMatch = path.match(/\/tools\/(tabutab|tabucaunt|buildcalc)\//);
+    const toolMatch = path.match(/\/tools\/(tabutab|tabucaunt|buildcalc|groundwater)\//);
     if (toolMatch) {
       return 'https://' + toolMatch[1] + '.lendover.co.il/auth';
     }
