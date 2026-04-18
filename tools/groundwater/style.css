@@ -1,0 +1,317 @@
+/* style.css — Groundwater depth calculator | lendover.co.il */
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --copper:        #B8743D;
+  --copper-dark:   #9A5F2E;
+  --copper-light:  #F5E9DC;
+  --teal:          #5BC8C4;
+  --teal-deep:     #1F7A76;
+  --charcoal:      #3C3C3C;
+  --text:          #2C2C2C;
+  --text-muted:    #777777;
+  --bg:            #F0EDE6;
+  --bg-white:      #FFFFFF;
+  --border:        #E2DDD6;
+  --red:           #C0392B;
+  --green:         #2E7D52;
+  --water-blue:    #5BC8C4;
+  --water-blue-tint: rgba(91, 200, 196, 0.14);
+  --radius:        4px;
+  --shadow:        0 2px 12px rgba(0,0,0,0.08);
+}
+
+html, body { height: 100%; font-size: 16px; }
+body {
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border);
+  flex: 0 0 auto;
+}
+.site-logo img { display: block; }
+.site-nav a {
+  color: var(--charcoal);
+  text-decoration: none;
+  margin-inline-start: 20px;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.site-nav a:hover { color: var(--copper); }
+
+/* ── App shell ──────────────────────────────────────────── */
+.app-shell {
+  display: grid;
+  grid-template-columns: minmax(320px, 380px) 1fr;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.panel {
+  background: var(--bg-white);
+  border-inline-end: 1px solid var(--border);
+  padding: 20px 20px 24px;
+  overflow-y: auto;
+}
+
+.panel-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--charcoal);
+  margin-bottom: 4px;
+}
+.panel-sub {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+
+/* ── Tabs ──────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+.tab {
+  flex: 1;
+  padding: 10px 8px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+.tab:hover { color: var(--charcoal); }
+.tab.active {
+  color: var(--copper);
+  border-bottom-color: var(--copper);
+}
+.tab-pane { display: none; }
+.tab-pane.active { display: block; animation: fade-in 0.2s ease; }
+@keyframes fade-in { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: none; } }
+
+.hint {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/* ── Forms ─────────────────────────────────────────────── */
+.field { margin-bottom: 12px; }
+.field label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--charcoal);
+}
+.field input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-family: inherit;
+  background: #FAFAF8;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.field input:focus { border-color: var(--copper); }
+
+.btn, .btn-secondary {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s, transform 0.05s;
+}
+.btn {
+  background: var(--copper);
+  color: #fff;
+  width: 100%;
+  margin-top: 4px;
+}
+.btn:hover { background: var(--copper-dark); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { background: #ccc; cursor: not-allowed; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  margin-top: 8px;
+  width: 100%;
+  font-weight: 600;
+}
+.btn-secondary:hover { color: var(--charcoal); border-color: var(--charcoal); }
+
+/* ── Result card ───────────────────────────────────────── */
+.result {
+  margin-top: 18px;
+  padding: 18px 16px;
+  background: linear-gradient(180deg, #FAFAF8 0%, var(--bg-white) 100%);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--teal-deep);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.result-title {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.result-main {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--teal-deep);
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+.result-main.multi {
+  font-size: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.result-main.multi .stat {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 6px;
+  text-align: center;
+}
+.result-main.multi .stat-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.result-main.multi .stat-val {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--teal-deep);
+}
+.result-meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  font-size: 0.88rem;
+  margin-top: 8px;
+}
+.result-meta dt { color: var(--text-muted); }
+.result-meta dd { color: var(--charcoal); font-weight: 600; }
+.result-note {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ── Messages ──────────────────────────────────────────── */
+.msg {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+.msg.error {
+  background: #fdf0ef;
+  border: 1px solid #f5c6cb;
+  color: var(--red);
+}
+.msg.info {
+  background: #eaf6f5;
+  border: 1px solid #a3d9d5;
+  color: var(--teal-deep);
+}
+
+/* ── About ─────────────────────────────────────────────── */
+.about {
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.about summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--charcoal);
+  padding: 4px 0;
+}
+.about p { margin: 8px 0; line-height: 1.6; }
+.about .disclaimer { color: var(--red); font-weight: 600; }
+
+/* ── Footer ────────────────────────────────────────────── */
+.site-footer {
+  padding: 10px 24px;
+  background: var(--bg-white);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  flex: 0 0 auto;
+}
+.site-footer a { color: var(--copper); text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
+
+/* ── Leaflet tweaks ────────────────────────────────────── */
+.leaflet-container { background: #DEE4E1; font-family: 'Heebo', sans-serif; }
+.leaflet-top.leaflet-right { direction: ltr; }
+.leaflet-bar a, .leaflet-bar a:hover { color: var(--charcoal); }
+.leaflet-popup-content-wrapper { border-radius: var(--radius); }
+
+.aquifer-coverage {
+  fill: var(--water-blue);
+  fill-opacity: 0.1;
+  stroke: var(--water-blue);
+  stroke-width: 1.5;
+  stroke-opacity: 0.55;
+  stroke-dasharray: 4 3;
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 840px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  .panel {
+    border-inline-end: none;
+    border-bottom: 1px solid var(--border);
+    max-height: 52vh;
+  }
+  .site-nav a { margin-inline-start: 12px; font-size: 0.88rem; }
+}
