@@ -259,18 +259,6 @@ body {
   color: var(--teal-deep);
 }
 
-/* ── App disclaimer ────────────────────────────────────── */
-.app-disclaimer {
-  margin-top: 18px;
-  padding: 10px 12px;
-  background: #FAFAF8;
-  border-inline-start: 3px solid var(--copper);
-  border-radius: var(--radius);
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  line-height: 1.55;
-}
-
 /* ── About ─────────────────────────────────────────────── */
 .about {
   margin-top: 20px;
@@ -284,7 +272,7 @@ body {
   padding: 4px 0;
 }
 .about p { margin: 8px 0; line-height: 1.6; }
-.about .disclaimer { color: var(--red); font-weight: 600; }
+.about .disclaimer { color: var(--copper); font-weight: 600; }
 
 /* ── Footer ────────────────────────────────────────────── */
 .site-footer {
