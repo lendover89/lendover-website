@@ -135,7 +135,12 @@ function renderPointResult(r) {
     ['מפלס מי תהום',    `${r.waterLevel.toFixed(2)} מ׳ מעל פני הים`],
     ['אקוויפר',         r.aquiferDisplay || r.aquifer || '—'],
   ]);
-  rNote.hidden = true;
+  if (r.note) {
+    rNote.textContent = r.note;
+    rNote.hidden = false;
+  } else {
+    rNote.hidden = true;
+  }
   showResult();
 }
 
