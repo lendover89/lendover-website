@@ -231,8 +231,14 @@ uploadForm.addEventListener("submit", async (ev) => {
       body: parseFd,
     });
     if (resp.status === 401) {
-      setStatus(uploadStatus, "יש להיכנס למערכת לפני השימוש", "error");
-      if (typeof window.lendoverAuth?.prompt === "function") window.lendoverAuth.prompt();
+      setBusy(previewBtn, false);
+      if (typeof window.handleAuth401 === "function") {
+        await window.handleAuth401();
+        // retry once the user has logged in
+        uploadForm.dispatchEvent(new Event("submit", { cancelable: true }));
+      } else {
+        setStatus(uploadStatus, "יש להיכנס למערכת לפני השימוש", "error");
+      }
       return;
     }
     if (!resp.ok) {
@@ -360,10 +366,13 @@ generateBtn.addEventListener("click", () => {
   xhr.onload = () => {
     if (stopPseudo) stopPseudo();
     if (xhr.status === 401) {
-      setStatus(generateStatus, "יש להיכנס למערכת לפני השימוש", "error");
       hideProgress();
       setBusy(generateBtn, false);
-      if (typeof window.lendoverAuth?.prompt === "function") window.lendoverAuth.prompt();
+      if (typeof window.handleAuth401 === "function") {
+        window.handleAuth401().then(() => generateBtn.click());
+      } else {
+        setStatus(generateStatus, "יש להיכנס למערכת לפני השימוש", "error");
+      }
       return;
     }
     if (xhr.status < 200 || xhr.status >= 300) {
