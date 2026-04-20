@@ -412,6 +412,7 @@
               <th title="TabuCaunt — מספר שימושים">TabuCaunt</th>
               <th title="BuildCalc — מספר שימושים">BuildCalc</th>
               <th title="מי תהום — מספר שימושים">מי תהום</th>
+              <th title="Tabu2Docs — מספר שימושים">Tabu2Docs</th>
               <th>פעולה</th>
             </tr>
           </thead>
@@ -450,6 +451,11 @@
           <div class="total" id="u-groundwater-total">—</div>
           <div class="breakdown" id="u-groundwater-sub"></div>
         </div>
+        <div class="usage-card">
+          <div class="tool-name">Tabu2Docs</div>
+          <div class="total" id="u-tabu2docs-total">—</div>
+          <div class="breakdown" id="u-tabu2docs-sub"></div>
+        </div>
       </div>
 
       <div class="chart-wrap">
@@ -475,6 +481,10 @@
         <div class="table-wrap">
           <h3>מי תהום — משתמשים מובילים</h3>
           <table class="mini-table"><tbody id="tbl-top-groundwater"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
+        </div>
+        <div class="table-wrap">
+          <h3>Tabu2Docs — משתמשים מובילים</h3>
+          <table class="mini-table"><tbody id="tbl-top-tabu2docs"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
         </div>
       </div>
 
@@ -742,6 +752,7 @@ function renderUsers(d) {
     var tcUses  = u.tabucaunt_uses   || 0;
     var bcUses  = u.buildcalc_uses   || 0;
     var gwUses  = u.groundwater_uses || 0;
+    var t2dUses = u.tabu2docs_uses   || 0;
 
     function usageCell(n) {
       return '<td style="text-align:center;font-weight:' + (n > 0 ? '700' : '400') +
@@ -762,6 +773,7 @@ function renderUsers(d) {
       usageCell(tcUses) +
       usageCell(bcUses) +
       usageCell(gwUses) +
+      usageCell(t2dUses) +
       '<td style="white-space:nowrap">' + blockBtn + ' ' + deleteBtn + '</td>' +
       '</tr>';
   }).join('');
@@ -851,7 +863,7 @@ async function loadUsage() {
 }
 
 function renderUsage(d) {
-  var tools = ['tabutab', 'tabucaunt', 'buildcalc', 'groundwater'];
+  var tools = ['tabutab', 'tabucaunt', 'buildcalc', 'groundwater', 'tabu2docs'];
 
   // Summary cards
   tools.forEach(function(tool) {
@@ -889,7 +901,7 @@ function renderUsageChart(daily) {
   (daily || []).forEach(function(r) {
     var day = r.day;
     if (!day) return;
-    if (!byDay[day]) byDay[day] = { tabutab: 0, tabucaunt: 0, buildcalc: 0, groundwater: 0 };
+    if (!byDay[day]) byDay[day] = { tabutab: 0, tabucaunt: 0, buildcalc: 0, groundwater: 0, tabu2docs: 0 };
     if (r.tool && byDay[day].hasOwnProperty(r.tool)) {
       byDay[day][r.tool] = r.uses || 0;
     }
@@ -908,10 +920,11 @@ function renderUsageChart(daily) {
   }
 
   var labels = days.map(function(d){ return d.slice(5); });
-  var ttData = days.map(function(d){ return (byDay[d] && byDay[d].tabutab)     || 0; });
-  var tcData = days.map(function(d){ return (byDay[d] && byDay[d].tabucaunt)   || 0; });
-  var bcData = days.map(function(d){ return (byDay[d] && byDay[d].buildcalc)   || 0; });
-  var gwData = days.map(function(d){ return (byDay[d] && byDay[d].groundwater) || 0; });
+  var ttData  = days.map(function(d){ return (byDay[d] && byDay[d].tabutab)     || 0; });
+  var tcData  = days.map(function(d){ return (byDay[d] && byDay[d].tabucaunt)   || 0; });
+  var bcData  = days.map(function(d){ return (byDay[d] && byDay[d].buildcalc)   || 0; });
+  var gwData  = days.map(function(d){ return (byDay[d] && byDay[d].groundwater) || 0; });
+  var t2dData = days.map(function(d){ return (byDay[d] && byDay[d].tabu2docs)   || 0; });
 
   if (usageChart) usageChart.destroy();
   var ctx = document.getElementById('usage-chart').getContext('2d');
@@ -920,10 +933,11 @@ function renderUsageChart(daily) {
     data: {
       labels: labels,
       datasets: [
-        { label: 'TabuTab',   data: ttData, backgroundColor: 'rgba(184,126,88,.85)',  borderRadius: 3 },
-        { label: 'TabuCaunt', data: tcData, backgroundColor: 'rgba(144,164,159,.85)', borderRadius: 3 },
-        { label: 'BuildCalc', data: bcData, backgroundColor: 'rgba(65,65,65,.6)',     borderRadius: 3 },
-        { label: 'מי תהום',   data: gwData, backgroundColor: 'rgba(52,152,219,.8)',   borderRadius: 3 }
+        { label: 'TabuTab',   data: ttData,  backgroundColor: 'rgba(184,126,88,.85)',  borderRadius: 3 },
+        { label: 'TabuCaunt', data: tcData,  backgroundColor: 'rgba(144,164,159,.85)', borderRadius: 3 },
+        { label: 'BuildCalc', data: bcData,  backgroundColor: 'rgba(65,65,65,.6)',     borderRadius: 3 },
+        { label: 'מי תהום',   data: gwData,  backgroundColor: 'rgba(52,152,219,.8)',   borderRadius: 3 },
+        { label: 'Tabu2Docs', data: t2dData, backgroundColor: 'rgba(46,122,138,.85)',  borderRadius: 3 }
       ]
     },
     options: {
