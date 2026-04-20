@@ -18,10 +18,11 @@ const fTotalSubunits  = document.getElementById('f-total-subunits');
 const fTotalOwners    = document.getElementById('f-total-owners');
 const warningsNote    = document.getElementById('warnings-note');
 
-// רשימת קבצים שנבחרו (Map: שם → File)
-let selectedFiles = new Map();
+// רשימת קבצים שנבחרו — מערך מסודר (כדי לאפשר שינוי סדר)
+let selectedFiles = [];  // Array<File>
 let downloadId    = null;
 let lastBuildings = [];
+let dragFromIdx   = null;  // אינדקס הפריט הנגרר
 
 // ── Drag & Drop ──────────────────────────────────────────────────
 
@@ -44,54 +45,118 @@ fileInput.addEventListener('change', () => {
 });
 
 function addFiles(fileArr) {
+  const existingNames = new Set(selectedFiles.map(f => f.name));
   for (const f of fileArr) {
     if (!f.name.toLowerCase().endsWith('.pdf')) {
       showError(`"${f.name}" — יש להעלות קובצי PDF בלבד`);
       continue;
     }
-    selectedFiles.set(f.name, f);
+    if (existingNames.has(f.name)) continue; // כפילות לפי שם
+    selectedFiles.push(f);
+    existingNames.add(f.name);
   }
   renderFileList();
   hideError();
   hideResult();
 }
 
+function moveFile(idx, delta) {
+  const newIdx = idx + delta;
+  if (newIdx < 0 || newIdx >= selectedFiles.length) return;
+  const [item] = selectedFiles.splice(idx, 1);
+  selectedFiles.splice(newIdx, 0, item);
+  renderFileList();
+}
+
+function removeFile(idx) {
+  selectedFiles.splice(idx, 1);
+  renderFileList();
+}
+
 function renderFileList() {
   fileList.innerHTML = '';
-  for (const [name] of selectedFiles) {
+  selectedFiles.forEach((file, idx) => {
     const li = document.createElement('li');
     li.className = 'file-item';
+    li.draggable = true;
+    li.dataset.idx = String(idx);
+    const isFirst = idx === 0;
+    const isLast  = idx === selectedFiles.length - 1;
     li.innerHTML = `
+      <span class="drag-handle" title="גרור לסידור">⋮⋮</span>
+      <span class="file-order">${idx + 1}</span>
       <span class="file-icon">📄</span>
-      <span class="file-name">${escHtml(name)}</span>
-      <button class="remove-btn" data-name="${escHtml(name)}" title="הסר">✕</button>
+      <span class="file-name">${escHtml(file.name)}</span>
+      <div class="file-actions">
+        <button class="order-btn up"   data-idx="${idx}" title="העבר למעלה" ${isFirst ? 'disabled' : ''}>▲</button>
+        <button class="order-btn down" data-idx="${idx}" title="העבר למטה"  ${isLast  ? 'disabled' : ''}>▼</button>
+        <button class="remove-btn"     data-idx="${idx}" title="הסר">✕</button>
+      </div>
     `;
-    fileList.appendChild(li);
-  }
 
-  // לחצני הסרה
-  fileList.querySelectorAll('.remove-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      selectedFiles.delete(btn.dataset.name);
+    // Drag & drop לשינוי סדר
+    li.addEventListener('dragstart', e => {
+      dragFromIdx = idx;
+      li.classList.add('dragging');
+      if (e.dataTransfer) {
+        e.dataTransfer.effectAllowed = 'move';
+        try { e.dataTransfer.setData('text/plain', String(idx)); } catch (_) {}
+      }
+    });
+    li.addEventListener('dragend', () => {
+      li.classList.remove('dragging');
+      fileList.querySelectorAll('.drop-target').forEach(el => el.classList.remove('drop-target'));
+      dragFromIdx = null;
+    });
+    li.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+      li.classList.add('drop-target');
+    });
+    li.addEventListener('dragleave', () => li.classList.remove('drop-target'));
+    li.addEventListener('drop', e => {
+      e.preventDefault();
+      li.classList.remove('drop-target');
+      const fromIdx = dragFromIdx;
+      const toIdx   = idx;
+      if (fromIdx === null || fromIdx === toIdx) return;
+      const [item] = selectedFiles.splice(fromIdx, 1);
+      selectedFiles.splice(toIdx, 0, item);
       renderFileList();
     });
+
+    fileList.appendChild(li);
   });
 
-  convertBtn.disabled = selectedFiles.size === 0;
-  dropZone.classList.toggle('has-file', selectedFiles.size > 0);
+  // לחצני פעולה
+  fileList.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', () => removeFile(Number(btn.dataset.idx)));
+  });
+  fileList.querySelectorAll('.order-btn.up').forEach(btn => {
+    btn.addEventListener('click', () => moveFile(Number(btn.dataset.idx), -1));
+  });
+  fileList.querySelectorAll('.order-btn.down').forEach(btn => {
+    btn.addEventListener('click', () => moveFile(Number(btn.dataset.idx), 1));
+  });
+
+  convertBtn.disabled = selectedFiles.length === 0;
+  dropZone.classList.toggle('has-file', selectedFiles.length > 0);
+
+  const hint = document.getElementById('reorder-hint');
+  if (hint) hint.style.display = selectedFiles.length >= 2 ? 'block' : 'none';
 }
 
 // ── Convert ──────────────────────────────────────────────────────
 
 convertBtn.addEventListener('click', async () => {
-  if (selectedFiles.size === 0) return;
+  if (selectedFiles.length === 0) return;
 
   setLoading(true);
   hideError();
   hideResult();
 
   const formData = new FormData();
-  for (const f of selectedFiles.values()) {
+  for (const f of selectedFiles) {
     formData.append('files', f);
   }
 
@@ -232,7 +297,7 @@ downloadBtn.addEventListener('click', async () => {
 resetBtn.addEventListener('click', reset);
 
 function reset() {
-  selectedFiles.clear();
+  selectedFiles = [];
   downloadId    = null;
   lastBuildings = [];
   fileInput.value = '';
