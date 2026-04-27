@@ -40,8 +40,7 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" />
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <link rel="stylesheet" href="style.css?v=1" />
   <style>
@@ -150,7 +149,7 @@
     <button id="reset-btn">חיפוש חדש</button>
   </div>
 
-  <p class="privacy-note">הנתונים מבוססים על שכבת חלקות הסוקר ועל מאגר טאבו (משרד המשפטים).</p>
+  <p class="privacy-note">הנתונים מבוססים על שכבות GIS ומאגר הטאבו.</p>
 </div>
 
 <section class="about-tool" style="max-width:680px;margin:40px auto 0;padding:0 20px 40px;text-align:right;direction:rtl;font-family:inherit;color:#444;line-height:1.7">
@@ -163,7 +162,7 @@
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">איך מחושבת הצפיפות?</summary><p style="margin:8px 0 0 16px">צפיפות = מספר תתי-חלקות (דירות רשומות בטאבו) חלקי שטח החלקה בדונם. במתחם — סכום הדירות חלקי סכום השטחים.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">למה זה חשוב בהתחדשות עירונית?</summary><p style="margin:8px 0 0 16px">צפיפות קיימת היא קלט קריטי לבדיקת כדאיות של פינוי בינוי או תמ"א 38. ככל שהצפיפות הקיימת נמוכה יותר, כך פוטנציאל ההגדלה גדול יותר.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">מה זה "מתחם"?</summary><p style="margin:8px 0 0 16px">פרויקטי התחדשות עירונית לרוב כוללים מספר חלקות סמוכות. הכלי מאפשר להזין עד 10 חלקות יחד — מקבל צפיפות אחת מצרפית למתחם כולו.</p></details>
-  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם הנתונים עדכניים?</summary><p style="margin:8px 0 0 16px">המספרים מבוססים על שכבת חלקות הסוקר (העדכנית ביותר) ועל מאגר טאבו של משרד המשפטים. הנתונים נטענים מעת לעת.</p></details>
+  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם הנתונים עדכניים?</summary><p style="margin:8px 0 0 16px">המספרים מבוססים על שכבות GIS ומאגר הטאבו. הנתונים נטענים מעת לעת.</p></details>
 </section>
 
 <footer style="text-align:center;padding:20px;font-size:0.82rem;color:#888;border-top:1px solid #eee;margin-top:20px">
@@ -171,10 +170,9 @@
   &nbsp;|&nbsp; <a href="https://www.lendover.co.il/privacy.html" style="color:#1a6fb5;text-decoration:none">מדיניות פרטיות</a>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="../auth-gate.js"></script>
-<script src="app.js?v=1"></script>
+<script src="app.js?v=2"></script>
 <script>window._lvSource='density';</script>
 <script src="/tools/tracker.js"></script>
 </body>
