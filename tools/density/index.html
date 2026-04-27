@@ -110,7 +110,7 @@
     <div id="aggregate-box">
       <div class="agg-grid">
         <div class="agg-item">
-          <label>סה"כ דירות רשומות</label>
+          <label>סה"כ יחידות רשומות</label>
           <span id="agg-subs">—</span>
         </div>
         <div class="agg-item">
@@ -133,7 +133,7 @@
           <tr>
             <th>גוש</th>
             <th>חלקה</th>
-            <th>דירות</th>
+            <th>יחידות</th>
             <th>שטח (ד')</th>
             <th>צפיפות</th>
             <th>כתובת / יישוב</th>
@@ -155,11 +155,13 @@
 <section class="about-tool" style="max-width:680px;margin:40px auto 0;padding:0 20px 40px;text-align:right;direction:rtl;font-family:inherit;color:#444;line-height:1.7">
   <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px;color:#1a2b4a">אודות Density</h2>
   <p>Density פותח על ידי <a href="https://www.lendover.co.il" style="color:#1a6fb5;text-decoration:none">אהרון לנדובר</a>, יועץ התחדשות עירונית עם מעל 15 שנות ניסיון בתחום הנדל"ן בישראל. הכלי מחשב צפיפות בנייה (יחידות דיור לדונם) לפי גוש וחלקה — ערך קריטי בבדיקת היתכנות של פרויקטי התחדשות עירונית.</p>
-  <p>הזינו גוש וחלקה — הכלי מחזיר מיידית את מספר תתי-החלקות הרשומים בטאבו (דירות), שטח החלקה בדונם, וצפיפות מחושבת. ניתן להוסיף עד 10 חלקות יחד למתחם — הכלי יחשב צפיפות מצרפית (סך הדירות חלקי סך השטח) ויציג את כל החלקות על מפה אינטראקטיבית.</p>
+  <p>הזינו גוש וחלקה — הכלי מחזיר מיידית את מספר תתי-החלקות הרשומים בטאבו (יחידות), שטח החלקה בדונם, וצפיפות מחושבת. ניתן להוסיף עד 10 חלקות יחד למתחם — הכלי יחשב צפיפות מצרפית (סך היחידות חלקי סך השטח) ויציג את כל החלקות על מפה אינטראקטיבית.</p>
+  <p style="background:#FEF7E8;border-right:3px solid #B8743D;padding:10px 14px;border-radius:4px;font-size:0.9rem;color:#5a4520"><strong>שימו לב:</strong> "יחידה" = תת-חלקה רשומה בטאבו. לא בהכרח דירת מגורים — יכולה להיות גם חניה, מחסן, מרתף, חנות, משרד או כל נכס אחר רשום במקרקעין. מספר היחידות אינו זהה בהכרח למספר הדירות בפועל בבניין.</p>
   <p>כלים נוספים: <a href="https://www.lendover.co.il/tools/tabucaunt/" style="color:#1a6fb5;text-decoration:none">TabuCount</a> — בדיקת בעלים בטאבו | <a href="https://www.lendover.co.il/tools/buildcalc/" style="color:#1a6fb5;text-decoration:none">BuildCalc</a> — מחשבון תכסית | <a href="https://www.lendover.co.il/tools/groundwater/" style="color:#1a6fb5;text-decoration:none">Groundwater</a> — מי תהום</p>
 
   <h2 style="font-size:1.1rem;font-weight:700;margin:24px 0 12px;color:#1a2b4a">שאלות נפוצות</h2>
-  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">איך מחושבת הצפיפות?</summary><p style="margin:8px 0 0 16px">צפיפות = מספר תתי-חלקות (דירות רשומות בטאבו) חלקי שטח החלקה בדונם. במתחם — סכום הדירות חלקי סכום השטחים.</p></details>
+  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">איך מחושבת הצפיפות?</summary><p style="margin:8px 0 0 16px">צפיפות = מספר תתי-חלקות (יחידות רשומות בטאבו) חלקי שטח החלקה בדונם. במתחם — סכום היחידות חלקי סכום השטחים.</p></details>
+  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">מה זאת "יחידה"?</summary><p style="margin:8px 0 0 16px">יחידה = תת-חלקה רשומה בטאבו. <strong>אינה בהכרח דירת מגורים</strong> — יכולה להיות חניה, מחסן, מרתף, חנות, משרד או כל נכס אחר. מספר היחידות שונה ממספר הדירות בפועל.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">למה זה חשוב בהתחדשות עירונית?</summary><p style="margin:8px 0 0 16px">צפיפות קיימת היא קלט קריטי לבדיקת כדאיות של פינוי בינוי או תמ"א 38. ככל שהצפיפות הקיימת נמוכה יותר, כך פוטנציאל ההגדלה גדול יותר.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">מה זה "מתחם"?</summary><p style="margin:8px 0 0 16px">פרויקטי התחדשות עירונית לרוב כוללים מספר חלקות סמוכות. הכלי מאפשר להזין עד 10 חלקות יחד — מקבל צפיפות אחת מצרפית למתחם כולו.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם הנתונים עדכניים?</summary><p style="margin:8px 0 0 16px">המספרים מבוססים על שכבות GIS ומאגר הטאבו. הנתונים נטענים מעת לעת.</p></details>
