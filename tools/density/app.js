@@ -137,8 +137,9 @@ form.addEventListener('submit', async (e) => {
       return;
     }
 
-    renderResults(data);
+    // Show card BEFORE rendering so #map has dimensions when L.map initializes
     resultCard.style.display = 'block';
+    renderResults(data);
     resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   } catch (_err) {
@@ -201,6 +202,13 @@ function renderResults(data) {
 }
 
 function renderMap(items) {
+  const mapEl = document.getElementById('map');
+  if (items.length === 0) {
+    mapEl.style.display = 'none';
+    return;
+  }
+  mapEl.style.display = 'block';
+
   if (!map) {
     map = L.map('map', { zoomControl: true, scrollWheelZoom: false }).setView([31.7, 35.0], 8);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -213,13 +221,6 @@ function renderMap(items) {
   } else {
     layerGroup = L.layerGroup().addTo(map);
   }
-
-  if (items.length === 0) {
-    document.getElementById('map').style.display = 'none';
-    return;
-  }
-  document.getElementById('map').style.display = 'block';
-  map.invalidateSize();
 
   const allBounds = [];
   for (const r of items) {
@@ -237,11 +238,16 @@ function renderMap(items) {
       allBounds.push(layer.getBounds());
     } catch (_e) {}
   }
-  if (allBounds.length > 0) {
-    let union = allBounds[0];
-    for (let i = 1; i < allBounds.length; i++) union = union.extend(allBounds[i]);
-    map.fitBounds(union, { padding: [20, 20], maxZoom: 18 });
-  }
+  // Defer layout settling — required because #map was display:none until just now,
+  // so initial container size is wrong until the browser repaints.
+  requestAnimationFrame(() => {
+    map.invalidateSize();
+    if (allBounds.length > 0) {
+      let union = allBounds[0];
+      for (let i = 1; i < allBounds.length; i++) union = union.extend(allBounds[i]);
+      map.fitBounds(union, { padding: [20, 20], maxZoom: 18 });
+    }
+  });
 }
 
 function buildPopup(r) {
