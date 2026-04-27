@@ -54,6 +54,67 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  <!-- כתבות -->
+  <url>
+    <loc>https://www.lendover.co.il/articles.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/special-apartments-urban-renewal.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/developer-reducing-benefits.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/urban-renewal-taxation.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/urban-renewal-timeline.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/tama-38-vs-pinui-binui.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/feasibility-check-48h.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/finding-urban-renewal-compounds.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/quick-filter-15min.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/win-tenants-tender.html</loc>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
   <!-- כלים — תתי-דומיינים -->
   <url>
     <loc>https://tabutab.lendover.co.il/</loc>
@@ -70,6 +131,12 @@
   <url>
     <loc>https://tabucaunt.lendover.co.il/tabu</loc>
     <lastmod>2026-03-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/tools/density/</loc>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
