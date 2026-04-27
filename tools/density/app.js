@@ -257,7 +257,7 @@ function buildPopup(r) {
       <div style="font-weight:700;font-size:0.95rem;margin-bottom:4px">גוש ${r.gush_num} חלקה ${r.parcel}</div>
       <div style="font-size:0.85rem;color:#666">${escapeHtml(r.address || r.locality || '')}</div>
       <hr style="margin:6px 0;border:none;border-top:1px solid #eee">
-      <div style="font-size:0.85rem">דירות: <strong>${subs}</strong></div>
+      <div style="font-size:0.85rem">יחידות: <strong>${subs}</strong></div>
       <div style="font-size:0.85rem">שטח: <strong>${r.area_dunam != null ? r.area_dunam.toFixed(3) : '—'}</strong> דונם</div>
       <div style="font-size:0.95rem;color:#9A5F2E;margin-top:4px">צפיפות: <strong>${r.density != null ? r.density.toFixed(2) : '—'}</strong> יח'/ד'</div>
     </div>
