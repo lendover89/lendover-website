@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>חישוב צפיפות לפי גוש וחלקה — Density | חינם</title>
+  <meta name="description" content="חישוב צפיפות בנייה (יחידות/דונם) לפי גוש וחלקה — כולל תמיכה במתחם של עד 10 חלקות. מציג את החלקות על מפה. כלי של אהרון לנדובר." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.lendover.co.il/tools/density/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.lendover.co.il/tools/density/" />
+  <meta property="og:title" content="Density — חישוב צפיפות לפי גוש וחלקה" />
+  <meta property="og:description" content="הזן גוש וחלקה (או מתחם של חלקות) — קבל מיידית צפיפות, שטח ומפה. חינם." />
+  <meta property="og:image" content="https://www.lendover.co.il/logo-transparent-new.png" />
+  <meta property="og:locale" content="he_IL" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Density — חישוב צפיפות לפי גוש וחלקה" />
+  <meta name="twitter:description" content="חישוב צפיפות יחידות/דונם, תמיכה במתחם, תצוגת מפה. חינם." />
+  <meta name="twitter:image" content="https://www.lendover.co.il/logo-transparent-new.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Density — חישוב צפיפות",
+    "url": "https://www.lendover.co.il/tools/density/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "he",
+    "description": "כלי חינמי לחישוב צפיפות בנייה (יחידות לדונם) לפי גוש וחלקה. תומך בחלקה בודדת או במתחם של עד 10 חלקות. מציג את החלקות על מפה אינטראקטיבית.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ILS" },
+    "author": { "@type": "Person", "name": "אהרון לנדובר", "url": "https://www.lendover.co.il" }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <link rel="stylesheet" href="style.css?v=1" />
+  <style>
+    nav{padding:10px 32px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #e0ddd6}
+    .nav-app-brand,.nav-site-brand{text-decoration:none;display:flex;align-items:center}
+    .nav-app-logo{height:100px;width:auto}
+    .nav-site-brand{opacity:.8;transition:opacity .2s}
+    .nav-site-brand:hover{opacity:1}
+    .nav-site-logo{height:100px;width:auto}
+    @media(max-width:520px){.nav-app-logo{height:72px}.nav-site-logo{height:72px}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-app-brand" href="./">
+    <img src="logo.png" alt="Density — חישוב צפיפות" class="nav-app-logo">
+  </a>
+  <a class="nav-site-brand" href="https://www.lendover.co.il" title="חזרה לאתר לנדובר">
+    <img src="https://www.lendover.co.il/logo-transparent-new.png" alt="לנדובר — ייעוץ התחדשות עירונית" class="nav-site-logo">
+  </a>
+</nav>
+
+<div class="hero">
+  <h1>חישוב צפיפות לפי גוש וחלקה</h1>
+  <p>הזינו חלקה או מתחם של עד 10 חלקות — קבלו צפיפות, שטח ומפה</p>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <p class="section-title">חיפוש</p>
+
+    <form id="lookup-form" autocomplete="off" novalidate>
+      <div id="rows-container">
+        <!-- rows יווצרו דינמית ב-app.js -->
+      </div>
+
+      <div class="row-actions">
+        <button type="button" id="add-row-btn" class="btn-secondary">+ הוסף חלקה</button>
+        <span id="rows-counter" class="rows-counter">חלקה 1 מתוך מקסימום 10</span>
+      </div>
+
+      <button type="submit" id="lookup-btn">חשב צפיפות</button>
+    </form>
+
+    <div id="spinner">
+      <div class="spin"></div>
+      <p>מחפש...</p>
+    </div>
+
+    <div id="error-box"></div>
+  </div>
+
+  <div id="not-found-card" class="card">
+    <div class="not-found-msg">
+      <span class="not-found-icon">🔍</span>
+      <p id="not-found-text"></p>
+    </div>
+    <button id="reset-btn-2">חיפוש חדש</button>
+  </div>
+
+  <div id="result-card" class="card">
+    <p class="section-title">תוצאות</p>
+
+    <!-- Aggregate summary (compound only) -->
+    <div id="aggregate-box">
+      <div class="agg-grid">
+        <div class="agg-item">
+          <label>סה"כ דירות רשומות</label>
+          <span id="agg-subs">—</span>
+        </div>
+        <div class="agg-item">
+          <label>שטח כולל (דונם)</label>
+          <span id="agg-area">—</span>
+        </div>
+        <div class="agg-item agg-highlight">
+          <label>צפיפות מצרפית</label>
+          <span id="agg-density">—</span>
+          <small>יחידות / דונם</small>
+        </div>
+      </div>
+      <p id="agg-note" class="agg-note"></p>
+    </div>
+
+    <!-- Per-parcel table -->
+    <div class="table-wrap">
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>גוש</th>
+            <th>חלקה</th>
+            <th>דירות</th>
+            <th>שטח (ד')</th>
+            <th>צפיפות</th>
+            <th>כתובת / יישוב</th>
+          </tr>
+        </thead>
+        <tbody id="results-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- Map -->
+    <div id="map"></div>
+
+    <button id="reset-btn">חיפוש חדש</button>
+  </div>
+
+  <p class="privacy-note">הנתונים מבוססים על שכבת חלקות הסוקר ועל מאגר טאבו (משרד המשפטים).</p>
+</div>
+
+<section class="about-tool" style="max-width:680px;margin:40px auto 0;padding:0 20px 40px;text-align:right;direction:rtl;font-family:inherit;color:#444;line-height:1.7">
+  <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px;color:#1a2b4a">אודות Density</h2>
+  <p>Density פותח על ידי <a href="https://www.lendover.co.il" style="color:#1a6fb5;text-decoration:none">אהרון לנדובר</a>, יועץ התחדשות עירונית עם מעל 15 שנות ניסיון בתחום הנדל"ן בישראל. הכלי מחשב צפיפות בנייה (יחידות דיור לדונם) לפי גוש וחלקה — ערך קריטי בבדיקת היתכנות של פרויקטי התחדשות עירונית.</p>
+  <p>הזינו גוש וחלקה — הכלי מחזיר מיידית את מספר תתי-החלקות הרשומים בטאבו (דירות), שטח החלקה בדונם, וצפיפות מחושבת. ניתן להוסיף עד 10 חלקות יחד למתחם — הכלי יחשב צפיפות מצרפית (סך הדירות חלקי סך השטח) ויציג את כל החלקות על מפה אינטראקטיבית.</p>
+  <p>כלים נוספים: <a href="https://www.lendover.co.il/tools/tabucaunt/" style="color:#1a6fb5;text-decoration:none">TabuCount</a> — בדיקת בעלים בטאבו | <a href="https://www.lendover.co.il/tools/buildcalc/" style="color:#1a6fb5;text-decoration:none">BuildCalc</a> — מחשבון תכסית | <a href="https://www.lendover.co.il/tools/groundwater/" style="color:#1a6fb5;text-decoration:none">Groundwater</a> — מי תהום</p>
+
+  <h2 style="font-size:1.1rem;font-weight:700;margin:24px 0 12px;color:#1a2b4a">שאלות נפוצות</h2>
+  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">איך מחושבת הצפיפות?</summary><p style="margin:8px 0 0 16px">צפיפות = מספר תתי-חלקות (דירות רשומות בטאבו) חלקי שטח החלקה בדונם. במתחם — סכום הדירות חלקי סכום השטחים.</p></details>
+  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">למה זה חשוב בהתחדשות עירונית?</summary><p style="margin:8px 0 0 16px">צפיפות קיימת היא קלט קריטי לבדיקת כדאיות של פינוי בינוי או תמ"א 38. ככל שהצפיפות הקיימת נמוכה יותר, כך פוטנציאל ההגדלה גדול יותר.</p></details>
+  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">מה זה "מתחם"?</summary><p style="margin:8px 0 0 16px">פרויקטי התחדשות עירונית לרוב כוללים מספר חלקות סמוכות. הכלי מאפשר להזין עד 10 חלקות יחד — מקבל צפיפות אחת מצרפית למתחם כולו.</p></details>
+  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם הנתונים עדכניים?</summary><p style="margin:8px 0 0 16px">המספרים מבוססים על שכבת חלקות הסוקר (העדכנית ביותר) ועל מאגר טאבו של משרד המשפטים. הנתונים נטענים מעת לעת.</p></details>
+</section>
+
+<footer style="text-align:center;padding:20px;font-size:0.82rem;color:#888;border-top:1px solid #eee;margin-top:20px">
+  פותח על ידי <a href="https://www.lendover.co.il" style="color:#1a6fb5;text-decoration:none">אהרון לנדובר</a> | יועץ אסטרטגי בהתחדשות עירונית
+  &nbsp;|&nbsp; <a href="https://www.lendover.co.il/privacy.html" style="color:#1a6fb5;text-decoration:none">מדיניות פרטיות</a>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="../auth-gate.js"></script>
+<script src="app.js?v=1"></script>
+<script>window._lvSource='density';</script>
+<script src="/tools/tracker.js"></script>
+</body>
+</html>
