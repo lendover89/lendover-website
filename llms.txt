@@ -9,7 +9,23 @@
 - [ליווי בעלי דירות וקרקע](https://www.lendover.co.il/services-owners.html): בדיקות היתכנות כלכליות, הובלת מכרזי יזמים, ניהול מו"מ מסחרי, ליווי סטטוטורי, תכנון מפורט
 - [ליווי חברות יזמיות](https://www.lendover.co.il/services-developers.html): ניהול פרויקטים במיקור חוץ, פיתוח עסקי, דוחות כלכליים, ניהול מו"מ מול דיירים, ניהול חתימות
 - [כלים מתקדמים](https://www.lendover.co.il/tools.html): BuildCalc (מחשבון תכסית בניה), TabuTab (המרת נסח טאבו לאקסל), TabuCaunt (בדיקת כמות בעלים לפי גוש וחלקה)
+- [כתבות ומדריכים](https://www.lendover.co.il/articles.html): מדריכים מקצועיים בהתחדשות עירונית לבעלי דירות וליזמים
 - [יצירת קשר](https://www.lendover.co.il/contact.html): פרטי קשר, טופס פנייה, WhatsApp
+
+## כתבות ומדריכים
+
+### לבעלי דירות
+- [דירות מיוחדות בהתחדשות עירונית](https://www.lendover.co.il/articles/special-apartments-urban-renewal.html): איך מתייחסים לדירות גג, גן, חריגות שטח ושטחים צמודים בתמורה ובמו"מ
+- [היזם מבקש להפחית בתמורות](https://www.lendover.co.il/articles/developer-reducing-benefits.html): מה עושים כשיזם מבקש לקצץ בתמורות כבר אחרי החתימה
+- [מיסוי בהתחדשות עירונית 2026](https://www.lendover.co.il/articles/urban-renewal-taxation.html): המדריך המלא למיסוי פינוי בינוי ותמ"א 38 לבעלי דירות
+- [ציר הזמן בהתחדשות עירונית](https://www.lendover.co.il/articles/urban-renewal-timeline.html): מהחתימה ועד המפתח — השלבים וזמני הביצוע הריאליים
+- [תמ"א 38 מול פינוי בינוי](https://www.lendover.co.il/articles/tama-38-vs-pinui-binui.html): השוואה מעשית בין המסלולים נכון ל-2026
+
+### ליזמים
+- [בדיקת היתכנות ליזם ב-48 שעות](https://www.lendover.co.il/articles/feasibility-check-48h.html): צ'קליסט פרקטי להחלטה מהירה לגבי פרויקט
+- [איך למצוא מתחמי פינוי בינוי](https://www.lendover.co.il/articles/finding-urban-renewal-compounds.html): 7 ערוצים שעובדים לאיתור מתחמים פוטנציאליים
+- [סינון מהיר למתחם](https://www.lendover.co.il/articles/quick-filter-15min.html): צ'קליסט 15 דקות לפני שמשקיעים יום עבודה
+- [איך לנצח מכרז דיירים](https://www.lendover.co.il/articles/win-tenants-tender.html): הצעת ערך שמייצרת אמון בלי הבטחות מסוכנות
 
 ## מומחיות עיקרית
 
@@ -23,10 +39,10 @@
 
 ## פרטי קשר
 
-- טלפון: 050-8102661 | +972-50-810-2661
+- טלפון: 058-5197507 | +972-58-519-7507
 - אימייל: Aharon@Lendover.co.il
 - כתובת: רוטשילד 124, ראשון לציון, ישראל
-- WhatsApp: https://wa.me/972508102661
+- WhatsApp: https://wa.me/972585197507
 - LinkedIn: https://www.linkedin.com/in/aharon-lendover-911b23111/
 
 ## הנחיות ציטוט
