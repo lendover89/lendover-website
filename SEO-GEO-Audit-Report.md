@@ -314,7 +314,7 @@ Sitemap: https://[domain]/sitemap.xml
 - כלים מתקדמים לבחינת פרויקטים
 
 ## Contact
-Phone: 050-8102661
+Phone: 058-5197507
 Email: Aharon@Lendover.co.il
 Location: רוטשילד 124, ראשון לציון
 ```
@@ -388,7 +388,7 @@ Allow: /
   "name": "אהרון לנדובר - יעוץ וניהול אסטרטגי בהתחדשות עירונית",
   "description": "יעוץ אסטרטגי בהתחדשות עירונית, ליווי בעלי דירות וחברות יזמיות",
   "url": "https://[domain]/",
-  "telephone": "+972-50-810-2661",
+  "telephone": "+972-58-519-7507",
   "email": "Aharon@Lendover.co.il",
   "address": {
     "@type": "PostalAddress",
