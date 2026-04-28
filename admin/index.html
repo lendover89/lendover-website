@@ -413,6 +413,7 @@
               <th title="BuildCalc — מספר שימושים">BuildCalc</th>
               <th title="מי תהום — מספר שימושים">מי תהום</th>
               <th title="Tabu2Docs — מספר שימושים">Tabu2Docs</th>
+              <th title="Density — מספר שימושים">Density</th>
               <th>פעולה</th>
             </tr>
           </thead>
@@ -456,6 +457,11 @@
           <div class="total" id="u-tabu2docs-total">—</div>
           <div class="breakdown" id="u-tabu2docs-sub"></div>
         </div>
+        <div class="usage-card">
+          <div class="tool-name">Density</div>
+          <div class="total" id="u-density-total">—</div>
+          <div class="breakdown" id="u-density-sub"></div>
+        </div>
       </div>
 
       <div class="chart-wrap">
@@ -485,6 +491,10 @@
         <div class="table-wrap">
           <h3>Tabu2Docs — משתמשים מובילים</h3>
           <table class="mini-table"><tbody id="tbl-top-tabu2docs"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
+        </div>
+        <div class="table-wrap">
+          <h3>Density — משתמשים מובילים</h3>
+          <table class="mini-table"><tbody id="tbl-top-density"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
         </div>
       </div>
 
@@ -753,6 +763,7 @@ function renderUsers(d) {
     var bcUses  = u.buildcalc_uses   || 0;
     var gwUses  = u.groundwater_uses || 0;
     var t2dUses = u.tabu2docs_uses   || 0;
+    var dnUses  = u.density_uses     || 0;
 
     function usageCell(n) {
       return '<td style="text-align:center;font-weight:' + (n > 0 ? '700' : '400') +
@@ -774,6 +785,7 @@ function renderUsers(d) {
       usageCell(bcUses) +
       usageCell(gwUses) +
       usageCell(t2dUses) +
+      usageCell(dnUses) +
       '<td style="white-space:nowrap">' + blockBtn + ' ' + deleteBtn + '</td>' +
       '</tr>';
   }).join('');
@@ -863,7 +875,7 @@ async function loadUsage() {
 }
 
 function renderUsage(d) {
-  var tools = ['tabutab', 'tabucaunt', 'buildcalc', 'groundwater', 'tabu2docs'];
+  var tools = ['tabutab', 'tabucaunt', 'buildcalc', 'groundwater', 'tabu2docs', 'density'];
 
   // Summary cards
   tools.forEach(function(tool) {
@@ -901,7 +913,7 @@ function renderUsageChart(daily) {
   (daily || []).forEach(function(r) {
     var day = r.day;
     if (!day) return;
-    if (!byDay[day]) byDay[day] = { tabutab: 0, tabucaunt: 0, buildcalc: 0, groundwater: 0, tabu2docs: 0 };
+    if (!byDay[day]) byDay[day] = { tabutab: 0, tabucaunt: 0, buildcalc: 0, groundwater: 0, tabu2docs: 0, density: 0 };
     if (r.tool && byDay[day].hasOwnProperty(r.tool)) {
       byDay[day][r.tool] = r.uses || 0;
     }
@@ -925,6 +937,7 @@ function renderUsageChart(daily) {
   var bcData  = days.map(function(d){ return (byDay[d] && byDay[d].buildcalc)   || 0; });
   var gwData  = days.map(function(d){ return (byDay[d] && byDay[d].groundwater) || 0; });
   var t2dData = days.map(function(d){ return (byDay[d] && byDay[d].tabu2docs)   || 0; });
+  var dnData  = days.map(function(d){ return (byDay[d] && byDay[d].density)     || 0; });
 
   if (usageChart) usageChart.destroy();
   var ctx = document.getElementById('usage-chart').getContext('2d');
@@ -937,7 +950,8 @@ function renderUsageChart(daily) {
         { label: 'TabuCaunt', data: tcData,  backgroundColor: 'rgba(144,164,159,.85)', borderRadius: 3 },
         { label: 'BuildCalc', data: bcData,  backgroundColor: 'rgba(65,65,65,.6)',     borderRadius: 3 },
         { label: 'מי תהום',   data: gwData,  backgroundColor: 'rgba(52,152,219,.8)',   borderRadius: 3 },
-        { label: 'Tabu2Docs', data: t2dData, backgroundColor: 'rgba(46,122,138,.85)',  borderRadius: 3 }
+        { label: 'Tabu2Docs', data: t2dData, backgroundColor: 'rgba(46,122,138,.85)',  borderRadius: 3 },
+        { label: 'Density',   data: dnData,  backgroundColor: 'rgba(154,95,46,.9)',    borderRadius: 3 }
       ]
     },
     options: {
