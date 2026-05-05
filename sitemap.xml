@@ -57,7 +57,7 @@
   <!-- כתבות -->
   <url>
     <loc>https://www.lendover.co.il/articles.html</loc>
-    <lastmod>2026-04-10</lastmod>
+    <lastmod>2026-05-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -82,6 +82,24 @@
   <url>
     <loc>https://www.lendover.co.il/articles/tama-38-vs-pinui-binui.html</loc>
     <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/developer-city-selection-urban-renewal.html</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/developer-story-before-tenant-offer.html</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/gis-opportunity-engine-for-developers.html</loc>
+    <lastmod>2026-05-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -111,3 +129,4 @@
     <priority>0.8</priority>
   </url>
 </urlset>
+
