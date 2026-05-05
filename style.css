@@ -195,7 +195,7 @@ nav {
 /* Page banner (for sub-pages) */
 .page-banner {
   height: 340px;
-  margin-top: 99px; /* fixed header offset: top strip + nav */
+  margin-top: 102px; /* fixed header offset: top strip + nav */
   position: relative;
   display: flex;
   align-items: center;
@@ -1244,4 +1244,5 @@ body.a11y-keyboard-nav *:focus {
   color: #4a4a4a;
   margin-bottom: 16px;
 }
+
 
