@@ -73,7 +73,7 @@
       // Reset
       '<button class="a11y-reset-btn" data-action="reset">איפוס הגדרות</button>',
       // Link to declaration
-      '<a href="accessibility.html" class="a11y-panel-link">הצהרת נגישות</a>'
+      '<a href="/accessibility.html" class="a11y-panel-link">הצהרת נגישות</a>'
     ].join('\n');
 
     panel.addEventListener('click', handlePanelClick);
@@ -197,3 +197,4 @@
     createWidget();
   }
 })();
+
