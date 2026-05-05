@@ -195,6 +195,7 @@ nav {
 /* Page banner (for sub-pages) */
 .page-banner {
   height: 340px;
+  margin-top: 99px; /* fixed header offset: top strip + nav */
   position: relative;
   display: flex;
   align-items: center;
@@ -629,7 +630,10 @@ footer a:hover { color: white; }
     font-size: clamp(15px, 4vw, 20px);
   }
 
-  .page-banner { height: 200px; }
+  .page-banner {
+    height: 220px;
+    margin-top: 82px; /* fixed mobile header offset */
+  }
   .page-banner .hero-content h1 { font-size: clamp(24px, 6vw, 36px); }
 
   .service-card {
@@ -1240,3 +1244,4 @@ body.a11y-keyboard-nav *:focus {
   color: #4a4a4a;
   margin-bottom: 16px;
 }
+
