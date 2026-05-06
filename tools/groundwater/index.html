@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>מחשבון עומק מי תהום לפי מיקום / גוש וחלקה | לנדובר</title>
-  <meta name="description" content="חישוב עומק הקרקע עד מי התהום לכל נקודה בישראל — קליק על המפה, סימון שטח, או גוש/חלקה. מבוסס GIS. חינם." />
+  <meta name="description" content="מחשבון עומק מי תהום לפי מיקום, פוליגון או גוש וחלקה. בדיקה ראשונית לסיכוני חפירה, חניונים, דיפון ואיטום בפרויקטי נדל״ן והתחדשות עירונית." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.lendover.co.il/tools/groundwater/" />
 
@@ -12,45 +12,128 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.lendover.co.il/tools/groundwater/" />
   <meta property="og:title" content="מחשבון עומק מי תהום — לנדובר" />
-  <meta property="og:description" content="מחשבון ארצי לבדיקת עומק מי התהום — קליק על המפה, סימון שטח, או גוש וחלקה. חינם." />
+  <meta property="og:description" content="בדיקה ראשונית לעומק מי תהום לפי מיקום, פוליגון או גוש וחלקה — לזיהוי סיכוני חפירה, חניונים, דיפון ואיטום." />
   <meta property="og:image" content="https://www.lendover.co.il/logo-transparent-new.png" />
   <meta property="og:locale" content="he_IL" />
   <meta property="og:site_name" content="לנדובר — כלי נדל&quot;ן" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="מחשבון עומק מי תהום — לנדובר" />
-  <meta name="twitter:description" content="חשב מיידית את עומק הקרקע עד מי התהום בכל נקודה." />
+  <meta name="twitter:description" content="בדיקה ראשונית לעומק מי תהום ולסיכוני חפירה, דיפון ואיטום בפרויקט נדל״ן." />
   <meta name="twitter:image" content="https://www.lendover.co.il/logo-transparent-new.png" />
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        "name": "מחשבון עומק מי תהום",
-        "url": "https://www.lendover.co.il/tools/groundwater/",
-        "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "Web",
-        "inLanguage": "he",
-        "description": "חישוב עומק הקרקע עד מפלס מי התהום לפי מיקום במפה, פוליגון או גוש/חלקה. מבוסס על קווי גובה ארציים ושכבת מפלס מי תהום של אקוויפר החוף.",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ILS" },
-        "author": { "@type": "Person", "name": "אהרון לנדובר", "url": "https://www.lendover.co.il" },
-        "publisher": { "@type": "Organization", "name": "לנדובר — ייעוץ והתחדשות עירונית", "url": "https://www.lendover.co.il" }
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "מחשבון עומק מי תהום",
+      "url": "https://www.lendover.co.il/tools/groundwater/",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "he",
+      "description": "חישוב עומק הקרקע עד מפלס מי התהום לפי מיקום במפה, פוליגון או גוש/חלקה. כלי GIS לבדיקה ראשונית של סיכוני חפירה, חניונים תת־קרקעיים, דיפון ואיטום בפרויקטי נדל״ן והתחדשות עירונית באזור אקוויפר החוף.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "ILS"
       },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          { "@type": "Question", "name": "איך המחשבון מחשב את העומק?",
-            "acceptedAnswer": { "@type": "Answer", "text": "המחשבון מדגים את גובה הקרקע מקווי הגובה הארציים ואת מפלס מי התהום מנתוני רשות המים, שניהם במטרים מעל פני הים. העומק הוא ההפרש ביניהם — כמה מטר צריך לחפור עד שמגיעים למי התהום." } },
-          { "@type": "Question", "name": "איזה אזורים מכוסים?",
-            "acceptedAnswer": { "@type": "Answer", "text": "נכון להיום — רק אקוויפר החוף (בערך מחיפה עד אשקלון). אזורים אחרים יתווספו בהמשך ככל שיפורסמו נתונים ציבוריים." } },
-          { "@type": "Question", "name": "מה הדיוק?",
-            "acceptedAnswer": { "@type": "Answer", "text": "הרסטר ברזולוציה של 10 מ'. גובה הקרקע מדויק סביב מטר אחד. מפלס מי התהום מבוסס על קווי מפלס דלילים יותר — הדיוק במקומות שצפופים בקווים הוא כמה מטרים; באזורים מרוחקים מקו מדוד קיימת אי-ודאות גדולה יותר." } }
-        ]
-      }
-    ]
-  }
+      "author": {
+        "@type": "Person",
+        "name": "אהרון לנדובר",
+        "url": "https://www.lendover.co.il"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "לנדובר — ייעוץ והתחדשות עירונית",
+        "url": "https://www.lendover.co.il"
+      },
+      "keywords": [
+        "מי תהום",
+        "אקוויפר החוף",
+        "GIS",
+        "התחדשות עירונית",
+        "פינוי בינוי",
+        "חניון תת קרקעי",
+        "דיפון",
+        "איטום",
+        "בדיקת היתכנות"
+      ],
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "מי תהום"
+        },
+        {
+          "@type": "Thing",
+          "name": "התחדשות עירונית"
+        },
+        {
+          "@type": "Thing",
+          "name": "GIS לנדל״ן"
+        },
+        {
+          "@type": "Thing",
+          "name": "בדיקת היתכנות לפרויקט נדל״ן"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "איך המחשבון מחשב את עומק מי התהום?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "המחשבון משווה בין גובה הקרקע לבין מפלס מי התהום, שניהם במטרים מעל פני הים. ההפרש ביניהם הוא העומק המשוער עד מי התהום בנקודה או בשטח שנבחרו."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "למה מי תהום חשובים בפרויקט התחדשות עירונית?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "מי תהום גבוהים יכולים להשפיע על חפירה, חניונים תת־קרקעיים, דיפון, איטום, שאיבת מים, עלויות ביצוע ולוחות זמנים. לכן כדאי לזהות את הסיכון כבר בשלב הבדיקה הראשונית ולא רק אחרי תכנון מתקדם."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "איזה אזורים מכוסים במחשבון?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "נכון להיום הכיסוי הוא באזור אקוויפר החוף, בערך מחיפה עד אשקלון. מחוץ לאזור הכיסוי המחשבון עשוי להחזיר שאין נתונים."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "מה רמת הדיוק של התוצאה?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "הכלי מתאים לבדיקה ראשונית ולא להחלטה הנדסית מחייבת. גובה הקרקע ומפלס מי התהום מבוססים על שכבות GIS ציבוריות, ולכן קיימת אי־ודאות, בעיקר באזורים מרוחקים מקווי מדידה או במקומות עם תנאי קרקע מורכבים."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "האם המחשבון מחליף יועץ קרקע או קידוחים?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "לא. המחשבון אינו מחליף יועץ קרקע, הידרולוג, קידוחי ניסיון או תכנון הנדסי. הוא כלי סינון מוקדם שמסייע לזהות דגלים אדומים לפני השקעה בבדיקות עמוקות יותר."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "איך יזם צריך להשתמש בתוצאה?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "אם התוצאה מצביעה על עומק קטן עד מי התהום, כדאי להתייחס לכך כסיכון מוקדם ולשלב בדיקת קרקע/מים בתהליך ההיתכנות. אם העומק גדול, עדיין לא מדובר באישור הנדסי, אלא באינדיקציה ראשונית בלבד."
+          }
+        }
+      ]
+    }
+  ]
+}
   </script>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -201,7 +284,7 @@
         "@type": "Country",
         "name": "Israel"
       },
-      "description": "חישוב עומק הקרקע עד מי התהום לכל נקודה בישראל — קליק על המפה, סימון שטח, או גוש/חלקה. מבוסס GIS. חינם."
+      "description": "מחשבון עומק מי תהום לפי מיקום, פוליגון או גוש וחלקה. בדיקה ראשונית לסיכוני חפירה, חניונים, דיפון ואיטום בפרויקטי נדל״ן והתחדשות עירונית."
     }
   ]
 }</script>
@@ -288,10 +371,51 @@
 </main>
 
 
-<section class="tool-next-steps-links" style="max-width:680px;margin:34px auto 0;padding:20px;border:1px solid #eadfce;border-radius:14px;background:#fbf8f3;text-align:right;direction:rtl;line-height:1.7;color:#444">
-  <h2 style="font-size:1.08rem;margin:0 0 8px;color:#1a2b4a">מה עושים עם עומק מי התהום?</h2>
-  <p style="margin:0 0 10px">מי תהום הם שכבת סיכון מוקדמת. בפרויקט יזמי נכון לחבר אותה לבדיקות תכנון, עלויות, חניונים ותזמון.</p>
-  <p style="margin:0">להמשך: <a href="../../articles/gis-opportunity-engine-for-developers.html" style="color:#1a6fb5;text-decoration:none">GIS לאיתור הזדמנויות</a> | <a href="../../services-developers.html" style="color:#1a6fb5;text-decoration:none">ליווי יזמים</a> | <a href="../../tools/buildcalc/" style="color:#1a6fb5;text-decoration:none">מחשבון תכסית</a></p>
+<section class="tool-next-steps-links" style="max-width:920px;margin:34px auto 0;padding:22px;border:1px solid #eadfce;border-radius:14px;background:#fbf8f3;text-align:right;direction:rtl;line-height:1.75;color:#444">
+  <h2 style="font-size:1.18rem;margin:0 0 10px;color:#1a2b4a">למה עומק מי תהום חשוב בפרויקט נדל״ן?</h2>
+  <p style="margin:0 0 12px">מי תהום הם לא רק נתון הנדסי קטן. בפרויקטים עם חפירה משמעותית, מרתפים או חניונים תת־קרקעיים, מפלס מי תהום גבוה יכול להשפיע על דיפון, איטום, שאיבת מים, עלויות ביצוע ולוחות זמנים.</p>
+  <p style="margin:0 0 12px">בשלב מוקדם של בדיקת היתכנות, המטרה אינה לקבל תשובה הנדסית סופית, אלא לזהות האם קיימת שכבת סיכון שצריך להכניס למודל לפני שמתקדמים עם תכנון, הצעת תמורות או התחייבויות מול בעלי דירות.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0">
+    <div style="padding:14px;border-radius:12px;background:#fff;border:1px solid #eee3d2">
+      <h3 style="font-size:1rem;margin:0 0 8px;color:#1a2b4a">מתי כדאי לבדוק?</h3>
+      <ul style="margin:0;padding-right:18px">
+        <li>לפני בדיקת היתכנות למתחם.</li>
+        <li>לפני תכנון חניונים תת־קרקעיים.</li>
+        <li>לפני כניסה לפרויקט באזור אקוויפר החוף.</li>
+        <li>לפני הצעת תמורות או הערכת עלויות ראשונית.</li>
+      </ul>
+    </div>
+    <div style="padding:14px;border-radius:12px;background:#fff;border:1px solid #eee3d2">
+      <h3 style="font-size:1rem;margin:0 0 8px;color:#1a2b4a">מה הכלי בודק?</h3>
+      <ul style="margin:0;padding-right:18px">
+        <li>גובה קרקע משוער.</li>
+        <li>מפלס מי תהום לפי שכבות GIS.</li>
+        <li>עומק משוער עד מים.</li>
+        <li>בדיקה לפי נקודה, פוליגון או גוש/חלקה.</li>
+      </ul>
+    </div>
+    <div style="padding:14px;border-radius:12px;background:#fff;border:1px solid #eee3d2">
+      <h3 style="font-size:1rem;margin:0 0 8px;color:#1a2b4a">מה הכלי לא מחליף?</h3>
+      <ul style="margin:0;padding-right:18px">
+        <li>יועץ קרקע או הידרולוג.</li>
+        <li>קידוחי ניסיון.</li>
+        <li>תכנון דיפון ואיטום.</li>
+        <li>בדיקה הנדסית מחייבת.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 style="font-size:1.08rem;margin:20px 0 10px;color:#1a2b4a">איך להשתמש בתוצאה?</h2>
+  <p style="margin:0 0 12px">עומק קטן עד מי התהום הוא דגל אדום לבדיקה מקצועית מוקדמת. עומק גדול עשוי להוריד סיכון ראשוני, אבל אינו מהווה אישור הנדסי. בשני המקרים, הערך של הכלי הוא בסינון מוקדם: להבין האם צריך להעמיק בבדיקות לפני שמוציאים כסף וזמן על תכנון מתקדם.</p>
+
+  <h2 style="font-size:1.08rem;margin:20px 0 10px;color:#1a2b4a">שאלות נפוצות</h2>
+  <details style="padding:10px 0;border-top:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">איך מי תהום משפיעים על פרויקט פינוי־בינוי?</summary><p style="margin:8px 0 0">הם יכולים להשפיע על עומק החפירה, עלות חניונים, דיפון, איטום, שאיבה וניהול סיכוני ביצוע. לכן כדאי לבדוק אותם עוד לפני שמתחייבים לתכנון מפורט.</p></details>
+  <details style="padding:10px 0;border-top:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">האם הכלי מתאים לכל הארץ?</summary><p style="margin:8px 0 0">נכון להיום הכיסוי המרכזי הוא באזור אקוויפר החוף. מחוץ לאזור הכיסוי ייתכן שלא יהיו נתונים זמינים.</p></details>
+  <details style="padding:10px 0;border-top:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">האם אפשר לקבל החלטה עסקית רק לפי המחשבון?</summary><p style="margin:8px 0 0">לא. המחשבון הוא כלי סינון ראשוני. אם מתקבל סיכון משמעותי, צריך לשלב יועץ קרקע/הידרולוג ובדיקות הנדסיות לפני החלטה מחייבת.</p></details>
+  <details style="padding:10px 0;border-top:1px solid #eadfce;border-bottom:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">מתי כדאי לפנות לבדיקה מקצועית?</summary><p style="margin:8px 0 0">כאשר מתוכננת חפירה משמעותית, חניון תת־קרקעי, מרתפים, או כאשר המחשבון מצביע על עומק קטן יחסית עד מי התהום.</p></details>
+
+  <p style="margin:16px 0 0"><strong>להמשך בדיקה:</strong> <a href="../../articles/groundwater-risk-urban-renewal.html" style="color:#1a6fb5;text-decoration:none">מי תהום בהתחדשות עירונית</a> | <a href="../../articles/gis-opportunity-engine-for-developers.html" style="color:#1a6fb5;text-decoration:none">GIS לאיתור הזדמנויות</a> | <a href="../../services-developers.html" style="color:#1a6fb5;text-decoration:none">ליווי יזמים</a> | <a href="../../tools/buildcalc/" style="color:#1a6fb5;text-decoration:none">מחשבון תכסית</a></p>
 </section>
 
 <footer class="site-footer">
@@ -307,6 +431,7 @@
 <script src="/tools/tracker.js"></script>
 </body>
 </html>
+
 
 
 
