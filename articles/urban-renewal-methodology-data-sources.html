@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl"><head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>שיטת עבודה ומקורות מידע בבדיקת מתחמי התחדשות עירונית | אהרון לנדובר</title>
+  <meta name="description" content="איך משלבים GIS, תכנון, טאבו, נתוני סביבה ומקורות רשמיים כדי לבדוק מתחמי התחדשות עירונית לפני החלטה עסקית." />
+  <meta name="keywords" content="התחדשות עירונית, מקורות מידע, GIS, בדיקת מתחמים, תכנון זמין, מפ״י, טאבו, רשות המים, data.gov.il" />
+  <link rel="canonical" href="https://www.lendover.co.il/articles/urban-renewal-methodology-data-sources.html" />
+  <link rel="alternate" hreflang="he" href="https://www.lendover.co.il/articles/urban-renewal-methodology-data-sources.html" />
+  <link rel="icon" type="image/png" href="../logo-transparent.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/style.css?v=20260505-offsetfix3" />
+  <link rel="stylesheet" href="../articles.css" />
+  <meta property="og:title" content="שיטת עבודה ומקורות מידע בבדיקת מתחמי התחדשות עירונית" />
+  <meta property="og:description" content="איך משלבים GIS, תכנון, טאבו, נתוני סביבה ומקורות רשמיים כדי לבדוק מתחמי התחדשות עירונית לפני החלטה עסקית." />
+  <meta property="og:image" content="https://www.lendover.co.il/aharon-portrait.jpg" />
+  <meta property="og:url" content="https://www.lendover.co.il/articles/urban-renewal-methodology-data-sources.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="he_IL" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "שיטת עבודה ומקורות מידע בבדיקת מתחמי התחדשות עירונית",
+  "description": "איך משלבים GIS, תכנון, טאבו, נתוני סביבה ומקורות רשמיים כדי לבדוק מתחמי התחדשות עירונית לפני החלטה עסקית.",
+  "image": "https://www.lendover.co.il/aharon-portrait.jpg",
+  "author": {
+    "@type": "Person",
+    "name": "אהרון לנדובר",
+    "url": "https://www.lendover.co.il/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "אהרון לנדובר - יעוץ וניהול אסטרטגי בהתחדשות עירונית",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.lendover.co.il/logo-transparent.png"
+    }
+  },
+  "datePublished": "2026-05-06",
+  "dateModified": "2026-05-06",
+  "inLanguage": "he-IL",
+  "mainEntityOfPage": "https://www.lendover.co.il/articles/urban-renewal-methodology-data-sources.html"
+}</script>
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "למה חשוב לדעת באילו מקורות מידע משתמשים בבדיקת מתחם?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "כי החלטה על מתחם התחדשות עירונית נשענת על שילוב בין תכנון, קניין, מצב פיזי וסיכוני ביצוע. מקור מידע חלש או חלקי עלול להוביל למסקנה שגויה כבר בתחילת הדרך."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "האם שכבות GIS מספיקות לבדיקה מקצועית?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "לא. GIS הוא כלי חזק לחיבור וסינון שכבות מידע, אבל הוא אינו מחליף בדיקה משפטית, שמאית, תכנונית או הנדסית. הערך שלו הוא בזיהוי מוקדם של הזדמנויות וסיכונים."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "אילו מקורות מידע רלוונטיים להתחדשות עירונית בישראל?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "בדרך כלל משלבים מקורות כמו תכנון זמין, מינהל התכנון, מפ״י, data.gov.il, רשות המים, נתוני טאבו, רשויות מקומיות, שכבות GIS עירוניות ונתוני שוק משלימים."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "מה ההבדל בין כלי חינמי באתר לבין בדיקה מקצועית?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "כלי חינמי נותן אינדיקציה ראשונית לשכבה אחת, כמו בעלויות, תכסית או מי תהום. בדיקה מקצועית מחברת בין השכבות, בוחנת סתירות ומתרגמת אותן להמלצה עסקית או תכנונית."
+      }
+    }
+  ]
+}</script>
+<!-- LENDOVER_ENTITY_SCHEMA_START -->
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://www.lendover.co.il/#aharon-lendover",
+      "name": "אהרון לנדובר",
+      "url": "https://www.lendover.co.il/",
+      "jobTitle": "יועץ אסטרטגי בהתחדשות עירונית",
+      "sameAs": [
+        "https://www.linkedin.com/in/aharon-lendover-911b23111/"
+      ],
+      "knowsAbout": [
+        "התחדשות עירונית",
+        "פינוי בינוי",
+        "GIS לנדל״ן",
+        "בדיקות היתכנות",
+        "תב״ע",
+        "נסח טאבו",
+        "מי תהום",
+        "מקורות מידע תכנוניים"
+      ],
+      "areaServed": {
+        "@type": "Country",
+        "name": "Israel"
+      }
+    },
+    {
+      "@type": [
+        "ProfessionalService",
+        "LocalBusiness"
+      ],
+      "@id": "https://www.lendover.co.il/#organization",
+      "name": "אהרון לנדובר - ליווי אסטרטגי בהתחדשות עירונית",
+      "url": "https://www.lendover.co.il/",
+      "founder": {
+        "@id": "https://www.lendover.co.il/#aharon-lendover"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Israel"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.lendover.co.il/#website",
+      "url": "https://www.lendover.co.il/",
+      "name": "אהרון לנדובר",
+      "inLanguage": "he-IL",
+      "publisher": {
+        "@id": "https://www.lendover.co.il/#organization"
+      }
+    },
+    {
+      "@type": "Article",
+      "@id": "https://www.lendover.co.il/articles/urban-renewal-methodology-data-sources.html#webpage",
+      "url": "https://www.lendover.co.il/articles/urban-renewal-methodology-data-sources.html",
+      "name": "שיטת עבודה ומקורות מידע בבדיקת מתחמי התחדשות עירונית | אהרון לנדובר",
+      "headline": "שיטת עבודה ומקורות מידע בבדיקת מתחמי התחדשות עירונית",
+      "description": "איך משלבים GIS, תכנון, טאבו, נתוני סביבה ומקורות רשמיים כדי לבדוק מתחמי התחדשות עירונית לפני החלטה עסקית.",
+      "inLanguage": "he-IL",
+      "isPartOf": {
+        "@id": "https://www.lendover.co.il/#website"
+      },
+      "about": [
+        {
+          "@id": "https://www.lendover.co.il/#aharon-lendover"
+        },
+        {
+          "@id": "https://www.lendover.co.il/#organization"
+        },
+        {
+          "@type": "Thing",
+          "name": "שיטת עבודה בבדיקת התחדשות עירונית"
+        },
+        {
+          "@type": "Thing",
+          "name": "מקורות מידע רשמיים"
+        }
+      ],
+      "author": {
+        "@id": "https://www.lendover.co.il/#aharon-lendover"
+      },
+      "publisher": {
+        "@id": "https://www.lendover.co.il/#organization"
+      },
+      "datePublished": "2026-05-06",
+      "dateModified": "2026-05-06",
+      "mainEntityOfPage": {
+        "@id": "https://www.lendover.co.il/articles/urban-renewal-methodology-data-sources.html#webpage"
+      }
+    }
+  ]
+}</script>
+<!-- LENDOVER_ENTITY_SCHEMA_END -->
+</head><body>
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="header-top">
+    <a href="tel:+972585197507">058-5197507</a>
+  </div>
+  <nav>
+    <a class="nav-logo" href="../index.html"><img src="../logo-transparent.png" alt="לוגו אהרון לנדובר" />אהרון לנדובר</a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="תפריט">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="../index.html">בית</a></li>
+      <li><a href="../about.html">אודות</a></li>
+      <li>
+        <a href="../services-owners.html">השירותים ▾</a>
+        <ul class="dropdown">
+          <li><a href="../services-owners.html">ליווי בעלי דירות וקרקע</a></li>
+          <li><a href="../services-developers.html">ליווי חברות יזמיות</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="../articles.html" class="active">כתבות ▾</a>
+        <ul class="dropdown">
+          <li><a href="../articles.html?cat=owners">לבעלי דירות</a></li>
+          <li><a href="../articles.html?cat=developers">ליזמים</a></li>
+        </ul>
+      </li>
+      <li><a href="../tools.html">כלים מתקדמים</a></li>
+      <li><a href="../contact.html">יצירת קשר</a></li>
+    </ul>
+  </nav>
+</header>
+<section class="page-banner article-banner">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="https://www.lendover.co.il/iStock-2149918736.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="breadcrumb"><a href="../index.html">בית</a><span> / </span><a href="../articles.html">כתבות</a><span> / </span><span>שיטת עבודה</span></div>
+    <h1>שיטת עבודה ומקורות מידע בבדיקת מתחמי התחדשות עירונית</h1>
+    <p class="article-meta">מאת אהרון לנדובר · קריאה כ-6 דקות</p>
+  </div>
+</section><article class="article-content"><div class="container">
+
+<p>בדיקת מתחם להתחדשות עירונית לא מתחילה בשאלה “כמה דירות אפשר לבנות?”. היא מתחילה בשאלה בסיסית יותר: על אילו נתונים אנחנו נשענים, ומה הם באמת אומרים על הסיכון והפוטנציאל של המתחם.</p>
+
+<blockquote>מפה, נסח טאבו או שכבת מידע הם לא תשובה בפני עצמם. הערך נמצא בחיבור ביניהם ובפרשנות המקצועית שלהם.</blockquote>
+
+<h2>למה שיטת העבודה חשובה?</h2>
+<p>בפרויקטי פינוי־בינוי והתחדשות עירונית, החלטה מוקדמת יכולה להוביל להשקעת חודשים של עבודה, פגישות עם בעלי דירות, תכנון ראשוני ועלויות מקצועיות. לכן בדיקה טובה צריכה לצמצם אי־ודאות לפני שמתחייבים למהלך עמוק.</p>
+<p>הבעיה היא שמידע בודד כמעט אף פעם לא מספיק. מתחם יכול להיראות מצוין במפה, אבל להיות מורכב קניינית. הוא יכול להיראות חזק לפי גיל המבנים, אבל להיתקע במדיניות עירונית. הוא יכול להיראות רווחי באקסל, אבל להסתיר סיכון ביצוע כמו מי תהום או תכסית בעייתית.</p>
+
+<h2>שכבה ראשונה: תכנון ומדיניות</h2>
+<p>הבסיס הוא להבין מה אפשר, מה סביר ומה הרשות המקומית צפויה לקבל. כאן נבדקים תכניות תקפות, מסמכי מדיניות, תכנון עתידי, מגבלות גובה, צפיפות, שטחי ציבור, דרישות חניה ותשתיות.</p>
+<ul>
+  <li>תכניות בניין עיר והוראות תכנון רלוונטיות.</li>
+  <li>מדיניות עירונית להתחדשות עירונית.</li>
+  <li>מגבלות גובה, שימור, תשתיות ושטחי ציבור.</li>
+  <li>פרויקטים סמוכים ותכניות מקודמות באזור.</li>
+</ul>
+<p>המטרה אינה רק לדעת מה כתוב בתכנית, אלא להבין איך התכנון משפיע על החלטה: האם המתחם בשל, גבולי או בעייתי.</p>
+
+<h2>שכבה שנייה: GIS וניתוח מרחבי</h2>
+<p>GIS מאפשר לראות את המתחם בתוך הקשר רחב: חלקות, מבנים, רחובות, תשתיות, צפיפות, סביבת תכנון, פרויקטים קיימים וסיכונים סביבתיים. זה לא “מפה יפה”, אלא דרך לחבר שכבות מידע כדי לזהות דפוסים וחסמים.</p>
+<ul>
+  <li>גבולות חלקות ומבנים.</li>
+  <li>צפיפות קיימת ופוטנציאל תכנוני.</li>
+  <li>רציפות בין מגרשים ומבנים.</li>
+  <li>קרבה לתשתיות, צירים, תחבורה ומוסדות ציבור.</li>
+  <li>שכבות סביבה, טופוגרפיה ומי תהום כאשר הן רלוונטיות.</li>
+</ul>
+
+<h2>שכבה שלישית: טאבו וקניין</h2>
+<p>התחדשות עירונית היא גם פרויקט קנייני. לכן צריך לבדוק מי בעלי הזכויות, כמה בעלים יש, האם קיימות הערות אזהרה, חכירות, שעבודים, בעלויות מדינה או מורכבויות אחרות.</p>
+<p>בדיקה קניינית מוקדמת לא מחליפה עורך דין, אבל היא מסמנת האם המתחם פשוט יחסית לניהול או שהוא דורש זהירות מיוחדת כבר מההתחלה.</p>
+
+<h2>שכבה רביעית: סיכוני ביצוע וסביבה</h2>
+<p>יש סיכונים שלא תמיד רואים במבט ראשון: מי תהום, טופוגרפיה, חפירה, דיפון, עצים, תשתיות, גישה לאתר או מגרש לא רגולרי. סיכון כזה יכול לשנות עלויות ולוחות זמנים.</p>
+<p>בשלב ראשוני לא צריך לפתור את כל ההנדסה, אבל צריך לדעת אם יש דגל אדום שמחייב בדיקה מקצועית לפני שממשיכים.</p>
+
+<h2>מקורות מידע אפשריים</h2>
+<p>המקורות משתנים לפי העיר, סוג הבדיקה והזמינות בפועל. בדרך כלל משלבים בין:</p>
+<ul>
+  <li>תכנון זמין ומינהל התכנון.</li>
+  <li>שכבות GIS ממשלתיות ועירוניות.</li>
+  <li>מפ״י ומקורות קדסטר/גבולות חלקה.</li>
+  <li>data.gov.il ומאגרי מידע ציבוריים.</li>
+  <li>רשות המים כאשר בודקים מי תהום.</li>
+  <li>נסחי טאבו ומידע קנייני.</li>
+  <li>מידע מהרשות המקומית וממסמכי מדיניות עירוניים.</li>
+  <li>נתוני שוק, עסקאות וסביבה עירונית.</li>
+</ul>
+<p>חשוב להדגיש: עצם קיום מקור מידע לא אומר שהוא מספיק, עדכני או מתאים לכל החלטה. חלק מהעבודה הוא להבין את מגבלות המקור.</p>
+
+<h2>איך מחברים בין השכבות?</h2>
+<p>בדיקה טובה אינה רשימת קישורים. היא תהליך של הצלבה:</p>
+<ul>
+  <li>אם המדיניות מאפשרת ציפוף — האם הקניין מאפשר התקדמות?</li>
+  <li>אם המיקום חזק — האם התשתיות והסביבה תומכות בפרויקט?</li>
+  <li>אם יש פוטנציאל זכויות — האם סיכוני ביצוע שוחקים אותו?</li>
+  <li>אם יש הרבה בעלים — האם יש דרך סבירה לנהל את התהליך?</li>
+</ul>
+<p>רק החיבור בין השכבות מאפשר להמיר מידע להמלצה: להתקדם, לבדוק לעומק, להמתין או לפסול.</p>
+
+<h2>מה הכלים באתר כן ולא מחליפים?</h2>
+<p>הכלים באתר נועדו לתת אינדיקציה ראשונית: להבין במהירות שכבה אחת מתוך התמונה הרחבה. למשל, כמות בעלים, תכסית, עומק מי תהום או המרת נסחי טאבו לאקסל.</p>
+<p>הם אינם מחליפים בדיקה משפטית, שמאית, הנדסית או תכנונית מלאה. הערך שלהם הוא לזהות מוקדם האם יש משהו ששווה בדיקה נוספת — או משהו שמחייב זהירות.</p>
+
+<h2>שאלות נפוצות</h2>
+<section class="article-faq" style="margin:22px 0">
+  <details style="padding:12px 0;border-top:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">האם אפשר לסמוך על מידע ציבורי בלבד?</summary><p style="margin:8px 0 0">מידע ציבורי הוא נקודת פתיחה טובה, אבל לא תמיד הוא מלא, עדכני או מספיק להחלטה מחייבת. צריך להצליב אותו עם בדיקות מקצועיות לפי הצורך.</p></details>
+  <details style="padding:12px 0;border-top:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">למה לא מספיק לבדוק רק זכויות בנייה?</summary><p style="margin:8px 0 0">כי זכויות הן רק שכבה אחת. קניין, דיירים, סיכוני ביצוע, מדיניות עירונית ועלויות יכולים לשנות לגמרי את התמונה.</p></details>
+  <details style="padding:12px 0;border-top:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">איפה GIS נותן יתרון אמיתי?</summary><p style="margin:8px 0 0">GIS מאפשר לזהות דפוסים, לחבר שכבות מידע ולסנן מתחמים עוד לפני שמתחילים עבודה ידנית עמוקה על כל כתובת.</p></details>
+  <details style="padding:12px 0;border-top:1px solid #eadfce;border-bottom:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">מתי צריך לעבור מכלי חינמי לבדיקה מקצועית?</summary><p style="margin:8px 0 0">כאשר התוצאה מצביעה על סיכון, כאשר עומדים לקבל החלטה עסקית, או כאשר יש צורך להציג מסקנה לגורמים אחרים: דיירים, יזם, עורך דין, שמאי או רשות.</p></details>
+</section>
+
+<h2>בשורה התחתונה</h2>
+<p>שיטת עבודה טובה לא מבטיחה שכל מתחם יצליח. היא עושה משהו חשוב יותר: עוזרת להבין מוקדם איפה יש סיכוי אמיתי, איפה חסר מידע, ואיפה עדיף לא להיכנס.</p>
+<p>בעולם של התחדשות עירונית, היתרון אינו רק לדעת יותר — אלא לדעת מוקדם יותר מה באמת משנה את ההחלטה.</p>
+
+<section class="article-related-links" style="margin:34px 0;padding:24px;border:1px solid #eadfce;border-radius:16px;background:#fbf8f3">
+  <h2 style="margin-top:0">להמשך בדיקה</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px">
+    <a href="urban-renewal-feasibility-check.html" style="display:block;padding:14px 16px;border:1px solid #eee;border-radius:12px;background:#fff;text-decoration:none;color:#1a2b4a"><strong>בדיקת היתכנות ראשונית</strong><br><span style="color:#666;font-size:.95em">איך מסננים מתחם לפני כניסה עמוקה.</span></a>
+    <a href="gis-opportunity-engine-for-developers.html" style="display:block;padding:14px 16px;border:1px solid #eee;border-radius:12px;background:#fff;text-decoration:none;color:#1a2b4a"><strong>GIS לאיתור הזדמנויות</strong><br><span style="color:#666;font-size:.95em">איך GIS הופך לכלי עסקי ליזמים.</span></a>
+    <a href="../tools/groundwater/" style="display:block;padding:14px 16px;border:1px solid #eee;border-radius:12px;background:#fff;text-decoration:none;color:#1a2b4a"><strong>מחשבון מי תהום</strong><br><span style="color:#666;font-size:.95em">בדיקה ראשונית לסיכוני חפירה ודיפון.</span></a>
+    <a href="../services-developers.html" style="display:block;padding:14px 16px;border:1px solid #eee;border-radius:12px;background:#fff;text-decoration:none;color:#1a2b4a"><strong>ליווי יזמים</strong><br><span style="color:#666;font-size:.95em">איתור, סינון ובדיקת מתחמים.</span></a>
+  </div>
+</section>
+
+<div class="article-cta">
+  <h3>רוצים לבדוק מתחם בצורה מסודרת?</h3>
+  <p>אפשר להתחיל מבדיקה ראשונית שמצליבה GIS, תכנון, טאבו וסיכוני ביצוע — ולהבין האם יש סיבה להתקדם או לעצור.</p>
+  <div class="cta-buttons"><a href="../contact.html" class="btn-cta">קבעו שיחת ייעוץ</a><a href="https://wa.me/972585197507" target="_blank" rel="noopener" class="btn-cta secondary">שלחו הודעה בווטסאפ</a></div>
+</div>
+<nav class="article-nav-footer"><a href="../articles.html">← חזרה לכל הכתבות</a></nav>
+</div></article>
+
+<a class="whatsapp-float" href="https://wa.me/972585197507" target="_blank" rel="noopener" title="WhatsApp">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+  WhatsApp
+</a>
+<footer>
+  <div class="footer-content">
+    <div class="footer-info">
+      <p>אהרון לנדובר | יעוץ וניהול אסטרטגי בהתחדשות עירונית</p>
+      <p>רוטשילד 124, ראשון לציון | <a href="tel:+972585197507">058-5197507</a> | <a href="mailto:Aharon@Lendover.co.il">Aharon@Lendover.co.il</a></p>
+    </div>
+    <div class="footer-links">
+      <a href="../privacy.html">מדיניות פרטיות</a>
+      <a href="../terms.html">תנאי שימוש</a>
+      <a href="../accessibility.html">הצהרת נגישות</a>
+      <a href="https://www.linkedin.com/in/aharon-lendover-911b23111/" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
+    </div>
+    <p>&copy; 2026 Aharon Lendover. כל הזכויות שמורות.</p>
+  </div>
+</footer>
+
+<script src="/accessibility-widget.js?v=20260505a11y"></script>
+<script src="/tools/tracker.js"></script>
+</body></html>
+
+
+
+
+
+
+
+
+
+
