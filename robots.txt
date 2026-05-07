@@ -2,6 +2,7 @@
 User-agent: *
 Allow: /
 Disallow: /lendover.html
+Disallow: /cdn-cgi/
 
 # AI Crawlers - Allowed
 User-agent: GPTBot
@@ -41,3 +42,4 @@ User-agent: OAI-SearchBot
 Allow: /
 
 Sitemap: https://www.lendover.co.il/sitemap.xml
+
