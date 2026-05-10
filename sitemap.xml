@@ -57,7 +57,7 @@
   <!-- כתבות -->
   <url>
     <loc>https://www.lendover.co.il/articles.html</loc>
-    <lastmod>2026-05-05</lastmod>
+    <lastmod>2026-05-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -127,6 +127,24 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/existing-density-urban-renewal.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/lot-coverage-feasibility-urban-renewal.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.lendover.co.il/articles/owners-count-urban-renewal-feasibility.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
   <!-- כלים — תתי-דומיינים -->
   <url>
     <loc>https://www.lendover.co.il/tools/density/</loc>
@@ -165,6 +183,7 @@
     <priority>0.8</priority>
   </url>
 </urlset>
+
 
 
 
