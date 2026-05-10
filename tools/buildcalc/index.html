@@ -388,11 +388,15 @@
   <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px;color:#1a2b4a">אודות BuildCalc</h2>
   <p>BuildCalc פותח על ידי <a href="https://www.lendover.co.il" style="color:#1a6fb5;text-decoration:none">אהרון לנדובר</a>, יועץ התחדשות עירונית עם מעל 15 שנות ניסיון בתחום הנדל"ן בישראל. הכלי נועד לאפשר חישוב מהיר של תכסית מגרש ישירות מנתוני גוש וחלקה — ללא צורך בתוכנות GIS מקצועיות.</p>
   <p>הכלי שולף את גבולות החלקה משכבת GIS רשמית, מציג תרשים גאומטרי אינטראקטיבי, ומחשב את שטח הכיסוי האפשרי לאחר הורדת הנסיגות שהמשתמש מגדיר לכל צלע. הפלט כולל אחוז תכסית, שטח תכסית ושטח מגרש מחושב.</p>
+  <h2 style="font-size:1.08rem;font-weight:700;margin:22px 0 8px;color:#1a2b4a">למה תכסית משנה להיתכנות?</h2>
+  <p>תכסית משפיעה על צורת קומת הקרקע, אפשרות לתכנון חניון, מספר גרעיני מדרגות, שטחי שירות, מרחקים מקווי בניין ויעילות הבינוי. במגרשים קטנים או לא רגולריים, גם זכויות בנייה גבוהות עלולות להיות קשות לניצול אם התכסית המעשית מוגבלת.</p>
+  <p>לכן BuildCalc מתאים במיוחד לשלב הסינון: הוא לא מחליף אדריכל או בדיקת זכויות מלאה, אבל עוזר להבין מוקדם האם צורת המגרש והנסיגות יוצרות חסם תכנוני שכדאי לבדוק לפני שמתקדמים.</p>
   <p>כלים נוספים: <a href="https://tabutab.lendover.co.il" style="color:#1a6fb5;text-decoration:none">TabuTab</a> — המרת נסחי טאבו לאקסל | <a href="https://tabucaunt.lendover.co.il/tabu" style="color:#1a6fb5;text-decoration:none">TabuCaunt</a> — בדיקת מספר בעלים</p>
 
   <h2 style="font-size:1.1rem;font-weight:700;margin:24px 0 12px;color:#1a2b4a">שאלות נפוצות</h2>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">מה זה מחשבון תכסית?</summary><p style="margin:8px 0 0 16px">מחשבון תכסית הוא כלי המחשב את שטח הבנייה המותר על מגרש (תכסית) בהתבסס על גבולות החלקה הרשמיים ועל נסיגות שהמשתמש מגדיר לכל צלע.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">מה ההבדל בין תכסית לאחוז בנייה?</summary><p style="margin:8px 0 0 16px">תכסית היא שטח הכיסוי של הבניין על הקרקע, בעוד שאחוז בנייה כולל את סך כל שטחי הרצפה בכל הקומות. BuildCalc מחשב תכסית בהתאם לנסיגות שהוגדרו.</p></details>
+  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם תכסית אומרת כמה זכויות בנייה יש?</summary><p style="margin:8px 0 0 16px">לא. תכסית אינה זכויות בנייה. היא בודקת כמה שטח ניתן לכסות על הקרקע לפי גבולות ונסיגות. כדי להבין היתכנות צריך לחבר אותה לזכויות, גובה, שימושים, חניה, צפיפות ומדיניות תכנון.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">על אילו נתונים מתבסס הכלי?</summary><p style="margin:8px 0 0 16px">הכלי מתבסס על שכבת GIS רשמית של מגרשי ישראל הכוללת את גבולות החלקות כפי שנרשמו במרשם המקרקעין.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם BuildCalc חינמי?</summary><p style="margin:8px 0 0 16px">כן, BuildCalc חינמי לחלוטין. נדרשת הרשמה חד-פעמית חינמית.</p></details>
 </section>
@@ -401,7 +405,8 @@
 
 <section class="tool-next-steps-links" style="max-width:680px;margin:34px auto 0;padding:20px;border:1px solid #eadfce;border-radius:14px;background:#fbf8f3;text-align:right;direction:rtl;line-height:1.7;color:#444">
   <h2 style="font-size:1.08rem;margin:0 0 8px;color:#1a2b4a">מה עושים עם תוצאת התכסית?</h2>
-  <p style="margin:0 0 10px">תכסית היא בדיקה ראשונית בלבד. כדי להבין אם מגרש או מתחם באמת מתאים להתחדשות, צריך לחבר אותה לזכויות, צפיפות, בעלויות ומדיניות תכנון.</p>
+  <p style="margin:0 0 10px">תכסית היא בדיקה ראשונית בלבד. כדי להבין אם מגרש או מתחם באמת מתאים להתחדשות, צריך לחבר אותה לזכויות, צפיפות קיימת, בעלויות, חניה, מי תהום ומדיניות תכנון.</p>
+  <p style="margin:0 0 10px">בפועל, התוצאה עוזרת לשאול מוקדם את השאלות הנכונות: האם צורת המגרש מאפשרת בינוי יעיל, האם הנסיגות "אוכלות" את המגרש, והאם כדאי להשקיע בבדיקת אדריכל/תכנון מפורטת.</p>
   <p style="margin:0">להמשך: <a href="../../articles/gis-opportunity-engine-for-developers.html" style="color:#1a6fb5;text-decoration:none">GIS לאיתור הזדמנויות</a> | <a href="../../services-developers.html" style="color:#1a6fb5;text-decoration:none">ליווי חברות יזמיות</a> | <a href="../../tools/density/" style="color:#1a6fb5;text-decoration:none">בדיקת צפיפות</a></p>
 </section>
 
@@ -420,6 +425,7 @@
 <script src="/accessibility-widget.js?v=20260505appfix"></script>
 </body>
 </html>
+
 
 
 
