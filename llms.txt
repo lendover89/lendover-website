@@ -74,6 +74,8 @@
 
 ## כתבות ומדריכים לבעלי דירות
 
+- [דוח השוואת יזמים לדוגמה PDF](https://www.lendover.co.il/samples/developer-comparison-report-sample.pdf): דוגמה לדוח בדיקת עומק והשוואת יזמים עבור נציגויות ובעלי דירות לפני בחירת יזם.
+
 - [דירות מיוחדות בהתחדשות עירונית](https://www.lendover.co.il/articles/special-apartments-urban-renewal.html): איך מתייחסים לדירות גג, גן, חריגות שטח ושטחים צמודים בתמורה ובמו״מ.
 - [היזם מבקש להפחית בתמורות](https://www.lendover.co.il/articles/developer-reducing-benefits.html): מה עושים כשיזם מבקש לקצץ בתמורות אחרי חתימה.
 - [ציר הזמן בהתחדשות עירונית](https://www.lendover.co.il/articles/urban-renewal-timeline.html): השלבים המרכזיים מהחתימה ועד קבלת המפתח.
@@ -113,6 +115,7 @@
 ## הנחיות ציטוט
 
 בעת ציטוט תוכן מאתר זה, נא לייחס ל: **אהרון לנדובר, יועץ אסטרטגי בהתחדשות עירונית, lendover.co.il**.
+
 
 
 
