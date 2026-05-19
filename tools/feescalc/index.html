@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מחשבון אגרות והיטלי בנייה — חינם | אהרון לנדובר</title>
+  <meta name="description" content="חשב אגרות היתר בנייה ודמי הקמה למים וביוב לפי רשות מקומית ושטח בנייה. מבוסס קטלוג תעריפים ארצי. כלי חינמי מאת אהרון לנדובר.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.lendover.co.il/tools/feescalc/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.lendover.co.il/tools/feescalc/">
+  <meta property="og:title" content="מחשבון אגרות והיטלי בנייה">
+  <meta property="og:description" content="חשב אגרות היתר בנייה ודמי הקמה מים/ביוב לפי רשות ושטח. מבוסס קטלוג תעריפים ארצי. חינם.">
+  <meta property="og:image" content="https://www.lendover.co.il/logo-transparent-new.png">
+  <meta property="og:locale" content="he_IL">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="report.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-app-brand" href="./">
+    <img src="ifc-logo.png" alt="IFC — מחשבון אגרות והיטלי בנייה" class="nav-app-logo">
+  </a>
+  <a class="nav-site-brand" href="https://www.lendover.co.il" title="חזרה לאתר לנדובר">
+    <img src="https://www.lendover.co.il/logo-transparent-new.png" alt="לנדובר" class="nav-site-logo">
+  </a>
+</nav>
+
+<div class="hero">
+  <h1>מחשבון אגרות והיטלי בנייה</h1>
+  <p>בחר רשות מקומית והזן שטח בנייה — קבל אגרות היתר ודמי הקמה למים וביוב</p>
+</div>
+
+<div class="container">
+
+  <!-- ── Card 1: input ── -->
+  <div class="card" id="input-card">
+    <div class="section-title">פרטי החישוב</div>
+
+    <div class="field-group">
+      <label for="authority">רשות מקומית</label>
+      <input id="authority" list="authority-list" placeholder="הקלד שם רשות..." autocomplete="off">
+      <datalist id="authority-list"></datalist>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label for="area">שטח בנייה (מ"ר)</label>
+        <input id="area" type="number" min="0" step="1" placeholder="לדוגמה 120">
+      </div>
+      <div class="field-group">
+        <label for="work-type">סוג עבודה</label>
+        <select id="work-type">
+          <option value="new">בנייה חדשה / תוספת</option>
+          <option value="use">שימוש חורג</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label for="units">יחידות דיור</label>
+        <input id="units" type="number" min="0" step="1" placeholder="לדוגמה 8">
+      </div>
+      <div class="field-group">
+        <label for="plot">שטח המגרש (מ"ר)</label>
+        <input id="plot" type="number" min="0" step="1" placeholder="לדוגמה 500">
+      </div>
+    </div>
+    <p class="hint">לחישוב דמי הקמה: צפיפות נמוכה = עד 5 יח"ד לדונם (1,000 מ"ר), נקבעת אוטומטית. אם השדות ריקים — חישוב לפי תעריף רגיל.</p>
+
+    <button id="calc-btn">חשב</button>
+
+    <div id="spinner"><div class="spin"></div><p>טוען תעריפים...</p></div>
+    <div id="error-box"></div>
+  </div>
+
+  <!-- ── Card 2: result ── -->
+  <div class="card" id="result-card" style="display:none">
+    <div class="result-head">
+      <h2 id="r-authority">—</h2>
+    </div>
+    <div class="committee" id="r-committee">—</div>
+
+    <!-- אגרות -->
+    <div class="fee-block" id="block-agra">
+      <h3>אגרות היתר בנייה</h3>
+      <div id="agra-lines"></div>
+      <div class="fee-subtotal"><span>סה"כ אגרות</span><span id="agra-total">—</span></div>
+    </div>
+
+    <!-- דמי הקמה -->
+    <div class="fee-block" id="block-water">
+      <h3>דמי הקמה — מים וביוב</h3>
+      <div id="water-lines"></div>
+      <div class="fee-subtotal" id="water-subtotal-row"><span>סה"כ דמי הקמה</span><span id="water-total">—</span></div>
+    </div>
+
+    <!-- היטלי פיתוח -->
+    <div class="fee-block" id="block-levy">
+      <h3>היטלי פיתוח</h3>
+      <div class="levy-controls">
+        <div class="field-group">
+          <span class="levy-q">מבנים קיימים על המגרש?</span>
+          <div class="radio-row">
+            <label><input type="radio" name="levy-existing" value="none" checked> לא</label>
+            <label><input type="radio" name="levy-existing" value="yes"> כן</label>
+          </div>
+        </div>
+        <div class="field-group" id="levy-fate-group" style="display:none">
+          <span class="levy-q">מה ייעשה במבנים?</span>
+          <div class="radio-row">
+            <label><input type="radio" name="levy-fate" value="demolish" checked> נהרסים (הריסה ובנייה)</label>
+            <label><input type="radio" name="levy-fate" value="keep"> נשארים (תוספת)</label>
+          </div>
+        </div>
+        <div class="field-group" id="levy-demo-group" style="display:none">
+          <label for="demo-area">שטח הריסה (מ"ר)</label>
+          <input id="demo-area" type="number" min="0" step="1" placeholder="0">
+        </div>
+        <label class="levy-check"><input type="checkbox" id="levy-agri"> בנייה חקלאית</label>
+      </div>
+      <p class="levy-banner">אומדן — דף עבודה. מרכיב הקרקע תלוי בהיסטוריית המגרש; אמת מול כרטיס הנכס בעירייה.</p>
+      <p class="hint">סמן או בטל היטלים לפי הצורך. הסכום מחושב משטח הבנייה / שטח המגרש שהזנת. סיווג ההיטלים אוטומטי — בדוק מול הרשות.</p>
+      <div class="levy-scroll" id="levy-list"></div>
+      <div class="fee-subtotal"><span>סה"כ היטלי פיתוח</span><span id="levy-total">—</span></div>
+    </div>
+
+    <!-- סה"כ -->
+    <div class="grand-total">
+      <span class="gt-label">סה"כ משוער</span>
+      <span class="gt-amount"><span id="grand-total">—</span> <small>₪</small></span>
+    </div>
+
+    <div class="disclaimer" id="r-disclaimer"></div>
+    <button id="export-pdf-btn">ייצא ל-PDF</button>
+    <button id="reset-btn">חישוב חדש</button>
+  </div>
+
+  <p class="privacy-note">מבוסס על קטלוג תעריפים ארצי — אגרות היתר ודמי הקמה מים/ביוב</p>
+</div>
+
+<section class="about-tool">
+  <h2>אודות המחשבון</h2>
+  <p>מחשבון אגרות והיטלי בנייה פותח על ידי <a href="https://www.lendover.co.il">אהרון לנדובר</a>, יועץ התחדשות עירונית. הכלי מאפשר אומדן מהיר של אגרות היתר הבנייה ודמי ההקמה למים וביוב לפי רשות מקומית ושטח בנייה.</p>
+  <p>הנתונים מבוססים על קטלוג תעריפים ארצי שנאסף ממקורות רשמיים של הוועדות המקומיות ותאגידי המים. החישוב הוא אומדן בלבד ואינו מחליף בדיקה מול הרשות.</p>
+  <p>כלים נוספים: <a href="https://www.lendover.co.il/tools/buildcalc/">BuildCalc — מחשבון תכסית</a> | <a href="https://tabutab.lendover.co.il">TabuTab — המרת נסחי טאבו</a></p>
+</section>
+
+<footer>
+  פותח על ידי <a href="https://www.lendover.co.il">אהרון לנדובר</a> | יועץ אסטרטגי בהתחדשות עירונית
+  &nbsp;|&nbsp; <a href="https://www.lendover.co.il/privacy.html">מדיניות פרטיות</a>
+</footer>
+
+  <script src="vendor/html2canvas.min.js"></script>
+  <script src="vendor/jspdf.umd.min.js"></script>
+  <script src="levy-logic.js"></script>
+  <script src="report.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
