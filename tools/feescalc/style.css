@@ -236,12 +236,6 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
 
 
 
-/* ── WhatsApp float ── */
-.whatsapp-float{position:fixed;bottom:24px;left:24px;z-index:9999;display:flex;align-items:center;gap:8px;background:#25D366;color:#fff;text-decoration:none;padding:12px 22px;border-radius:50px;font-size:15px;font-weight:600;font-family:Arial,sans-serif;box-shadow:0 4px 16px rgba(37,211,102,.35);transition:transform .2s,box-shadow .2s}
-.whatsapp-float:hover{transform:scale(1.05);box-shadow:0 6px 24px rgba(37,211,102,.45)}
-.whatsapp-float svg{flex-shrink:0}
-@media(max-width:640px){.whatsapp-float{bottom:16px;left:16px;padding:10px 14px}.whatsapp-float .wafloat-text{display:none}}
-
 /* ── Responsive ── */
 @media (max-width: 540px) {
   nav { padding: 8px 16px; }
@@ -262,5 +256,6 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
   font-size: 0.82rem; color: #8a6d3b; background: #fcf8e3;
   border: 1px solid #faebcc; border-radius: 6px; padding: 7px 10px; margin: 6px 0;
 }
+
 
 
