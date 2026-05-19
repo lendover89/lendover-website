@@ -1,0 +1,61 @@
+/* report.css — styles for the off-screen branded PDF report (.pdf-report only) */
+
+.pdf-report {
+  width: 780px;
+  background: #fff;
+  direction: rtl;
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+  color: #2C2C2C;
+}
+.pdf-report * { box-sizing: border-box; margin: 0; padding: 0; }
+
+.pdf-report .rp-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 30px; background: #F5E9DC; border-bottom: 3px solid #B8743D;
+}
+.pdf-report .rp-head img { height: 64px; width: auto; }
+.pdf-report .rp-title { text-align: center; }
+.pdf-report .rp-title h1 { font-size: 19px; font-weight: 800; color: #9A5F2E; }
+.pdf-report .rp-title .rp-date { font-size: 12px; font-weight: 400; color: #777; margin-top: 4px; }
+
+.pdf-report .rp-body { padding: 24px 30px; }
+
+.pdf-report .rp-prop {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 9px 20px;
+  background: #F0EDE6; border-radius: 4px; padding: 14px 18px; margin-bottom: 22px;
+}
+.pdf-report .rp-prop div { font-size: 13px; }
+.pdf-report .rp-prop b { font-weight: 700; color: #9A5F2E; }
+.pdf-report .rp-prop .rp-demo b, .pdf-report .rp-prop .rp-demo { color: #B8743D; }
+
+.pdf-report .rp-sec {
+  font-size: 15px; font-weight: 800; color: #B8743D;
+  border-bottom: 1px solid #E2DDD6; padding-bottom: 5px; margin: 18px 0 9px;
+}
+.pdf-report .rp-sec small { font-weight: 400; font-size: 12px; color: #777; }
+
+.pdf-report table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.pdf-report td { padding: 6px 4px; border-bottom: 1px solid #F0EDE6; vertical-align: top; }
+.pdf-report td.rp-amt { text-align: left; white-space: nowrap; font-weight: 600; }
+.pdf-report .rp-detail { display: block; font-size: 11px; color: #777; margin-top: 2px; }
+.pdf-report .rp-na { color: #777; }
+.pdf-report tr.rp-sub td {
+  font-weight: 700; border-top: 1px solid #E2DDD6; border-bottom: none; padding-top: 8px;
+}
+
+.pdf-report .rp-grand {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #E0F7F6; border: 1px solid #5BC8C4; border-radius: 6px;
+  padding: 14px 20px; margin: 20px 0;
+}
+.pdf-report .rp-grand .rp-gl { font-size: 15px; font-weight: 800; color: #2C2C2C; }
+.pdf-report .rp-grand .rp-gv { font-size: 24px; font-weight: 800; color: #9A5F2E; }
+
+.pdf-report .rp-disc { font-size: 11px; color: #777; line-height: 1.55; font-weight: 400; margin-top: 12px; }
+
+.pdf-report .rp-foot {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #3C3C3C; color: #EDEDED; padding: 16px 30px; font-size: 12px;
+}
+.pdf-report .rp-foot b { color: #fff; font-size: 14px; font-weight: 700; }
+.pdf-report .rp-foot .rp-contact { text-align: left; line-height: 1.7; }
