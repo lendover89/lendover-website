@@ -16,7 +16,11 @@ const STATE = { data: null, area: 0, plot: 0, agraTotal: 0, waterTotal: 0, levyT
 /* ── load authority list ── */
 async function loadAuthorities() {
   try {
-    const r = await fetch(API + '/api/authorities');
+    let r = await fetch(API + '/api/authorities', { credentials: 'include' });
+    if (r.status === 401) {                 /* not registered — open auth modal, retry */
+      await window.handleAuth401();
+      r = await fetch(API + '/api/authorities', { credentials: 'include' });
+    }
     AUTHORITIES = await r.json();
     const dl = $('authority-list');
     dl.innerHTML = '';
@@ -46,7 +50,12 @@ async function calculate() {
   $('result-card').style.display = 'none';
   $('calc-btn').disabled = true;
   try {
-    const r = await fetch(API + '/api/fees?authority=' + encodeURIComponent(authority));
+    const feesUrl = API + '/api/fees?authority=' + encodeURIComponent(authority);
+    let r = await fetch(feesUrl, { credentials: 'include' });
+    if (r.status === 401) {                 /* not registered — open auth modal, retry */
+      await window.handleAuth401();
+      r = await fetch(feesUrl, { credentials: 'include' });
+    }
     if (!r.ok) throw new Error('http ' + r.status);
     STATE.data = await r.json();
     STATE.area = area;
