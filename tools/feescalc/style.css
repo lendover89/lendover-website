@@ -221,19 +221,38 @@ nav {
   text-align: center; font-size: 0.78rem; color: var(--text-muted); margin-top: 8px;
 }
 
-/* ── About / footer ── */
+/* ── About / FAQ / next steps / footer ── */
 .about-tool {
-  max-width: 680px; margin: 40px auto 0; padding: 0 20px 40px;
-  text-align: right; color: #444; line-height: 1.7;
+  max-width: 680px; margin: 40px auto 0; padding: 0 20px 18px;
+  text-align: center; color: #444; line-height: 1.9;
 }
-.about-tool h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; color: #1a2b4a; }
-.about-tool p { margin-bottom: 8px; }
+.about-tool h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 14px; color: #1a2b4a; }
+.about-tool p { margin-bottom: 10px; }
+.about-tool a, .tool-faq-plain a, .tool-next-steps-links a { color: #1a6fb5; text-decoration: none; }
+
+.tool-faq-plain {
+  max-width: 680px; margin: 28px auto 0; padding: 0 20px;
+  text-align: center; direction: rtl; line-height: 1.8; color: #444;
+}
+.tool-faq-plain h2 { font-size: 1.08rem; margin: 0 0 12px; color: #1a2b4a; }
+.tool-faq-plain details { margin-bottom: 10px; }
+.tool-faq-plain summary { cursor: pointer; font-weight: 600; list-style-position: inside; }
+.tool-faq-plain p { margin: 8px auto 0; max-width: 560px; }
+
+.tool-next-steps-links {
+  max-width:680px; margin:34px auto 0; padding:20px;
+  border:1px solid #eadfce; border-radius:14px; background:#fbf8f3;
+  text-align:center; direction:rtl; line-height:1.7; color:#444;
+}
+.tool-next-steps-links h2 { font-size:1.08rem; margin:0 0 8px; color:#1a2b4a; }
+.tool-next-steps-links p { margin:0 0 10px; }
+.tool-next-steps-links p:last-child { margin-bottom:0; }
+
 footer {
   text-align: center; padding: 20px; font-size: 0.82rem;
   color: #888; border-top: 1px solid #eee; margin-top: 20px;
 }
-footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
-
+footer a { color: #1a6fb5; text-decoration: none; }
 
 
 /* ── Responsive ── */
@@ -258,6 +277,7 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
   font-size: 0.82rem; color: #8a6d3b; background: #fcf8e3;
   border: 1px solid #faebcc; border-radius: 6px; padding: 7px 10px; margin: 6px 0;
 }
+
 
 
 
