@@ -234,6 +234,37 @@ footer {
 }
 footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
 
+
+
+/* ── SEO / GEO content blocks ── */
+.seo-panel, .faq-tool, .tool-cta {
+  max-width: 780px; margin: 24px auto 0; padding: 26px 28px;
+  background: var(--bg-white); border-radius: var(--radius); box-shadow: var(--shadow);
+  line-height: 1.75; color: #444;
+}
+.seo-panel h2, .faq-tool h2, .tool-cta h2 {
+  font-size: 1.2rem; color: #1a2b4a; margin-bottom: 12px;
+}
+.seo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.seo-grid div { border-right: 3px solid var(--copper); padding-right: 12px; }
+.seo-grid h3 { font-size: 0.95rem; color: var(--copper-dark); margin-bottom: 6px; }
+.seo-grid p, .faq-tool p, .tool-cta p { font-size: 0.92rem; }
+.faq-tool details { border-top: 1px solid var(--border); padding: 12px 0; }
+.faq-tool details:last-child { border-bottom: 1px solid var(--border); }
+.faq-tool summary { cursor: pointer; font-weight: 700; color: var(--charcoal); }
+.tool-cta { text-align: center; background: #fffaf5; border-top: 3px solid var(--copper); }
+.tool-cta a {
+  display: inline-block; margin-top: 14px; padding: 11px 20px;
+  background: var(--copper); color: #fff; border-radius: var(--radius);
+  text-decoration: none; font-weight: 700;
+}
+.tool-cta a:hover { background: var(--copper-dark); }
+
+@media (max-width: 720px) {
+  .seo-grid { grid-template-columns: 1fr; }
+  .seo-panel, .faq-tool, .tool-cta { margin-right: 16px; margin-left: 16px; padding: 20px 18px; }
+}
+
 /* ── Responsive ── */
 @media (max-width: 540px) {
   nav { padding: 8px 16px; }
@@ -254,3 +285,4 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
   font-size: 0.82rem; color: #8a6d3b; background: #fcf8e3;
   border: 1px solid #faebcc; border-radius: 6px; padding: 7px 10px; margin: 6px 0;
 }
+
