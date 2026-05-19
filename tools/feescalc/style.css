@@ -1,0 +1,256 @@
+/* style.css — מחשבון אגרות והיטלי בנייה | lendover.co.il */
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --copper:       #B8743D;
+  --copper-dark:  #9A5F2E;
+  --copper-light: #F5E9DC;
+  --teal:         #5BC8C4;
+  --teal-light:   #E0F7F6;
+  --charcoal:     #3C3C3C;
+  --text:         #2C2C2C;
+  --text-muted:   #777777;
+  --bg:           #F0EDE6;
+  --bg-white:     #FFFFFF;
+  --border:       #E2DDD6;
+  --red:          #C0392B;
+  --green:        #2E7D52;
+  --radius:       4px;
+  --shadow:       0 2px 12px rgba(0,0,0,0.08);
+}
+
+html { font-size: 16px; }
+body {
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+  padding-bottom: 48px;
+}
+
+/* ── Navbar ── */
+nav {
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-app-brand, .nav-site-brand { text-decoration: none; display: flex; align-items: center; }
+.nav-app-logo { height: 141px; width: auto; }
+.nav-site-brand { opacity: 0.8; transition: opacity 0.2s; }
+.nav-site-brand:hover { opacity: 1; }
+.nav-site-logo { height: 109px; width: auto; }
+
+/* ── Hero ── */
+.hero {
+  background: var(--charcoal);
+  color: #fff; text-align: center;
+  padding: 28px 24px 24px;
+}
+.hero h1 { font-size: 1.7rem; font-weight: 700; margin-bottom: 8px; }
+.hero p  { font-size: 1rem; color: rgba(255,255,255,0.75); font-weight: 300; }
+
+/* ── Container ── */
+.container { max-width: 720px; margin: 36px auto 0; padding: 0 16px; }
+
+/* ── Section title ── */
+.section-title {
+  font-size: 1.1rem; font-weight: 700; color: var(--charcoal);
+  margin-bottom: 18px; padding-bottom: 10px; position: relative;
+}
+.section-title::after {
+  content: ''; position: absolute; bottom: 0; right: 0;
+  width: 40px; height: 2px; background: var(--copper);
+}
+
+/* ── Card ── */
+.card {
+  background: var(--bg-white);
+  border-top: 3px solid var(--copper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 32px; margin-bottom: 20px;
+}
+
+/* ── Form ── */
+.field-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 16px; }
+.field-group label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); }
+.field-group input, .field-group select {
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: 'Heebo', sans-serif; font-size: 1rem;
+  color: var(--text); background: var(--bg-white);
+  transition: border-color 0.15s;
+}
+.field-group input:focus, .field-group select:focus {
+  outline: none; border-color: var(--copper);
+}
+.field-row { display: flex; gap: 14px; }
+.field-row .field-group { flex: 1; }
+.hint { font-size: 0.78rem; color: var(--text-muted); margin: -8px 0 16px; line-height: 1.5; }
+
+#calc-btn {
+  width: 100%; padding: 12px 28px;
+  background: var(--copper); color: #fff; border: none;
+  border-radius: var(--radius);
+  font-family: 'Heebo', sans-serif; font-size: 1rem; font-weight: 700;
+  cursor: pointer; transition: background 0.2s; margin-top: 4px;
+}
+#calc-btn:hover:not(:disabled) { background: var(--copper-dark); }
+#calc-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── Spinner / error ── */
+#spinner { display: none; text-align: center; padding: 18px 0 4px; }
+.spin {
+  display: inline-block; width: 34px; height: 34px;
+  border: 3px solid var(--copper-light); border-top-color: var(--copper);
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+#spinner p { margin-top: 10px; font-size: 0.88rem; color: var(--text-muted); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#error-box {
+  display: none;
+  background: #FEF0F0; border: 1px solid #F5BCBC;
+  border-radius: var(--radius); padding: 12px 16px;
+  color: var(--red); font-size: 0.88rem; margin-top: 16px; font-weight: 600;
+}
+
+/* ── Result header ── */
+.result-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  flex-wrap: wrap; gap: 8px; margin-bottom: 4px;
+}
+.result-head h2 { font-size: 1.15rem; color: var(--charcoal); }
+.result-head .committee { font-size: 0.82rem; color: var(--text-muted); }
+
+
+/* ── Fee blocks ── */
+.fee-block { margin-top: 22px; }
+.fee-block h3 {
+  font-size: 0.95rem; font-weight: 700; color: var(--copper-dark);
+  margin-bottom: 8px;
+}
+.fee-line {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 7px 4px; border-bottom: 1px dashed var(--border);
+  font-size: 0.9rem;
+}
+.fee-line .lbl { color: var(--text); }
+.fee-line .lbl small { color: var(--text-muted); font-size: 0.78rem; }
+.fee-line .amt { font-weight: 700; color: var(--charcoal); white-space: nowrap; }
+.fee-subtotal {
+  display: flex; justify-content: space-between;
+  padding: 8px 4px; font-weight: 700; color: var(--copper-dark);
+}
+.fee-na { font-size: 0.86rem; color: var(--text-muted); padding: 6px 4px; }
+
+/* ── Grand total ── */
+.grand-total {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--teal-light); border: 1px solid var(--teal);
+  border-radius: var(--radius); padding: 16px 20px; margin-top: 18px;
+}
+.grand-total .gt-label { font-size: 0.95rem; font-weight: 600; color: #1E5C59; }
+.grand-total .gt-amount { font-size: 1.9rem; font-weight: 800; color: var(--copper-dark); }
+.grand-total .gt-amount small { font-size: 0.9rem; font-weight: 500; }
+
+/* ── Levy checklist ── */
+.levy-scroll {
+  max-height: 360px; overflow-y: auto; margin-top: 6px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+}
+.levy-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; border-bottom: 1px solid var(--border);
+  cursor: pointer; font-size: 0.84rem;
+}
+.levy-item:last-child { border-bottom: none; }
+.levy-item:hover { background: var(--bg); }
+.levy-item--na { opacity: 0.6; }
+.levy-item input[type=checkbox] {
+  flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--copper); cursor: pointer;
+}
+.levy-type-badge {
+  flex-shrink: 0; min-width: 50px; text-align: center;
+  background: var(--copper-light); color: var(--copper-dark);
+  border-radius: 3px; padding: 2px 6px; font-size: 0.72rem; font-weight: 700;
+}
+.levy-desc { flex: 1; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.levy-name { color: var(--text); }
+.levy-when { color: var(--text-muted); font-size: 0.74rem; }
+.levy-amt { flex-shrink: 0; font-weight: 700; color: var(--charcoal); white-space: nowrap; }
+.levy-amt--credit { color: var(--green); }
+
+/* ── Notes ── */
+.note {
+  background: #FEF6ED; border: 1px solid #F0C68A;
+  border-radius: var(--radius); padding: 8px 12px;
+  font-size: 0.82rem; color: #8A5A1A; margin-top: 12px;
+}
+.disclaimer {
+  font-size: 0.78rem; color: var(--text-muted);
+  margin-top: 16px; line-height: 1.6;
+}
+.disclaimer a { color: #1a6fb5; text-decoration: none; }
+
+#reset-btn {
+  display: block; width: 100%; margin-top: 14px; padding: 10px;
+  background: transparent; color: var(--copper);
+  border: 1.5px solid var(--copper); border-radius: var(--radius);
+  font-family: 'Heebo', sans-serif; font-size: 0.92rem; font-weight: 500;
+  cursor: pointer; transition: background 0.2s;
+}
+#reset-btn:hover { background: var(--copper-light); }
+
+#export-pdf-btn {
+  display: block; width: 100%; margin-top: 14px; padding: 11px;
+  background: var(--copper); color: #fff;
+  border: 1.5px solid var(--copper); border-radius: var(--radius);
+  font-family: 'Heebo', sans-serif; font-size: 0.95rem; font-weight: 600;
+  cursor: pointer; transition: background 0.2s;
+}
+#export-pdf-btn:hover:not(:disabled) { background: var(--copper-dark); border-color: var(--copper-dark); }
+#export-pdf-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.privacy-note {
+  text-align: center; font-size: 0.78rem; color: var(--text-muted); margin-top: 8px;
+}
+
+/* ── About / footer ── */
+.about-tool {
+  max-width: 680px; margin: 40px auto 0; padding: 0 20px 40px;
+  text-align: right; color: #444; line-height: 1.7;
+}
+.about-tool h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; color: #1a2b4a; }
+.about-tool p { margin-bottom: 8px; }
+footer {
+  text-align: center; padding: 20px; font-size: 0.82rem;
+  color: #888; border-top: 1px solid #eee; margin-top: 20px;
+}
+footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
+
+/* ── Responsive ── */
+@media (max-width: 540px) {
+  nav { padding: 8px 16px; }
+  .hero { padding: 24px 14px 20px; }
+  .hero h1 { font-size: 1.3rem; }
+  .card { padding: 18px 16px; }
+  .field-row { flex-direction: column; gap: 0; }
+  .grand-total .gt-amount { font-size: 1.5rem; }
+}
+
+/* ── levy physical-question controls ── */
+.levy-controls { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+.levy-q { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+.radio-row { display: flex; gap: 18px; flex-wrap: wrap; }
+.radio-row label { display: flex; align-items: center; gap: 6px; font-size: 0.92rem; cursor: pointer; }
+.levy-check { display: flex; align-items: center; gap: 6px; font-size: 0.92rem; cursor: pointer; }
+.levy-banner {
+  font-size: 0.82rem; color: #8a6d3b; background: #fcf8e3;
+  border: 1px solid #faebcc; border-radius: 6px; padding: 7px 10px; margin: 6px 0;
+}
