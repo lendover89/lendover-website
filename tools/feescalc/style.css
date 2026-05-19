@@ -239,6 +239,8 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
 /* ── Responsive ── */
 @media (max-width: 540px) {
   nav { padding: 8px 16px; }
+  .nav-app-logo { height: 90px; }
+  .nav-site-logo { height: 64px; }
   .hero { padding: 24px 14px 20px; }
   .hero h1 { font-size: 1.3rem; }
   .card { padding: 18px 16px; }
@@ -256,6 +258,7 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
   font-size: 0.82rem; color: #8a6d3b; background: #fcf8e3;
   border: 1px solid #faebcc; border-radius: 6px; padding: 7px 10px; margin: 6px 0;
 }
+
 
 
 
