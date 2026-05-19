@@ -125,7 +125,7 @@ nav {
   display: flex; align-items: baseline; justify-content: space-between;
   flex-wrap: wrap; gap: 8px; margin-bottom: 4px;
 }
-.result-head h2 { font-size: 1.15rem; color: var(--charcoal); }
+.result-head h2, .result-head .result-title { font-size: 1.15rem; font-weight: 700; color: var(--charcoal); }
 .result-head .committee { font-size: 0.82rem; color: var(--text-muted); }
 
 
@@ -257,6 +257,7 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
   font-size: 0.82rem; color: #8a6d3b; background: #fcf8e3;
   border: 1px solid #faebcc; border-radius: 6px; padding: 7px 10px; margin: 6px 0;
 }
+
 
 
 
