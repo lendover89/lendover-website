@@ -489,7 +489,7 @@
         <table class="users">
           <thead>
             <tr>
-              <th class="sortable" data-sort="id" onclick="sortUsers('id')">#<span class="sort-ind" data-sort-ind="id"></span></th>
+              <th title="מספר שורה בתוצאה הנוכחית">#</th>
               <th class="sortable" data-sort="name" onclick="sortUsers('name')">שם<span class="sort-ind" data-sort-ind="name"></span></th>
               <th class="sortable" data-sort="email" onclick="sortUsers('email')">אימייל<span class="sort-ind" data-sort-ind="email"></span></th>
               <th class="sortable" data-sort="phone" onclick="sortUsers('phone')">טלפון<span class="sort-ind" data-sort-ind="phone"></span></th>
@@ -906,7 +906,10 @@ function renderUsers(d) {
     return;
   }
 
-  tbody.innerHTML = d.users.map(function(u) {
+  var page = d.page || usersState.page || 1;
+  var perPage = d.per_page || 50;
+  tbody.innerHTML = d.users.map(function(u, idx) {
+    var rowNum = ((page - 1) * perPage) + idx + 1;
     var verBadge = u.verified
       ? '<span class="badge badge-green">כן</span>'
       : '<span class="badge badge-gray">לא</span>';
@@ -933,7 +936,7 @@ function renderUsers(d) {
     }
 
     return '<tr>' +
-      '<td>' + u.id + '</td>' +
+      '<td title="User ID: ' + u.id + '">' + rowNum + '</td>' +
       '<td>' + esc(u.name) + '</td>' +
       '<td style="direction:ltr;text-align:right">' + esc(u.email) + '</td>' +
       '<td style="direction:ltr;text-align:right">' + esc(u.phone) + '</td>' +
@@ -1256,6 +1259,7 @@ checkSession();
 </script>
 </body>
 </html>
+
 
 
 
