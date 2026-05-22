@@ -190,17 +190,18 @@
       margin-bottom: 16px;
       flex-wrap: wrap;
     }
-    .toolbar input[type=search] {
+    .toolbar input[type=search], .toolbar select {
       padding: 9px 14px;
       border: 2px solid var(--border);
       border-radius: var(--radius);
       font-size: 14px;
       outline: none;
-      flex: 1;
-      min-width: 180px;
+      min-width: 150px;
       transition: border-color .2s;
+      background: #fff;
     }
-    .toolbar input[type=search]:focus { border-color: var(--bronze); }
+    .toolbar input[type=search] { flex: 1; min-width: 180px; }
+    .toolbar input[type=search]:focus, .toolbar select:focus { border-color: var(--bronze); }
 
     .users-table-wrap {
       background: var(--white);
@@ -450,6 +451,34 @@
     <div class="tab-panel" id="tab-users">
       <div class="toolbar">
         <input type="search" id="user-search" placeholder="חיפוש לפי שם / אימייל / טלפון" oninput="debounceSearch()">
+        <select id="filter-status" onchange="loadUsers(1)" title="סטטוס משתמש">
+          <option value="">כל הסטטוסים</option>
+          <option value="active">פעילים</option>
+          <option value="blocked">חסומים</option>
+        </select>
+        <select id="filter-verified" onchange="loadUsers(1)" title="אימות משתמש">
+          <option value="">כל האימותים</option>
+          <option value="yes">מאומתים</option>
+          <option value="no">לא מאומתים</option>
+        </select>
+        <select id="filter-usage" onchange="loadUsers(1)" title="שימוש באפליקציות">
+          <option value="">כל השימושים</option>
+          <option value="used">השתמשו לפחות פעם אחת</option>
+          <option value="never">לא השתמשו אף פעם</option>
+          <option value="last7">שימוש ב־7 ימים</option>
+          <option value="last30">שימוש ב־30 ימים</option>
+        </select>
+        <select id="filter-tool" onchange="loadUsers(1)" title="אפליקציה">
+          <option value="">כל האפליקציות</option>
+          <option value="tabutab">TabuTab</option>
+          <option value="tabucaunt">TabuCaunt</option>
+          <option value="buildcalc">BuildCalc</option>
+          <option value="groundwater">מי תהום</option>
+          <option value="tabu2docs">Tabu2Docs</option>
+          <option value="density">Density</option>
+          <option value="feescalc">אגרות והיטלים</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="clearUserFilters()">נקה פילטרים</button>
         <button class="btn btn-outline btn-sm" onclick="exportUsers()">📥 ייצוא CSV</button>
         <button class="btn btn-primary btn-sm" onclick="loadUsers(1)">רענן</button>
       </div>
@@ -465,6 +494,7 @@
               <th>מאומת</th>
               <th>סטטוס</th>
               <th>נרשם</th>
+              <th title="האפליקציה האחרונה שבה המשתמש השתמש">אפליקציה אחרונה</th>
               <th title="השימוש האחרון באחת האפליקציות באתר">שימוש אחרון באפליקציה</th>
               <th title="TabuTab — מספר שימושים">TabuTab</th>
               <th title="TabuCaunt — מספר שימושים">TabuCaunt</th>
@@ -477,7 +507,7 @@
             </tr>
           </thead>
           <tbody id="users-body">
-            <tr><td colspan="17" class="loader">טוען...</td></tr>
+            <tr><td colspan="18" class="loader">טוען...</td></tr>
           </tbody>
         </table>
         <div class="pagination" id="pagination" style="display:none">
@@ -793,16 +823,47 @@ function debounceSearch() {
   searchTimer = setTimeout(function(){ loadUsers(1); }, 350);
 }
 
+function clearUserFilters() {
+  document.getElementById('user-search').value = '';
+  document.getElementById('filter-status').value = '';
+  document.getElementById('filter-verified').value = '';
+  document.getElementById('filter-usage').value = '';
+  document.getElementById('filter-tool').value = '';
+  loadUsers(1);
+}
+
+function toolLabel(tool) {
+  var labels = {
+    tabutab: 'TabuTab',
+    tabucaunt: 'TabuCaunt',
+    buildcalc: 'BuildCalc',
+    groundwater: 'מי תהום',
+    tabu2docs: 'Tabu2Docs',
+    density: 'Density',
+    feescalc: 'אגרות והיטלים'
+  };
+  return labels[tool] || tool || '—';
+}
+
 async function loadUsers(page) {
   var search = document.getElementById('user-search').value.trim();
   usersState.search = search;
   usersState.page = page;
 
+  var status = document.getElementById('filter-status').value;
+  var verified = document.getElementById('filter-verified').value;
+  var usage = document.getElementById('filter-usage').value;
+  var tool = document.getElementById('filter-tool').value;
+
   var params = '?page=' + page + '&per_page=50';
   if (search) params += '&search=' + encodeURIComponent(search);
+  if (status) params += '&status=' + encodeURIComponent(status);
+  if (verified) params += '&verified=' + encodeURIComponent(verified);
+  if (usage) params += '&usage=' + encodeURIComponent(usage);
+  if (tool) params += '&tool=' + encodeURIComponent(tool);
 
   var tbody = document.getElementById('users-body');
-  tbody.innerHTML = '<tr><td colspan="17" class="loader">טוען...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="18" class="loader">טוען...</td></tr>';
   document.getElementById('pagination').style.display = 'none';
 
   try {
@@ -812,14 +873,14 @@ async function loadUsers(page) {
     var d = await res.json();
     renderUsers(d);
   } catch(e) {
-    tbody.innerHTML = '<tr><td colspan="17" class="empty">שגיאה בטעינה</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="18" class="empty">שגיאה בטעינה</td></tr>';
   }
 }
 
 function renderUsers(d) {
   var tbody = document.getElementById('users-body');
   if (!d.users || !d.users.length) {
-    tbody.innerHTML = '<tr><td colspan="17" class="empty">לא נמצאו משתמשים</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="18" class="empty">לא נמצאו משתמשים</td></tr>';
     return;
   }
 
@@ -858,6 +919,7 @@ function renderUsers(d) {
       '<td>' + verBadge + '</td>' +
       '<td>' + blockBadge + '</td>' +
       '<td>' + fmtDate(u.created_at) + '</td>' +
+      '<td>' + esc(toolLabel(u.last_app_tool)) + '</td>' +
       '<td>' + fmtDate(u.last_app_use || u.last_tool_use) + '</td>' +
       usageCell(ttUses) +
       usageCell(tcUses) +
@@ -1172,5 +1234,6 @@ checkSession();
 </script>
 </body>
 </html>
+
 
 
