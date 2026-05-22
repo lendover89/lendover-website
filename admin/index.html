@@ -233,6 +233,64 @@
     .badge-red   { background: #f8d7da; color: #721c24; }
     .badge-gray  { background: #e9ecef; color: #6c757d; }
 
+
+    .usage-detail-btn { margin-inline-start: 6px; }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(27,31,30,.42);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 1000;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal-box {
+      background: var(--white);
+      border-radius: 18px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.22);
+      width: min(920px, 100%);
+      max-height: 88vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--cream);
+    }
+    .modal-head h3 { margin: 0; font-size: 18px; color: var(--dark); }
+    .modal-body { padding: 16px 18px; overflow: auto; }
+    .usage-filters {
+      display: flex;
+      gap: 8px;
+      align-items: end;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .usage-filters label { font-size: 12px; color: var(--sage); display: grid; gap: 4px; }
+    .usage-filters input, .usage-filters select {
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 9px;
+      font-size: 13px;
+      background: #fff;
+    }
+    .usage-events-table { width: 100%; border-collapse: collapse; }
+    .usage-events-table th, .usage-events-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      text-align: right;
+    }
+    .usage-events-table th { background: #faf9f6; color: var(--sage); font-size: 12px; }
+
     .pagination {
       display: flex;
       align-items: center;
@@ -407,7 +465,7 @@
               <th>מאומת</th>
               <th>סטטוס</th>
               <th>נרשם</th>
-              <th>כניסה אחרונה</th>
+              <th title="השימוש האחרון באחת האפליקציות באתר">שימוש אחרון באפליקציה</th>
               <th title="TabuTab — מספר שימושים">TabuTab</th>
               <th title="TabuCaunt — מספר שימושים">TabuCaunt</th>
               <th title="BuildCalc — מספר שימושים">BuildCalc</th>
@@ -419,7 +477,7 @@
             </tr>
           </thead>
           <tbody id="users-body">
-            <tr><td colspan="15" class="loader">טוען...</td></tr>
+            <tr><td colspan="17" class="loader">טוען...</td></tr>
           </tbody>
         </table>
         <div class="pagination" id="pagination" style="display:none">
@@ -514,6 +572,16 @@
 </div>
 
 <div id="toast"></div>
+
+<div class="modal-backdrop" id="usage-modal" onclick="if(event.target===this) closeUsageModal()">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="usage-modal-title">
+    <div class="modal-head">
+      <h3 id="usage-modal-title">היסטוריית שימוש</h3>
+      <button class="btn btn-outline btn-sm" onclick="closeUsageModal()">סגור</button>
+    </div>
+    <div class="modal-body" id="usage-modal-body">טוען...</div>
+  </div>
+</div>
 
 <script>
 'use strict';
@@ -734,7 +802,7 @@ async function loadUsers(page) {
   if (search) params += '&search=' + encodeURIComponent(search);
 
   var tbody = document.getElementById('users-body');
-  tbody.innerHTML = '<tr><td colspan="14" class="loader">טוען...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="17" class="loader">טוען...</td></tr>';
   document.getElementById('pagination').style.display = 'none';
 
   try {
@@ -744,14 +812,14 @@ async function loadUsers(page) {
     var d = await res.json();
     renderUsers(d);
   } catch(e) {
-    tbody.innerHTML = '<tr><td colspan="14" class="empty">שגיאה בטעינה</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="17" class="empty">שגיאה בטעינה</td></tr>';
   }
 }
 
 function renderUsers(d) {
   var tbody = document.getElementById('users-body');
   if (!d.users || !d.users.length) {
-    tbody.innerHTML = '<tr><td colspan="15" class="empty">לא נמצאו משתמשים</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="17" class="empty">לא נמצאו משתמשים</td></tr>';
     return;
   }
 
@@ -790,7 +858,7 @@ function renderUsers(d) {
       '<td>' + verBadge + '</td>' +
       '<td>' + blockBadge + '</td>' +
       '<td>' + fmtDate(u.created_at) + '</td>' +
-      '<td>' + fmtDate(u.last_login) + '</td>' +
+      '<td>' + fmtDate(u.last_app_use || u.last_tool_use) + '</td>' +
       usageCell(ttUses) +
       usageCell(tcUses) +
       usageCell(bcUses) +
@@ -798,7 +866,7 @@ function renderUsers(d) {
       usageCell(t2dUses) +
       usageCell(dnUses) +
       usageCell(fcUses) +
-      '<td style="white-space:nowrap">' + blockBtn + ' ' + deleteBtn + '</td>' +
+      '<td style="white-space:nowrap">' + '<button class="btn btn-outline btn-sm usage-detail-btn" onclick="showUserUsage(' + u.id + ',\'' + esc(u.name).replace(/'/g, "\\'") + '\')">שימושים</button> ' + blockBtn + ' ' + deleteBtn + '</td>' +
       '</tr>';
   }).join('');
 
@@ -838,6 +906,81 @@ function addEllipsis(container) {
   s.textContent = '…';
   s.style.padding = '0 4px';
   container.appendChild(s);
+}
+
+
+async function showUserUsage(userId, userName) {
+  var modal = document.getElementById('usage-modal');
+  var body = document.getElementById('usage-modal-body');
+  document.getElementById('usage-modal-title').textContent = 'היסטוריית שימוש — ' + userName;
+  body.innerHTML = '<div class="loader">טוען...</div>';
+  modal.classList.add('show');
+  await loadUserUsage(userId);
+}
+
+function closeUsageModal() {
+  document.getElementById('usage-modal').classList.remove('show');
+}
+
+async function loadUserUsage(userId) {
+  var body = document.getElementById('usage-modal-body');
+  var from = document.getElementById('usage-filter-from')?.value || '';
+  var to = document.getElementById('usage-filter-to')?.value || '';
+  var tool = document.getElementById('usage-filter-tool')?.value || '';
+  var params = '?limit=200';
+  if (from) params += '&from=' + encodeURIComponent(from);
+  if (to) params += '&to=' + encodeURIComponent(to);
+  if (tool) params += '&tool=' + encodeURIComponent(tool);
+
+  try {
+    var res = await apiFetch('/admin/users/' + userId + '/usage' + params);
+    if (res.status === 401 || res.status === 403) { doLogout(); return; }
+    if (!res.ok) throw new Error();
+    var d = await res.json();
+    renderUserUsage(userId, d, { from: from, to: to, tool: tool });
+  } catch(e) {
+    body.innerHTML = '<div class="empty">שגיאה בטעינת היסטוריית שימוש</div>';
+  }
+}
+
+function renderUserUsage(userId, d, filters) {
+  var body = document.getElementById('usage-modal-body');
+  var events = d.events || d.recent || [];
+  var toolOptions = [
+    ['', 'כל האפליקציות'],
+    ['tabutab', 'TabuTab'],
+    ['tabucaunt', 'TabuCaunt'],
+    ['buildcalc', 'BuildCalc'],
+    ['groundwater', 'מי תהום'],
+    ['tabu2docs', 'Tabu2Docs'],
+    ['density', 'Density'],
+    ['feescalc', 'אגרות והיטלים']
+  ].map(function(o) {
+    return '<option value="' + o[0] + '" ' + (filters.tool === o[0] ? 'selected' : '') + '>' + o[1] + '</option>';
+  }).join('');
+
+  var rows = events.length ? events.map(function(e, i) {
+    return '<tr>' +
+      '<td>' + (i + 1) + '</td>' +
+      '<td>' + esc(e.tool || '—') + '</td>' +
+      '<td>' + esc(e.action || '—') + '</td>' +
+      '<td style="direction:ltr;text-align:right">' + fmtDate(e.created_at) + '</td>' +
+      '</tr>';
+  }).join('') : '<tr><td colspan="4" class="empty">אין שימושים בטווח שנבחר</td></tr>';
+
+  body.innerHTML =
+    '<div class="usage-filters">' +
+      '<label>מתאריך<input id="usage-filter-from" type="date" value="' + esc(filters.from || '') + '"></label>' +
+      '<label>עד תאריך<input id="usage-filter-to" type="date" value="' + esc(filters.to || '') + '"></label>' +
+      '<label>אפליקציה<select id="usage-filter-tool">' + toolOptions + '</select></label>' +
+      '<button class="btn btn-primary btn-sm" onclick="loadUserUsage(' + userId + ')">סנן</button>' +
+      '<span style="color:var(--sage);font-size:13px">סה״כ בטווח: ' + fmt(d.total || events.length) + '</span>' +
+    '</div>' +
+    '<table class="usage-events-table">' +
+      '<thead><tr><th>#</th><th>אפליקציה</th><th>פעולה</th><th>מועד שימוש</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody>' +
+    '</table>' +
+    ((d.total || 0) > events.length ? '<div style="margin-top:10px;color:var(--sage);font-size:12px">מוצגות 200 הרשומות האחרונות בטווח. אפשר לצמצם לפי תאריכים.</div>' : '');
 }
 
 async function setBlock(userId, block) {
@@ -1011,3 +1154,4 @@ checkSession();
 </script>
 </body>
 </html>
+
