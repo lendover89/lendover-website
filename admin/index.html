@@ -1127,7 +1127,25 @@ function renderUsageChart(daily) {
 
 function fmtDate(dt) {
   if (!dt) return '—';
-  return dt.replace('T', ' ').slice(0, 16);
+  var raw = String(dt).trim();
+  var parsed;
+  if (/Z$|[+-]\d{2}:?\d{2}$/.test(raw)) {
+    parsed = new Date(raw);
+  } else {
+    // Backend stores UTC timestamps as naive SQLite strings: YYYY-MM-DD HH:MM:SS
+    parsed = new Date(raw.replace(' ', 'T') + 'Z');
+  }
+  if (isNaN(parsed.getTime())) return raw.replace('T', ' ').slice(0, 16);
+  var parts = new Intl.DateTimeFormat('he-IL', {
+    timeZone: 'Asia/Jerusalem',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit',
+    hour12: false
+  }).formatToParts(parsed).reduce(function(acc, part) {
+    acc[part.type] = part.value;
+    return acc;
+  }, {});
+  return parts.year + '-' + parts.month + '-' + parts.day + ' ' + parts.hour + ':' + parts.minute;
 }
 
 function esc(s) {
@@ -1154,4 +1172,5 @@ checkSession();
 </script>
 </body>
 </html>
+
 
