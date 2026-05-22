@@ -220,6 +220,9 @@
       border-bottom: 2px solid var(--border);
       white-space: nowrap;
     }
+    table.users th.sortable { cursor: pointer; user-select: none; }
+    table.users th.sortable:hover { color: var(--bronze); }
+    table.users th.sortable .sort-ind { font-size: 10px; margin-inline-start: 4px; color: var(--bronze); }
     table.users td { padding: 11px 14px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
     table.users tr:last-child td { border-bottom: none; }
     table.users tr:hover td { background: #faf9f6; }
@@ -486,23 +489,23 @@
         <table class="users">
           <thead>
             <tr>
-              <th>#</th>
-              <th>שם</th>
-              <th>אימייל</th>
-              <th>טלפון</th>
-              <th>חברה</th>
-              <th>מאומת</th>
-              <th>סטטוס</th>
-              <th>נרשם</th>
-              <th title="האפליקציה האחרונה שבה המשתמש השתמש">אפליקציה אחרונה</th>
-              <th title="השימוש האחרון באחת האפליקציות באתר">שימוש אחרון באפליקציה</th>
-              <th title="TabuTab — מספר שימושים">TabuTab</th>
-              <th title="TabuCaunt — מספר שימושים">TabuCaunt</th>
-              <th title="BuildCalc — מספר שימושים">BuildCalc</th>
-              <th title="מי תהום — מספר שימושים">מי תהום</th>
-              <th title="Tabu2Docs — מספר שימושים">Tabu2Docs</th>
-              <th title="Density — מספר שימושים">Density</th>
-              <th title="מחשבון אגרות והיטלים — מספר שימושים">אגרות והיטלים</th>
+              <th class="sortable" data-sort="id" onclick="sortUsers('id')">#<span class="sort-ind" data-sort-ind="id"></span></th>
+              <th class="sortable" data-sort="name" onclick="sortUsers('name')">שם<span class="sort-ind" data-sort-ind="name"></span></th>
+              <th class="sortable" data-sort="email" onclick="sortUsers('email')">אימייל<span class="sort-ind" data-sort-ind="email"></span></th>
+              <th class="sortable" data-sort="phone" onclick="sortUsers('phone')">טלפון<span class="sort-ind" data-sort-ind="phone"></span></th>
+              <th class="sortable" data-sort="company" onclick="sortUsers('company')">חברה<span class="sort-ind" data-sort-ind="company"></span></th>
+              <th class="sortable" data-sort="verified" onclick="sortUsers('verified')">מאומת<span class="sort-ind" data-sort-ind="verified"></span></th>
+              <th class="sortable" data-sort="blocked" onclick="sortUsers('blocked')">סטטוס<span class="sort-ind" data-sort-ind="blocked"></span></th>
+              <th class="sortable" data-sort="created_at" onclick="sortUsers('created_at')">נרשם<span class="sort-ind" data-sort-ind="created_at"></span></th>
+              <th class="sortable" data-sort="last_app_tool" onclick="sortUsers('last_app_tool')" title="האפליקציה האחרונה שבה המשתמש השתמש">אפליקציה אחרונה<span class="sort-ind" data-sort-ind="last_app_tool"></span></th>
+              <th class="sortable" data-sort="last_app_use" onclick="sortUsers('last_app_use')" title="השימוש האחרון באחת האפליקציות באתר">שימוש אחרון באפליקציה<span class="sort-ind" data-sort-ind="last_app_use"></span></th>
+              <th class="sortable" data-sort="tabutab" onclick="sortUsers('tabutab')" title="TabuTab — מספר שימושים">TabuTab<span class="sort-ind" data-sort-ind="tabutab"></span></th>
+              <th class="sortable" data-sort="tabucaunt" onclick="sortUsers('tabucaunt')" title="TabuCaunt — מספר שימושים">TabuCaunt<span class="sort-ind" data-sort-ind="tabucaunt"></span></th>
+              <th class="sortable" data-sort="buildcalc" onclick="sortUsers('buildcalc')" title="BuildCalc — מספר שימושים">BuildCalc<span class="sort-ind" data-sort-ind="buildcalc"></span></th>
+              <th class="sortable" data-sort="groundwater" onclick="sortUsers('groundwater')" title="מי תהום — מספר שימושים">מי תהום<span class="sort-ind" data-sort-ind="groundwater"></span></th>
+              <th class="sortable" data-sort="tabu2docs" onclick="sortUsers('tabu2docs')" title="Tabu2Docs — מספר שימושים">Tabu2Docs<span class="sort-ind" data-sort-ind="tabu2docs"></span></th>
+              <th class="sortable" data-sort="density" onclick="sortUsers('density')" title="Density — מספר שימושים">Density<span class="sort-ind" data-sort-ind="density"></span></th>
+              <th class="sortable" data-sort="feescalc" onclick="sortUsers('feescalc')" title="מחשבון אגרות והיטלים — מספר שימושים">אגרות והיטלים<span class="sort-ind" data-sort-ind="feescalc"></span></th>
               <th>פעולה</th>
             </tr>
           </thead>
@@ -619,7 +622,7 @@
 var API = 'https://auth.lendover.co.il';
 var dailyChart = null;
 var usageChart = null;
-var usersState = { page: 1, pages: 1, search: '' };
+var usersState = { page: 1, pages: 1, search: '', sort: 'created_at', dir: 'desc' };
 var searchTimer = null;
 var usageLoaded = false;
 
@@ -845,6 +848,23 @@ function toolLabel(tool) {
   return labels[tool] || tool || '—';
 }
 
+function sortUsers(key) {
+  if (usersState.sort === key) {
+    usersState.dir = usersState.dir === 'asc' ? 'desc' : 'asc';
+  } else {
+    usersState.sort = key;
+    usersState.dir = (key === 'name' || key === 'email' || key === 'company' || key === 'last_app_tool') ? 'asc' : 'desc';
+  }
+  loadUsers(1);
+}
+
+function updateSortIndicators() {
+  document.querySelectorAll('[data-sort-ind]').forEach(function(el) {
+    var key = el.getAttribute('data-sort-ind');
+    el.textContent = key === usersState.sort ? (usersState.dir === 'asc' ? '▲' : '▼') : '';
+  });
+}
+
 async function loadUsers(page) {
   var search = document.getElementById('user-search').value.trim();
   usersState.search = search;
@@ -856,6 +876,7 @@ async function loadUsers(page) {
   var tool = document.getElementById('filter-tool').value;
 
   var params = '?page=' + page + '&per_page=50';
+  params += '&sort=' + encodeURIComponent(usersState.sort) + '&dir=' + encodeURIComponent(usersState.dir);
   if (search) params += '&search=' + encodeURIComponent(search);
   if (status) params += '&status=' + encodeURIComponent(status);
   if (verified) params += '&verified=' + encodeURIComponent(verified);
@@ -878,6 +899,7 @@ async function loadUsers(page) {
 }
 
 function renderUsers(d) {
+  updateSortIndicators();
   var tbody = document.getElementById('users-body');
   if (!d.users || !d.users.length) {
     tbody.innerHTML = '<tr><td colspan="18" class="empty">לא נמצאו משתמשים</td></tr>';
@@ -1234,6 +1256,7 @@ checkSession();
 </script>
 </body>
 </html>
+
 
 
 
