@@ -46,7 +46,7 @@
     ];
   }
 
-  if (!window.maplibregl || !maplibregl.supported()) {
+  if (!window.maplibregl || !maplibregl.Map) {
     showStatus('הדפדפן לא תומך ב־WebGL', true);
     return;
   }
