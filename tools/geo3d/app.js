@@ -106,6 +106,7 @@
       ]
     }
   });
+  window.__geo3dMap = map;
 
   map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
   map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
