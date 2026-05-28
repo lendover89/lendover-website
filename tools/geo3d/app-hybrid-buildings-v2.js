@@ -19,6 +19,7 @@
   const buildingBaseExpression = [
     'coalesce',
     ['to-number', ['get', 'base_height_final']],
+    ['to-number', ['get', 'min_height_m']],
     ['to-number', ['get', 'render_min_height']],
     ['to-number', ['get', 'min_height']],
     ['to-number', ['get', 'building:min_height']],
@@ -30,8 +31,9 @@
   const buildingHeightExpression = [
     'coalesce',
     ['to-number', ['get', 'height_final']],
+    ['to-number', ['get', 'height_final_m']],
     ['to-number', ['get', 'height_current_model']],
-    ['to-number', ['get', 'height_lgis']],
+    ['to-number', ['get', 'height_osm_m']],
     ['to-number', ['get', 'render_height']],
     ['to-number', ['get', 'height']],
     ['to-number', ['get', 'building:height']],
@@ -92,8 +94,12 @@
         },
         hybridBuildings: {
           type: 'vector',
-          attribution: 'מבנים תלת־ממדיים: LGIS + OSM/Geofabrik',
-          url: 'https://auth.lendover.co.il/tiles/prod.buildings_3d_hybrid_il_candidate'
+          attribution: 'מבנים: LGIS + Geofabrik/OpenStreetMap contributors',
+          minzoom: 13,
+          maxzoom: 16,
+          tiles: [
+            'https://auth.lendover.co.il/tiles/prod.buildings_3d_hybrid_il_candidate/{z}/{x}/{y}'
+          ]
         }
       },
       layers: [
@@ -139,9 +145,9 @@
         'fill-extrusion-color': [
           'match',
           ['get', 'geometry_source'],
-          'current_model', '#d6b17a',
-          'osm', '#d6b17a',
-          '#e1d1bf'
+          'current_model', '#f0d7bd',
+          'osm_geofabrik', '#f0d7bd',
+          '#c4b6a3'
         ],
         'fill-extrusion-height': buildingHeightExpression,
         'fill-extrusion-base': buildingBaseExpression,
