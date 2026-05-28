@@ -56,11 +56,13 @@
         terrainSource: {
           type: 'raster-dem',
           tileSize: 256,
-          maxzoom: 15,
+          minzoom: 6,
+          maxzoom: 13,
           encoding: 'terrarium',
-          attribution: 'Elevation tiles © AWS Open Data',
+          attribution: 'טופוגרפיה: LGIS, DEM מקווי גובה ingest.heights',
+          bounds: [34.244, 29.486, 35.898, 33.330],
           tiles: [
-            'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'
+            'https://auth.lendover.co.il/geo3d-terrain/{z}/{x}/{y}.png?v=2'
           ]
         },
         openfreemap: {
@@ -89,7 +91,7 @@
   map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
 
   map.on('load', () => {
-    map.setTerrain({ source: 'terrainSource', exaggeration: 1.28 });
+    map.setTerrain({ source: 'terrainSource', exaggeration: 1.5 });
 
     map.addLayer({
       id: 'hillshade',
@@ -152,7 +154,7 @@
 
       if (target === 'terrain') {
         terrainEnabled = isOn;
-        map.setTerrain(terrainEnabled ? { source: 'terrainSource', exaggeration: 1.28 } : null);
+        map.setTerrain(terrainEnabled ? { source: 'terrainSource', exaggeration: 1.5 } : null);
         if (map.getLayer('hillshade')) {
           map.setLayoutProperty('hillshade', 'visibility', terrainEnabled ? 'visible' : 'none');
         }
