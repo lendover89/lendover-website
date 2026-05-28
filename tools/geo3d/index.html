@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geo3D — צפיין תלת־ממד | אהרון לנדובר</title>
+  <meta name="description" content="צפיין מפה רזה עם תצלום לוויין, מבני תלת־ממד וטופוגרפיה בתלת־ממד. כלי צפייה מהיר לבדיקת סביבה עירונית ומבנה שטח.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.lendover.co.il/tools/geo3d/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.lendover.co.il/tools/geo3d/">
+  <meta property="og:title" content="Geo3D — צפיין תלת־ממד">
+  <meta property="og:description" content="מפת לוויין עם מבני תלת־ממד וטופוגרפיה בתלת־ממד, בדפדפן וללא התקנה.">
+  <meta property="og:image" content="https://www.lendover.co.il/logo-transparent-new.png">
+  <meta property="og:locale" content="he_IL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Geo3D — צפיין תלת־ממד">
+  <meta name="twitter:description" content="צפיין מפה רזה: לוויין, מבנים וטופוגרפיה בתלת־ממד.">
+  <meta name="twitter:image" content="https://www.lendover.co.il/logo-transparent-new.png">
+  <link rel="icon" type="image/png" href="/logo-transparent.png">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://server.arcgisonline.com">
+  <link rel="preconnect" href="https://tiles.openfreemap.org">
+  <link rel="preconnect" href="https://s3.amazonaws.com">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="style.css?v=1">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Geo3D — צפיין תלת־ממד",
+    "url": "https://www.lendover.co.il/tools/geo3d/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "he-IL",
+    "description": "צפיין מפה רזה עם תצלום לוויין, מבני תלת־ממד וטופוגרפיה בתלת־ממד.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ILS" },
+    "author": { "@type": "Person", "name": "אהרון לנדובר", "url": "https://www.lendover.co.il/" }
+  }
+  </script>
+</head>
+<body>
+  <header class="app-header" aria-label="ניווט">
+    <a class="brand" href="/tools.html" aria-label="חזרה לכלים">
+      <img src="/logo-transparent.png" alt="">
+      <span>Geo3D</span>
+    </a>
+    <div class="header-actions">
+      <a href="/tools.html">כלים</a>
+      <a href="/">לנדובר</a>
+    </div>
+  </header>
+
+  <main class="viewer-shell">
+    <div id="map" aria-label="צפיין מפה תלת־ממדי"></div>
+
+    <section class="control-strip" aria-label="כלי צפייה">
+      <form class="search-box" id="searchForm">
+        <input id="searchInput" name="q" type="search" autocomplete="off" placeholder="חיפוש מקום" aria-label="חיפוש מקום">
+        <button type="submit" title="חיפוש" aria-label="חיפוש">
+          <span aria-hidden="true">⌕</span>
+        </button>
+      </form>
+
+      <div class="toggle-group" aria-label="שכבות">
+        <button class="toggle is-on" type="button" data-layer-toggle="buildings" aria-pressed="true" title="מבנים">
+          <span aria-hidden="true">▥</span>
+        </button>
+        <button class="toggle is-on" type="button" data-layer-toggle="terrain" aria-pressed="true" title="טופוגרפיה">
+          <span aria-hidden="true">▱</span>
+        </button>
+        <button class="toggle" type="button" id="resetView" title="איפוס מבט" aria-label="איפוס מבט">
+          <span aria-hidden="true">⌂</span>
+        </button>
+      </div>
+    </section>
+
+    <div class="status-line" id="statusLine" role="status">טוען מפה</div>
+  </main>
+
+  <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+  <script src="/tools/tracker.js"></script>
+  <script src="app.js?v=1"></script>
+</body>
+</html>
