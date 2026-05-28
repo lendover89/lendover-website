@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://server.arcgisonline.com">
   <link rel="preconnect" href="https://auth.lendover.co.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -68,6 +68,9 @@
         <button class="toggle is-on" type="button" data-layer-toggle="terrain" aria-pressed="true" title="טופוגרפיה">
           <span aria-hidden="true">▱</span>
         </button>
+        <button class="toggle" type="button" data-layer-toggle="labels" aria-pressed="false" title="שמות רחובות ויישובים" aria-label="שמות רחובות ויישובים">
+          <span aria-hidden="true">א</span>
+        </button>
         <button class="toggle" type="button" id="resetView" title="איפוס מבט" aria-label="איפוס מבט">
           <span aria-hidden="true">⌂</span>
         </button>
@@ -79,7 +82,7 @@
 
   <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
   <script src="/tools/tracker.js"></script>
-  <script src="app-hybrid-buildings-v3.js"></script>
+  <script src="app-hybrid-buildings-v4.js"></script>
 </body>
 </html>
 
