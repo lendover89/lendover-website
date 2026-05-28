@@ -127,7 +127,7 @@ input {
   width: min(420px, 58vw);
   height: 48px;
   display: grid;
-  grid-template-columns: 1fr 48px;
+  grid-template-columns: 1fr 62px;
   overflow: hidden;
 }
 
@@ -155,21 +155,26 @@ input {
 
 .search-box button {
   border-right: 1px solid var(--line);
-  font-size: 24px;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .toggle-group {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 48px;
+  grid-auto-columns: minmax(62px, auto);
   height: 48px;
   overflow: hidden;
 }
 
 .toggle {
   height: 48px;
+  min-width: 62px;
+  padding: 0 12px;
   border-left: 1px solid var(--line);
-  font-size: 21px;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .toggle:first-child {
@@ -184,7 +189,6 @@ input {
 
 .toggle[data-layer-toggle='labels'] {
   font-weight: 700;
-  font-size: 20px;
 }
 
 .status-line {
@@ -314,6 +318,14 @@ input {
 
   .toggle-group {
     justify-self: end;
+    grid-auto-columns: minmax(58px, auto);
+    max-width: 100%;
+  }
+
+  .toggle {
+    min-width: 58px;
+    padding: 0 9px;
+    font-size: 14px;
   }
 
   .status-line {
