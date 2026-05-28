@@ -85,11 +85,7 @@
         openfreemap: {
           type: 'vector',
           attribution: 'Vector tiles © OpenFreeMap © OpenStreetMap contributors',
-          tiles: [
-            'https://tiles.openfreemap.org/planet/{z}/{x}/{y}.pbf'
-          ],
-          minzoom: 0,
-          maxzoom: 14
+          url: 'https://tiles.openfreemap.org/planet'
         }
       },
       layers: [
