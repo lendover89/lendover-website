@@ -1,6 +1,36 @@
 (function () {
   'use strict';
 
+  const GEO3D_USAGE_URL = 'https://auth.lendover.co.il/usage';
+
+  function postGeo3DUsage(action) {
+    if (typeof fetch !== 'function') return;
+    try {
+      fetch(GEO3D_USAGE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        keepalive: true,
+        body: JSON.stringify({ tool: 'geo3d', action: action || 'open' })
+      }).catch(() => {});
+    } catch (error) {}
+  }
+
+  async function hasValidSession() {
+    if (!hasSessionCookie() || typeof fetch !== 'function') return false;
+    try {
+      const response = await fetch('https://auth.lendover.co.il/validate', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}'
+      });
+      return response.ok;
+    } catch (error) {
+      return false;
+    }
+  }
+
   function hasSessionCookie() {
     return /(?:^|;\s*)session_token=/.test(document.cookie || '');
   }
@@ -13,9 +43,16 @@
     }
   }
 
-  function startAfterAuth(startApp) {
-    if (hasSessionCookie()) {
+  async function startAfterAuth(startApp) {
+    async function startAuthenticatedApp() {
+      document.body.classList.remove('auth-required');
+      setAuthStatus('טוען מפה');
+      postGeo3DUsage('open');
       startApp();
+    }
+
+    if (await hasValidSession()) {
+      await startAuthenticatedApp();
       return;
     }
 
@@ -24,9 +61,7 @@
 
     if (typeof window.showAuthModal === 'function') {
       window.showAuthModal(() => {
-        document.body.classList.remove('auth-required');
-        setAuthStatus('טוען מפה');
-        startApp();
+        startAuthenticatedApp();
       });
       return;
     }
@@ -378,6 +413,7 @@
       });
 
       resetView.addEventListener('click', () => {
+    postGeo3DUsage('reset_view');
         map.flyTo({
           center: DEFAULT_VIEW.center,
           zoom: DEFAULT_VIEW.zoom,
@@ -395,16 +431,19 @@
           button.setAttribute('aria-pressed', String(isOn));
 
           if (target === 'terrain') {
+            postGeo3DUsage(isOn ? 'terrain_on' : 'terrain_off');
             terrainEnabled = isOn;
             syncZoomSafeguards(true);
           }
 
           if (target === 'buildings') {
+            postGeo3DUsage(isOn ? 'buildings_on' : 'buildings_off');
             buildingsEnabled = isOn;
             setLayerVisibility('buildings-3d', buildingsEnabled);
           }
 
           if (target === 'labels') {
+            postGeo3DUsage(isOn ? 'labels_on' : 'labels_off');
             labelsEnabled = isOn;
             updateLabelsVisibility();
             showStatus(labelsEnabled ? 'שמות רחובות ויישובים הוצגו' : 'שמות רחובות ויישובים הוסתרו');
@@ -421,7 +460,8 @@
         const query = searchInput.value.trim();
         if (!query) return;
 
-        showStatus('מחפש', true);
+        postGeo3DUsage('search');
+    showStatus('מחפש', true);
         const params = new URLSearchParams({
           q: query,
           format: 'jsonv2',
@@ -463,3 +503,4 @@
     startAfterAuth(startGeo3D);
   }
 })();
+
