@@ -27,25 +27,6 @@
     }
   }
 
-  function extrusionHeight() {
-    return [
-      'case',
-      ['has', 'render_height'], ['to-number', ['get', 'render_height']],
-      ['has', 'height'], ['to-number', ['get', 'height']],
-      ['has', 'building:levels'], ['*', ['to-number', ['get', 'building:levels']], 3],
-      12
-    ];
-  }
-
-  function extrusionBase() {
-    return [
-      'case',
-      ['has', 'render_min_height'], ['to-number', ['get', 'render_min_height']],
-      ['has', 'min_height'], ['to-number', ['get', 'min_height']],
-      0
-    ];
-  }
-
   if (!window.maplibregl || !maplibregl.Map) {
     showStatus('הדפדפן לא תומך ב־WebGL', true);
     return;
@@ -135,8 +116,8 @@
           14, '#c4b6a3',
           17, '#f0d7bd'
         ],
-        'fill-extrusion-height': extrusionHeight(),
-        'fill-extrusion-base': extrusionBase(),
+        'fill-extrusion-height': 18,
+        'fill-extrusion-base': 0,
         'fill-extrusion-opacity': 0.82,
         'fill-extrusion-vertical-gradient': true
       }
