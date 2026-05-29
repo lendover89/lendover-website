@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lendover 3D — צפיין תלת־ממד | אהרון לנדובר</title>
-  <meta name="description" content="צפיין מפה רזה עם תצלום לוויין, מבני תלת־ממד וטופוגרפיה בתלת־ממד. כלי צפייה מהיר לבדיקת סביבה עירונית ומבנה שטח.">
+  <title>מפה תלת-ממדית של ישראל | טופוגרפיה, מבנים וגבהים | Lendover 3D</title>
+  <meta name="description" content="כלי חינמי לצפייה במפה תלת-ממדית של ישראל עם טופוגרפיה, מבנים וגבהים. מתאים למבט ראשוני על סביבה עירונית ומבנה שטח, בדפדפן וללא התקנה.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.lendover.co.il/tools/geo3d/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.lendover.co.il/tools/geo3d/">
-  <meta property="og:title" content="Lendover 3D — צפיין תלת־ממד">
-  <meta property="og:description" content="מפת לוויין עם מבני תלת־ממד וטופוגרפיה בתלת־ממד, בדפדפן וללא התקנה.">
+  <meta property="og:site_name" content="אהרון לנדובר">
+  <meta property="og:title" content="מפה תלת-ממדית של ישראל | Lendover 3D">
+  <meta property="og:description" content="כלי חינמי למבט ראשוני על טופוגרפיה, מבנים וגבהים בישראל, בדפדפן וללא התקנה.">
   <meta property="og:image" content="https://www.lendover.co.il/tools/geo3d/lendover-3d-logo-warm-transparent-v2.png">
   <meta property="og:locale" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Lendover 3D — צפיין תלת־ממד">
-  <meta name="twitter:description" content="צפיין מפה רזה: לוויין, מבנים וטופוגרפיה בתלת־ממד.">
+  <meta name="twitter:title" content="מפה תלת-ממדית של ישראל | Lendover 3D">
+  <meta name="twitter:description" content="כלי חינמי למבט ראשוני על טופוגרפיה, מבנים וגבהים בישראל.">
   <meta name="twitter:image" content="https://www.lendover.co.il/tools/geo3d/lendover-3d-logo-warm-transparent-v2.png">
   <link rel="icon" type="image/png" href="/logo-transparent.png">
   <link rel="preconnect" href="https://unpkg.com">
@@ -26,15 +27,53 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Lendover 3D — צפיין תלת־ממד",
-    "url": "https://www.lendover.co.il/tools/geo3d/",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Web",
-    "inLanguage": "he-IL",
-    "description": "צפיין מפה רזה עם תצלום לוויין, מבני תלת־ממד וטופוגרפיה בתלת־ממד.",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ILS" },
-    "author": { "@type": "Person", "name": "אהרון לנדובר", "url": "https://www.lendover.co.il/" }
+    "@graph": [
+      {
+        "@type": ["SoftwareApplication", "WebApplication"],
+        "@id": "https://www.lendover.co.il/tools/geo3d/#app",
+        "name": "Lendover 3D",
+        "alternateName": "מפה תלת-ממדית של ישראל",
+        "url": "https://www.lendover.co.il/tools/geo3d/",
+        "applicationCategory": "MapApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "he-IL",
+        "isAccessibleForFree": true,
+        "description": "כלי חינמי לצפייה במפה תלת-ממדית של ישראל עם טופוגרפיה, מבנים וגבהים, למבט ראשוני בדפדפן.",
+        "featureList": [
+          "מפה תלת-ממדית של ישראל",
+          "טופוגרפיה",
+          "מבנים וגבהים",
+          "מבט ראשוני בדפדפן"
+        ],
+        "keywords": "מפה תלת-ממדית של ישראל, טופוגרפיה, מבנים וגבהים, כלי חינמי, מבט ראשוני",
+        "image": "https://www.lendover.co.il/tools/geo3d/lendover-3d-logo-warm-transparent-v2.png",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "ILS"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "אהרון לנדובר",
+          "url": "https://www.lendover.co.il/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "אהרון לנדובר",
+          "url": "https://www.lendover.co.il/"
+        }
+      },
+      {
+        "@type": "Map",
+        "@id": "https://www.lendover.co.il/tools/geo3d/#map",
+        "name": "מפה תלת-ממדית של ישראל",
+        "url": "https://www.lendover.co.il/tools/geo3d/",
+        "inLanguage": "he-IL",
+        "isPartOf": { "@id": "https://www.lendover.co.il/tools/geo3d/#app" },
+        "about": ["טופוגרפיה", "מבנים וגבהים", "ישראל"],
+        "description": "מפה תלת-ממדית לצפייה ראשונית בטופוגרפיה, מבנים וגבהים בישראל."
+      }
+    ]
   }
   </script>
 </head>
