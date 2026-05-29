@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://server.arcgisonline.com">
   <link rel="preconnect" href="https://auth.lendover.co.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -72,6 +72,37 @@
         "isPartOf": { "@id": "https://www.lendover.co.il/tools/geo3d/#app" },
         "about": ["טופוגרפיה", "מבנים וגבהים", "ישראל"],
         "description": "מפה תלת-ממדית לצפייה ראשונית בטופוגרפיה, מבנים וגבהים בישראל."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://www.lendover.co.il/tools/geo3d/#faq",
+        "inLanguage": "he-IL",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "מה אפשר לראות במפה התלת-ממדית?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "אפשר לראות טופוגרפיה, מבנים וגבהים בתלת-ממד, ולהתרשם במהירות מהסביבה הבנויה ומהשטח באזור מסוים בישראל."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "האם זה כלי ניתוח תכנוני?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "לא. זה כלי חינמי למבט ראשוני ולהתנסות במפה תלת-ממדית. הוא לא מחליף בדיקה תכנונית, מדידה מקצועית או מערכת GIS מלאה."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "למי הכלי יכול להתאים?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "הכלי יכול להתאים למי שרוצה לקבל תחושה מהירה של טופוגרפיה, גובהי מבנים והקשר עירוני לפני בדיקה מעמיקה יותר."
+            }
+          }
+        ]
       }
     ]
   }
@@ -84,6 +115,7 @@
       <span>Lendover 3D</span>
     </a>
     <div class="header-actions">
+      <a href="#about-geo3d">על הכלי</a>
       <a href="/tools.html">כלים</a>
       <a href="/">לנדובר</a>
     </div>
@@ -118,6 +150,58 @@
 
     <div class="status-line" id="statusLine" role="status">טוען מפה</div>
   </main>
+
+  <section class="seo-content" id="about-geo3d" aria-label="על המפה התלת-ממדית">
+    <div class="seo-content__inner">
+      <p class="seo-kicker">כלי חינמי</p>
+      <h1>מפה תלת-ממדית של ישראל</h1>
+      <p class="seo-lead">
+        Lendover 3D הוא כלי פשוט להתנסות במפה תלת-ממדית של ישראל. אפשר לראות טופוגרפיה,
+        מבנים וגבהים, להסתובב במפה ולקבל תחושה מהירה של הסביבה הבנויה והשטח.
+      </p>
+      <p>
+        הכלי לא נועד להחליף מערכת GIS מקצועית, מדידה או ניתוח תכנוני. הוא כן שימושי כמבט
+        ראשוני ונוח על אזור, במיוחד כשרוצים להבין במהירות הפרשי גובה, מבנה עירוני וקשר
+        בין בניינים, רחובות וטופוגרפיה.
+      </p>
+
+      <div class="seo-grid" aria-label="שימושים נפוצים">
+        <article>
+          <h2>מה רואים במפה?</h2>
+          <p>תצוגה תלת-ממדית של מבנים, גבהים וטופוגרפיה, לצד חיפוש מקום ותצוגת שמות.</p>
+        </article>
+        <article>
+          <h2>מתי זה שימושי?</h2>
+          <p>כשצריך מבט מהיר על סביבת שטח ובינוי, לפני שנכנסים לבדיקה מקצועית או לנתונים מפורטים.</p>
+        </article>
+        <article>
+          <h2>מה המגבלה?</h2>
+          <p>זו מפה חינמית להתמצאות ראשונית. החלטות תכנוניות דורשות בדיקה מלאה, נתונים רשמיים ושיקול מקצועי.</p>
+        </article>
+      </div>
+
+      <div class="seo-faq" id="faq">
+        <h2>שאלות נפוצות</h2>
+        <details>
+          <summary>האם זו מפה תלת-ממדית חינמית?</summary>
+          <p>כן. אפשר לפתוח את הכלי בדפדפן ולהתנסות ללא התקנה.</p>
+        </details>
+        <details>
+          <summary>האם אפשר להשתמש בה במקום סימפלקס או GIS מקצועי?</summary>
+          <p>לא. אפשר לחשוב עליה כמיני כלי תצוגה חינמי ונוח, אבל היא לא מחליפה מערכות מקצועיות או בדיקה תכנונית.</p>
+        </details>
+        <details>
+          <summary>האם הנתונים מתאימים לקבלת החלטות מחייבות?</summary>
+          <p>לא בפני עצמם. הכלי מתאים להתרשמות ראשונית בלבד; החלטות מחייבות צריכות להיבדק מול מקורות רשמיים ואנשי מקצוע.</p>
+        </details>
+      </div>
+
+      <p class="seo-links">
+        להמשך עבודה מקצועית יותר אפשר לחזור אל <a href="/tools.html">כלי האתר</a>
+        או ליצור קשר דרך <a href="/contact.html">עמוד יצירת הקשר</a>.
+      </p>
+    </div>
+  </section>
 
   <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
   <script>window._lvSource='geo3d';</script>
