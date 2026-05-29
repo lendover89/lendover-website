@@ -419,9 +419,9 @@
         <div class="card"><div class="label">ביקורים השבוע</div><div class="value" id="s-week">—</div></div>
         <div class="card"><div class="label">ביקורים החודש</div><div class="value" id="s-month">—</div></div>
         <div class="card"><div class="label">מבקרים חדשים (חודש)</div><div class="value" id="s-new">—</div><div class="sub" id="s-new-sub"></div></div>
-        <div class="card"><div class="label">משתמשים רשומים</div><div class="value" id="s-total-users">—</div></div>
-        <div class="card"><div class="label">חיבורים פעילים</div><div class="value" id="s-sessions">—</div></div>
-        <div class="card"><div class="label">כניסות שנכשלו</div><div class="value" id="s-failed-logins">—</div><div class="sub" id="s-failed-logins-sub">24 שעות</div></div>
+        <div class="card"><div class="label">משתמשים רשומים</div><div class="value" id="s-total-users">—</div><div class="sub">חשבונות במערכת</div></div>
+        <div class="card"><div class="label">סשנים פעילים</div><div class="value" id="s-sessions">—</div><div class="sub">טוקנים שלא פגו, לא אנשים</div></div>
+        <div class="card"><div class="label">ניסיונות כניסה שנכשלו</div><div class="value" id="s-failed-logins">—</div><div class="sub" id="s-failed-logins-sub">24 שעות</div></div>
       </div>
 
       <div class="chart-wrap">
@@ -753,7 +753,7 @@ function renderStats(d) {
   document.getElementById('s-unique-today').textContent = fmt(d.unique_today);
   document.getElementById('s-failed-logins').textContent = fmt(d.failed_logins_24h);
   document.getElementById('s-failed-logins-sub').textContent =
-    '24 שעות | 7 ימים: ' + fmt(d.failed_logins_7d);
+    'סיסמה/אימות שגוי | 24 שעות, 7 ימים: ' + fmt(d.failed_logins_7d);
 
   renderDailyChart(d.daily || [], d.registrations_daily || []);
   renderMiniTable('tbl-pages', d.top_pages || [], 'path', 'visits', '/');
