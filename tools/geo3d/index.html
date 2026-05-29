@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://server.arcgisonline.com">
   <link rel="preconnect" href="https://auth.lendover.co.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -84,6 +84,7 @@
       <span>Lendover 3D</span>
     </a>
     <div class="header-actions">
+      <button class="header-link" type="button" id="aboutGeo3dOpen" aria-haspopup="dialog" aria-controls="aboutGeo3dModal">על הכלי</button>
       <a href="/tools.html">כלים</a>
       <a href="/">לנדובר</a>
     </div>
@@ -119,11 +120,56 @@
     <div class="status-line" id="statusLine" role="status">טוען מפה</div>
   </main>
 
+  <section class="about-modal" id="aboutGeo3dModal" aria-hidden="true">
+    <div class="about-modal__backdrop" data-about-close></div>
+    <article class="about-modal__panel" role="dialog" aria-modal="true" aria-labelledby="aboutGeo3dTitle" tabindex="-1">
+      <button class="about-modal__close" type="button" data-about-close aria-label="סגירת חלון על הכלי">×</button>
+      <h1 id="aboutGeo3dTitle">מפה תלת־ממדית של ישראל</h1>
+      <p>כלי חינמי לצפייה בטופוגרפיה, מבנים וגבהים בישראל, ישירות בדפדפן וללא התקנה.</p>
+      <p>המפה מיועדת למבט ראשוני על הסביבה הבנויה והשטח: להבין גובהי בניינים, שיפועים והקשר עירוני לפני שנכנסים לבדיקה מקצועית עמוקה יותר.</p>
+      <p>זה כלי עזר להתמצאות ולבדיקה ראשונית, לא תחליף לבדיקה תכנונית, הנדסית או משפטית מלאה.</p>
+    </article>
+  </section>
+
   <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
   <script>window._lvSource='geo3d';</script>
   <script src="/tools/auth-gate.js"></script>
   <script src="/tools/tracker.js"></script>
   <script src="app-hybrid-buildings-v13.js"></script>
+  <script>
+    (() => {
+      const modal = document.getElementById('aboutGeo3dModal');
+      const panel = modal?.querySelector('.about-modal__panel');
+      const openButton = document.getElementById('aboutGeo3dOpen');
+      const closeButtons = modal?.querySelectorAll('[data-about-close]') || [];
+      let previousFocus = null;
+
+      function openModal() {
+        if (!modal) return;
+        previousFocus = document.activeElement;
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('about-modal-open');
+        panel?.focus();
+      }
+
+      function closeModal() {
+        if (!modal) return;
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('about-modal-open');
+        if (previousFocus && typeof previousFocus.focus === 'function') {
+          previousFocus.focus();
+        }
+      }
+
+      openButton?.addEventListener('click', openModal);
+      closeButtons.forEach((button) => button.addEventListener('click', closeModal));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal?.getAttribute('aria-hidden') === 'false') {
+          closeModal();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
 
