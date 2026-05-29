@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://server.arcgisonline.com">
   <link rel="preconnect" href="https://auth.lendover.co.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style.css?v=11">
+  <link rel="stylesheet" href="style.css?v=12">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -72,6 +72,38 @@
         "isPartOf": { "@id": "https://www.lendover.co.il/tools/geo3d/#app" },
         "about": ["טופוגרפיה", "מבנים וגבהים", "ישראל"],
         "description": "מפה תלת-ממדית לצפייה ראשונית בטופוגרפיה, מבנים וגבהים בישראל."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://www.lendover.co.il/tools/geo3d/#faq",
+        "inLanguage": "he-IL",
+        "isPartOf": { "@id": "https://www.lendover.co.il/tools/geo3d/#app" },
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "מה אפשר לראות במפת התלת-ממד?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "אפשר לראות תצלום לוויין, טופוגרפיה, מבנים וגבהים במבט תלת-ממדי, כדי לקבל הבנה ראשונית של הסביבה הבנויה והשטח."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "למי הכלי מתאים?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "הכלי מתאים למבט ראשוני על אזור, במיוחד כשבודקים הפרשי גובה, סביבת בנייה, צפיפות והקשר עירוני לפני בדיקה מקצועית מפורטת."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "האם זו מערכת GIS מקצועית?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "לא. זו מפה חינמית ונוחה להתמצאות ראשונית. היא אינה מחליפה בדיקת GIS, תכנון, מדידה, שמאות או ייעוץ משפטי."
+            }
+          }
+        ]
       }
     ]
   }
@@ -124,10 +156,25 @@
     <div class="about-modal__backdrop" data-about-close></div>
     <article class="about-modal__panel" role="dialog" aria-modal="true" aria-labelledby="aboutGeo3dTitle" tabindex="-1">
       <button class="about-modal__close" type="button" data-about-close aria-label="סגירת חלון על הכלי">×</button>
-      <h1 id="aboutGeo3dTitle">מפה תלת־ממדית של ישראל</h1>
-      <p>כלי חינמי לצפייה בטופוגרפיה, מבנים וגבהים בישראל, ישירות בדפדפן וללא התקנה.</p>
-      <p>המפה מיועדת למבט ראשוני על הסביבה הבנויה והשטח: להבין גובהי בניינים, שיפועים והקשר עירוני לפני שנכנסים לבדיקה מקצועית עמוקה יותר.</p>
-      <p>זה כלי עזר להתמצאות ולבדיקה ראשונית, לא תחליף לבדיקה תכנונית, הנדסית או משפטית מלאה.</p>
+      <h1 id="aboutGeo3dTitle">מפת תלת-ממד ישראל</h1>
+      <p>כלי חינמי לצפייה במפת תלת-ממד של ישראל עם תצלום לוויין, טופוגרפיה, מבנים וגבהים. המטרה היא לתת מבט מהיר ואינטואיטיבי על אזור, בלי התקנה ובלי מערכת GIS מלאה.</p>
+      <p>אפשר להשתמש במפה כדי להבין הפרשי גובה, גובהי בניינים, מרקם בנוי והקשר עירוני. זה שימושי כשבודקים סביבת רחוב, מתחם פוטנציאלי, אזור בנוי צפוף או קשר בין טופוגרפיה לבין פיתוח עירוני.</p>
+      <p>המפה לא מחליפה בדיקה תכנונית, מדידה, שמאות או ייעוץ מקצועי. היא מיועדת לשלב הראשוני: לראות את המרחב, לזהות שאלות טובות יותר, ואז להחליט אם צריך בדיקה עמוקה יותר.</p>
+
+      <h2>שאלות קצרות</h2>
+      <dl class="about-faq">
+        <dt>מה אפשר לראות במפת התלת-ממד?</dt>
+        <dd>תצלום לוויין, טופוגרפיה, מבנים וגבהים במבט תלת-ממדי.</dd>
+        <dt>למי הכלי מתאים?</dt>
+        <dd>למי שרוצה מבט ראשוני על אזור, סביבת בנייה, הפרשי גובה והקשר עירוני.</dd>
+        <dt>האם זו מערכת GIS מקצועית?</dt>
+        <dd>לא. זה כלי חינמי להתמצאות ראשונית, לא תחליף לבדיקה מקצועית מלאה.</dd>
+      </dl>
+
+      <div class="about-modal__links">
+        <a href="/tools.html">כלי האתר</a>
+        <a href="/contact.html">יצירת קשר</a>
+      </div>
     </article>
   </section>
 
