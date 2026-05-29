@@ -26,13 +26,11 @@ body {
 
 body {
   min-height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   direction: rtl;
   font-family: var(--font);
   color: var(--paper);
   background: #121619;
-  scroll-behavior: smooth;
 }
 
 button,
@@ -215,108 +213,6 @@ input {
   transform: translateY(0);
 }
 
-.seo-content {
-  position: relative;
-  z-index: 6;
-  margin-top: 100vh;
-  padding: clamp(32px, 5vw, 64px) 18px;
-  color: var(--ink);
-  background: var(--paper);
-}
-
-.seo-content__inner {
-  width: min(980px, 100%);
-  margin: 0 auto;
-}
-
-.seo-kicker {
-  margin: 0 0 8px;
-  color: #8f5c3b;
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.seo-content h1,
-.seo-content h2,
-.seo-content p {
-  letter-spacing: 0;
-}
-
-.seo-content h1 {
-  margin: 0 0 14px;
-  font-size: clamp(30px, 4vw, 44px);
-  line-height: 1.12;
-}
-
-.seo-content h2 {
-  margin: 0 0 8px;
-  font-size: 22px;
-  line-height: 1.2;
-}
-
-.seo-content p {
-  margin: 0 0 14px;
-  color: rgba(31, 36, 40, 0.78);
-  font-size: 17px;
-  line-height: 1.75;
-}
-
-.seo-lead {
-  max-width: 760px;
-  color: rgba(31, 36, 40, 0.9);
-  font-size: 20px;
-}
-
-.seo-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin: 28px 0;
-}
-
-.seo-grid article {
-  min-height: 154px;
-  padding: 18px;
-  border: 1px solid rgba(31, 36, 40, 0.1);
-  background: #fff;
-}
-
-.seo-grid p,
-.seo-faq p {
-  font-size: 16px;
-}
-
-.seo-faq {
-  margin-top: 30px;
-}
-
-.seo-faq details {
-  border-top: 1px solid rgba(31, 36, 40, 0.14);
-  background: transparent;
-}
-
-.seo-faq details:last-child {
-  border-bottom: 1px solid rgba(31, 36, 40, 0.14);
-}
-
-.seo-faq summary {
-  cursor: pointer;
-  padding: 16px 0;
-  color: var(--ink);
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.seo-faq details p {
-  max-width: 760px;
-  padding-bottom: 14px;
-}
-
-.seo-links a {
-  color: #8f5c3b;
-  font-weight: 700;
-}
-
 .maplibregl-ctrl-top-left,
 .maplibregl-ctrl-top-right {
   top: 78px;
@@ -455,19 +351,4 @@ input {
     font-size: 11px;
   }
 
-  .seo-content {
-    padding: 30px 16px 42px;
-  }
-
-  .seo-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .seo-content h1 {
-    font-size: 30px;
-  }
-
-  .seo-lead {
-    font-size: 18px;
-  }
 }
