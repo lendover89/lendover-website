@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>חיבור Google Business Profile</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, sans-serif; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #f7f7f3; color: #1f2933; }
+    main { width: min(680px, calc(100vw - 32px)); background: #fff; border: 1px solid #ddd8cf; border-radius: 8px; padding: 28px; box-shadow: 0 18px 50px rgba(31, 41, 51, .12); }
+    h1 { margin: 0 0 12px; font-size: 28px; line-height: 1.2; }
+    p { margin: 0 0 16px; line-height: 1.65; }
+    textarea { box-sizing: border-box; width: 100%; min-height: 130px; padding: 12px; border: 1px solid #b9b2a7; border-radius: 6px; resize: vertical; direction: ltr; font: 14px/1.45 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    button { min-height: 42px; padding: 0 16px; border: 0; border-radius: 6px; background: #1f2933; color: #fff; cursor: pointer; font-weight: 700; }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    .actions { display: flex; gap: 10px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+    .status { min-height: 22px; color: #3f6212; font-weight: 700; }
+    .error { color: #9f1239; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>חיבור Google Business Profile</h1>
+    <p id="intro">אם ההתחברות הצליחה, הקוד יופיע כאן. שלח אותו ללאונרדו בטלגרם כדי להשלים את קבלת ה-refresh token.</p>
+    <textarea id="code" readonly placeholder="מחכה לקוד מגוגל..."></textarea>
+    <div class="actions">
+      <button id="copy" type="button" disabled>העתק קוד</button>
+      <span id="status" class="status"></span>
+    </div>
+  </main>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code') || '';
+    const error = params.get('error') || '';
+    const textarea = document.getElementById('code');
+    const copy = document.getElementById('copy');
+    const status = document.getElementById('status');
+    const intro = document.getElementById('intro');
+
+    if (error) {
+      intro.textContent = 'גוגל החזירה שגיאה במקום קוד. שלח ללאונרדו את הטקסט שמופיע כאן.';
+      textarea.value = error;
+      status.textContent = 'שגיאה מגוגל';
+      status.className = 'status error';
+    } else if (code) {
+      textarea.value = code;
+      copy.disabled = false;
+      status.textContent = 'הקוד התקבל';
+    }
+
+    copy.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(textarea.value);
+      status.textContent = 'הועתק';
+    });
+  </script>
+</body>
+</html>
