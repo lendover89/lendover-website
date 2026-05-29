@@ -80,7 +80,8 @@ input {
   gap: 10px;
 }
 
-.header-actions a {
+.header-actions a,
+.header-link {
   color: rgba(255, 255, 255, 0.88);
   text-decoration: none;
   font-size: 15px;
@@ -88,6 +89,15 @@ input {
   border: 1px solid rgba(255, 255, 255, 0.18);
   background: rgba(20, 23, 25, 0.42);
   backdrop-filter: blur(10px);
+}
+
+.header-link {
+  cursor: pointer;
+}
+
+.header-actions a:hover,
+.header-link:hover {
+  background: rgba(184, 126, 88, 0.76);
 }
 
 .viewer-shell,
@@ -256,6 +266,77 @@ input {
   backdrop-filter: blur(10px);
   font-size: 12px;
   line-height: 1.45;
+}
+
+.about-modal[aria-hidden='true'] {
+  display: none;
+}
+
+.about-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  color: var(--ink);
+}
+
+.about-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 15, 17, 0.56);
+  backdrop-filter: blur(4px);
+}
+
+.about-modal__panel {
+  position: relative;
+  width: min(520px, calc(100vw - 36px));
+  max-height: calc(100vh - 72px);
+  overflow: auto;
+  padding: 24px 24px 22px;
+  background: rgba(247, 244, 239, 0.98);
+  border: 1px solid rgba(31, 36, 40, 0.14);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+  outline: 0;
+}
+
+.about-modal__close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(31, 36, 40, 0.14);
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.56);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.about-modal__close:hover {
+  background: var(--bronze-soft);
+}
+
+.about-modal h1 {
+  margin: 0 0 12px;
+  padding-left: 38px;
+  color: var(--ink);
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.about-modal p {
+  margin: 0 0 10px;
+  color: rgba(31, 36, 40, 0.86);
+  font-size: 16px;
+  line-height: 1.62;
+}
+
+.about-modal p:last-child {
+  margin-bottom: 0;
 }
 
 .maplibregl-ctrl-attrib a {
