@@ -130,12 +130,12 @@
 
     var html =
       '<div class="rp-head">' +
-        '<img src="ifc-logo.png" alt="IFC">' +
+        '<img src="israel-building-fees-calculator-logo.png" alt="IFC">' +
         '<div class="rp-title">' +
           '<h1>דוח אומדן אגרות והיטלי בנייה</h1>' +
           '<div class="rp-date">הופק: ' + esc(model.generated) + '</div>' +
         '</div>' +
-        '<img src="lendover-logo.png" alt="לנדובר">' +
+        '<img src="lendover-urban-renewal-logo.png" alt="לנדובר">' +
       '</div>' +
       '<div class="rp-body">' +
         '<div class="rp-prop">' + prop.join('') + '</div>' +
