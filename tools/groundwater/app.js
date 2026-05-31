@@ -7,6 +7,9 @@ const API = 'https://groundwater.lendover.co.il';
 const map = L.map('map', { zoomControl: true, attributionControl: true })
   .setView([32.08, 34.79], 10);   // Tel-Aviv default
 
+window.addEventListener('load', () => setTimeout(() => map.invalidateSize(), 80));
+window.addEventListener('resize', () => map.invalidateSize());
+
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: '© OpenStreetMap',
