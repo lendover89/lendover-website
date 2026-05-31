@@ -26,7 +26,8 @@
   .app-shell {
     display: flex;
     flex-direction: column;
-    min-height: auto;
+    height: auto;
+    min-height: 0;
   }
   .panel {
     max-height: none;
@@ -35,9 +36,13 @@
     padding: 16px 16px 18px;
     overflow: visible;
   }
+  .panel .disclaimer,
+  .panel .about {
+    display: none;
+  }
   .map {
-    height: 58vh;
-    min-height: 360px;
+    height: 66svh;
+    min-height: 460px;
     flex: 0 0 auto;
   }
 }
@@ -98,8 +103,8 @@
   .result-meta dd { margin-bottom: 6px; }
 
   .map {
-    height: 56vh;
-    min-height: 330px;
+    height: 64svh;
+    min-height: 420px;
   }
   .leaflet-control-container .leaflet-top,
   .leaflet-control-container .leaflet-bottom {
@@ -144,7 +149,6 @@
 @media (max-width: 420px) {
   .site-header { flex-direction: column; align-items: stretch; }
   .site-nav { max-width: none; justify-content: space-between; }
-  .map { height: 52vh; min-height: 300px; }
+  .map { height: 62svh; min-height: 380px; }
   .panel { padding-inline: 14px; }
 }
-
