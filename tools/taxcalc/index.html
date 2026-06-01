@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מחשבון פטור ממס בהתחדשות עירונית — חינם | אהרון לנדובר</title>
+  <meta name="description" content="חשב פטור ממס שבח לדייר בעסקת פינוי-בינוי או תמ״א 38 — תקרת שווי, רכיב פטור מול חייב, חריגי קשיש ושדרוג. כלי חינמי מאת אהרון לנדובר.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.lendover.co.il/tools/taxcalc/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.lendover.co.il/tools/taxcalc/">
+  <meta property="og:title" content="מחשבון פטור ממס בהתחדשות עירונית">
+  <meta property="og:description" content="חשב פטור ממס שבח לדייר בעסקת פינוי-בינוי או תמ״א 38. חינם.">
+  <meta property="og:image" content="https://www.lendover.co.il/logo-transparent-new.png">
+  <meta property="og:locale" content="he_IL">
+  <link rel="stylesheet" href="style.css?v=5">
+</head>
+<body>
+
+<nav>
+  <a class="nav-app-brand" href="./">
+    <span class="nav-app-title">מחשבון פטור ממס</span>
+  </a>
+  <a class="nav-site-brand" href="https://www.lendover.co.il" title="חזרה לאתר לנדובר">
+    <img src="https://www.lendover.co.il/logo-transparent-new.png" alt="לנדובר" class="nav-site-logo">
+  </a>
+</nav>
+
+<div class="hero">
+  <h1>מחשבון פטור ממס בהתחדשות עירונית</h1>
+  <p>חשב פטור ממס שבח לדייר בעסקת פינוי-בינוי או תמ״א 38</p>
+</div>
+
+<div class="mode-switcher">
+  <button type="button" class="mode-tab is-active" data-mode="dweller">דייר יחיד</button>
+  <button type="button" class="mode-tab" data-mode="developer">פרויקט שלם (יזם)</button>
+</div>
+
+<div id="mode-dweller" class="mode-pane is-active">
+<div class="container">
+
+  <div class="progress" id="progress">
+    <span class="progress-dot is-active" data-step="1">1</span>
+    <span class="progress-dot" data-step="2">2</span>
+    <span class="progress-dot" data-step="3">3</span>
+    <span class="progress-dot" data-step="4">4</span>
+    <span class="progress-dot" data-step="5">5</span>
+  </div>
+
+  <!-- Step 1: project type -->
+  <div class="card wizard-step is-active" id="step-1">
+    <div class="section-title">שלב 1 — סוג הפרויקט</div>
+    <p class="hint">בחר את סוג הפרויקט. הבחירה קובעת אילו שדות יוצגו בהמשך.</p>
+    <div class="choice-grid" id="project-type-grid">
+      <button type="button" class="choice" data-value="PINUY_BINUY">פינוי-בינוי</button>
+      <button type="button" class="choice" data-value="STRENGTHENING_T38_1">תמ״א 38 — חיזוק</button>
+      <button type="button" class="choice" data-value="DEMOLITION_REBUILD_T38_2">תמ״א 38 — הריסה ובנייה</button>
+      <button type="button" class="choice" data-value="LOCAL_REPLACEMENT_PLAN">תכנית עירונית מחליפה</button>
+    </div>
+
+    <div class="field-group" id="plan-valid-group" data-show="LOCAL_REPLACEMENT_PLAN" style="display:none">
+      <label class="levy-check">
+        <input type="checkbox" id="plan-basis-valid">
+        התכנית נכנסת להגדרת פרק המס בחוק מיסוי מקרקעין
+      </label>
+    </div>
+    <div class="note" id="plan-warning" data-show="LOCAL_REPLACEMENT_PLAN" style="display:none">
+      כולל פרויקטים לפי "חלופת שקד" (תיקון 136 לחוק התכנון והבנייה) שאינם מוכרזים פינוי-בינוי
+      ולא חוסים תחת תמ״א 38. תכנית מחליפה אינה נכנסת אוטומטית לפרק המס — דרושה חוות
+      דעת מיסוי לפני המשך החישוב.
+    </div>
+
+    <div class="wizard-nav">
+      <span></span>
+      <button type="button" class="btn-primary" id="next-1" disabled>הבא</button>
+    </div>
+  </div>
+
+  <!-- Step 2: your existing apartment -->
+  <div class="card wizard-step" id="step-2">
+    <div class="section-title">שלב 2 — הדירה הקיימת שלך</div>
+    <p class="hint">פרטי הדירה שבבעלותך היום.</p>
+
+    <div class="field-group">
+      <label for="existing-area">שטח הדירה הקיימת (מ״ר)</label>
+      <input id="existing-area" type="number" min="0" step="1" placeholder="לדוגמה 80">
+    </div>
+
+    <div class="field-group" data-show="PINUY_BINUY LOCAL_REPLACEMENT_PLAN DEMOLITION_REBUILD_T38_2">
+      <label for="existing-value">שווי הדירה הקיימת, ללא זכויות בנייה נוספות (₪)</label>
+      <input id="existing-value" type="number" min="0" step="1000" placeholder="לדוגמה 1,600,000">
+    </div>
+
+    <div class="field-group" data-show="PINUY_BINUY LOCAL_REPLACEMENT_PLAN DEMOLITION_REBUILD_T38_2">
+      <label for="new-price">מחיר מ״ר של דירה חדשה באזור (₪ למ״ר)</label>
+      <input id="new-price" type="number" min="0" step="500" placeholder="לדוגמה 25,000">
+    </div>
+
+    <div class="wizard-nav">
+      <button type="button" class="btn-secondary" id="back-2">קודם</button>
+      <button type="button" class="btn-primary" id="next-2" disabled>הבא</button>
+    </div>
+  </div>
+
+  <!-- Step 3: the new apartment -->
+  <div class="card wizard-step" id="step-3">
+    <div class="section-title">שלב 3 — הדירה החדשה (תמורה)</div>
+    <p class="hint">הדירה שתקבל בפרויקט.</p>
+
+    <div class="field-group">
+      <label for="replacement-area">שטח דירת התמורה המוצעת (מ״ר)</label>
+      <input id="replacement-area" type="number" min="0" step="1" placeholder="לדוגמה 110">
+    </div>
+
+    <div class="field-group" data-show="DEMOLITION_REBUILD_T38_2">
+      <label for="ceiling-49z">תקרת הפטור לפי סעיף 49ז (₪)</label>
+      <input id="ceiling-49z" type="number" min="0" step="1000" value="2428100">
+    </div>
+    <p class="hint" data-show="DEMOLITION_REBUILD_T38_2">
+      ברירת מחדל 2,428,100 ₪ — מעודכן 2025-2027 (הצמדת סכומי חוקי המס הוקפאה). שנה אם יש ערך עדכני.
+    </p>
+
+    <div class="wizard-nav">
+      <button type="button" class="btn-secondary" id="back-3">קודם</button>
+      <button type="button" class="btn-primary" id="next-3" disabled>הבא</button>
+    </div>
+  </div>
+
+  <!-- Step 4: cash & exceptions -->
+  <div class="card wizard-step" id="step-4">
+    <div class="section-title">שלב 4 — מזומן וחריגים</div>
+    <p class="hint">סמן את המאפיינים שרלוונטיים לעסקה ולמוכר.</p>
+
+    <div class="field-group" data-show="PINUY_BINUY LOCAL_REPLACEMENT_PLAN">
+      <label for="cash-component">רכיב מזומן נוסף מהיזם (₪)</label>
+      <input id="cash-component" type="number" min="0" step="1000" placeholder="0">
+    </div>
+    <p class="hint" data-show="PINUY_BINUY LOCAL_REPLACEMENT_PLAN">
+      מזומן נכלל בפטור רק עבור "מוכר מוטב" — בעל דירה יחידה או קשיש.
+    </p>
+
+    <label class="levy-check" data-show="PINUY_BINUY LOCAL_REPLACEMENT_PLAN">
+      <input type="checkbox" id="flag-only-home"> בעל דירה יחידה (מוכר מוטב)</label>
+    <label class="levy-check" data-show="PINUY_BINUY LOCAL_REPLACEMENT_PLAN">
+      <input type="checkbox" id="flag-elderly"> המוכר קשיש</label>
+    <label class="levy-check" data-show="PINUY_BINUY LOCAL_REPLACEMENT_PLAN">
+      <input type="checkbox" id="flag-nursing"> המוכר נזקק לשירותי סיעוד</label>
+
+    <label class="levy-check" data-show="STRENGTHENING_T38_1">
+      <input type="checkbox" id="flag-deal-cash"> העסקה כוללת תשלום מזומן כלשהו (לא רק שירותי בנייה)</label>
+
+    <label class="levy-check" data-show="DEMOLITION_REBUILD_T38_2">
+      <input type="checkbox" id="flag-upgrade"> רכשתי שטח / שירותי בנייה נוספים מהיזם</label>
+    <div class="field-group" id="upgrade-cash-group" style="display:none">
+      <label for="upgrade-cash">סכום השדרוג במזומן (₪)</label>
+      <input id="upgrade-cash" type="number" min="0" step="1000" placeholder="לדוגמה 350,000">
+    </div>
+
+    <div class="wizard-nav">
+      <button type="button" class="btn-secondary" id="back-4">קודם</button>
+      <button type="button" class="btn-primary" id="calc-btn">חשב</button>
+    </div>
+  </div>
+
+  <!-- Step 5: result -->
+  <div class="card wizard-step" id="step-5">
+    <div class="section-title">שלב 5 — תוצאת החישוב</div>
+    <div id="result-body"></div>
+
+    <div class="disclaimer">
+      התוצאה היא אומדן בלבד ואינה מהווה שומה, חוות דעת מיסוי או ייעוץ משפטי.
+      שיעורי מס שוטפים (מס שבח, מס רכישה) אינם מחושבים כאן. יש לאמת כל חישוב
+      מול יועץ מס ושמאי מקרקעין.
+    </div>
+
+    <button type="button" class="btn-primary" id="export-pdf-btn">ייצא ל-PDF</button>
+    <button type="button" class="btn-secondary" id="reset-btn">חישוב חדש</button>
+  </div>
+
+</div>
+</div>
+
+<div id="mode-developer" class="mode-pane">
+  <div class="container">
+
+    <!-- Step A: project params -->
+    <div class="card" id="dev-step-params">
+      <div class="section-title">שלב 1 — פרמטרי הפרויקט</div>
+      <p class="hint">פרמטרים שחלים על כל הדיירים בקובץ.</p>
+
+      <div class="field-group">
+        <label>סוג פרויקט</label>
+        <div class="choice-grid" id="dev-project-type-grid">
+          <button type="button" class="choice" data-value="PINUY_BINUY">פינוי-בינוי</button>
+          <button type="button" class="choice" data-value="STRENGTHENING_T38_1">תמ״א 38 — חיזוק</button>
+          <button type="button" class="choice" data-value="DEMOLITION_REBUILD_T38_2">תמ״א 38 — הריסה ובנייה</button>
+          <button type="button" class="choice" data-value="LOCAL_REPLACEMENT_PLAN">תכנית עירונית מחליפה</button>
+        </div>
+      </div>
+
+      <div class="field-group" id="dev-price-group" data-show="PINUY_BINUY LOCAL_REPLACEMENT_PLAN DEMOLITION_REBUILD_T38_2" style="display:none">
+        <label for="dev-price">מחיר מ״ר חדש באזור (₪ למ״ר) — ברירת מחדל לכל הדיירים</label>
+        <input id="dev-price" type="number" min="0" step="500" placeholder="לדוגמה 25,000">
+        <p class="hint">אם בקובץ יש עמודה "מחיר מ״ר" — היא תגבר עבור אותו דייר.</p>
+      </div>
+
+      <div class="field-group" id="dev-ceiling49z-group" data-show="DEMOLITION_REBUILD_T38_2" style="display:none">
+        <label for="dev-ceiling49z">תקרת הפטור לפי סעיף 49ז (₪)</label>
+        <input id="dev-ceiling49z" type="number" min="0" step="1000" value="2428100">
+      </div>
+
+      <div class="wizard-nav">
+        <span></span>
+        <button type="button" class="btn-primary" id="dev-next-params" disabled>הבא — העלאת קובץ</button>
+      </div>
+    </div>
+
+    <!-- Step B: upload -->
+    <div class="card" id="dev-step-upload" style="display:none">
+      <div class="section-title">שלב 2 — העלאת קובץ Excel</div>
+      <p class="hint">כל שורה = דייר/דירה אחת. תומך ב-xlsx, xls, csv.</p>
+
+      <div id="dev-dropzone" class="dropzone">
+        <p>גרור קובץ לכאן או לחץ לבחירה</p>
+        <input type="file" id="dev-file" accept=".xlsx,.xls,.csv" hidden>
+      </div>
+      <div id="dev-file-info" class="hint" style="display:none"></div>
+      <div id="dev-upload-error" class="note" style="display:none; background:#FEF0F0; border-color:#F5BCBC; color:#C0392B"></div>
+
+      <div class="wizard-nav">
+        <button type="button" class="btn-secondary" id="dev-back-upload">קודם</button>
+        <button type="button" class="btn-primary" id="dev-next-upload" disabled>הבא — מיפוי עמודות</button>
+      </div>
+    </div>
+
+    <!-- Step C: column mapping -->
+    <div class="card" id="dev-step-mapping" style="display:none">
+      <div class="section-title">שלב 3 — מיפוי עמודות</div>
+      <p class="hint">המערכת זיהתה אוטומטית את משמעות העמודות. בדוק ותקן בעת הצורך.</p>
+      <div id="dev-mapping-table"></div>
+
+      <div class="wizard-nav">
+        <button type="button" class="btn-secondary" id="dev-back-mapping">קודם</button>
+        <button type="button" class="btn-primary" id="dev-process-btn">חשב פרויקט</button>
+      </div>
+    </div>
+
+    <!-- Step D: results -->
+    <div class="card" id="dev-step-results" style="display:none">
+      <div class="section-title">שלב 4 — תוצאות הפרויקט</div>
+      <div id="dev-kpi-row" class="kpi-row"></div>
+      <div id="dev-results-table-wrap"></div>
+
+      <div class="disclaimer">
+        התוצאה היא אומדן בלבד ואינה מהווה שומה, חוות דעת מיסוי או ייעוץ משפטי.
+        שיעורי מס שוטפים אינם מחושבים. יש לאמת מול יועץ מס.
+      </div>
+
+      <button type="button" class="btn-primary" id="dev-export-excel">הורד Excel מועשר</button>
+      <button type="button" class="btn-primary" id="dev-export-pdf">הורד דוח PDF</button>
+      <button type="button" class="btn-secondary" id="dev-reset">חישוב חדש</button>
+    </div>
+
+  </div>
+</div>
+
+<section class="about-tool">
+  <h2>אודות המחשבון</h2>
+  <p>מחשבון פטור ממס בהתחדשות עירונית פותח על ידי <a href="https://www.lendover.co.il">אהרון לנדובר</a>, יועץ התחדשות עירונית. הכלי מחשב לדייר את תקרת השווי הפטורה ואת פיצול התמורה לרכיב פטור מול רכיב חייב בעסקאות פינוי-בינוי ותמ״א 38.</p>
+  <p>החישוב מבוסס על פרקי המס בחוק מיסוי מקרקעין ועל ניירות העמדה של רשות המסים. התוצאה היא אומדן בלבד ואינה מחליפה בדיקה מול יועץ מס.</p>
+  <p>כלים נוספים: <a href="https://www.lendover.co.il/tools/feescalc/">מחשבון אגרות והיטלים</a> | <a href="https://tabutab.lendover.co.il">TabuTab — המרת נסחי טאבו</a></p>
+</section>
+
+<footer>
+  פותח על ידי <a href="https://www.lendover.co.il">אהרון לנדובר</a> | יועץ אסטרטגי בהתחדשות עירונית
+  &nbsp;|&nbsp; <a href="https://www.lendover.co.il/privacy.html">מדיניות פרטיות</a>
+</footer>
+
+<script src="vendor/html2canvas.min.js"></script>
+<script src="vendor/jspdf.umd.min.js"></script>
+<script src="vendor/xlsx.full.min.js"></script>
+<script src="calc.js?v=2"></script>
+<script src="/tools/auth-gate.js"></script>
+<script src="app.js?v=4"></script>
+<script src="bulk.js?v=6"></script>
+<script>window._lvSource = 'taxcalc';</script>
+<script src="/tools/tracker.js"></script>
+</body>
+</html>
