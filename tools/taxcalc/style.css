@@ -35,14 +35,14 @@ body {
 nav {
   background: var(--bg-white);
   border-bottom: 1px solid var(--border);
-  padding: 14px 32px;
+  padding: 8px 32px;
   display: flex; align-items: center; justify-content: space-between;
 }
 .nav-app-brand, .nav-site-brand { text-decoration: none; display: flex; align-items: center; gap: 10px; }
-.nav-app-logo { width: auto; height: 96px; object-fit: contain; display: block; }
+.nav-app-logo { width: auto; height: 122px; object-fit: contain; display: block; }
 .nav-site-brand { opacity: 0.8; transition: opacity 0.2s; }
 .nav-site-brand:hover { opacity: 1; }
-.nav-site-logo { height: 80px; width: auto; }
+.nav-site-logo { height: 96px; width: auto; }
 
 /* Hero */
 .hero {
@@ -201,8 +201,8 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
 /* Responsive */
 @media (max-width: 540px) {
   nav { padding: 10px 16px; }
-  .nav-app-logo { height: 72px; }
-  .nav-site-logo { height: 58px; }
+  .nav-app-logo { height: 88px; }
+  .nav-site-logo { height: 68px; }
   .hero { padding: 24px 14px 20px; }
   .hero h1 { font-size: 1.3rem; }
   .card { padding: 18px 16px; }
