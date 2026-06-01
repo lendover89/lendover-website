@@ -26,6 +26,27 @@
     return Math.round(n).toLocaleString('he-IL');
   }
 
+  function requireAuthBeforeCalculation() {
+    return fetch('https://auth.lendover.co.il/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: '{}'
+    }).then(function (resp) {
+      if (resp.ok) { return true; }
+      if (resp.status === 401 && window.handleAuth401) {
+        return window.handleAuth401().then(requireAuthBeforeCalculation);
+      }
+      throw new Error('auth-check-failed');
+    }).catch(function (err) {
+      if (err && err.message === 'auth-check-failed') { throw err; }
+      if (window.handleAuth401) {
+        return window.handleAuth401().then(requireAuthBeforeCalculation);
+      }
+      throw err;
+    });
+  }
+
   // --- step visibility ---
   function showStep(n) {
     state.step = n;
@@ -252,9 +273,23 @@
 
     $('calc-btn').addEventListener('click', function () {
       if (!E) { alert('מנוע החישוב לא נטען. רענן את הדף.'); return; }
-      var result = E.computeDweller(gatherInput());
-      renderResult(result);
-      showStep(5);
+      var btn = this;
+      var oldText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'בודק הרשמה...';
+      requireAuthBeforeCalculation()
+        .then(function () {
+          var result = E.computeDweller(gatherInput());
+          renderResult(result);
+          showStep(5);
+        })
+        .catch(function () {
+          alert('כדי לחשב יש להתחבר או להירשם.');
+        })
+        .then(function () {
+          btn.disabled = false;
+          btn.textContent = oldText;
+        });
     });
 
     $('reset-btn').addEventListener('click', function () { window.location.reload(); });
