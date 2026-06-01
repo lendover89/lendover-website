@@ -21,6 +21,21 @@
   <link rel="stylesheet" href="style.css?v=9">
   <style>
     .nav-app-logo { height: 132px; width: auto; object-fit: contain; }
+    .upload-guide {
+      background: #FBF8F3;
+      border: 1px solid #E2DDD6;
+      border-right: 3px solid #B8743D;
+      border-radius: 4px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+    }
+    .upload-guide h3 { font-size: 0.98rem; color: #3C3C3C; margin-bottom: 8px; }
+    .upload-guide p { color: #777777; font-size: 0.86rem; line-height: 1.55; margin-bottom: 10px; }
+    .upload-guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .upload-guide strong { display: block; color: #9A5F2E; font-size: 0.84rem; margin-bottom: 6px; }
+    .upload-guide ul { margin: 0; padding-right: 18px; color: #2C2C2C; font-size: 0.84rem; line-height: 1.7; }
+    .upload-guide-note { margin-top: 10px; margin-bottom: 0 !important; }
+    @media (max-width: 640px) { .upload-guide-grid { grid-template-columns: 1fr; } }
     @media (max-width: 540px) { .nav-app-logo { height: 94px; } }
   </style>
   <script type="application/ld+json">
