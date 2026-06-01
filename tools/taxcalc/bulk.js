@@ -68,6 +68,27 @@
     return s === 'כן' || s === 'yes' || s === 'true' || s === '1' || s === '✓' || s === 'v' || s === 'x';
   }
 
+  function requireAuthBeforeCalculation() {
+    return fetch('https://auth.lendover.co.il/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: '{}'
+    }).then(function (resp) {
+      if (resp.ok) { return true; }
+      if (resp.status === 401 && window.handleAuth401) {
+        return window.handleAuth401().then(requireAuthBeforeCalculation);
+      }
+      throw new Error('auth-check-failed');
+    }).catch(function (err) {
+      if (err && err.message === 'auth-check-failed') { throw err; }
+      if (window.handleAuth401) {
+        return window.handleAuth401().then(requireAuthBeforeCalculation);
+      }
+      throw err;
+    });
+  }
+
   function applyVisibility() {
     var els = document.querySelectorAll('#mode-developer [data-show]');
     for (var i = 0; i < els.length; i++) {
@@ -579,11 +600,25 @@
     });
 
     $('dev-process-btn').addEventListener('click', function () {
-      var results = processAll();
-      var kpis = computeKpis(results);
-      renderKpis(kpis);
-      renderResultsTable(results);
-      showDevStep(3);
+      var btn = this;
+      var oldText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'בודק הרשמה...';
+      requireAuthBeforeCalculation()
+        .then(function () {
+          var results = processAll();
+          var kpis = computeKpis(results);
+          renderKpis(kpis);
+          renderResultsTable(results);
+          showDevStep(3);
+        })
+        .catch(function () {
+          alert('כדי לחשב פרויקט יש להתחבר או להירשם.');
+        })
+        .then(function () {
+          btn.disabled = false;
+          btn.textContent = oldText;
+        });
     });
 
     $('dev-export-excel').addEventListener('click', function () {
