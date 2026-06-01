@@ -201,7 +201,7 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
 /* Responsive */
 @media (max-width: 540px) {
   nav { padding: 10px 16px; }
-  .nav-app-logo { height: 88px; }
+  .nav-app-logo { height: 112px; }
   .nav-site-logo { height: 68px; }
   .hero { padding: 24px 14px 20px; }
   .hero h1 { font-size: 1.3rem; }
