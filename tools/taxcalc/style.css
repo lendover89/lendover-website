@@ -267,6 +267,48 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
 }
 .dropzone p { margin: 0; font-size: 0.95rem; }
 
+.upload-guide {
+  background: #FBF8F3;
+  border: 1px solid var(--border);
+  border-right: 3px solid var(--copper);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+.upload-guide h3 {
+  font-size: 0.98rem;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+}
+.upload-guide p {
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+.upload-guide-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.upload-guide strong {
+  display: block;
+  color: var(--copper-dark);
+  font-size: 0.84rem;
+  margin-bottom: 6px;
+}
+.upload-guide ul {
+  margin: 0;
+  padding-right: 18px;
+  color: var(--text);
+  font-size: 0.84rem;
+  line-height: 1.7;
+}
+.upload-guide-note {
+  margin-top: 10px;
+  margin-bottom: 0 !important;
+}
+
 .mapping-row {
   display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 12px;
   padding: 10px 8px; border-bottom: 1px solid var(--border);
