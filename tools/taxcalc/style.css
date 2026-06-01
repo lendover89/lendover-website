@@ -39,7 +39,7 @@ nav {
   display: flex; align-items: center; justify-content: space-between;
 }
 .nav-app-brand, .nav-site-brand { text-decoration: none; display: flex; align-items: center; gap: 10px; }
-.nav-app-logo { width: auto; height: 158px; object-fit: contain; display: block; }
+.nav-app-logo { width: auto; height: 132px; object-fit: contain; display: block; }
 .nav-site-brand { opacity: 0.8; transition: opacity 0.2s; }
 .nav-site-brand:hover { opacity: 1; }
 .nav-site-logo { height: 96px; width: auto; }
@@ -201,7 +201,7 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
 /* Responsive */
 @media (max-width: 540px) {
   nav { padding: 10px 16px; }
-  .nav-app-logo { height: 112px; }
+  .nav-app-logo { height: 94px; }
   .nav-site-logo { height: 68px; }
   .hero { padding: 24px 14px 20px; }
   .hero h1 { font-size: 1.3rem; }
