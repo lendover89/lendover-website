@@ -39,8 +39,7 @@ nav {
   display: flex; align-items: center; justify-content: space-between;
 }
 .nav-app-brand, .nav-site-brand { text-decoration: none; display: flex; align-items: center; gap: 10px; }
-.nav-app-logo { width: 54px; height: 54px; object-fit: contain; border-radius: 6px; }
-.nav-app-title { direction: ltr; font-size: 1.15rem; font-weight: 800; color: #0d3152; }
+.nav-app-logo { width: auto; height: 96px; object-fit: contain; display: block; }
 .nav-site-brand { opacity: 0.8; transition: opacity 0.2s; }
 .nav-site-brand:hover { opacity: 1; }
 .nav-site-logo { height: 80px; width: auto; }
@@ -50,13 +49,6 @@ nav {
   background: var(--charcoal);
   color: #fff; text-align: center;
   padding: 28px 24px 24px;
-}
-.hero-logo {
-  display: block;
-  width: min(220px, 58vw);
-  height: auto;
-  margin: 0 auto 14px;
-  border-radius: 8px;
 }
 .hero h1 { font-size: 1.7rem; font-weight: 700; margin-bottom: 8px; }
 .hero p  { font-size: 1rem; color: rgba(255,255,255,0.75); font-weight: 300; }
@@ -209,6 +201,8 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
 /* Responsive */
 @media (max-width: 540px) {
   nav { padding: 10px 16px; }
+  .nav-app-logo { height: 72px; }
+  .nav-site-logo { height: 58px; }
   .hero { padding: 24px 14px 20px; }
   .hero h1 { font-size: 1.3rem; }
   .card { padding: 18px 16px; }
