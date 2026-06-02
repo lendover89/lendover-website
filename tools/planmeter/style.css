@@ -1,0 +1,355 @@
+/* מדידת דירות אוטומטית — אותו DNA של lendover.co.il */
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --copper:      #B8743D;
+  --copper-dark: #9A5F2E;
+  --copper-light:#F5E9DC;
+  --teal:        #5BC8C4;
+  --charcoal:    #3C3C3C;
+  --text:        #2C2C2C;
+  --text-muted:  #777777;
+  --bg:          #F0EDE6;
+  --bg-white:    #FFFFFF;
+  --border:      #E2DDD6;
+  --red:         #C0392B;
+  --green:       #2E7D52;
+  --blue:        #1a6fb5;
+  --radius:      4px;
+  --shadow:      0 2px 12px rgba(0,0,0,0.08);
+}
+
+html { font-size: 16px; }
+body {
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  direction: rtl;
+  min-height: 100vh;
+  padding-bottom: 48px;
+}
+
+/* hero */
+.hero {
+  background: var(--charcoal);
+  color: #fff;
+  text-align: center;
+  padding: 32px 24px 28px;
+}
+.hero h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.hero p {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.75);
+  font-weight: 300;
+  max-width: 600px;
+  margin: 0 auto 12px;
+}
+.beta-badge {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  background: var(--copper);
+  color: #fff;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.container {
+  max-width: 680px;
+  margin: 36px auto 0;
+  padding: 0 16px;
+}
+
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--copper);
+  display: inline-block;
+}
+
+.card {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 26px;
+  margin-bottom: 24px;
+}
+
+/* drop zone */
+#drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 36px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #faf8f3;
+}
+#drop-zone:hover, #drop-zone.dragover {
+  border-color: var(--copper);
+  background: var(--copper-light);
+}
+#drop-zone .icon { font-size: 2.8rem; margin-bottom: 8px; }
+#drop-zone .main-text { font-size: 1.1rem; font-weight: 600; color: var(--charcoal); }
+#drop-zone .sub-text { font-size: 0.9rem; color: var(--text-muted); margin-top: 6px; }
+#file-input { display: none; }
+
+#selected-file {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--copper-light);
+  border-radius: var(--radius);
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+}
+.file-name { flex: 1; font-weight: 500; font-size: 0.95rem; color: var(--charcoal); word-break: break-all; }
+.file-size { color: var(--text-muted); font-size: 0.85rem; }
+.file-clear {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0 6px;
+  line-height: 1;
+}
+.file-clear:hover { color: var(--red); }
+
+.tos-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 22px 0 18px;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  cursor: pointer;
+}
+.tos-line input { margin-top: 4px; cursor: pointer; }
+.tos-line a { color: var(--blue); text-decoration: none; }
+.tos-line a:hover { text-decoration: underline; }
+
+/* button */
+#convert-btn, #reset-btn {
+  width: 100%;
+  padding: 14px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+#convert-btn {
+  background: var(--copper);
+  color: #fff;
+}
+#convert-btn:hover:not(:disabled) { background: var(--copper-dark); }
+#convert-btn:disabled {
+  background: #d4cfc4;
+  color: #777;
+  cursor: not-allowed;
+}
+#reset-btn {
+  background: #fff;
+  color: var(--charcoal);
+  border: 1px solid var(--border);
+  margin-top: 16px;
+}
+#reset-btn:hover { background: var(--copper-light); border-color: var(--copper); }
+
+/* spinner */
+#spinner {
+  text-align: center;
+  padding: 20px 0 0;
+}
+.spin {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--copper);
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  animation: spinit 0.9s linear infinite;
+}
+@keyframes spinit { to { transform: rotate(360deg); } }
+#spinner-msg { font-weight: 600; color: var(--charcoal); }
+.spinner-sub { font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; }
+.progress-bar {
+  width: 80%;
+  max-width: 400px;
+  margin: 14px auto 4px;
+  height: 8px;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--copper), var(--copper-dark));
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+.progress-pct {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--copper-dark);
+  margin-top: 2px;
+}
+
+/* overlay preview in result */
+.overlay-preview {
+  margin: 14px 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: auto;
+  max-height: 70vh;
+  background: #fafafa;
+}
+.overlay-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.overlay-preview-empty {
+  padding: 18px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+#error-box {
+  margin-top: 18px;
+  padding: 12px 14px;
+  background: #fdecea;
+  color: var(--red);
+  border-right: 4px solid var(--red);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+}
+
+/* result */
+.result-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 18px;
+}
+#r-total { color: var(--charcoal); }
+
+.page-item {
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  background: #faf8f3;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.page-item .label {
+  font-weight: 600;
+  flex: 1;
+  color: var(--charcoal);
+  min-width: 140px;
+}
+.page-item .count {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+.page-item .btn-dl {
+  background: var(--copper);
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+}
+.page-item .btn-dl:hover { background: var(--copper-dark); }
+.page-item .btn-overlay {
+  background: var(--charcoal);
+}
+.page-item .btn-overlay:hover { background: #2a2a2a; }
+.page-item.empty .count { color: #aaa; }
+
+.page-item-block {
+  margin-bottom: 18px;
+}
+.page-item-block .page-item { margin-bottom: 0; }
+.page-item-block.empty { opacity: 0.6; }
+
+.zero-warn {
+  padding: 16px 18px;
+  background: #fff5e6;
+  border-right: 4px solid var(--copper);
+  border-radius: var(--radius);
+  line-height: 1.7;
+  color: var(--charcoal);
+}
+.zero-warn-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; }
+.zero-warn ul { margin: 6px 22px; }
+.zero-warn li { margin-bottom: 4px; }
+
+.privacy-note {
+  text-align: center;
+  margin-top: 16px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* about + faq */
+.about-tool {
+  max-width: 680px;
+  margin: 40px auto 0;
+  padding: 0 20px 40px;
+  line-height: 1.7;
+  color: #444;
+}
+.about-tool h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 24px 0 10px;
+  color: var(--charcoal);
+}
+.about-tool p { margin-bottom: 10px; }
+.about-tool ul { margin: 10px 24px 14px; }
+.about-tool li { margin-bottom: 6px; }
+.about-tool a { color: var(--blue); text-decoration: none; }
+.about-tool a:hover { text-decoration: underline; }
+.about-tool details {
+  margin-bottom: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.about-tool details summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--charcoal);
+  padding: 4px 0;
+}
+.about-tool details p { margin: 8px 16px 0; color: #555; }
+
+@media(max-width: 520px) {
+  .hero h1 { font-size: 1.4rem; }
+  .hero p { font-size: 0.95rem; }
+  .card { padding: 20px 18px; }
+  #drop-zone { padding: 26px 14px; }
+}
