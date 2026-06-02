@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מדידת דירות אוטומטית — תשריט בית משותף לאקסל | חינם | אהרון לנדובר</title>
+  <meta name="description" content="העלה תשריט בית משותף (PDF) — קבל טבלת Excel ותמונה עם זיהוי כל הדירות והשטחים שלהן. למידה עמוקה. חינם בשלב הבטא.">
+  <meta name="robots" content="index, follow">
+
+  <link rel="stylesheet" href="style.css">
+  <style>
+    nav{padding:10px 32px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #e0ddd6}
+    .nav-app-brand,.nav-site-brand{text-decoration:none;display:flex;align-items:center}
+    .nav-app-logo{height:90px;width:auto;display:flex;align-items:center;color:#1a2b4a;font-weight:800;font-size:1.4rem;letter-spacing:-.02em}
+    .nav-site-brand{opacity:.8;transition:opacity .2s}
+    .nav-site-brand:hover{opacity:1}
+    .nav-site-logo{height:90px;width:auto}
+    @media(max-width:520px){.nav-app-logo{font-size:1.1rem}.nav-site-logo{height:64px}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-app-brand" href="./">
+    <span class="nav-app-logo">📐 מדידת דירות</span>
+  </a>
+  <a class="nav-site-brand" href="https://www.lendover.co.il" title="חזרה לאתר לנדובר">
+    <img src="https://www.lendover.co.il/logo-transparent-new.png" alt="לנדובר" class="nav-site-logo">
+  </a>
+</nav>
+
+<div class="hero">
+  <h1>מדידת דירות אוטומטית בתשריט בית משותף</h1>
+  <p>העלה PDF של תשריט — תקבל אקסל עם שטחי כל הדירות וצילום עם הזיהוי המסומן בצבעים</p>
+  <div class="beta-badge">בטא · חינמי · תוצאה תוך ~2.5 דקות</div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <div class="section-title">בחר תשריט להעלאה</div>
+
+    <div id="drop-zone">
+      <div class="icon">📄</div>
+      <div class="main-text">גרור PDF של תשריט לכאן</div>
+      <div class="sub-text">או לחץ לבחירה (קובץ אחד בכל פעם, עד 50 מגה)</div>
+    </div>
+    <input type="file" id="file-input" accept=".pdf,application/pdf">
+
+    <div id="selected-file" style="display:none">
+      <span class="file-name" id="file-name"></span>
+      <span class="file-size" id="file-size"></span>
+      <button type="button" class="file-clear" id="file-clear" title="הסר">×</button>
+    </div>
+
+    <label class="tos-line">
+      <input type="checkbox" id="tos-cb">
+      <span>קראתי ואני מסכים ל<a href="#tos" id="tos-link">תנאי השימוש ומדיניות הפרטיות</a>. הקבצים נמחקים תוך 7 ימים. ייתכן שימוש בהם, אנונימית, לשיפור עתידי של המודל.</span>
+    </label>
+
+    <button id="convert-btn" disabled>הפעל מדידה</button>
+
+    <div id="spinner" style="display:none">
+      <div class="spin"></div>
+      <p id="spinner-msg">ממתין…</p>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      <p class="progress-pct" id="progress-pct">0%</p>
+      <p class="spinner-sub" id="spinner-sub">המתנה לתחילת עיבוד יכולה לקחת כמה שניות נוספות.</p>
+    </div>
+
+    <div id="error-box" style="display:none"></div>
+  </div>
+
+  <div class="card" id="result-card" style="display:none">
+    <p class="result-title">✓ זוהו <span id="r-total">—</span> דירות</p>
+
+    <div id="pages-list"></div>
+
+    <button id="reset-btn">העלה תשריט נוסף</button>
+  </div>
+
+  <p class="privacy-note">🔒 הקבצים נמחקים אוטומטית תוך 7 ימים.</p>
+
+</div>
+
+<section class="about-tool">
+  <h2>איך זה עובד?</h2>
+  <p>אתה מעלה תשריט בית משותף ב-PDF. הכלי מזהה כל דירה, מודד את השטח שלה (כולל הקיר החיצוני), ויוצר עבורך:</p>
+  <ul>
+    <li><strong>קובץ Excel</strong> עם מספר דירה, שטח במטרים ומיקום</li>
+    <li><strong>תמונה</strong> של התשריט עם כל דירה מסומנת בצבע ותווית שטח</li>
+  </ul>
+  <p>הזיהוי אוטומטי לחלוטין ומדויק במיוחד בתשריטים סטנדרטיים. ייתכנו טעויות בתשריטים ישנים או באיכות נמוכה — בדוק תמיד את התוצאה.</p>
+
+  <h2 id="tos">תנאי שימוש ומדיניות פרטיות</h2>
+  <ul>
+    <li>הקבצים שלך נשמרים <strong>עד 7 ימים</strong> בלבד ואז נמחקים אוטומטית.</li>
+    <li>הכלי בשלב <strong>בטא וחינמי</strong>. ייתכנו שגיאות זיהוי — בדוק את התוצאה לפני שימוש.</li>
+    <li>אנו עשויים להשתמש בקבצים שלך, בצורה אנונימית ומעובדת, ל<strong>שיפור עתידי של המודל</strong>.</li>
+    <li>אם אתה מעלה תשריט של לקוח — ודא שיש לך הסכמתו.</li>
+    <li>הכלי לא מהווה ייעוץ הנדסי/משפטי. אין להסתמך עליו לבדה לקבלת החלטות מהותיות.</li>
+    <li>להסרת נתונים שלך, צור קשר: <a href="mailto:lendover.aharon@gmail.com">lendover.aharon@gmail.com</a></li>
+  </ul>
+
+  <h2>שאלות נפוצות</h2>
+  <details><summary><strong>איזה תשריטים הכלי מזהה?</strong></summary>
+    <p>תשריטי בית משותף ("תשריט מאושר") ישראליים סטנדרטיים — סרוקים או דיגיטליים, ב-PDF. דיוק גבוה במיוחד בתשריטי גוש דן ירושלים. תשריטים מאוד ישנים או באיכות נמוכה — תלוי במצב.</p>
+  </details>
+  <details><summary><strong>למה לוקח 2-3 דקות?</strong></summary>
+    <p>הזיהוי מבצע מספר ניתוחים על אותו תשריט כדי להגיע לדיוק גבוה. תשריט גדול יכול לקחת 5-7 דקות.</p>
+  </details>
+  <details><summary><strong>למה השטחים שלי נראים גדולים מהציפייה?</strong></summary>
+    <p>השטח כולל את הקיר החיצוני של הדירה — לפי הסטנדרט של מדידות בית משותף. דירה טיפוסית יוצאת ~65-80 מ"ר.</p>
+  </details>
+  <details><summary><strong>הכלי החליף לי 2 דירות צמודות לדירה אחת. למה?</strong></summary>
+    <p>זה קורה בתשריטים שבהם 2 דירות חולקות קיר ארוך וצר. אנחנו עובדים על פתרון. בינתיים — תוכל לתקן ידנית באקסל.</p>
+  </details>
+</section>
+
+<script src="/tools/tracker.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
