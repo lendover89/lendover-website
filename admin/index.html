@@ -527,6 +527,38 @@
     <!-- Usage Tab -->
     <div class="tab-panel" id="tab-usage">
 
+      <div class="planmeter-section" style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px 20px;margin-bottom:20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <h3 style="margin:0;font-size:16px;font-weight:700;color:var(--bronze);">📐 PlanMeter — מדידת דירות (בטא)</h3>
+          <button class="btn btn-outline btn-sm" onclick="loadPlanMeterStats()">רענן</button>
+        </div>
+        <div class="usage-cards" style="grid-template-columns:repeat(4,1fr);">
+          <div class="usage-card">
+            <div class="tool-name">היום</div>
+            <div class="total" id="pm-jobs-today">—</div>
+            <div class="breakdown"><span id="pm-cost-today">—</span> דולר משוער</div>
+          </div>
+          <div class="usage-card">
+            <div class="tool-name">7 ימים</div>
+            <div class="total" id="pm-jobs-week">—</div>
+            <div class="breakdown"><span id="pm-cost-week">—</span> דולר משוער</div>
+          </div>
+          <div class="usage-card">
+            <div class="tool-name">30 ימים</div>
+            <div class="total" id="pm-jobs-month">—</div>
+            <div class="breakdown"><span id="pm-cost-month">—</span> דולר משוער</div>
+          </div>
+          <div class="usage-card">
+            <div class="tool-name">כל הזמן</div>
+            <div class="total" id="pm-jobs-all">—</div>
+            <div class="breakdown"><span id="pm-cost-all">—</span> דולר משוער</div>
+          </div>
+        </div>
+        <p style="margin-top:10px;font-size:12px;color:var(--sage);">
+          עלות מבוססת על אומדן <span id="pm-per-job">$0.10</span> לעיבוד (Modal GPU + R2). מקור הנתונים: <a href="https://planmeter.lendover.co.il/api/stats" target="_blank" style="color:var(--bronze)">/api/stats</a>.
+        </p>
+      </div>
+
       <div class="usage-cards" id="usage-cards">
         <div class="usage-card">
           <div class="tool-name">TabuTab</div>
@@ -1135,6 +1167,7 @@ function exportUsers() {
 
 async function loadUsage() {
   usageLoaded = true;
+  loadPlanMeterStats();
   try {
     var res = await apiFetch('/admin/usage/summary');
     if (res.status === 401 || res.status === 403) { doLogout(); return; }
@@ -1143,6 +1176,37 @@ async function loadUsage() {
     renderUsage(d);
   } catch(e) {
     toast('שגיאה בטעינת נתוני שימוש', 'err');
+  }
+}
+
+async function loadPlanMeterStats() {
+  // Public endpoint, no auth — aggregate counts only.
+  try {
+    var resp = await fetch('https://planmeter.lendover.co.il/api/stats', {
+      cache: 'no-store',
+    });
+    if (!resp.ok) throw new Error('http ' + resp.status);
+    var d = await resp.json();
+    var jobs = d.jobs || {};
+    var cost = d.estimated_cost_usd || {};
+    var setN = function(id, n) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = (n == null ? '—' : n);
+    };
+    setN('pm-jobs-today', jobs.today);
+    setN('pm-jobs-week',  jobs.week);
+    setN('pm-jobs-month', jobs.month);
+    setN('pm-jobs-all',   jobs.all_time);
+    setN('pm-cost-today', cost.today != null ? '$' + cost.today.toFixed(2) : '—');
+    setN('pm-cost-week',  cost.week  != null ? '$' + cost.week.toFixed(2)  : '—');
+    setN('pm-cost-month', cost.month != null ? '$' + cost.month.toFixed(2) : '—');
+    setN('pm-cost-all',   cost.all_time != null ? '$' + cost.all_time.toFixed(2) : '—');
+    if (cost.per_job != null) setN('pm-per-job', '$' + Number(cost.per_job).toFixed(2));
+  } catch(e) {
+    ['today','week','month','all'].forEach(function(k){
+      var el = document.getElementById('pm-jobs-' + k); if (el) el.textContent = '!';
+      var el2 = document.getElementById('pm-cost-' + k); if (el2) el2.textContent = 'שגיאה';
+    });
   }
 }
 
