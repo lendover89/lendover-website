@@ -103,9 +103,31 @@ convertBtn.addEventListener('click', async () => {
 
   let job;
   try {
-    const resp = await fetch(`${API_BASE}/api/upload`, { method: 'POST', body: fd });
+    let resp = await fetch(`${API_BASE}/api/upload`, {
+      method: 'POST',
+      body: fd,
+      credentials: 'include',
+    });
+    if (resp.status === 401 && typeof window.handleAuth401 === 'function') {
+      stopProgress(false);
+      spinner.style.display = 'none';
+      await window.handleAuth401();
+      // Re-rebuild FormData — the original stream was consumed by the first POST.
+      const fd2 = new FormData();
+      fd2.append('file', chosen);
+      fd2.append('tos_accepted', 'true');
+      spinner.style.display = 'block';
+      spinnerMsg.textContent = 'מעלה תשריט…';
+      jobStartedAt = Date.now();
+      startProgress();
+      resp = await fetch(`${API_BASE}/api/upload`, {
+        method: 'POST',
+        body: fd2,
+        credentials: 'include',
+      });
+    }
     job = await resp.json();
-    if (!resp.ok) throw new Error(job.error || `שגיאה ${resp.status}`);
+    if (!resp.ok) throw new Error(job.error || job.message || `שגיאה ${resp.status}`);
   } catch (e) {
     spinner.style.display = 'none';
     showError('כשלון בהעלאה: ' + e.message);
