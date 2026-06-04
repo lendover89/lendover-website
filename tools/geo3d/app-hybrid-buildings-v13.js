@@ -866,13 +866,48 @@
           if (s) s.setData({ type: 'FeatureCollection', features: [] });
         }
 
+        // ── Docked feature-info panel (anchored under the layers tree) ──
+        // Replaces the floating popup: no closeOnClick race that wiped the
+        // highlight, and it never covers the map.
+        const infoPanel = document.getElementById('featureInfo');
+        const infoBody = document.getElementById('featureInfoBody');
+        const infoClose = document.getElementById('featureInfoClose');
+        const layersPanel = document.getElementById('govmapPanel');
+        function positionInfo() {
+          if (!infoPanel || !layersPanel) return;
+          const r = layersPanel.getBoundingClientRect();
+          const bottomMargin = 70;           // clear the bottom toolbar/scale bar
+          let top = r.bottom + 8;
+          // if the layers tree is taller than the screen, slide the panel up so
+          // at least ~180px stays visible (instead of running off-screen)
+          const maxTop = window.innerHeight - bottomMargin - 180;
+          if (top > maxTop) top = Math.max(74, maxTop);
+          infoPanel.style.top = top + 'px';
+          infoPanel.style.right = Math.max(8, window.innerWidth - r.right) + 'px';
+          infoPanel.style.width = r.width + 'px';
+          // cap height so the panel always fits above the bottom of the screen
+          infoPanel.style.maxHeight = Math.max(160, window.innerHeight - bottomMargin - top) + 'px';
+        }
+        function showInfo(innerHtml) {
+          if (!infoPanel) return;
+          infoBody.innerHTML = innerHtml;
+          infoPanel.hidden = false;
+          positionInfo();
+        }
+        function hideInfo() {
+          if (infoPanel) { infoPanel.hidden = true; infoBody.innerHTML = ''; }
+          clearHighlight();
+        }
+        if (infoClose) infoClose.addEventListener('click', hideInfo);
+        window.addEventListener('resize', () => { if (infoPanel && !infoPanel.hidden) positionInfo(); });
+
         function identifyAt(e) {
           const ids = activeGovmapLayerIds();
           if (!ids.length) return;
           const p = e.point;
           const box = [[p.x - 5, p.y - 5], [p.x + 5, p.y + 5]]; // click tolerance
           const feats = map.queryRenderedFeatures(box, { layers: ids });
-          if (!feats.length) { clearHighlight(); return; }
+          if (!feats.length) { hideInfo(); return; }
           const byLayer = {};
           const seen = {};
           const hlFeats = [];
@@ -888,7 +923,7 @@
             if (arr.length < 6) arr.push(f.properties || {});
           });
           setHighlight(hlFeats);
-          let html = '<div class="gm-popup">';
+          let html = '';
           Object.keys(byLayer).forEach((name) => {
             html += '<div class="gm-pop-layer">' + esc(name) + '</div>';
             byLayer[name].forEach((props) => {
@@ -896,7 +931,7 @@
               Object.keys(props).forEach((k) => {
                 if (SKIP_FIELDS[k]) return;
                 // hide technical identifier columns (county_id, locality_id,
-                // parcel_id, objectid, id…) — noise that bloats the popup
+                // parcel_id, objectid, id…) — noise that bloats the panel
                 if (/(^|_)id$/i.test(k) || /^objectid$/i.test(k)) return;
                 const raw = props[k];
                 if (raw === null || raw === undefined || raw === '') return;
@@ -911,10 +946,7 @@
               html += '</table>';
             });
           });
-          html += '</div>';
-          const popup = new maplibregl.Popup({ closeButton: true, maxWidth: '340px', className: 'gm-popup-wrap' })
-            .setLngLat(e.lngLat).setHTML(html).addTo(map);
-          popup.on('close', clearHighlight); // remove the highlight when the popup closes
+          showInfo(html);
 
           // append addresses for any parcel (gush_num/parcel) in the clicked features
           const pairs = [];
@@ -929,14 +961,12 @@
               .then((r) => (r.ok ? r.json() : null))
               .then((d) => {
                 if (!d || !d.addresses || !d.addresses.length) return;
-                const elx = popup.getElement();
-                const wrap = elx && elx.querySelector('.maplibregl-popup-content .gm-popup');
-                if (!wrap) return;
+                if (!infoPanel || infoPanel.hidden) return; // panel closed meanwhile
                 const block = document.createElement('div');
                 block.className = 'gm-pop-addresses';
                 block.innerHTML = '<div class="gm-pop-layer">כתובות (גוש ' + esc(String(pr.gush)) + ' חלקה ' + esc(String(pr.parcel)) + ')</div>' +
                   d.addresses.map((a) => '<div class="gm-pop-addr">' + esc(a) + '</div>').join('');
-                wrap.appendChild(block);
+                infoBody.appendChild(block);
               })
               .catch(() => {});
           });
