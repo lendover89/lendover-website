@@ -704,21 +704,28 @@
           }
           map.addLayer(layerDef, before);
           mapLayers.push(lyrId);
-          // parcel layers (חלקות…): label each parcel with its number when zoomed in
+          const entry = { item: it, color: swatchColor(it, fallback), mapLayers: mapLayers };
+          // parcel layers (חלקות…): label each parcel ONCE with its number when
+          // zoomed in. A vector-tile symbol layer would repeat the label on every
+          // tile a parcel touches → noise. Instead we build deduped label points
+          // (one per parcel id) into a GeoJSON source, refreshed on map move.
           if ((g.indexOf('POLYGON') >= 0) && /חלק/.test(it.name || '')) {
+            const lblSrcId = 'gm-lblsrc-' + it.id;
             const lblId = 'gm-lbl-' + it.id;
+            const hitId = 'gm-hit-' + it.id; // full-parcel fill we query geometry from
+            const LABEL_MINZOOM = 17;
+            map.addSource(lblSrcId, { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
             map.addLayer({
               id: lblId,
               type: 'symbol',
-              source: srcId,
-              'source-layer': sourceLayer,
-              minzoom: 17,
+              source: lblSrcId,
+              minzoom: LABEL_MINZOOM,
               layout: {
-                'text-field': ['coalesce', ['to-string', ['get', 'parcel']], ''],
+                'text-field': ['get', 't'],
                 'text-font': ['Noto Sans Bold'],
                 'text-size': ['interpolate', ['linear'], ['zoom'], 17, 11, 19, 15],
                 'text-allow-overlap': false,
-                'text-padding': 2
+                'text-padding': 4
               },
               paint: {
                 'text-color': '#ffffff',
@@ -726,10 +733,42 @@
                 'text-halo-width': 1.8,
                 'text-halo-blur': 0.3
               }
-            }, before);
+            }); // on top (no before) so labels sit above the parcel lines
             mapLayers.push(lblId);
+            // dedup parcels by id → one averaged label point each
+            function refreshParcelLabels() {
+              const src = map.getSource(lblSrcId);
+              if (!src) return;
+              if (map.getZoom() < LABEL_MINZOOM || !map.getLayer(hitId)) {
+                src.setData({ type: 'FeatureCollection', features: [] });
+                return;
+              }
+              const feats = map.queryRenderedFeatures({ layers: [hitId] });
+              const acc = {};
+              feats.forEach((f) => {
+                const pr = f.properties || {};
+                const t = (pr.parcel != null && pr.parcel !== '') ? String(pr.parcel) : '';
+                if (!t) return;
+                const key = pr.id != null ? pr.id : (pr.gush_num + '-' + pr.parcel);
+                const a = acc[key] || (acc[key] = { sx: 0, sy: 0, n: 0, t: t });
+                const gm = f.geometry;
+                const polys = gm.type === 'MultiPolygon' ? gm.coordinates : (gm.type === 'Polygon' ? [gm.coordinates] : []);
+                polys.forEach((poly) => (poly[0] || []).forEach((c) => { a.sx += c[0]; a.sy += c[1]; a.n++; }));
+              });
+              const pts = Object.keys(acc).map((k) => {
+                const a = acc[k];
+                return { type: 'Feature', properties: { t: a.t }, geometry: { type: 'Point', coordinates: [a.sx / a.n, a.sy / a.n] } };
+              });
+              src.setData({ type: 'FeatureCollection', features: pts });
+            }
+            map.on('moveend', refreshParcelLabels);
+            entry.labelSrcId = lblSrcId;
+            entry.labelRefresh = refreshParcelLabels;
+            // initial fill once the tiles for this source have loaded
+            map.once('idle', refreshParcelLabels);
+            refreshParcelLabels();
           }
-          active.set(it.id, { item: it, color: swatchColor(it, fallback), mapLayers: mapLayers });
+          active.set(it.id, entry);
           postGeo3DUsage('govmap_add');
           renderActive();
           showStatus('נוספה שכבה: ' + (it.name || it.id));
@@ -741,6 +780,9 @@
           const layers = (entry && entry.mapLayers) || ['gm-' + id];
           layers.forEach((lid) => { if (map.getLayer(lid)) map.removeLayer(lid); });
           if (map.getSource(srcId)) map.removeSource(srcId);
+          // clean up the parcel-label GeoJSON source + its move listener
+          if (entry && entry.labelRefresh) map.off('moveend', entry.labelRefresh);
+          if (entry && entry.labelSrcId && map.getSource(entry.labelSrcId)) map.removeSource(entry.labelSrcId);
           active.delete(id);
           renderActive();
         }
@@ -966,17 +1008,36 @@
           const byLayer = {};
           const seen = {};
           const hlFeats = [];
+          const wantKeys = {};
           feats.forEach((f) => {
             const id = itemIdForLayer(f.layer.id);
             const entry = id ? active.get(id) : null;
             const name = entry ? (entry.item.name || id) : (id || f.layer.id);
-            const key = name + '|' + (f.properties ? JSON.stringify(f.properties) : f.id);
+            const pr = f.properties || {};
+            const key = name + '|' + (f.properties ? JSON.stringify(pr) : f.id);
+            // parcel identity — used to expand the highlight to the whole parcel
+            const pkey = pr.id != null ? ('id:' + pr.id)
+              : (pr.gush_num != null && pr.parcel != null ? ('gp:' + pr.gush_num + '-' + pr.parcel) : null);
+            if (pkey) wantKeys[pkey] = true;
             if (seen[key]) return; // dedupe (hit-fill + outline are same feature)
             seen[key] = 1;
-            if (f.geometry) hlFeats.push({ type: 'Feature', properties: {}, geometry: f.geometry });
+            // non-parcel features: highlight the clicked piece directly
+            if (!pkey && f.geometry) hlFeats.push({ type: 'Feature', properties: {}, geometry: f.geometry });
             const arr = (byLayer[name] = byLayer[name] || []);
-            if (arr.length < 6) arr.push(f.properties || {});
+            if (arr.length < 6) arr.push(pr);
           });
+          // a parcel is split across vector tiles → the clicked feature is only the
+          // clipped piece. Re-query the whole viewport and collect EVERY piece that
+          // shares the parcel id, so the highlight covers the entire parcel.
+          if (Object.keys(wantKeys).length) {
+            const all = map.queryRenderedFeatures({ layers: ids });
+            all.forEach((f) => {
+              const pr = f.properties || {};
+              const pkey = pr.id != null ? ('id:' + pr.id)
+                : (pr.gush_num != null && pr.parcel != null ? ('gp:' + pr.gush_num + '-' + pr.parcel) : null);
+              if (pkey && wantKeys[pkey] && f.geometry) hlFeats.push({ type: 'Feature', properties: {}, geometry: f.geometry });
+            });
+          }
           setHighlight(hlFeats);
           // total selected features across all layers (drives the title)
           let total = 0;
