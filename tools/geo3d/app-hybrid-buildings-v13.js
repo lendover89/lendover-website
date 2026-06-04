@@ -98,7 +98,7 @@
       const toggles = document.querySelectorAll('[data-layer-toggle]');
 
       const RTL_PLUGIN_URL = 'https://unpkg.com/@mapbox/mapbox-gl-rtl-text@0.2.3/mapbox-gl-rtl-text.js';
-      const LABEL_LAYER_IDS = ['ofm-neighborhood-labels', 'ofm-road-labels', 'ofm-settlement-labels'];
+      const LABEL_LAYER_IDS = ['ofm-neighborhood-labels', 'ofm-road-labels', 'ofm-settlement-labels', 'ofm-housenumbers'];
 
       let terrainEnabled = true;
       let labelsEnabled = true;
@@ -424,6 +424,30 @@
           }
         });
 
+        // house numbers on buildings (OpenMapTiles 'housenumber' point layer) —
+        // only at close zoom so it doesn't clutter
+        map.addLayer({
+          id: 'ofm-housenumbers',
+          type: 'symbol',
+          source: 'openFreeMapLabels',
+          'source-layer': 'housenumber',
+          minzoom: 17,
+          layout: {
+            visibility: 'visible',
+            'text-field': ['get', 'housenumber'],
+            'text-font': ['Noto Sans Regular'],
+            'text-size': ['interpolate', ['linear'], ['zoom'], 17, 10, 19, 13],
+            'text-allow-overlap': false,
+            'text-padding': 2
+          },
+          paint: {
+            'text-color': '#ffe9c7',
+            'text-halo-color': 'rgba(15, 18, 22, 0.95)',
+            'text-halo-width': 1.6,
+            'text-halo-blur': 0.3
+          }
+        });
+
         syncTerrainState();
         updateLabelsVisibility();
 
@@ -680,6 +704,31 @@
           }
           map.addLayer(layerDef, before);
           mapLayers.push(lyrId);
+          // parcel layers (חלקות…): label each parcel with its number when zoomed in
+          if ((g.indexOf('POLYGON') >= 0) && /חלק/.test(it.name || '')) {
+            const lblId = 'gm-lbl-' + it.id;
+            map.addLayer({
+              id: lblId,
+              type: 'symbol',
+              source: srcId,
+              'source-layer': sourceLayer,
+              minzoom: 17,
+              layout: {
+                'text-field': ['coalesce', ['to-string', ['get', 'parcel']], ''],
+                'text-font': ['Noto Sans Bold'],
+                'text-size': ['interpolate', ['linear'], ['zoom'], 17, 11, 19, 15],
+                'text-allow-overlap': false,
+                'text-padding': 2
+              },
+              paint: {
+                'text-color': '#ffffff',
+                'text-halo-color': 'rgba(20, 24, 28, 0.95)',
+                'text-halo-width': 1.8,
+                'text-halo-blur': 0.3
+              }
+            }, before);
+            mapLayers.push(lblId);
+          }
           active.set(it.id, { item: it, color: swatchColor(it, fallback), mapLayers: mapLayers });
           postGeo3DUsage('govmap_add');
           renderActive();
@@ -808,7 +857,11 @@
         function activeGovmapLayerIds() {
           const ids = [];
           active.forEach((entry) => {
-            (entry.mapLayers || []).forEach((lid) => { if (map.getLayer(lid)) ids.push(lid); });
+            (entry.mapLayers || []).forEach((lid) => {
+              // skip parcel-number label layers — they are not click targets
+              if (lid.indexOf('gm-lbl-') === 0) return;
+              if (map.getLayer(lid)) ids.push(lid);
+            });
           });
           return ids;
         }
