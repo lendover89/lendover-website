@@ -895,6 +895,9 @@
               html += '<table class="gm-pop-tbl">';
               Object.keys(props).forEach((k) => {
                 if (SKIP_FIELDS[k]) return;
+                // hide technical identifier columns (county_id, locality_id,
+                // parcel_id, objectid, id…) — noise that bloats the popup
+                if (/(^|_)id$/i.test(k) || /^objectid$/i.test(k)) return;
                 const raw = props[k];
                 if (raw === null || raw === undefined || raw === '') return;
                 let v;
