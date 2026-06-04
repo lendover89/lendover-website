@@ -669,7 +669,11 @@
             map.addSource(srcId, {
               type: 'vector',
               minzoom: 0,
-              maxzoom: 22,
+              // cap at 16 and let MapLibre OVERZOOM higher levels: a parcel then
+              // stays a single un-clipped feature instead of being split across
+              // many small tiles (which caused seams in the highlight + repeated
+              // labels). ~15cm precision when overzoomed — invisible for parcels.
+              maxzoom: 16,
               tiles: [TILE_BASE + '/tiles/govmap.' + it.id + '/{z}/{x}/{y}']
             });
           }
@@ -1032,10 +1036,16 @@
           if (Object.keys(wantKeys).length) {
             const all = map.queryRenderedFeatures({ layers: ids });
             all.forEach((f) => {
+              const gt = f.geometry && f.geometry.type;
+              // only polygon (hit-fill) geometry — skip the line layer so the
+              // outline isn't doubled. Keep ALL polygon pieces of the parcel so
+              // the whole parcel is covered (at maxzoom 16 it's normally one
+              // un-clipped piece → no inner seams).
+              if (gt !== 'Polygon' && gt !== 'MultiPolygon') return;
               const pr = f.properties || {};
               const pkey = pr.id != null ? ('id:' + pr.id)
                 : (pr.gush_num != null && pr.parcel != null ? ('gp:' + pr.gush_num + '-' + pr.parcel) : null);
-              if (pkey && wantKeys[pkey] && f.geometry) hlFeats.push({ type: 'Feature', properties: {}, geometry: f.geometry });
+              if (pkey && wantKeys[pkey]) hlFeats.push({ type: 'Feature', properties: {}, geometry: f.geometry });
             });
           }
           setHighlight(hlFeats);
