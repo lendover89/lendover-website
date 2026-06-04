@@ -872,6 +872,7 @@
         const infoPanel = document.getElementById('featureInfo');
         const infoBody = document.getElementById('featureInfoBody');
         const infoClose = document.getElementById('featureInfoClose');
+        const infoTitle = infoPanel ? infoPanel.querySelector('.feature-info__title') : null;
         const layersPanel = document.getElementById('govmapPanel');
         function positionInfo() {
           if (!infoPanel || !layersPanel) return;
@@ -888,8 +889,9 @@
           // cap height so the panel always fits above the bottom of the screen
           infoPanel.style.maxHeight = Math.max(160, window.innerHeight - bottomMargin - top) + 'px';
         }
-        function showInfo(innerHtml) {
+        function showInfo(innerHtml, title) {
           if (!infoPanel) return;
+          if (infoTitle && title) infoTitle.textContent = title;
           infoBody.innerHTML = innerHtml;
           infoPanel.hidden = false;
           positionInfo();
@@ -923,10 +925,18 @@
             if (arr.length < 6) arr.push(f.properties || {});
           });
           setHighlight(hlFeats);
+          // total selected features across all layers (drives the title)
+          let total = 0;
+          Object.keys(byLayer).forEach((name) => { total += byLayer[name].length; });
           let html = '';
           Object.keys(byLayer).forEach((name) => {
-            html += '<div class="gm-pop-layer">' + esc(name) + '</div>';
-            byLayer[name].forEach((props) => {
+            const list = byLayer[name];
+            html += '<div class="gm-pop-layer">' + esc(name) +
+              (list.length > 1 ? ' · ' + list.length + ' פיצ\'רים' : '') + '</div>';
+            list.forEach((props, idx) => {
+              // each feature in its own separated card; number them when >1
+              html += '<div class="gm-pop-feature">';
+              if (list.length > 1) html += '<span class="gm-pop-feature-idx">' + (idx + 1) + '</span>';
               html += '<table class="gm-pop-tbl">';
               Object.keys(props).forEach((k) => {
                 if (SKIP_FIELDS[k]) return;
@@ -944,9 +954,11 @@
                 html += '<tr><th>' + esc(FIELD_LABELS[k] || k) + '</th><td>' + v + '</td></tr>';
               });
               html += '</table>';
+              html += '</div>';
             });
           });
-          showInfo(html);
+          const title = total === 1 ? 'נבחר פיצ\'ר אחד' : ('נבחרו ' + total + ' פיצ\'רים');
+          showInfo(html, title);
 
           // append addresses for any parcel (gush_num/parcel) in the clicked features
           const pairs = [];
