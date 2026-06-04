@@ -1026,7 +1026,7 @@
           if (b && b.floors) rows.push(['קומות', b.floors]);
           if (b && b.type) rows.push(['סוג מבנה', b.type]);
           rows.push(['שנת בנייה', (y && y.year) ? (y.year + (y.rebuilt ? ' · נבנה מחדש' : '')) : 'לא ידוע']);
-          if (b && b.built_area) rows.push(['שטח בנוי (תשריט)', Math.round(b.built_area).toLocaleString('he') + ' מ"ר']);
+          if (b && b.built_area) rows.push(['שטח בנוי ברוטו (משוער)', Math.round(b.built_area).toLocaleString('he') + ' מ"ר']);
           if (footprintM2) rows.push(['טביעת רגל', Math.round(footprintM2).toLocaleString('he') + ' מ"ר']);
           if (b && b.height) rows.push(['גובה', b.height + ' מ׳']);
           if (pc) {
