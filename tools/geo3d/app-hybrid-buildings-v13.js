@@ -1002,13 +1002,66 @@
         if (infoClose) infoClose.addEventListener('click', hideInfo);
         window.addEventListener('resize', () => { if (infoPanel && !infoPanel.hidden) positionInfo(); });
 
+        // geodesic footprint area (m²) of a building polygon
+        function buildingFootprintArea(geometry) {
+          function ringArea(ring) {
+            const R = 6378137, D = Math.PI / 180; let s = 0;
+            for (let i = 0, n = ring.length; i < n; i++) {
+              const a = ring[i], b = ring[(i + 1) % n];
+              s += (b[0] - a[0]) * D * (2 + Math.sin(a[1] * D) + Math.sin(b[1] * D));
+            }
+            return s * R * R / 2;
+          }
+          const g = geometry; if (!g) return null;
+          const polys = g.type === 'MultiPolygon' ? g.coordinates : (g.type === 'Polygon' ? [g.coordinates] : []);
+          let total = 0;
+          polys.forEach((poly) => poly.forEach((ring, i) => { const a = Math.abs(ringArea(ring)); total += i === 0 ? a : -a; }));
+          return Math.abs(total);
+        }
+
+        // render the /building-info payload into the docked panel section
+        function renderBuildingInfo(d, footprintM2) {
+          const b = d.building, o = d.ownership, y = d.year_built, pc = d.parcel;
+          const rows = [];
+          if (b && b.floors) rows.push(['קומות', b.floors]);
+          if (b && b.type) rows.push(['סוג מבנה', b.type]);
+          rows.push(['שנת בנייה', (y && y.year) ? (y.year + (y.rebuilt ? ' · נבנה מחדש' : '')) : 'לא ידוע']);
+          if (b && b.built_area) rows.push(['שטח בנוי (תשריט)', Math.round(b.built_area).toLocaleString('he') + ' מ"ר']);
+          if (footprintM2) rows.push(['טביעת רגל', Math.round(footprintM2).toLocaleString('he') + ' מ"ר']);
+          if (b && b.height) rows.push(['גובה', b.height + ' מ׳']);
+          if (pc) {
+            rows.push(['גוש / חלקה', pc.gush + ' / ' + pc.parcel]);
+            if (pc.area) rows.push(['שטח חלקה רשום', Math.round(pc.area).toLocaleString('he') + ' מ"ר']);
+          }
+          let h = '<table class="gm-pop-tbl">' +
+            rows.map((r) => '<tr><th>' + esc(r[0]) + '</th><td>' + esc(String(r[1])) + '</td></tr>').join('') + '</table>';
+          if (o) {
+            const order = ['פרטית', 'מדינה', 'רשות מקומית', 'מעורב', 'אחר'];
+            const keys = Object.keys(o.breakdown).sort((a, b2) => {
+              const ia = order.indexOf(a), ib = order.indexOf(b2);
+              return (ia < 0 ? 9 : ia) - (ib < 0 ? 9 : ib);
+            });
+            h += '<div class="bi-own"><div class="bi-own-head">בעלות ויחידות · ' + esc(o.type) + '</div>' +
+              '<div class="bi-own-total">' + o.units + ' יחידות רשומות</div>' +
+              keys.map((k) => '<div class="bi-own-row"><span class="bi-own-k">' + esc(k) +
+                '</span><span class="bi-own-v">' + o.breakdown[k] + '</span></div>').join('') +
+              '</div>';
+          }
+          return h;
+        }
+
         function identifyAt(e) {
           const ids = activeGovmapLayerIds();
-          if (!ids.length) return;
           const p = e.point;
           const box = [[p.x - 5, p.y - 5], [p.x + 5, p.y + 5]]; // click tolerance
-          const feats = map.queryRenderedFeatures(box, { layers: ids });
-          if (!feats.length) { hideInfo(); return; }
+          // building under the click — works even with no GOVMAP layer active
+          let bldgFeat = null;
+          if (buildingsEnabled && map.getLayer('buildings-3d')) {
+            const bf = map.queryRenderedFeatures(box, { layers: ['buildings-3d'] });
+            if (bf.length) bldgFeat = bf[0];
+          }
+          const feats = ids.length ? map.queryRenderedFeatures(box, { layers: ids }) : [];
+          if (!feats.length && !bldgFeat) { hideInfo(); return; }
           const byLayer = {};
           const seen = {};
           const hlFeats = [];
@@ -1048,11 +1101,18 @@
               if (pkey && wantKeys[pkey]) hlFeats.push({ type: 'Feature', properties: {}, geometry: f.geometry });
             });
           }
+          // highlight the clicked building footprint as well
+          if (bldgFeat && bldgFeat.geometry) hlFeats.push({ type: 'Feature', properties: {}, geometry: bldgFeat.geometry });
           setHighlight(hlFeats);
-          // total selected features across all layers (drives the title)
+          // total selected govmap features across all layers
           let total = 0;
           Object.keys(byLayer).forEach((name) => { total += byLayer[name].length; });
           let html = '';
+          // building section first (filled asynchronously from /building-info)
+          if (bldgFeat) {
+            html += '<div class="gm-pop-layer">מבנה</div>' +
+              '<div id="biSec" class="bi-sec"><div class="bi-loading">טוען נתוני מבנה…</div></div>';
+          }
           Object.keys(byLayer).forEach((name) => {
             const list = byLayer[name];
             html += '<div class="gm-pop-layer">' + esc(name) +
@@ -1081,8 +1141,27 @@
               html += '</div>';
             });
           });
-          const title = total === 1 ? 'נבחר פיצ\'ר אחד' : ('נבחרו ' + total + ' פיצ\'רים');
+          const title = bldgFeat ? 'פרטי מבנה'
+            : (total === 1 ? 'נבחר פיצ\'ר אחד' : ('נבחרו ' + total + ' פיצ\'רים'));
           showInfo(html, title);
+
+          // async: enrich the building section (cadastre + Tabu ownership/units +
+          // nadlan year + national building model) from the server
+          if (bldgFeat) {
+            const fp = buildingFootprintArea(bldgFeat.geometry);
+            fetch(TILE_BASE + '/building-info?lng=' + encodeURIComponent(e.lngLat.lng) + '&lat=' + encodeURIComponent(e.lngLat.lat))
+              .then((r) => (r.ok ? r.json() : null))
+              .then((d) => {
+                const sec = document.getElementById('biSec');
+                if (!sec || !infoPanel || infoPanel.hidden) return;
+                sec.innerHTML = d ? renderBuildingInfo(d, fp) : '<div class="bi-loading">לא נמצאו נתונים</div>';
+                positionInfo();
+              })
+              .catch(() => {
+                const sec = document.getElementById('biSec');
+                if (sec) sec.innerHTML = '<div class="bi-loading">שגיאה בטעינת נתוני מבנה</div>';
+              });
+          }
 
           // append addresses for any parcel (gush_num/parcel) in the clicked features
           const pairs = [];
