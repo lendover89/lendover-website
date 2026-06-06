@@ -84,6 +84,10 @@
         : /(^|\.)isramap\.co\.il$/i.test(window.location.hostname)
           ? window.location.origin           // isramap: tiles/api served same-origin
           : 'https://auth.lendover.co.il';
+      // ArcGIS Location Platform API key (public, referrer-restricted to lendover.co.il /
+      // isramap.co.il / localhost; Basemaps privilege only; pay-as-you-go disabled).
+      // Licenses the Esri World Imagery basemap. Rotate in the ArcGIS portal if leaked.
+      const ARCGIS_KEY = 'AAPTa36ZnjZfYAiIq6TGWC72wKw..vtJYTLO8WdGxk4qEkn1f4lvcGbb4jpUm4PBzCFibOxTFuzThn6Vm_8LvyhYtpCTqdlZ0jIJMy8IXa7ECnvKfkzwnzYjGiC_qTuI7Gg8j1fvx3Zizp7_BA2lemWTRAM0G1PWH8rDSMV6CPcXdyV-krBEtqthDGqv-dKZrSLJ4_DTGimFNxiEOEPnHs2sqyylfSQG7VdFlki_crywS35LlthD1SqzyQ86o63TFWgzwc05bkBsdxaa3l3hrRg..AT1_btIu7J2u';
       const DEFAULT_VIEW = {
         center: [34.7818, 32.0853],
         zoom: 15.2,
@@ -180,10 +184,10 @@
             satellite: {
               type: 'raster',
               tileSize: 256,
-              maxzoom: 18,
-              attribution: 'Tiles © Esri',
+              maxzoom: 19,
+              attribution: 'Imagery © Esri, Maxar, Earthstar Geographics, and the GIS User Community',
               tiles: [
-                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+                'https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}?token=' + ARCGIS_KEY
               ]
             },
             terrainSource: {
