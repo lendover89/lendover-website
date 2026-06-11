@@ -543,9 +543,9 @@
               'interpolate',
               ['linear'],
               ['zoom'],
-              14, 0.7,
-              17, 1.25,
-              19, 1.9
+              14, 1.15,
+              17, 1.85,
+              19, 2.45
             ],
             'line-opacity': [
               'interpolate',
@@ -578,6 +578,8 @@
             'text-halo-blur': 0.25
           }
         });
+
+        map.moveLayer(PARCEL_OWNERSHIP_LAYER_ID, PARCEL_BOUNDARY_LAYER_ID);
 
         map.addLayer({
           id: 'ofm-neighborhood-labels',
