@@ -293,6 +293,56 @@ input {
   transform: translateY(0);
 }
 
+.ownership-legend {
+  position: fixed;
+  right: 18px;
+  bottom: 132px;
+  z-index: 4;
+  width: 174px;
+  padding: 11px 12px 12px;
+  pointer-events: none;
+  color: #fff;
+  background: rgba(18, 14, 26, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(14px) saturate(135%);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.ownership-legend.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ownership-legend__title {
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.ownership-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 21px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.ownership-legend__item span {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  background: var(--legend-color);
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18), 0 0 10px rgba(255, 255, 255, 0.16);
+}
+
 .maplibregl-ctrl-top-left,
 .maplibregl-ctrl-top-right {
   top: 78px;
@@ -529,6 +579,12 @@ input {
   .status-line {
     right: 10px;
     bottom: 116px;
+  }
+
+  .ownership-legend {
+    right: 10px;
+    bottom: 170px;
+    width: 164px;
   }
 
   .maplibregl-ctrl-bottom-left,
