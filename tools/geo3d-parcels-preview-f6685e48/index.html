@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://server.arcgisonline.com">
   <link rel="preconnect" href="https://auth.lendover.co.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=13">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -155,6 +155,15 @@
     </section>
 
     <div class="status-line" id="statusLine" role="status">טוען מפה</div>
+    <aside class="ownership-legend" id="ownershipLegend" aria-label="מקרא בעלות" aria-hidden="true">
+      <div class="ownership-legend__title">בעלות</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#00d1b2"></span>פרטית</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#ffb000"></span>מדינה</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#b7f34a"></span>רשות מקומית</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#ff4fa3"></span>מעורב</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#a78bfa"></span>אחר</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#6b7280"></span>לא ידוע</div>
+    </aside>
   </main>
 
   <section class="about-modal" id="aboutGeo3dModal" aria-hidden="true">
@@ -191,7 +200,7 @@
   </script>
   <script src="/tools/auth-gate.js"></script>
   <script src="/tools/tracker.js"></script>
-  <script src="app-parcels-preview-v3.js"></script>
+  <script src="app-parcels-preview-v4.js"></script>
   <script>
     (() => {
       const modal = document.getElementById('aboutGeo3dModal');
