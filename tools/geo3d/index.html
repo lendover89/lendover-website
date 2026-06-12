@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://server.arcgisonline.com">
   <link rel="preconnect" href="https://auth.lendover.co.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=13">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -143,6 +143,12 @@
         <button class="toggle is-on" type="button" data-layer-toggle="labels" aria-pressed="true" title="שמות רחובות ויישובים" aria-label="שמות רחובות ויישובים">
           <span aria-hidden="true">שמות</span>
         </button>
+        <button class="toggle" type="button" data-layer-toggle="parcels" aria-pressed="false" title="הצגת גבולות חלקות" aria-label="הצגת גבולות חלקות">
+          <span aria-hidden="true">חלקות</span>
+        </button>
+        <button class="toggle" type="button" data-layer-toggle="ownership" aria-pressed="false" title="צביעת חלקות לפי סוג בעלות" aria-label="צביעת חלקות לפי סוג בעלות">
+          <span aria-hidden="true">בעלות</span>
+        </button>
         <button class="toggle" type="button" id="resetView" title="איפוס מבט" aria-label="איפוס מבט">
           <span aria-hidden="true">איפוס</span>
         </button>
@@ -150,6 +156,15 @@
     </section>
 
     <div class="status-line" id="statusLine" role="status">טוען מפה</div>
+    <aside class="ownership-legend" id="ownershipLegend" aria-label="מקרא בעלות" aria-hidden="true">
+      <div class="ownership-legend__title">בעלות</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#00d1b2"></span>פרטית</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#ffb000"></span>מדינה</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#b7f34a"></span>רשות מקומית</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#ff4fa3"></span>מעורב</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#a78bfa"></span>אחר</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#6b7280"></span>לא ידוע</div>
+    </aside>
   </main>
 
   <section class="about-modal" id="aboutGeo3dModal" aria-hidden="true">
@@ -182,7 +197,7 @@
   <script>window._lvSource='geo3d';</script>
   <script src="/tools/auth-gate.js"></script>
   <script src="/tools/tracker.js"></script>
-  <script src="app-hybrid-buildings-v13.js"></script>
+  <script src="app-hybrid-buildings-v14.js"></script>
   <script>
     (() => {
       const modal = document.getElementById('aboutGeo3dModal');
