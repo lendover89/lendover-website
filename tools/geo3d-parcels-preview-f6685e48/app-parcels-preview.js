@@ -139,10 +139,11 @@
       const PARCEL_HIT_LAYER_ID = 'parcel-hit';
       const PARCEL_BOUNDARY_LAYER_ID = 'parcel-boundaries';
       const PARCEL_OWNERSHIP_LAYER_ID = 'parcel-ownership-fill';
+      const PARCEL_OWNERSHIP_LINE_LAYER_ID = 'parcel-ownership-line';
       const PARCEL_LABEL_LAYER_ID = 'parcel-numbers';
       const PARCEL_HIGHLIGHT_SOURCE_ID = 'parcelHighlight';
       const PARCEL_LAYER_IDS = [PARCEL_BOUNDARY_LAYER_ID, PARCEL_LABEL_LAYER_ID];
-      const OWNERSHIP_LAYER_IDS = [PARCEL_OWNERSHIP_LAYER_ID];
+      const OWNERSHIP_LAYER_IDS = [PARCEL_OWNERSHIP_LAYER_ID, PARCEL_OWNERSHIP_LINE_LAYER_ID];
 
       let terrainEnabled = true;
       let labelsEnabled = true;
@@ -403,13 +404,13 @@
         return [
           'match',
           ['to-string', ['get', 'ownership_type']],
-          'פרטית', 'rgba(23, 181, 150, 0.42)',
-          'מדינה', 'rgba(62, 78, 220, 0.42)',
-          'רשות מקומית', 'rgba(214, 171, 55, 0.42)',
-          'מעורב', 'rgba(218, 55, 145, 0.46)',
-          'אחר', 'rgba(118, 126, 138, 0.36)',
-          'לא ידוע', 'rgba(84, 91, 103, 0.24)',
-          'rgba(84, 91, 103, 0.24)'
+          'פרטית', '#00d1b2',
+          'מדינה', '#ffb000',
+          'רשות מקומית', '#b7f34a',
+          'מעורב', '#ff4fa3',
+          'אחר', '#a78bfa',
+          'לא ידוע', '#6b7280',
+          '#6b7280'
         ];
       }
 
@@ -459,11 +460,39 @@
               'interpolate',
               ['linear'],
               ['zoom'],
-              13, 0.2,
-              16, 0.38,
-              18, 0.48
+              13, 0.52,
+              16, 0.62,
+              18, 0.68
             ],
             'fill-outline-color': 'rgba(255, 255, 255, 0)'
+          }
+        });
+
+        map.addLayer({
+          id: PARCEL_OWNERSHIP_LINE_LAYER_ID,
+          type: 'line',
+          source: PARCEL_SOURCE_ID,
+          'source-layer': PARCEL_SOURCE_LAYER,
+          minzoom: 13,
+          layout: { visibility: 'none' },
+          paint: {
+            'line-color': ownershipColorExpression(),
+            'line-width': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              13, 0.55,
+              16, 0.95,
+              18, 1.35
+            ],
+            'line-opacity': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              13, 0.62,
+              16, 0.82,
+              18, 0.92
+            ]
           }
         });
 
@@ -580,6 +609,7 @@
         });
 
         map.moveLayer(PARCEL_OWNERSHIP_LAYER_ID, PARCEL_BOUNDARY_LAYER_ID);
+        map.moveLayer(PARCEL_OWNERSHIP_LINE_LAYER_ID, PARCEL_BOUNDARY_LAYER_ID);
 
         map.addLayer({
           id: 'ofm-neighborhood-labels',
