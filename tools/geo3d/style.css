@@ -201,6 +201,76 @@ input {
   font-weight: 700;
 }
 
+.toggle[data-layer-toggle='parcels'].is-on {
+  background: rgba(145, 96, 224, 0.88);
+}
+
+.toggle[data-layer-toggle='ownership'].is-on {
+  background: rgba(195, 54, 130, 0.88);
+}
+
+.parcel-popup .maplibregl-popup-content {
+  direction: rtl;
+  min-width: 230px;
+  padding: 0;
+  overflow: hidden;
+  color: #fdf9ff;
+  background: rgba(23, 18, 31, 0.94);
+  border: 1px solid rgba(216, 180, 254, 0.42);
+  box-shadow: 0 18px 42px rgba(8, 10, 15, 0.38);
+  backdrop-filter: blur(14px) saturate(130%);
+}
+
+.parcel-popup .maplibregl-popup-tip {
+  border-top-color: rgba(23, 18, 31, 0.94);
+  border-bottom-color: rgba(23, 18, 31, 0.94);
+}
+
+.parcel-popup .maplibregl-popup-close-button {
+  left: 8px;
+  right: auto;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 20px;
+}
+
+.parcel-popup-card {
+  padding: 13px 14px 12px;
+}
+
+.parcel-popup-title {
+  margin: 0 0 8px;
+  color: #f4e8ff;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.parcel-popup-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.parcel-popup-card th,
+.parcel-popup-card td {
+  padding: 5px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 13px;
+  line-height: 1.35;
+  text-align: right;
+  vertical-align: top;
+}
+
+.parcel-popup-card th {
+  width: 54%;
+  padding-left: 12px;
+  color: rgba(255, 255, 255, 0.68);
+  font-weight: 600;
+}
+
+.parcel-popup-card td {
+  color: #ffffff;
+  font-weight: 800;
+}
+
 .status-line {
   position: fixed;
   right: 18px;
@@ -221,6 +291,56 @@ input {
 .status-line.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.ownership-legend {
+  position: fixed;
+  right: 18px;
+  bottom: 132px;
+  z-index: 4;
+  width: 174px;
+  padding: 11px 12px 12px;
+  pointer-events: none;
+  color: #fff;
+  background: rgba(18, 14, 26, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(14px) saturate(135%);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.ownership-legend.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ownership-legend__title {
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.ownership-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 21px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.ownership-legend__item span {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  background: var(--legend-color);
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18), 0 0 10px rgba(255, 255, 255, 0.16);
 }
 
 .maplibregl-ctrl-top-left,
@@ -461,6 +581,12 @@ input {
     bottom: 116px;
   }
 
+  .ownership-legend {
+    right: 10px;
+    bottom: 170px;
+    width: 164px;
+  }
+
   .maplibregl-ctrl-bottom-left,
   .maplibregl-ctrl-bottom-right {
     bottom: 126px;
@@ -480,3 +606,4 @@ input {
   }
 
 }
+
