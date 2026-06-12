@@ -121,10 +121,12 @@ function renderPointResult(r) {
   if (r.coverage === 'partial' || r.depth == null) {
     rTitle.textContent = 'אין ערך בנקודה זו';
     rMain.textContent  = '—';
-    rMeta.innerHTML    = metaHtml([
+    const meta = [
       ['גובה קרקע (מ׳ מעל פני הים)', r.elevation != null ? r.elevation.toFixed(2) : '—'],
       ['מפלס מי תהום',               r.waterLevel != null ? r.waterLevel.toFixed(2) : '—'],
-    ]);
+    ];
+    addWaterLevelMeta(meta, r);
+    rMeta.innerHTML = metaHtml(meta);
     rNote.textContent = r.message || 'ייתכן שהנקודה רחוקה מקו מפלס מדוד';
     rNote.hidden = false;
     showResult();
@@ -133,11 +135,13 @@ function renderPointResult(r) {
 
   rTitle.textContent = 'עומק עד מי תהום';
   rMain.textContent  = `${r.depth.toFixed(1)} מ׳`;
-  rMeta.innerHTML    = metaHtml([
+  const meta = [
     ['גובה קרקע',      `${r.elevation.toFixed(2)} מ׳ מעל פני הים`],
     ['מפלס מי תהום',    `${r.waterLevel.toFixed(2)} מ׳ מעל פני הים`],
     ['אקוויפר',         r.aquiferDisplay || r.aquifer || '—'],
-  ]);
+  ];
+  addWaterLevelMeta(meta, r);
+  rMeta.innerHTML = metaHtml(meta);
   if (r.note) {
     rNote.textContent = r.note;
     rNote.hidden = false;
@@ -172,6 +176,7 @@ function renderAreaResult(r, extra) {
     ['אקוויפר', r.aquiferDisplay || r.aquifer || '—'],
     ['פיקסלים במדגם', r.pixelCount.toLocaleString('he-IL')],
   ];
+  addWaterLevelMeta(meta, r);
   if (extra?.extraMeta) meta.unshift(...extra.extraMeta);
   rMeta.innerHTML = metaHtml(meta);
   rNote.hidden = true;
@@ -180,6 +185,11 @@ function renderAreaResult(r, extra) {
 
 function metaHtml(pairs) {
   return pairs.map(([k, v]) => `<dt>${escHtml(k)}</dt><dd>${escHtml(v)}</dd>`).join('');
+}
+
+function addWaterLevelMeta(meta, r) {
+  if (r.waterLevelYear) meta.push(['שנת מפלס', String(r.waterLevelYear)]);
+  if (r.waterLevelSource) meta.push(['מקור מפלס', r.waterLevelSource]);
 }
 function escHtml(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
