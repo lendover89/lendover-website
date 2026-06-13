@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://groundwater.lendover.co.il">
   <link rel="preconnect" href="https://ags.iplan.gov.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style-iplan-preview-v6.css">
+  <link rel="stylesheet" href="style-iplan-preview-v7.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -178,11 +178,27 @@
       <div class="planning-panel__title">תכנון</div>
       <div class="planning-panel__body" id="planningPanelBody">הפעל שכבות ולחץ על המפה לקבלת פרטי תכנית.</div>
       <div class="planning-panel__tools" aria-label="שכבות תכנון">
-        <button class="planning-panel__tool is-on" type="button" data-planning-layer="blueLines" aria-pressed="true">קווים כחולים</button>
-        <button class="planning-panel__tool is-on" type="button" data-planning-layer="landUse" aria-pressed="true">ייעודי קרקע</button>
+        <button class="planning-panel__tool" type="button" data-planning-layer="blueLines" aria-pressed="false">קווים כחולים</button>
+        <button class="planning-panel__tool" type="button" data-planning-layer="landUse" aria-pressed="false">ייעודי קרקע</button>
         <button class="planning-panel__tool" type="button" data-planning-layer="groundwaterRisk" aria-pressed="false">זיהום מי תהום</button>
       </div>
       <button class="planning-panel__clear" type="button" id="planningRefresh">רענן שכבות</button>
+    </aside>
+    <aside class="planning-legend planning-legend--status" id="planningStatusLegend" aria-label="מקרא סטטוס תכנית" aria-hidden="true">
+      <div class="planning-legend__title">סטטוס תכנית</div>
+      <div class="planning-legend__item"><span style="--legend-color:#22c55e"></span>אישור</div>
+      <div class="planning-legend__item"><span style="--legend-color:#f59e0b"></span>הפקדה / בדיקה</div>
+      <div class="planning-legend__item"><span style="--legend-color:#38bdf8"></span>77/78</div>
+      <div class="planning-legend__item"><span style="--legend-color:#a78bfa"></span>אחר</div>
+    </aside>
+    <aside class="planning-legend planning-legend--landuse" id="planningLandUseLegend" aria-label="מקרא ייעודי קרקע" aria-hidden="true">
+      <div class="planning-legend__title">ייעודי קרקע</div>
+      <div class="planning-legend__item"><span style="--legend-color:#22c55e"></span>מגורים</div>
+      <div class="planning-legend__item"><span style="--legend-color:#84cc16"></span>עירוני</div>
+      <div class="planning-legend__item"><span style="--legend-color:#a855f7"></span>תעסוקה</div>
+      <div class="planning-legend__item"><span style="--legend-color:#f97316"></span>תעשייה</div>
+      <div class="planning-legend__item"><span style="--legend-color:#facc15"></span>דרך</div>
+      <div class="planning-legend__item"><span style="--legend-color:#38bdf8"></span>נחל / מים</div>
     </aside>
     <aside class="ownership-legend" id="ownershipLegend" aria-label="מקרא בעלות" aria-hidden="true">
       <div class="ownership-legend__title">בעלות</div>
@@ -225,7 +241,7 @@
   <script>window._lvSource='geo3d';</script>
   <script src="/tools/auth-gate.js"></script>
   <script src="/tools/tracker.js"></script>
-  <script src="app-iplan-preview-v6.js"></script>
+  <script src="app-iplan-preview-v7.js"></script>
   <script>
     (() => {
       const modal = document.getElementById('aboutGeo3dModal');
