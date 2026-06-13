@@ -22,8 +22,9 @@
   <link rel="preconnect" href="https://unpkg.com">
   <link rel="preconnect" href="https://server.arcgisonline.com">
   <link rel="preconnect" href="https://auth.lendover.co.il">
+  <link rel="preconnect" href="https://groundwater.lendover.co.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style-v16-groundwater.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -149,6 +150,9 @@
         <button class="toggle" type="button" data-layer-toggle="ownership" aria-pressed="false" title="צביעת חלקות לפי סוג בעלות" aria-label="צביעת חלקות לפי סוג בעלות">
           <span aria-hidden="true">בעלות</span>
         </button>
+        <button class="toggle" type="button" data-layer-toggle="groundwater" aria-pressed="false" title="בדיקת עומק מי תהום בלחיצה על המפה" aria-label="בדיקת עומק מי תהום בלחיצה על המפה">
+          <span aria-hidden="true">מי תהום</span>
+        </button>
         <button class="toggle" type="button" id="resetView" title="איפוס מבט" aria-label="איפוס מבט">
           <span aria-hidden="true">איפוס</span>
         </button>
@@ -156,6 +160,16 @@
     </section>
 
     <div class="status-line" id="statusLine" role="status">טוען מפה</div>
+    <aside class="groundwater-panel" id="groundwaterPanel" aria-label="תוצאת בדיקת מי תהום" aria-hidden="true">
+      <div class="groundwater-panel__title">מי תהום</div>
+      <div class="groundwater-panel__body" id="groundwaterPanelBody">הפעל את הכלי ולחץ על נקודה במפה.</div>
+      <div class="groundwater-panel__tools" aria-label="בדיקת מי תהום לאזור">
+        <button class="groundwater-panel__tool" type="button" id="groundwaterSelectParcels" aria-pressed="false">בחר חלקות</button>
+        <button class="groundwater-panel__tool" type="button" id="groundwaterDrawPolygon" aria-pressed="false">צייר פוליגון</button>
+        <button class="groundwater-panel__tool" type="button" id="groundwaterComputeSelection">חשב סימון</button>
+      </div>
+      <button class="groundwater-panel__clear" type="button" id="groundwaterClear">נקה</button>
+    </aside>
     <aside class="ownership-legend" id="ownershipLegend" aria-label="מקרא בעלות" aria-hidden="true">
       <div class="ownership-legend__title">בעלות</div>
       <div class="ownership-legend__item"><span style="--legend-color:#00d1b2"></span>פרטית</div>
@@ -197,7 +211,7 @@
   <script>window._lvSource='geo3d';</script>
   <script src="/tools/auth-gate.js"></script>
   <script src="/tools/tracker.js"></script>
-  <script src="app-hybrid-buildings-v15.js"></script>
+  <script src="app-hybrid-buildings-v16-groundwater.js"></script>
   <script>
     (() => {
       const modal = document.getElementById('aboutGeo3dModal');
@@ -234,6 +248,4 @@
   </script>
 </body>
 </html>
-
-
 
