@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ניסוי שכבות תכנון | Lendover 3D</title>
+  <meta name="description" content="דף ניסוי פנימי לחיבור שכבות תכנון מ-iPlan לתוך Lendover 3D.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://www.lendover.co.il/tools/geo3d-iplan-preview/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.lendover.co.il/tools/geo3d/">
+  <meta property="og:site_name" content="אהרון לנדובר">
+  <meta property="og:title" content="מפה תלת-ממדית של ישראל | Lendover 3D">
+  <meta property="og:description" content="כלי חינמי למבט ראשוני על טופוגרפיה, מבנים וגבהים בישראל, בדפדפן וללא התקנה.">
+  <meta property="og:image" content="https://www.lendover.co.il/tools/geo3d/lendover-3d-logo-warm-transparent-v2.png">
+  <meta property="og:locale" content="he_IL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="מפה תלת-ממדית של ישראל | Lendover 3D">
+  <meta name="twitter:description" content="כלי חינמי למבט ראשוני על טופוגרפיה, מבנים וגבהים בישראל.">
+  <meta name="twitter:image" content="https://www.lendover.co.il/tools/geo3d/lendover-3d-logo-warm-transparent-v2.png">
+  <link rel="icon" type="image/png" href="/logo-transparent.png">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://server.arcgisonline.com">
+  <link rel="preconnect" href="https://auth.lendover.co.il">
+  <link rel="preconnect" href="https://groundwater.lendover.co.il">
+  <link rel="preconnect" href="https://ags.iplan.gov.il">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="style-iplan-preview-v2.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["SoftwareApplication", "WebApplication"],
+        "@id": "https://www.lendover.co.il/tools/geo3d/#app",
+        "name": "Lendover 3D",
+        "alternateName": "מפה תלת-ממדית של ישראל",
+        "url": "https://www.lendover.co.il/tools/geo3d/",
+        "applicationCategory": "MapApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "he-IL",
+        "isAccessibleForFree": true,
+        "description": "כלי חינמי לצפייה במפה תלת-ממדית של ישראל עם טופוגרפיה, מבנים וגבהים, למבט ראשוני בדפדפן.",
+        "featureList": [
+          "מפה תלת-ממדית של ישראל",
+          "טופוגרפיה",
+          "מבנים וגבהים",
+          "מבט ראשוני בדפדפן"
+        ],
+        "keywords": "מפה תלת-ממדית של ישראל, טופוגרפיה, מבנים וגבהים, כלי חינמי, מבט ראשוני",
+        "image": "https://www.lendover.co.il/tools/geo3d/lendover-3d-logo-warm-transparent-v2.png",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "ILS"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "אהרון לנדובר",
+          "url": "https://www.lendover.co.il/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "אהרון לנדובר",
+          "url": "https://www.lendover.co.il/"
+        }
+      },
+      {
+        "@type": "Map",
+        "@id": "https://www.lendover.co.il/tools/geo3d/#map",
+        "name": "מפה תלת-ממדית של ישראל",
+        "url": "https://www.lendover.co.il/tools/geo3d/",
+        "inLanguage": "he-IL",
+        "isPartOf": { "@id": "https://www.lendover.co.il/tools/geo3d/#app" },
+        "about": ["טופוגרפיה", "מבנים וגבהים", "ישראל"],
+        "description": "מפה תלת-ממדית לצפייה ראשונית בטופוגרפיה, מבנים וגבהים בישראל."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://www.lendover.co.il/tools/geo3d/#faq",
+        "inLanguage": "he-IL",
+        "isPartOf": { "@id": "https://www.lendover.co.il/tools/geo3d/#app" },
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "מה אפשר לראות במפת התלת-ממד?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "אפשר לראות תצלום לוויין, טופוגרפיה, מבנים וגבהים במבט תלת-ממדי, כדי לקבל הבנה ראשונית של הסביבה הבנויה והשטח."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "למי הכלי מתאים?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "הכלי מתאים למבט ראשוני על אזור, במיוחד כשבודקים הפרשי גובה, סביבת בנייה, צפיפות והקשר עירוני לפני בדיקה מקצועית מפורטת."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "האם זו מערכת GIS מקצועית?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "לא. זו מפה חינמית ונוחה להתמצאות ראשונית. היא אינה מחליפה בדיקת GIS, תכנון, מדידה, שמאות או ייעוץ משפטי."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="app-header" aria-label="ניווט">
+    <a class="brand" href="/tools.html" aria-label="חזרה לכלים">
+      <img src="/tools/geo3d/lendover-3d-logo-warm-icon-transparent-v2.png" alt="">
+      <span>Lendover 3D</span>
+    </a>
+    <div class="header-actions">
+      <button class="header-link" type="button" id="aboutGeo3dOpen" aria-haspopup="dialog" aria-controls="aboutGeo3dModal">על הכלי</button>
+      <a href="/tools.html">כלים</a>
+      <a href="/">לנדובר</a>
+    </div>
+  </header>
+
+  <main class="viewer-shell">
+    <div id="map" aria-label="צפיין מפה תלת־ממדי"></div>
+
+    <section class="control-strip" aria-label="כלי צפייה">
+      <form class="search-box" id="searchForm">
+        <input id="searchInput" name="q" type="search" autocomplete="off" placeholder="חיפוש מקום" aria-label="חיפוש מקום">
+        <button type="submit" title="חיפוש מקום במפה" aria-label="חיפוש מקום במפה">
+          <span aria-hidden="true">חפש</span>
+        </button>
+      </form>
+
+      <div class="toggle-group" aria-label="שכבות">
+        <button class="toggle is-on" type="button" data-layer-toggle="buildings" aria-pressed="true" title="הצגת או הסתרת מבני תלת־ממד" aria-label="הצגת או הסתרת מבני תלת־ממד">
+          <span aria-hidden="true">מבנים</span>
+        </button>
+        <button class="toggle is-on" type="button" data-layer-toggle="terrain" aria-pressed="true" title="הצגת או הסתרת טופוגרפיה" aria-label="הצגת או הסתרת טופוגרפיה">
+          <span aria-hidden="true">שטח</span>
+        </button>
+        <button class="toggle is-on" type="button" data-layer-toggle="labels" aria-pressed="true" title="שמות רחובות ויישובים" aria-label="שמות רחובות ויישובים">
+          <span aria-hidden="true">שמות</span>
+        </button>
+        <button class="toggle" type="button" data-layer-toggle="parcels" aria-pressed="false" title="הצגת גבולות חלקות" aria-label="הצגת גבולות חלקות">
+          <span aria-hidden="true">חלקות</span>
+        </button>
+        <button class="toggle" type="button" data-layer-toggle="ownership" aria-pressed="false" title="צביעת חלקות לפי סוג בעלות" aria-label="צביעת חלקות לפי סוג בעלות">
+          <span aria-hidden="true">בעלות</span>
+        </button>
+        <button class="toggle" type="button" data-layer-toggle="groundwater" aria-pressed="false" title="בדיקת עומק מי תהום בלחיצה על המפה" aria-label="בדיקת עומק מי תהום בלחיצה על המפה">
+          <span aria-hidden="true">מי תהום</span>
+        </button>
+        <button class="toggle" type="button" data-layer-toggle="planning" aria-pressed="false" title="שכבות תכנון מ-iPlan" aria-label="שכבות תכנון מ-iPlan">
+          <span aria-hidden="true">תכנון</span>
+        </button>
+        <button class="toggle" type="button" id="resetView" title="איפוס מבט" aria-label="איפוס מבט">
+          <span aria-hidden="true">איפוס</span>
+        </button>
+      </div>
+    </section>
+
+    <div class="status-line" id="statusLine" role="status">טוען מפה</div>
+    <aside class="groundwater-panel" id="groundwaterPanel" aria-label="תוצאת בדיקת מי תהום" aria-hidden="true">
+      <div class="groundwater-panel__title">מי תהום</div>
+      <div class="groundwater-panel__body" id="groundwaterPanelBody">הפעל את הכלי ולחץ על נקודה במפה.</div>
+      <div class="groundwater-panel__tools" aria-label="בדיקת מי תהום לאזור">
+        <button class="groundwater-panel__tool" type="button" id="groundwaterSelectParcels" aria-pressed="false">בחר חלקות</button>
+        <button class="groundwater-panel__tool" type="button" id="groundwaterDrawPolygon" aria-pressed="false">צייר פוליגון</button>
+        <button class="groundwater-panel__tool" type="button" id="groundwaterComputeSelection">חשב סימון</button>
+      </div>
+      <button class="groundwater-panel__clear" type="button" id="groundwaterClear">נקה</button>
+    </aside>
+    <aside class="planning-panel" id="planningPanel" aria-label="שכבות תכנון" aria-hidden="true">
+      <div class="planning-panel__title">תכנון</div>
+      <div class="planning-panel__body" id="planningPanelBody">הפעל שכבות ולחץ על המפה לקבלת פרטי תכנית.</div>
+      <div class="planning-panel__tools" aria-label="שכבות תכנון">
+        <button class="planning-panel__tool is-on" type="button" data-planning-layer="blueLines" aria-pressed="true">קווים כחולים</button>
+        <button class="planning-panel__tool is-on" type="button" data-planning-layer="landUse" aria-pressed="true">ייעודי קרקע</button>
+        <button class="planning-panel__tool is-on" type="button" data-planning-layer="groundwaterRisk" aria-pressed="true">זיהום מי תהום</button>
+      </div>
+      <button class="planning-panel__clear" type="button" id="planningRefresh">רענן שכבות</button>
+    </aside>
+    <aside class="ownership-legend" id="ownershipLegend" aria-label="מקרא בעלות" aria-hidden="true">
+      <div class="ownership-legend__title">בעלות</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#00d1b2"></span>פרטית</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#ffb000"></span>מדינה</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#b7f34a"></span>רשות מקומית</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#ff4fa3"></span>מעורב</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#a78bfa"></span>אחר</div>
+      <div class="ownership-legend__item"><span style="--legend-color:#6b7280"></span>לא ידוע</div>
+    </aside>
+  </main>
+
+  <section class="about-modal" id="aboutGeo3dModal" aria-hidden="true">
+    <div class="about-modal__backdrop" data-about-close></div>
+    <article class="about-modal__panel" role="dialog" aria-modal="true" aria-labelledby="aboutGeo3dTitle" tabindex="-1">
+      <button class="about-modal__close" type="button" data-about-close aria-label="סגירת חלון על הכלי">×</button>
+      <h1 id="aboutGeo3dTitle">מפת תלת-ממד ישראל</h1>
+      <p>כלי חינמי לצפייה במפת תלת-ממד של ישראל עם תצלום לוויין, טופוגרפיה, מבנים וגבהים. המטרה היא לתת מבט מהיר ואינטואיטיבי על אזור, בלי התקנה ובלי מערכת GIS מלאה.</p>
+      <p>אפשר להשתמש במפה כדי להבין הפרשי גובה, גובהי בניינים, מרקם בנוי והקשר עירוני. זה שימושי כשבודקים סביבת רחוב, מתחם פוטנציאלי, אזור בנוי צפוף או קשר בין טופוגרפיה לבין פיתוח עירוני.</p>
+      <p>המפה לא מחליפה בדיקה תכנונית, מדידה, שמאות או ייעוץ מקצועי. היא מיועדת לשלב הראשוני: לראות את המרחב, לזהות שאלות טובות יותר, ואז להחליט אם צריך בדיקה עמוקה יותר.</p>
+
+      <h2>שאלות קצרות</h2>
+      <dl class="about-faq">
+        <dt>מה אפשר לראות במפת התלת-ממד?</dt>
+        <dd>תצלום לוויין, טופוגרפיה, מבנים וגבהים במבט תלת-ממדי.</dd>
+        <dt>למי הכלי מתאים?</dt>
+        <dd>למי שרוצה מבט ראשוני על אזור, סביבת בנייה, הפרשי גובה והקשר עירוני.</dd>
+        <dt>האם זו מערכת GIS מקצועית?</dt>
+        <dd>לא. זה כלי חינמי להתמצאות ראשונית, לא תחליף לבדיקה מקצועית מלאה.</dd>
+      </dl>
+
+      <div class="about-modal__links">
+        <a href="/tools.html">כלי האתר</a>
+        <a href="/contact.html">יצירת קשר</a>
+      </div>
+    </article>
+  </section>
+
+  <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+  <script>window._lvSource='geo3d';</script>
+  <script src="/tools/auth-gate.js"></script>
+  <script src="/tools/tracker.js"></script>
+  <script src="app-iplan-preview-v2.js"></script>
+  <script>
+    (() => {
+      const modal = document.getElementById('aboutGeo3dModal');
+      const panel = modal?.querySelector('.about-modal__panel');
+      const openButton = document.getElementById('aboutGeo3dOpen');
+      const closeButtons = modal?.querySelectorAll('[data-about-close]') || [];
+      let previousFocus = null;
+
+      function openModal() {
+        if (!modal) return;
+        previousFocus = document.activeElement;
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('about-modal-open');
+        panel?.focus();
+      }
+
+      function closeModal() {
+        if (!modal) return;
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('about-modal-open');
+        if (previousFocus && typeof previousFocus.focus === 'function') {
+          previousFocus.focus();
+        }
+      }
+
+      openButton?.addEventListener('click', openModal);
+      closeButtons.forEach((button) => button.addEventListener('click', closeModal));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal?.getAttribute('aria-hidden') === 'false') {
+          closeModal();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
