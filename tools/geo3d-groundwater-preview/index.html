@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://auth.lendover.co.il">
   <link rel="preconnect" href="https://groundwater.lendover.co.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style-groundwater-preview-v3.css">
+  <link rel="stylesheet" href="style-groundwater-preview-v4.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -163,6 +163,11 @@
     <aside class="groundwater-panel" id="groundwaterPanel" aria-label="תוצאת בדיקת מי תהום" aria-hidden="true">
       <div class="groundwater-panel__title">מי תהום</div>
       <div class="groundwater-panel__body" id="groundwaterPanelBody">הפעל את הכלי ולחץ על נקודה במפה.</div>
+      <div class="groundwater-panel__tools" aria-label="בדיקת מי תהום לאזור">
+        <button class="groundwater-panel__tool" type="button" id="groundwaterSelectParcels" aria-pressed="false">בחר חלקות</button>
+        <button class="groundwater-panel__tool" type="button" id="groundwaterDrawPolygon" aria-pressed="false">צייר פוליגון</button>
+        <button class="groundwater-panel__tool" type="button" id="groundwaterComputeSelection">חשב סימון</button>
+      </div>
       <button class="groundwater-panel__clear" type="button" id="groundwaterClear">נקה</button>
     </aside>
     <aside class="ownership-legend" id="ownershipLegend" aria-label="מקרא בעלות" aria-hidden="true">
@@ -206,7 +211,7 @@
   <script>window._lvSource='geo3d';</script>
   <script src="/tools/auth-gate.js"></script>
   <script src="/tools/tracker.js"></script>
-  <script src="app-groundwater-preview-v3.js"></script>
+  <script src="app-groundwater-preview-v4.js"></script>
   <script>
     (() => {
       const modal = document.getElementById('aboutGeo3dModal');
@@ -243,5 +248,4 @@
   </script>
 </body>
 </html>
-
 
