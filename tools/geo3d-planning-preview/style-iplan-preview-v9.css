@@ -543,11 +543,12 @@ input {
 .planning-panel {
   position: fixed;
   right: 18px;
-  top: auto;
-  bottom: 78px;
+  top: 78px;
   z-index: 4;
-  width: min(320px, calc(100vw - 36px));
-  max-height: min(46vh, calc(100vh - 160px));
+  display: flex;
+  flex-direction: column;
+  width: min(340px, calc(100vw - 36px));
+  max-height: calc(100vh - 180px);
   overflow: auto;
   padding: 13px 14px 14px;
   pointer-events: none;
@@ -568,10 +569,11 @@ input {
 }
 
 .groundwater-panel.is-visible + .planning-panel.is-visible {
-  bottom: 78px;
+  top: 300px;
 }
 
 .planning-panel__title {
+  order: 0;
   margin-bottom: 8px;
   color: #fff3cc;
   font-size: 15px;
@@ -579,6 +581,10 @@ input {
 }
 
 .planning-panel__body {
+  order: 3;
+  margin-top: 11px;
+  padding-top: 11px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
   color: rgba(255, 255, 255, 0.9);
   font-size: 13px;
   line-height: 1.45;
@@ -647,10 +653,11 @@ input {
 }
 
 .planning-panel__tools {
+  order: 1;
   display: grid;
   grid-template-columns: 1fr;
   gap: 7px;
-  margin-top: 11px;
+  margin-top: 0;
 }
 
 .planning-panel__tool,
@@ -673,6 +680,7 @@ input {
 }
 
 .planning-panel__clear {
+  order: 2;
   margin-top: 10px;
 }
 
@@ -1006,15 +1014,14 @@ input {
   .planning-panel {
     right: 10px;
     left: auto;
-    top: auto;
-    bottom: 122px;
+    top: 66px;
     width: min(260px, calc(100vw - 20px));
-    max-height: 28vh;
+    max-height: 30vh;
     padding: 11px 12px 12px;
   }
 
   .groundwater-panel.is-visible + .planning-panel.is-visible {
-    bottom: 122px;
+    top: calc(66px + 30vh + 10px);
   }
 
   .planning-panel__tools {
