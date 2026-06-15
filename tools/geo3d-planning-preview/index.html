@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://groundwater.lendover.co.il">
   <link rel="preconnect" href="https://ags.iplan.gov.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style-iplan-preview-v15.css?v=20260616b">
+  <link rel="stylesheet" href="style-iplan-preview-v16.css?v=20260616c">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -185,10 +185,10 @@
     </aside>
     <aside class="planning-legend planning-legend--status" id="planningStatusLegend" aria-label="מקרא סטטוס תכנית" aria-hidden="true">
       <div class="planning-legend__title">סטטוס תכנית</div>
-      <div class="planning-legend__item"><span style="--legend-color:#22c55e"></span>אישור</div>
-      <div class="planning-legend__item"><span style="--legend-color:#f59e0b"></span>הפקדה / בדיקה</div>
-      <div class="planning-legend__item"><span style="--legend-color:#38bdf8"></span>77/78</div>
-      <div class="planning-legend__item"><span style="--legend-color:#a78bfa"></span>אחר</div>
+      <button class="planning-legend__item is-on" type="button" data-planning-status="approved" aria-pressed="true"><span style="--legend-color:#22c55e"></span>אישור</button>
+      <button class="planning-legend__item is-on" type="button" data-planning-status="deposit_review" aria-pressed="true"><span style="--legend-color:#f59e0b"></span>הפקדה / בדיקה</button>
+      <button class="planning-legend__item is-on" type="button" data-planning-status="notice_77_78" aria-pressed="true"><span style="--legend-color:#38bdf8"></span>77/78</button>
+      <button class="planning-legend__item is-on" type="button" data-planning-status="other" aria-pressed="true"><span style="--legend-color:#a78bfa"></span>אחר</button>
     </aside>
     <aside class="planning-legend planning-legend--landuse" id="planningLandUseLegend" aria-label="מקרא ייעודי קרקע" aria-hidden="true">
       <div class="planning-legend__title">ייעודי קרקע</div>
@@ -240,7 +240,7 @@
   <script>window._lvSource='geo3d';</script>
   <script src="/tools/auth-gate.js"></script>
   <script src="/tools/tracker.js"></script>
-  <script src="app-iplan-preview-v20.js?v=20260616b"></script>
+  <script src="app-iplan-preview-v21.js?v=20260616c"></script>
   <script>
     (() => {
       const modal = document.getElementById('aboutGeo3dModal');
