@@ -987,24 +987,27 @@
           '<div class="planning-panel__note">מידע תכנוני ראשוני ממינהל התכנון. יש לתקף מול מסמכי התכנית.</div>';
       }
 
+      function planningIdentifyLayers() {
+        const layers = [];
+        if (planningLayerEnabled.blueLines && map.getLayer('planning-blue-fill')) layers.push('planning-blue-fill');
+        if (planningLayerEnabled.landUse && map.getLayer('planning-landuse-fill')) layers.push('planning-landuse-fill');
+        if (planningLayerEnabled.groundwaterRisk && map.getLayer('planning-risk-fill')) layers.push('planning-risk-fill');
+        return layers;
+      }
+
       function identifyPlanningAt(e) {
         if (!planningEnabled) return false;
-        const layers = PLANNING_LAYER_IDS.filter((layerId) => map.getLayer(layerId));
+        const layers = planningIdentifyLayers();
         if (!layers.length) return false;
         const p = e.point;
-        const features = map.queryRenderedFeatures([[p.x - 4, p.y - 4], [p.x + 4, p.y + 4]], { layers });
+        const features = map.queryRenderedFeatures([[p.x - 10, p.y - 10], [p.x + 10, p.y + 10]], { layers });
         if (!features.length) return false;
         const feature = features[0];
         setPlanningHighlight(feature);
-        if (planningPopup) planningPopup.remove();
-        planningPopup = new maplibregl.Popup({
-          closeButton: true,
-          closeOnClick: true,
-          className: 'planning-popup'
-        })
-          .setLngLat(e.lngLat)
-          .setHTML(planningFeatureHtml(feature))
-          .addTo(map);
+        if (planningPopup) {
+          planningPopup.remove();
+          planningPopup = null;
+        }
         setPlanningPanelHtml('<div class="planning-panel__context">פריט תכנון נבחר</div>' + planningFeatureHtml(feature));
         postGeo3DUsage('planning_identify');
         return true;
@@ -2166,8 +2169,8 @@
           showStatus('נקודה נוספה לפוליגון');
           return;
         }
-        if (await queryGroundwaterPoint(e.lngLat)) return;
         if (identifyPlanningAt(e)) return;
+        if (await queryGroundwaterPoint(e.lngLat)) return;
         identifyParcelAt(e);
       });
 
