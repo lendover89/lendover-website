@@ -987,7 +987,15 @@
           '<div class="planning-panel__note">מידע תכנוני ראשוני ממינהל התכנון. יש לתקף מול מסמכי התכנית.</div>';
       }
 
-      function planningIdentifyLayers() {
+      function planningIdentifyLineLayers() {
+        const layers = [];
+        if (planningLayerEnabled.blueLines && map.getLayer('planning-blue-line')) layers.push('planning-blue-line');
+        if (planningLayerEnabled.landUse && map.getLayer('planning-landuse-line')) layers.push('planning-landuse-line');
+        if (planningLayerEnabled.groundwaterRisk && map.getLayer('planning-risk-line')) layers.push('planning-risk-line');
+        return layers;
+      }
+
+      function planningIdentifyFillLayers() {
         const layers = [];
         if (planningLayerEnabled.blueLines && map.getLayer('planning-blue-fill')) layers.push('planning-blue-fill');
         if (planningLayerEnabled.landUse && map.getLayer('planning-landuse-fill')) layers.push('planning-landuse-fill');
@@ -995,14 +1003,107 @@
         return layers;
       }
 
+      function planningFeatureIdentity(feature) {
+        const props = feature.properties || {};
+        return [
+          props.planning_layer || '',
+          props.pl_number || props.PL_NUMBER || '',
+          props.pl_name || props.PL_NAME || props.PLAN_NAME || props.NAME || props.LABEL || '',
+          feature.layer && feature.layer.id || ''
+        ].join('|');
+      }
+
+      function uniquePlanningFeatures(features) {
+        const seen = new Set();
+        return (features || []).filter((feature) => {
+          const key = planningFeatureIdentity(feature);
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+      }
+
+      function screenPoint(coord) {
+        if (!Array.isArray(coord) || coord.length < 2) return null;
+        return map.project({ lng: Number(coord[0]), lat: Number(coord[1]) });
+      }
+
+      function distanceToSegment(point, a, b) {
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        if (!dx && !dy) return Math.hypot(point.x - a.x, point.y - a.y);
+        const t = Math.max(0, Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / (dx * dx + dy * dy)));
+        const x = a.x + t * dx;
+        const y = a.y + t * dy;
+        return Math.hypot(point.x - x, point.y - y);
+      }
+
+      function ringScreenDistance(point, ring) {
+        let best = Infinity;
+        let area = 0;
+        const pts = (ring || []).map(screenPoint).filter(Boolean);
+        for (let i = 0; i < pts.length; i += 1) {
+          const a = pts[i];
+          const b = pts[(i + 1) % pts.length];
+          best = Math.min(best, distanceToSegment(point, a, b));
+          area += (a.x * b.y) - (b.x * a.y);
+        }
+        return { distance: best, area: Math.abs(area / 2) };
+      }
+
+      function lineScreenDistance(point, coords) {
+        let best = Infinity;
+        const pts = (coords || []).map(screenPoint).filter(Boolean);
+        for (let i = 1; i < pts.length; i += 1) {
+          best = Math.min(best, distanceToSegment(point, pts[i - 1], pts[i]));
+        }
+        return best;
+      }
+
+      function planningFeatureScore(feature, point) {
+        const geom = feature && feature.geometry;
+        if (!geom) return { distance: Infinity, area: Infinity };
+        if (geom.type === 'Polygon') {
+          return (geom.coordinates || []).reduce((best, ring) => {
+            const score = ringScreenDistance(point, ring);
+            return score.distance < best.distance ? score : best;
+          }, { distance: Infinity, area: Infinity });
+        }
+        if (geom.type === 'MultiPolygon') {
+          return (geom.coordinates || []).flat().reduce((best, ring) => {
+            const score = ringScreenDistance(point, ring);
+            return score.distance < best.distance ? score : best;
+          }, { distance: Infinity, area: Infinity });
+        }
+        if (geom.type === 'LineString') {
+          return { distance: lineScreenDistance(point, geom.coordinates), area: Infinity };
+        }
+        if (geom.type === 'MultiLineString') {
+          return {
+            distance: (geom.coordinates || []).reduce((best, line) => Math.min(best, lineScreenDistance(point, line)), Infinity),
+            area: Infinity
+          };
+        }
+        return { distance: Infinity, area: Infinity };
+      }
+
+      function pickPlanningFeature(features, point) {
+        return uniquePlanningFeatures(features)
+          .map((feature) => ({ feature, score: planningFeatureScore(feature, point) }))
+          .sort((a, b) => (a.score.distance - b.score.distance) || (a.score.area - b.score.area))[0]?.feature || null;
+      }
+
       function identifyPlanningAt(e) {
         if (!planningEnabled) return false;
-        const layers = planningIdentifyLayers();
-        if (!layers.length) return false;
         const p = e.point;
-        const features = map.queryRenderedFeatures([[p.x - 10, p.y - 10], [p.x + 10, p.y + 10]], { layers });
-        if (!features.length) return false;
-        const feature = features[0];
+        const lineLayers = planningIdentifyLineLayers();
+        const fillLayers = planningIdentifyFillLayers();
+        const lineFeatures = lineLayers.length ?
+          map.queryRenderedFeatures([[p.x - 14, p.y - 14], [p.x + 14, p.y + 14]], { layers: lineLayers }) : [];
+        const fillFeatures = fillLayers.length ?
+          map.queryRenderedFeatures([[p.x - 3, p.y - 3], [p.x + 3, p.y + 3]], { layers: fillLayers }) : [];
+        const feature = pickPlanningFeature(lineFeatures.length ? lineFeatures : fillFeatures, p);
+        if (!feature) return false;
         setPlanningHighlight(feature);
         if (planningPopup) {
           planningPopup.remove();
