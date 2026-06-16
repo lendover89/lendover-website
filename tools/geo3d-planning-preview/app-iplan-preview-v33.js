@@ -351,9 +351,11 @@
         return n ? Math.round(n).toLocaleString('he') + ' מ"ר' : 'לא ידוע';
       }
 
-      function formatSquareMeters(value) {
-        const n = Number(value || 0);
-        return n ? n.toLocaleString('he', { maximumFractionDigits: 2 }) + ' מ"ר' : '';
+      function formatPlanningAreaSqm(value, unit) {
+        const n = Number(value);
+        if (!Number.isFinite(n) || n <= 0) return '';
+        const sqm = unit === 'dunam' ? n * 1000 : n;
+        return Math.round(sqm).toLocaleString('he') + ' מ"ר';
       }
 
       function geometryCentroid(geometry) {
@@ -756,9 +758,6 @@
           detail = planningPanelBody.querySelector('[data-planning-selected-detail]');
         }
         if (detail) detail.innerHTML = html;
-        if (detail && planningPanelBody.firstElementChild !== detail) {
-          planningPanelBody.insertBefore(detail, planningPanelBody.firstElementChild);
-        }
       }
 
       function setPlanningLegendVisibility(element, isVisible) {
@@ -1349,20 +1348,20 @@
           ['תכנית', props.PL_NAME || props.pl_name || props.PLAN_NAME],
           ['מספר תכנית', planNumber || props.pl_number],
           ['סטטוס', status],
-          ['שטח', (props.AREA_dunam || props.area_dunam) ? Number(props.AREA_dunam || props.area_dunam).toLocaleString('he') + ' דונם' : '']
+          ['שטח', formatPlanningAreaSqm(props.AREA_dunam || props.area_dunam, 'dunam')]
         ];
         const rows = key === 'landUse' ? [
           ['שכבה', title],
           ['ייעוד', props.TYPE_NAME || props.mavat_name],
           ['תכנית', props.PLAN_NAME || planName],
-          ['שטח', props.AREA_dunam ? Number(props.AREA_dunam).toLocaleString('he') + ' דונם' : '']
+          ['שטח', formatPlanningAreaSqm(props.AREA_dunam, 'dunam')]
         ] : key === 'notice77' && props.planning_landuse_label ? [
           ['שכבה', title],
           ['ייעוד', props.planning_landuse_label],
           ['תא שטח', props.num],
           ['תכנית', props.pl_name || props.PL_NAME || props.PLAN_NAME],
           ['מספר תכנית', planNumber],
-          ['שטח', formatSquareMeters(props.legal_area)]
+          ['שטח', formatPlanningAreaSqm(props.legal_area, 'sqm')]
         ] : key === 'groundwaterRisk' ? [
           ['שכבה', title],
           ['שם', props.NAME || props.LABEL],
@@ -1373,7 +1372,7 @@
           ['מספר תכנית', planNumber],
           ['שם תכנית', planName],
           ['סטטוס', status],
-          ['שטח', props.pl_area_dunam ? Number(props.pl_area_dunam).toLocaleString('he') + ' דונם' : ''],
+          ['שטח', formatPlanningAreaSqm(props.pl_area_dunam, 'dunam')],
           ['ייעודים', props.pl_landuse_string]
         ];
         return '<strong>' + escapeHtml(planningFeatureLabel(feature)) + '</strong>' +
@@ -1769,6 +1768,7 @@
           const feature = resolvePlanningSourceFeature(renderedLandUse, p) || renderedLandUse;
           if (feature) {
             selectedPlanningFeature = feature;
+            currentPlanningListSelectedFeature = feature;
             setPlanningHighlight(feature);
             if (planningPopup) {
               planningPopup.remove();
