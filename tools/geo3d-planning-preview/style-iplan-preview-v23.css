@@ -1071,6 +1071,7 @@ button.planning-legend__item:not(.is-on) span {
   }
 
   .app-header {
+    z-index: 7;
     height: 54px;
     padding: 0 10px;
   }
@@ -1095,6 +1096,7 @@ button.planning-legend__item:not(.is-on) span {
   }
 
   .control-strip {
+    z-index: 7;
     right: var(--mobile-edge);
     left: var(--mobile-edge);
     bottom: max(10px, env(safe-area-inset-bottom));
@@ -1146,6 +1148,7 @@ button.planning-legend__item:not(.is-on) span {
   }
 
   .status-line {
+    z-index: 6;
     right: var(--mobile-edge);
     left: var(--mobile-edge);
     bottom: calc(var(--mobile-controls-height) + max(14px, env(safe-area-inset-bottom)));
@@ -1163,6 +1166,7 @@ button.planning-legend__item:not(.is-on) span {
   }
 
   .groundwater-panel {
+    z-index: 6;
     right: var(--mobile-edge);
     left: var(--mobile-edge);
     top: 62px;
@@ -1173,6 +1177,7 @@ button.planning-legend__item:not(.is-on) span {
   }
 
   .planning-panel {
+    z-index: 6;
     right: var(--mobile-edge);
     left: var(--mobile-edge);
     top: 62px;
