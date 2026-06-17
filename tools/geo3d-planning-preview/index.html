@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://groundwater.lendover.co.il">
   <link rel="preconnect" href="https://ags.iplan.gov.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style-iplan-preview-v29.css?v=20260617u">
+  <link rel="stylesheet" href="style-iplan-preview-v30.css?v=20260617v">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -135,7 +135,11 @@
         </button>
       </form>
 
-      <div class="toggle-group" aria-label="שכבות">
+      <button class="mobile-layers-toggle" type="button" id="mobileLayersToggle" aria-expanded="false" aria-controls="layerToggleGroup">
+        <span aria-hidden="true">שכבות</span>
+      </button>
+
+      <div class="toggle-group" id="layerToggleGroup" aria-label="שכבות">
         <button class="toggle is-on" type="button" data-layer-toggle="buildings" aria-pressed="true" title="הצגת או הסתרת מבני תלת־ממד" aria-label="הצגת או הסתרת מבני תלת־ממד">
           <span aria-hidden="true">מבנים</span>
         </button>
@@ -242,7 +246,7 @@
   <script>window._lvSource='geo3d';</script>
   <script src="/tools/auth-gate.js"></script>
   <script src="/tools/tracker.js"></script>
-  <script src="app-iplan-preview-v60.js?v=20260617t"></script>
+  <script src="app-iplan-preview-v61.js?v=20260617v"></script>
   <script>
     (() => {
       const modal = document.getElementById('aboutGeo3dModal');
@@ -279,4 +283,3 @@
   </script>
 </body>
 </html>
-
