@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://groundwater.lendover.co.il">
   <link rel="preconnect" href="https://ags.iplan.gov.il">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
-  <link rel="stylesheet" href="style-iplan-preview-v40.css?v=20260617w2">
+  <link rel="stylesheet" href="style-iplan-preview-v41.css?v=20260617x1">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -155,9 +155,6 @@
         <button class="toggle" type="button" data-layer-toggle="ownership" aria-pressed="false" title="צביעת חלקות לפי סוג בעלות" aria-label="צביעת חלקות לפי סוג בעלות">
           <span aria-hidden="true">בעלות</span>
         </button>
-        <button class="toggle" type="button" data-layer-toggle="groundwater" aria-pressed="false" title="בדיקת עומק מי תהום בלחיצה על המפה" aria-label="בדיקת עומק מי תהום בלחיצה על המפה">
-          <span aria-hidden="true">מי תהום</span>
-        </button>
         <button class="toggle" type="button" data-layer-toggle="planning" aria-pressed="false" title="שכבות תכנון מ-iPlan" aria-label="שכבות תכנון מ-iPlan">
           <span aria-hidden="true">תכנון</span>
         </button>
@@ -188,6 +185,7 @@
         <button class="planning-panel__tool" type="button" data-planning-layer="transport" aria-pressed="false">תחבורה</button>
         <button class="planning-panel__tool" type="button" data-planning-layer="tama70" aria-pressed="false">תמ״א 70</button>
         <button class="planning-panel__tool" type="button" data-planning-layer="urbanRenewal" aria-pressed="false">התחדשות עירונית</button>
+        <button class="planning-panel__tool" type="button" data-groundwater-layer-toggle aria-pressed="false">מי תהום</button>
       </div>
     </aside>
     <aside class="planning-legend planning-legend--status" id="planningStatusLegend" aria-label="מקרא סטטוס תכנית" aria-hidden="true">
@@ -247,7 +245,7 @@
   <script>window._lvSource='geo3d';</script>
   <script src="/tools/auth-gate.js"></script>
   <script src="/tools/tracker.js"></script>
-  <script src="app-iplan-preview-v74.js?v=20260617w5"></script>
+  <script src="app-iplan-preview-v75.js?v=20260617x1"></script>
   <script>
     (() => {
       const modal = document.getElementById('aboutGeo3dModal');
