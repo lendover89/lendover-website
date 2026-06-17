@@ -254,7 +254,7 @@
         urbanRenewal: {
           title: 'התחדשות עירונית',
           source: PLANNING_SOURCES.urbanRenewal,
-          geojsonUrl: 'urban-renewal-planning.geojson?v=20260617b',
+          geojsonUrl: 'urban-renewal-planning.geojson?v=20260617c',
           minZoom: 8
         }
       };
