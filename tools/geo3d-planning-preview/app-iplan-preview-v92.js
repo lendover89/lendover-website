@@ -991,18 +991,20 @@
             const r = p.rova4;
             const parts = [];
             if (r.max_floors != null) parts.push('עד ' + r.max_floors + ' קומות' + (r.partial_roof_floors ? ' + ' + r.partial_roof_floors + ' גג חלקי' : ''));
-            if (r.far_pct != null) parts.push(r.far_pct + '% שטח עיקרי');
-            if (r.coverage_max_pct != null) parts.push('תכסית עד ' + r.coverage_max_pct + '%');
+            if (r.coverage_pct != null) parts.push('תכסית ' + r.coverage_pct + '%');
+            if (r.est_above_ground_area_m2 != null) parts.push('≈ ' + r.est_above_ground_area_m2 + ' מ"ר (עיקרי+שירות)');
             html += '<div class="parcel-plan-rights">' +
               '<div>' + esc(r.category_label || '') + (r.fronting_street ? ' (חזית: ' + esc(r.fronting_street) + ')' : '') + '</div>' +
               (parts.length ? '<div>' + esc(parts.join(' · ')) + '</div>' : '') +
-              '<div class="parcel-plan-status">' + esc(r.lot_class || '') + '</div></div>';
+              '<div class="parcel-plan-status">' + esc(r.rights_model || '') + '</div></div>';
             let det = '';
+            det += '<div><strong>אופן החישוב:</strong> תכסית מותרת × מספר קומות (זכויות נפחיות)</div>';
+            if (r.coverage_basis) det += '<div><strong>תכסית:</strong> ' + esc(r.coverage_basis) + '</div>';
+            if (r.coverage_area_m2 != null) det += '<div><strong>שטח תכסית:</strong> ' + esc(String(r.coverage_area_m2)) + ' מ"ר × ' + esc(String(r.max_floors)) + ' קומות' + (r.partial_roof_floors ? ' + גג חלקי' : '') + '</div>';
             if (r.service_area_m2 != null) det += '<div><strong>שטחי שירות:</strong> ' + esc(String(r.service_area_m2)) + ' מ"ר</div>';
-            if (r.est_main_floor_area_m2 != null) det += '<div><strong>שטח עיקרי משוער:</strong> ' + esc(String(r.est_main_floor_area_m2)) + ' מ"ר (' + esc(String(r.far_pct)) + '% × שטח מגרש)</div>';
             if (r.nearest_main_street && !r.fronting_street) det += '<div><strong>רחוב ראשי קרוב:</strong> ' + esc(r.nearest_main_street) + ' (' + esc(String(r.dist_to_main_m)) + ' מ׳)</div>';
-            if (r.note) det += '<div style="opacity:.7">' + esc(r.note) + '</div>';
-            det += '<div style="opacity:.6;margin-top:4px">קווי בניין מדויקים — טבלה 5, לאימות. סיווג לפי קרבת רחוב ראשי (MVP).</div>';
+            if (r.est_note) det += '<div style="opacity:.7;margin-top:4px">' + esc(r.est_note) + '</div>';
+            det += '<div style="opacity:.6;margin-top:4px">סיווג לפי קרבת רחוב ראשי (MVP).</div>';
             if (det) html += '<details class="parcel-rights-details" style="margin-top:6px"><summary style="cursor:pointer;color:#2563eb">פרטים מלאים ▾</summary><div style="margin-top:4px;line-height:1.6">' + det + '</div></details>';
           } else {
             html += '<div class="parcel-plan-status">אין זכויות מחולצות לתכנית זו (גבול בלבד).</div>';
