@@ -97,6 +97,15 @@
       tracks.map((t) => '<tr><td>' + esc(t.track) + '</td><td>' + esc(t.far_percent != null ? t.far_percent + '%' : '') + '</td><td>' + esc(t.floors) + '</td><td>' + esc(t.coverage_pct != null ? t.coverage_pct + '%' : '') + '</td></tr>').join('') + '</table>';
   }
 
+  function cellsTable(cells) {
+    if (!Array.isArray(cells) || !cells.length) return '';
+    const farTxt = (f) => f == null ? '' : ((typeof f === 'number' && f <= 100) ? f + '%' : f + ' מ"ר');
+    return '<h3>זכויות לפי תא שטח</h3><table><tr><th>תא</th><th>ייעוד</th><th>בנייה</th><th>קומות</th><th>תכסית</th><th>יח"ד</th><th>גובה</th></tr>' +
+      cells.map((c) => { const r = c.rights || {}; return '<tr><td>' + esc(c.cell_no) + '</td><td>' + esc(c.zone_name || '') +
+        '</td><td>' + esc(farTxt(r.far)) + '</td><td>' + esc(r.floors) + '</td><td>' + esc(r.coverage_pct != null ? r.coverage_pct + '%' : '') +
+        '</td><td>' + esc(r.housing_units) + '</td><td>' + esc(r.height_m) + '</td></tr>'; }).join('') + '</table>';
+  }
+
   function planCard(p) {
     let h = '<div class="card"><div class="plan-title">' + esc((p.pl_number ? p.pl_number + ' · ' : '') + (p.pl_name || 'תכנית'));
     if (p.rights_mode === 'h619_methamim' && p.confidence) h += '<span class="badge ' + esc(p.confidence) + '">' + esc(confLabel(p.confidence)) + '</span>';
@@ -114,6 +123,8 @@
         '</div>';
       if (p.categories.length > 1) h += '<div class="status">אזורים נוספים חופפים: ' + esc(p.categories.slice(1).map((c) => c.category + (c.coverage_pct != null ? ' (' + c.coverage_pct + '%)' : '')).join(' · ')) + '</div>';
       h += setbacksHtml(dom.setbacks) + bandsTable(dom.bands) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + ch4Html(p.ch4_rules) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
+    } else if (p.rights_mode === 'cell_polygons') {
+      h += cellsTable(p.cells) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
     } else if (p.rights_mode === 'building_rights_tracks') {
       h += tracksHtml(p.tracks) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
     } else {
