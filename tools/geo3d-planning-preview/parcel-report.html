@@ -127,6 +127,19 @@
       h += cellsTable(p.cells) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
     } else if (p.rights_mode === 'building_rights_tracks') {
       h += tracksHtml(p.tracks) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
+    } else if (p.rights_mode === 'rova4' && p.rova4) {
+      const r = p.rova4;
+      h += '<div class="grid">' +
+        '<div class="kv"><div class="k">קטגוריה</div><div class="v">' + esc(r.category_label || '') + '</div></div>' +
+        (r.fronting_street ? '<div class="kv"><div class="k">חזית לרחוב ראשי</div><div class="v">' + esc(r.fronting_street) + '</div></div>' : '') +
+        (r.max_floors != null ? '<div class="kv"><div class="k">קומות מרביות</div><div class="v">' + esc(r.max_floors) + (r.partial_roof_floors ? ' + ' + esc(r.partial_roof_floors) + ' גג חלקי' : '') + '</div></div>' : '') +
+        (r.far_pct != null ? '<div class="kv"><div class="k">% שטח עיקרי</div><div class="v">' + esc(r.far_pct) + '%</div></div>' : '') +
+        (r.coverage_max_pct != null ? '<div class="kv"><div class="k">תכסית מרבית</div><div class="v">' + esc(r.coverage_max_pct) + '%</div></div>' : '') +
+        (r.service_area_m2 != null ? '<div class="kv"><div class="k">שטחי שירות</div><div class="v">' + esc(r.service_area_m2) + ' מ"ר</div></div>' : '') +
+        (r.lot_class ? '<div class="kv"><div class="k">סיווג מגרש</div><div class="v">' + esc(r.lot_class) + '</div></div>' : '') +
+        (r.est_main_floor_area_m2 != null ? '<div class="kv"><div class="k">שטח עיקרי משוער</div><div class="v">' + esc(r.est_main_floor_area_m2) + ' מ"ר</div></div>' : '') +
+        '</div>';
+      h += '<div class="status">' + esc(r.note || '') + ' · קווי בניין מדויקים בטבלה 5 (לאימות). סיווג MVP לפי קרבת רחוב ראשי.</div>';
     } else {
       h += '<div class="status">אין זכויות מחולצות לתכנית זו (גבול בלבד).</div>';
     }
