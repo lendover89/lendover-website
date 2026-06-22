@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>דו״ח זכויות בנייה לחלקה — Lendover</title>
+  <style>
+    :root { --blue:#2563eb; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: "Segoe UI", Arial, sans-serif; color:var(--ink); background:var(--bg); line-height:1.6; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 24px 18px 60px; }
+    header h1 { font-size: 1.5rem; margin:0 0 4px; }
+    header .sub { color:var(--muted); margin-bottom:18px; }
+    .card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; margin-bottom:16px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+    .plan-title { font-weight:700; font-size:1.1rem; }
+    .badge { display:inline-block; font-size:.8rem; padding:2px 10px; border-radius:999px; background:#eef2ff; color:var(--blue); margin-inline-start:8px; }
+    .badge.low { background:#fef2f2; color:#dc2626; } .badge.medium { background:#fffbeb; color:#d97706; } .badge.high { background:#ecfdf5; color:#059669; }
+    .status { color:var(--muted); font-size:.9rem; margin:2px 0 10px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap:8px; margin:10px 0; }
+    .kv { background:var(--bg); border-radius:8px; padding:8px 10px; }
+    .kv .k { font-size:.78rem; color:var(--muted); } .kv .v { font-weight:700; font-size:1.05rem; }
+    h3 { font-size:.95rem; margin:16px 0 6px; border-top:1px solid var(--line); padding-top:12px; }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    th,td { text-align:right; padding:6px 8px; border-bottom:1px solid var(--line); }
+    th { color:var(--muted); font-weight:600; }
+    ul { margin:6px 0; padding-inline-start:20px; }
+    li { margin:3px 0; }
+    .raw { color:var(--muted); font-size:.85rem; }
+    .note { color:var(--muted); font-size:.85rem; margin-top:10px; }
+    .loading,.error { text-align:center; padding:40px; color:var(--muted); }
+    .error { color:#dc2626; }
+    @media print { body{background:#fff;} .card{box-shadow:none;} }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>דו״ח זכויות בנייה לחלקה</h1>
+    <div class="sub" id="sub">טוען…</div>
+  </header>
+  <div id="content"><div class="loading">טוען נתונים…</div></div>
+  <div class="note">המקור: מאגר זכויות הבנייה של Lendover (חילוץ אוטומטי). אינו תחליף לבדיקה סטטוטורית מול התקנון ונספחי התכנית. ח/619 מחושב לפי שכבת מתחמי התכנית — שורות בכיסוי נמוך מסומנות לאימות ידני.</div>
+</div>
+<script>
+  const GROUNDWATER_API = 'https://groundwater.lendover.co.il';
+  const params = new URLSearchParams(location.search);
+  const gush = params.get('gush'), helka = params.get('helka');
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const confLabel = (c) => c === 'high' ? 'ודאי' : (c === 'medium' ? 'בינוני' : 'לא ודאי');
+
+  function bandsTable(bands) {
+    if (!Array.isArray(bands) || !bands.length) return '';
+    return '<h3>זכויות לפי גודל מגרש</h3><table><tr><th>גודל מגרש (מ"ר)</th><th>קומות</th><th>% מעל</th><th>% מתחת</th><th>% שירות</th><th>הערות</th></tr>' +
+      bands.map((b) => '<tr><td>' + esc((b.min_lot_m2 != null ? b.min_lot_m2 : '') + (b.max_lot_m2 != null ? '–' + b.max_lot_m2 : (b.min_lot_m2 != null ? '+' : ''))) +
+        '</td><td>' + esc(b.max_floors) + '</td><td>' + esc(b.rights_above_pct) + '</td><td>' + esc(b.rights_below_pct) +
+        '</td><td>' + esc(b.service_area_pct) + '</td><td>' + esc(b.remarks || '') + '</td></tr>').join('') + '</table>';
+  }
+  function setbacksHtml(sb) {
+    if (!sb) return '';
+    const p = [];
+    if (sb.front != null) p.push(['קדמי', sb.front]);
+    if (sb.side != null) p.push(['צידי', sb.side]);
+    if (sb.rear != null) p.push(['אחורי', sb.rear]);
+    if (sb.roof_front != null) p.push(['גג קדמי', sb.roof_front]);
+    if (!p.length) return '';
+    return '<h3>קווי בניין (מ׳)</h3><div class="grid">' + p.map((x) => '<div class="kv"><div class="k">' + esc(x[0]) + '</div><div class="v">' + esc(x[1]) + '</div></div>').join('') + '</div>';
+  }
+  function mixHtml(mix) {
+    if (!mix || typeof mix !== 'object') return '';
+    const rows = [];
+    if (mix.max_units_per_dunam != null) rows.push(['צפיפות מרבית', mix.max_units_per_dunam + ' יח\'/דונם']);
+    if (mix.max_units_per_dunam_main_streets_over_1_5dunam != null) rows.push(['צפיפות ברח\' ראשי (>1.5ד\')', mix.max_units_per_dunam_main_streets_over_1_5dunam + ' יח\'/דונם']);
+    if (mix.min_unit_size_m2 != null) rows.push(['גודל דירה מינ\'', mix.min_unit_size_m2 + ' מ"ר']);
+    let h = '';
+    if (rows.length) h += '<div class="grid">' + rows.map((r) => '<div class="kv"><div class="k">' + esc(r[0]) + '</div><div class="v">' + esc(r[1]) + '</div></div>').join('') + '</div>';
+    if (Array.isArray(mix.bands) && mix.bands.length) {
+      h += '<table><tr><th>סוג דירה</th><th>טווח (מ"ר)</th><th>אחוז</th></tr>' +
+        mix.bands.map((b) => '<tr><td>' + esc(b.label) + '</td><td>' + esc((b.size_min_m2 != null ? b.size_min_m2 : '') + (b.size_max_m2 != null ? '–' + b.size_max_m2 : '+')) + '</td><td>' + esc(b.pct != null ? b.pct + '%' : '') + '</td></tr>').join('') + '</table>';
+    }
+    return h ? '<h3>תמהיל דירות</h3>' + h : '';
+  }
+  function ch4Html(rules) {
+    if (!Array.isArray(rules) || !rules.length) return '';
+    return '<h3>כללי פרק 4 (קריטיים)</h3><table><tr><th>סעיף</th><th>נושא</th><th>ערך</th><th>כלל/תנאי</th></tr>' +
+      rules.map((r) => '<tr><td>' + esc(r.section) + '</td><td>' + esc(r.topic) + '</td><td>' + esc((r.value != null ? r.value : '') + (r.unit ? ' ' + r.unit : '')) + '</td><td>' + esc(r.rule || r.condition || '') + '</td></tr>').join('') + '</table>';
+  }
+  function bonusesHtml(bonuses) {
+    if (!Array.isArray(bonuses) || !bonuses.length) return '';
+    const seen = new Set(); const items = [];
+    bonuses.forEach((b) => { const l = (b.label_he || '').trim(); if (l && !seen.has(l)) { seen.add(l); items.push('<li>' + esc(l) + (b.raw_text ? ' <span class="raw">— ' + esc(b.raw_text) + '</span>' : '') + '</li>'); } });
+    return items.length ? '<h3>בונוסים והקלות (' + items.length + ')</h3><ul>' + items.join('') + '</ul>' : '';
+  }
+  function tracksHtml(tracks) {
+    if (!Array.isArray(tracks) || !tracks.length) return '';
+    return '<h3>זכויות (מתוך חילוץ התכנית)</h3><table><tr><th>מסלול/ייעוד</th><th>% בנייה</th><th>קומות</th><th>תכסית</th></tr>' +
+      tracks.map((t) => '<tr><td>' + esc(t.track) + '</td><td>' + esc(t.far_percent != null ? t.far_percent + '%' : '') + '</td><td>' + esc(t.floors) + '</td><td>' + esc(t.coverage_pct != null ? t.coverage_pct + '%' : '') + '</td></tr>').join('') + '</table>';
+  }
+
+  function planCard(p) {
+    let h = '<div class="card"><div class="plan-title">' + esc((p.pl_number ? p.pl_number + ' · ' : '') + (p.pl_name || 'תכנית'));
+    if (p.rights_mode === 'h619_methamim' && p.confidence) h += '<span class="badge ' + esc(p.confidence) + '">' + esc(confLabel(p.confidence)) + '</span>';
+    h += '</div>';
+    if (p.status) h += '<div class="status">' + esc(p.status) + (p.date ? ' · ' + esc(p.date) : '') + '</div>';
+    if (p.rights_mode === 'h619_methamim' && Array.isArray(p.categories) && p.categories.length) {
+      const dom = p.categories.find((c) => c.dominant) || p.categories[0];
+      const a = (dom && dom.applicable) || {};
+      h += '<div class="grid">' +
+        '<div class="kv"><div class="k">אזור (מתחם)</div><div class="v">' + esc(dom.category) + '</div></div>' +
+        '<div class="kv"><div class="k">כיסוי/ודאות</div><div class="v">' + esc(p.dominant_coverage_pct != null ? p.dominant_coverage_pct + '%' : '—') + '</div></div>' +
+        (a.max_floors != null ? '<div class="kv"><div class="k">קומות מרביות</div><div class="v">' + esc(a.max_floors) + '</div></div>' : '') +
+        (a.rights_above_pct != null ? '<div class="kv"><div class="k">% בנייה מעל</div><div class="v">' + esc(a.rights_above_pct) + '%</div></div>' : '') +
+        (a.rights_below_pct != null ? '<div class="kv"><div class="k">% מתחת</div><div class="v">' + esc(a.rights_below_pct) + '%</div></div>' : '') +
+        '</div>';
+      if (p.categories.length > 1) h += '<div class="status">אזורים נוספים חופפים: ' + esc(p.categories.slice(1).map((c) => c.category + (c.coverage_pct != null ? ' (' + c.coverage_pct + '%)' : '')).join(' · ')) + '</div>';
+      h += setbacksHtml(dom.setbacks) + bandsTable(dom.bands) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + ch4Html(p.ch4_rules) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
+    } else if (p.rights_mode === 'building_rights_tracks') {
+      h += tracksHtml(p.tracks) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
+    } else {
+      h += '<div class="status">אין זכויות מחולצות לתכנית זו (גבול בלבד).</div>';
+    }
+    h += '</div>';
+    return h;
+  }
+
+  async function load() {
+    if (!gush || !helka) { document.getElementById('content').innerHTML = '<div class="error">חסר גוש/חלקה בכתובת.</div>'; return; }
+    document.getElementById('sub').textContent = 'גוש ' + gush + ' · חלקה ' + helka;
+    try {
+      const r = await fetch(GROUNDWATER_API + '/api/planning/parcel-rights?gush=' + encodeURIComponent(gush) + '&helka=' + encodeURIComponent(helka), { credentials: 'include' });
+      const d = await r.json();
+      if (!r.ok || !d || !d.available || !Array.isArray(d.plans) || !d.plans.length) {
+        document.getElementById('content').innerHTML = '<div class="error">' + esc((d && d.message) || 'לא נמצאו זכויות לחלקה.') + '</div>';
+        return;
+      }
+      document.getElementById('sub').textContent = 'גוש ' + gush + ' · חלקה ' + helka + (d.parcel_area_m2 ? ' · ' + d.parcel_area_m2 + ' מ"ר · ' : ' · ') + d.plans.length + ' תכניות חלות';
+      document.getElementById('content').innerHTML = d.plans.map(planCard).join('');
+    } catch (e) {
+      document.getElementById('content').innerHTML = '<div class="error">שגיאה בטעינת הנתונים.</div>';
+    }
+  }
+  load();
+</script>
+</body>
+</html>
