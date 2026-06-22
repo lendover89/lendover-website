@@ -133,13 +133,14 @@
         '<div class="kv"><div class="k">קטגוריה</div><div class="v">' + esc(r.category_label || '') + '</div></div>' +
         (r.fronting_street ? '<div class="kv"><div class="k">חזית לרחוב ראשי</div><div class="v">' + esc(r.fronting_street) + '</div></div>' : '') +
         (r.max_floors != null ? '<div class="kv"><div class="k">קומות מרביות</div><div class="v">' + esc(r.max_floors) + (r.partial_roof_floors ? ' + ' + esc(r.partial_roof_floors) + ' גג חלקי' : '') + '</div></div>' : '') +
-        (r.far_pct != null ? '<div class="kv"><div class="k">% שטח עיקרי</div><div class="v">' + esc(r.far_pct) + '%</div></div>' : '') +
-        (r.coverage_max_pct != null ? '<div class="kv"><div class="k">תכסית מרבית</div><div class="v">' + esc(r.coverage_max_pct) + '%</div></div>' : '') +
+        (r.coverage_pct != null ? '<div class="kv"><div class="k">תכסית</div><div class="v">' + esc(r.coverage_pct) + '%</div></div>' : '') +
+        (r.coverage_area_m2 != null ? '<div class="kv"><div class="k">שטח תכסית</div><div class="v">' + esc(r.coverage_area_m2) + ' מ"ר</div></div>' : '') +
+        (r.est_above_ground_area_m2 != null ? '<div class="kv"><div class="k">שטח מעל הקרקע (עיקרי+שירות) ≈</div><div class="v">' + esc(r.est_above_ground_area_m2) + ' מ"ר</div></div>' : '') +
         (r.service_area_m2 != null ? '<div class="kv"><div class="k">שטחי שירות</div><div class="v">' + esc(r.service_area_m2) + ' מ"ר</div></div>' : '') +
-        (r.lot_class ? '<div class="kv"><div class="k">סיווג מגרש</div><div class="v">' + esc(r.lot_class) + '</div></div>' : '') +
-        (r.est_main_floor_area_m2 != null ? '<div class="kv"><div class="k">שטח עיקרי משוער</div><div class="v">' + esc(r.est_main_floor_area_m2) + ' מ"ר</div></div>' : '') +
         '</div>';
-      h += '<div class="status">' + esc(r.note || '') + ' · קווי בניין מדויקים בטבלה 5 (לאימות). סיווג MVP לפי קרבת רחוב ראשי.</div>';
+      h += '<div class="status"><strong>אופן החישוב:</strong> ' + esc(r.rights_model || 'תכסית × קומות') + ' · <strong>תכסית:</strong> ' + esc(r.coverage_basis || '') + '</div>';
+      if (r.est_note) h += '<div class="status">' + esc(r.est_note) + '</div>';
+      h += '<div class="status">' + esc(r.note || '') + ' · סיווג MVP לפי קרבת רחוב ראשי.</div>';
     } else {
       h += '<div class="status">אין זכויות מחולצות לתכנית זו (גבול בלבד).</div>';
     }
