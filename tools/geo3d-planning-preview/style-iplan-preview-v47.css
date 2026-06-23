@@ -1573,3 +1573,48 @@ button.planning-legend__item:not(.is-on) span {
     gap: 2px;
   }
 }
+
+/* ---- address/parcel search autocomplete dropdown (added 2026-06-23) ---- */
+.search-suggest {
+  position: fixed;
+  z-index: 1000;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 6px;
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px) saturate(130%);
+  direction: rtl;
+}
+.search-suggest[hidden] { display: none !important; }
+.ss-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+}
+.ss-row:hover,
+.ss-row.is-active { background: rgba(255, 255, 255, 0.10); }
+.ss-ic { flex: 0 0 auto; font-size: 16px; opacity: 0.85; }
+.ss-text {
+  flex: 1 1 auto;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ss-type { flex: 0 0 auto; font-size: 12px; color: rgba(255, 255, 255, 0.55); }
+.ss-badge {
+  flex: 0 0 auto;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.82);
+}
