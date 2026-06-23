@@ -1233,9 +1233,33 @@
         compact: true,
         customAttribution: 'כתובות: © OpenStreetMap contributors (ODbL)'
       }), 'bottom-left');
-      (function tuckAttribution() {
+      // Tuck the credits COMPLETELY behind the left buttons strip (toggle-group: ~opaque + blur).
+      // Move the element into the control-strip so it shares the toggle-group's stacking context,
+      // then overlay it exactly under the toggle-group (which paints on top and covers it).
+      (function hideAttributionBehindToggles() {
         const el = map.getContainer().querySelector('.maplibregl-ctrl-bottom-left');
-        if (el) el.style.zIndex = '3';
+        const strip = document.querySelector('.control-strip');
+        const tg = document.getElementById('layerToggleGroup');
+        if (!el || !strip || !tg) return;
+        strip.appendChild(el);
+        tg.style.position = 'relative';
+        tg.style.zIndex = '1';
+        el.style.position = 'absolute';
+        el.style.zIndex = '0';
+        el.style.margin = '0';
+        el.style.overflow = 'hidden';
+        el.style.pointerEvents = 'none';
+        const place = () => {
+          const s = strip.getBoundingClientRect();
+          const t = tg.getBoundingClientRect();
+          el.style.left = (t.left - s.left) + 'px';
+          el.style.top = (t.top - s.top) + 'px';
+          el.style.width = t.width + 'px';
+          el.style.height = t.height + 'px';
+        };
+        place();
+        window.addEventListener('resize', place);
+        if (window.ResizeObserver) { try { new ResizeObserver(place).observe(tg); } catch (e) {} }
       })();
 
       function setTerrainActive(active) {
