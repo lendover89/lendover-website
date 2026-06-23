@@ -1002,9 +1002,18 @@
             if (r.coverage_basis) det += '<div><strong>תכסית:</strong> ' + esc(r.coverage_basis) + '</div>';
             if (r.coverage_area_m2 != null) det += '<div><strong>שטח תכסית:</strong> ' + esc(String(r.coverage_area_m2)) + ' מ"ר × ' + esc(String(r.max_floors)) + ' קומות' + (r.partial_roof_floors ? ' + גג חלקי' : '') + '</div>';
             if (r.service_area_m2 != null) det += '<div><strong>שטחי שירות:</strong> ' + esc(String(r.service_area_m2)) + ' מ"ר</div>';
+            if (r.building_lines) {
+              const b = r.building_lines;
+              const bl = [];
+              if (b.front_m != null) bl.push('קדמי ' + b.front_m + 'מ׳');
+              if (b.side_m != null) bl.push('צדדי ' + b.side_m + 'מ׳');
+              if (b.rear_m != null) bl.push('אחורי ' + b.rear_m + 'מ׳');
+              if (bl.length) det += '<div><strong>קווי בניין:</strong> ' + esc(bl.join(' · ')) + (b.road_width_m != null ? ' · רוחב דרך ' + esc(String(b.road_width_m)) + 'מ׳' : '') + '</div>';
+              if (b.source) det += '<div style="opacity:.7">מקור קווי בניין: ' + esc(b.source) + '</div>';
+            }
             if (r.nearest_main_street && !r.fronting_street) det += '<div><strong>רחוב ראשי קרוב:</strong> ' + esc(r.nearest_main_street) + ' (' + esc(String(r.dist_to_main_m)) + ' מ׳)</div>';
             if (r.est_note) det += '<div style="opacity:.7;margin-top:4px">' + esc(r.est_note) + '</div>';
-            det += '<div style="opacity:.6;margin-top:4px">סיווג לפי קרבת רחוב ראשי (MVP).</div>';
+            det += '<div style="opacity:.6;margin-top:4px">היקף לפי גבול תכנית תא/3729; תכסית לפי קווי בניין פר-חלקה.</div>';
             if (det) html += '<details class="parcel-rights-details" style="margin-top:6px"><summary style="cursor:pointer;color:#2563eb">פרטים מלאים ▾</summary><div style="margin-top:4px;line-height:1.6">' + det + '</div></details>';
           } else {
             html += '<div class="parcel-plan-status">אין זכויות מחולצות לתכנית זו (גבול בלבד).</div>';
