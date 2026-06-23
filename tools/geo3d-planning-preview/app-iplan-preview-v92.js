@@ -1231,7 +1231,7 @@
       // Placed bottom-left and tucked BEHIND the left buttons strip (control-strip z-index:4).
       map.addControl(new maplibregl.AttributionControl({
         compact: true,
-        customAttribution: 'כתובות: © OpenStreetMap contributors (ODbL) · עיריית באר שבע'
+        customAttribution: 'כתובות: © OpenStreetMap contributors (ODbL)'
       }), 'bottom-left');
       (function tuckAttribution() {
         const el = map.getContainer().querySelector('.maplibregl-ctrl-bottom-left');
