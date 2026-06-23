@@ -1230,6 +1230,11 @@
 
       map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
       map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
+      // ODbL attribution for OSM-derived address search (+ open municipal data).
+      map.addControl(new maplibregl.AttributionControl({
+        compact: true,
+        customAttribution: 'כתובות: © OpenStreetMap contributors (ODbL) · עיריית באר שבע'
+      }), 'bottom-right');
 
       function setTerrainActive(active) {
         map.setTerrain(active ? { source: 'terrainSource', exaggeration: 1.5 } : null);
@@ -4882,11 +4887,11 @@
 
       // ── Unified search: address / gush-chelka / settlement ──
       (function initSearch() {
-        // gush/chelka AND address both served from our own gisdb via gis-vps —
-        // no dependency on external parcel services. Address search hits /address (enriched →
-        // address_points → server-side Nominatim fallback). No client-side geocoder.
+        // gush/chelka → our open parcels layer (gisdb via gis-vps).
+        // address → clean OSM (ODbL) + open municipal data via the planning proxy
+        // (/api/planning/address-search). Returns a point only; the parcel layer resolves
+        // gush/helka on click. No MAPI/GISNET data, no client-side geocoder.
         const PARCEL_URL = TILE_BASE + '/parcel';
-        const ADDR_URL = TILE_BASE + '/address';
         let marker = null, suggestEl = null, debounce = 0, lastResults = [], activeIdx = -1;
 
         const TYPE_ICON = { address: '📍', parcel: '▦', block: '▢', street: '🛣', settlement: '🏘', neighborhood: '🏘' };
@@ -4930,15 +4935,19 @@
         }
         async function addressSuggest(q) {
           try {
-            const r = await fetch(ADDR_URL + '?q=' + encodeURIComponent(q));
+            const r = await fetch(PLANNING_API + '/api/planning/address-search?q=' + encodeURIComponent(q));
             if (!r.ok) return [];
             const d = await r.json();
-            return d.map((x) => ({
-              type: 'address', text: shortAddr(x.label),
-              lng: +x.lng, lat: +x.lat,
-              gush: x.gush, parcel: x.parcel,
-              has_parcel: x.has_parcel, source: x.source
-            }));
+            return (d.results || []).map((x) => {
+              const label = [[x.street, x.house_num].filter(Boolean).join(' '), x.city]
+                .filter(Boolean).join(', ');
+              return {
+                type: x.match_level === 'street' ? 'street' : 'address',
+                text: label,
+                lng: +x.lon, lat: +x.lat,
+                source: x.source
+              };
+            });
           } catch (e) { return []; }
         }
         async function fetchSuggest(q) {
