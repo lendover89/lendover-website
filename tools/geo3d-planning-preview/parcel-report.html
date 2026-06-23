@@ -137,10 +137,15 @@
         (r.coverage_area_m2 != null ? '<div class="kv"><div class="k">שטח תכסית</div><div class="v">' + esc(r.coverage_area_m2) + ' מ"ר</div></div>' : '') +
         (r.est_above_ground_area_m2 != null ? '<div class="kv"><div class="k">שטח מעל הקרקע (עיקרי+שירות) ≈</div><div class="v">' + esc(r.est_above_ground_area_m2) + ' מ"ר</div></div>' : '') +
         (r.service_area_m2 != null ? '<div class="kv"><div class="k">שטחי שירות</div><div class="v">' + esc(r.service_area_m2) + ' מ"ר</div></div>' : '') +
+        (r.building_lines && r.building_lines.front_m != null ? '<div class="kv"><div class="k">קו בניין קדמי</div><div class="v">' + esc(r.building_lines.front_m) + ' מ׳</div></div>' : '') +
+        (r.building_lines && r.building_lines.side_m != null ? '<div class="kv"><div class="k">קו בניין צדדי</div><div class="v">' + esc(r.building_lines.side_m) + ' מ׳</div></div>' : '') +
+        (r.building_lines && r.building_lines.rear_m != null ? '<div class="kv"><div class="k">קו בניין אחורי</div><div class="v">' + esc(r.building_lines.rear_m) + ' מ׳</div></div>' : '') +
+        (r.building_lines && r.building_lines.road_width_m != null ? '<div class="kv"><div class="k">רוחב דרך</div><div class="v">' + esc(r.building_lines.road_width_m) + ' מ׳</div></div>' : '') +
         '</div>';
       h += '<div class="status"><strong>אופן החישוב:</strong> ' + esc(r.rights_model || 'תכסית × קומות') + ' · <strong>תכסית:</strong> ' + esc(r.coverage_basis || '') + '</div>';
+      if (r.building_lines && r.building_lines.source) h += '<div class="status">מקור קווי בניין: ' + esc(r.building_lines.source) + '</div>';
       if (r.est_note) h += '<div class="status">' + esc(r.est_note) + '</div>';
-      h += '<div class="status">' + esc(r.note || '') + ' · סיווג MVP לפי קרבת רחוב ראשי.</div>';
+      h += '<div class="status">' + esc(r.note || '') + ' · היקף לפי גבול תכנית תא/3729; תכסית לפי קווי בניין פר-חלקה.</div>';
     } else {
       h += '<div class="status">אין זכויות מחולצות לתכנית זו (גבול בלבד).</div>';
     }
