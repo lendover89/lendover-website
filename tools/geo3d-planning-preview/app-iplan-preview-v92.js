@@ -1174,7 +1174,6 @@
               minzoom: 6,
               maxzoom: 13,
               encoding: 'terrarium',
-              attribution: 'טופוגרפיה: LGIS, DEM מקווי גובה ingest.heights',
               bounds: [34.244, 29.486, 35.898, 33.330],
               tiles: [
                 TILE_BASE + '/geo3d-terrain/{z}/{x}/{y}.png?v=2'
@@ -1182,7 +1181,6 @@
             },
             hybridBuildings: {
               type: 'vector',
-              attribution: 'מבנים תלת־ממדיים: LGIS + OSM/Geofabrik',
               minzoom: 0,
               // data only goes to z15; overzoom z15 tiles for higher view zooms
               maxzoom: 15,
@@ -1192,7 +1190,6 @@
             },
             parcelOwnership: {
               type: 'vector',
-              attribution: 'חלקות ובעלות: ingest.parcels + TabuCount',
               minzoom: 0,
               maxzoom: 15,
               tiles: [
@@ -1231,10 +1228,15 @@
       map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-left');
       map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
       // ODbL attribution for OSM-derived address search (+ open municipal data).
+      // Placed bottom-left and tucked BEHIND the left buttons strip (control-strip z-index:4).
       map.addControl(new maplibregl.AttributionControl({
         compact: true,
         customAttribution: 'כתובות: © OpenStreetMap contributors (ODbL) · עיריית באר שבע'
-      }), 'bottom-right');
+      }), 'bottom-left');
+      (function tuckAttribution() {
+        const el = map.getContainer().querySelector('.maplibregl-ctrl-bottom-left');
+        if (el) el.style.zIndex = '3';
+      })();
 
       function setTerrainActive(active) {
         map.setTerrain(active ? { source: 'terrainSource', exaggeration: 1.5 } : null);
