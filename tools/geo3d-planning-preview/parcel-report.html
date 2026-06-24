@@ -141,8 +141,8 @@
         (r.coverage_area_m2 != null ? '<div class="kv"><div class="k">שטח תכסית</div><div class="v">' + esc(r.coverage_area_m2) + ' מ"ר</div></div>' : '') +
         (r.est_above_ground_area_m2 != null ? '<div class="kv"><div class="k">שטח מעל הקרקע (עיקרי+שירות) ≈</div><div class="v">' + esc(r.est_above_ground_area_m2) + ' מ"ר</div></div>' : '') +
         (r.service_area_m2 != null ? '<div class="kv"><div class="k">שטחי שירות</div><div class="v">' + esc(r.service_area_m2) + ' מ"ר</div></div>' : '') +
-        (r.building_lines && r.building_lines.front_m != null ? '<div class="kv"><div class="k">קו בניין קדמי' + (r.building_lines.lot_type === 'corner' ? ' 1' : '') + '</div><div class="v">' + esc(r.building_lines.front_m) + ' מ׳</div></div>' : '') +
-        (r.building_lines && r.building_lines.front2_m != null ? '<div class="kv"><div class="k">קו בניין קדמי 2</div><div class="v">' + esc(r.building_lines.front2_m) + ' מ׳</div></div>' : '') +
+        (r.building_lines && r.building_lines.front_m != null ? '<div class="kv"><div class="k">קו בניין קדמי' + (r.building_lines.lot_type === 'corner' ? ' (ציר ארוך)' : '') + '</div><div class="v">' + esc(r.building_lines.front_m) + ' מ׳</div></div>' : '') +
+        (r.building_lines && r.building_lines.front2_m != null ? '<div class="kv"><div class="k">קו בניין קדמי (ציר קצר)</div><div class="v">' + esc(r.building_lines.front2_m) + ' מ׳</div></div>' : '') +
         (r.building_lines && r.building_lines.side_m != null ? '<div class="kv"><div class="k">קו בניין צדדי</div><div class="v">' + esc(r.building_lines.side_m) + ' מ׳</div></div>' : '') +
         (r.building_lines && r.building_lines.rear_m != null ? '<div class="kv"><div class="k">קו בניין אחורי</div><div class="v">' + esc(r.building_lines.rear_m) + ' מ׳</div></div>' : '') +
         (r.building_lines && r.building_lines.road_width_m != null ? '<div class="kv"><div class="k">רוחב דרך</div><div class="v">' + esc(r.building_lines.road_width_m) + ' מ׳</div></div>' : '') +
