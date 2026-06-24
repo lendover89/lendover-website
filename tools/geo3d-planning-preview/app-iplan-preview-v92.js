@@ -1004,13 +1004,11 @@
             if (r.coverage_area_m2 != null) det += '<div><strong>שטח תכסית:</strong> ' + esc(String(r.coverage_area_m2)) + ' מ"ר × ' + esc(String(r.max_floors)) + ' קומות' + (r.partial_roof_floors ? ' + גג חלקי' : '') + '</div>';
             const _isCorner = r.building_lines && r.building_lines.lot_type === 'corner';
             {
+              // Corner vs interior is DETERMINED per parcel (rights-page 2-front signal) — not a "what-if".
+              // The only real alternative is party-wall (a build choice), and only for interior lots.
               const sc = [];
-              if (_isCorner) { if (r.coverage_pct_detached != null) sc.push('מנותק ' + r.coverage_pct_detached + '%'); }
-              else {
-                if (r.coverage_pct_party_wall != null) sc.push('קיר משותף ' + r.coverage_pct_party_wall + '%');
-                if (r.coverage_pct_corner != null) sc.push('פינתי ' + r.coverage_pct_corner + '%');
-              }
-              if (sc.length) det += '<div style="opacity:.8"><strong>תרחישים חלופיים:</strong> ' + esc(sc.join(' · ')) + '</div>';
+              if (!_isCorner && r.coverage_pct_party_wall != null) sc.push('קיר משותף ' + r.coverage_pct_party_wall + '%');
+              if (sc.length) det += '<div style="opacity:.8"><strong>תרחיש חלופי:</strong> ' + esc(sc.join(' · ')) + ' <span style="opacity:.7">(בנייה צמודה לשכן)</span></div>';
             }
             if (r.est_max_units != null) det += '<div><strong>מס׳ יח"ד מקסימלי (מוערך):</strong> ' + esc(String(r.est_max_units)) + ' יח"ד <span style="opacity:.7">(שטח מעל הקרקע ÷ מקדם צפיפות)</span></div>';
             if (r.unit_density_m2 != null) det += '<div style="opacity:.8">מקדם צפיפות (שטח דירה ממוצע): ' + esc(String(r.unit_density_m2)) + ' מ"ר/יח"ד' + (r.unit_density_basis && r.unit_density_basis !== 'כללי' ? ' · ' + esc(String(r.unit_density_basis)) : '') + '</div>';
