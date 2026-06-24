@@ -1017,8 +1017,8 @@
               det += '<div><strong>סוג מגרש:</strong> ' + (b.lot_type === 'corner' ? 'פינתי (2 חזיתות, ללא קו אחורי)' : 'מנותק/פנימי') + '</div>';
               const bl = [];
               if (b.lot_type === 'corner') {
-                if (b.front_m != null) bl.push('קדמי 1: ' + b.front_m + 'מ׳');
-                if (b.front2_m != null) bl.push('קדמי 2: ' + b.front2_m + 'מ׳');
+                if (b.front_m != null) bl.push('קדמי ציר ארוך: ' + b.front_m + 'מ׳');
+                if (b.front2_m != null) bl.push('קדמי ציר קצר: ' + b.front2_m + 'מ׳');
                 if (b.side_m != null) bl.push('צדדי ' + b.side_m + 'מ׳ (×2)');
               } else {
                 if (b.front_m != null) bl.push('קדמי ' + b.front_m + 'מ׳');
