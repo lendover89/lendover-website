@@ -140,7 +140,8 @@
         (r.coverage_pct_corner != null && !(r.building_lines && r.building_lines.lot_type === 'corner') ? '<div class="kv"><div class="k">תכסית — תרחיש פינתי</div><div class="v">' + esc(r.coverage_pct_corner) + '%</div></div>' : '') +
         (r.coverage_area_m2 != null ? '<div class="kv"><div class="k">שטח תכסית</div><div class="v">' + esc(r.coverage_area_m2) + ' מ"ר</div></div>' : '') +
         (r.est_above_ground_area_m2 != null ? '<div class="kv"><div class="k">שטח מעל הקרקע (עיקרי+שירות) ≈</div><div class="v">' + esc(r.est_above_ground_area_m2) + ' מ"ר</div></div>' : '') +
-        (r.service_area_m2 != null ? '<div class="kv"><div class="k">שטחי שירות</div><div class="v">' + esc(r.service_area_m2) + ' מ"ר</div></div>' : '') +
+        (r.est_max_units != null ? '<div class="kv"><div class="k">מס׳ יח"ד מקסימלי (מוערך)</div><div class="v">' + esc(r.est_max_units) + ' יח"ד</div></div>' : '') +
+        (r.unit_density_m2 != null ? '<div class="kv"><div class="k">מקדם צפיפות (שטח דירה ממוצע)</div><div class="v">' + esc(r.unit_density_m2) + ' מ"ר/יח"ד' + (r.unit_density_basis && r.unit_density_basis !== 'כללי' ? ' · ' + esc(r.unit_density_basis) : '') + '</div></div>' : '') +
         (r.building_lines && r.building_lines.front_m != null ? '<div class="kv"><div class="k">קו בניין קדמי' + (r.building_lines.lot_type === 'corner' ? ' (ציר ארוך)' : '') + '</div><div class="v">' + esc(r.building_lines.front_m) + ' מ׳</div></div>' : '') +
         (r.building_lines && r.building_lines.front2_m != null ? '<div class="kv"><div class="k">קו בניין קדמי (ציר קצר)</div><div class="v">' + esc(r.building_lines.front2_m) + ' מ׳</div></div>' : '') +
         (r.building_lines && r.building_lines.side_m != null ? '<div class="kv"><div class="k">קו בניין צדדי</div><div class="v">' + esc(r.building_lines.side_m) + ' מ׳</div></div>' : '') +
