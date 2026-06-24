@@ -1001,6 +1001,12 @@
             det += '<div><strong>אופן החישוב:</strong> תכסית מותרת × מספר קומות (זכויות נפחיות)</div>';
             if (r.coverage_basis) det += '<div><strong>תכסית:</strong> ' + esc(r.coverage_basis) + '</div>';
             if (r.coverage_area_m2 != null) det += '<div><strong>שטח תכסית:</strong> ' + esc(String(r.coverage_area_m2)) + ' מ"ר × ' + esc(String(r.max_floors)) + ' קומות' + (r.partial_roof_floors ? ' + גג חלקי' : '') + '</div>';
+            if (r.coverage_pct_party_wall != null || r.coverage_pct_corner != null) {
+              const sc = [];
+              if (r.coverage_pct_party_wall != null) sc.push('קיר משותף ' + r.coverage_pct_party_wall + '%');
+              if (r.coverage_pct_corner != null) sc.push('פינתי ' + r.coverage_pct_corner + '%');
+              det += '<div style="opacity:.8"><strong>תרחישים חלופיים:</strong> ' + esc(sc.join(' · ')) + '</div>';
+            }
             if (r.service_area_m2 != null) det += '<div><strong>שטחי שירות:</strong> ' + esc(String(r.service_area_m2)) + ' מ"ר</div>';
             if (r.building_lines) {
               const b = r.building_lines;
