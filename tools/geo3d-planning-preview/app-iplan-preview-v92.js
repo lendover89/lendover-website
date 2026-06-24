@@ -1014,6 +1014,7 @@
             }
             if (r.est_max_units != null) det += '<div><strong>מס׳ יח"ד מקסימלי (מוערך):</strong> ' + esc(String(r.est_max_units)) + ' יח"ד <span style="opacity:.7">(שטח מעל הקרקע ÷ מקדם צפיפות)</span></div>';
             if (r.unit_density_m2 != null) det += '<div style="opacity:.8">מקדם צפיפות (שטח דירה ממוצע): ' + esc(String(r.unit_density_m2)) + ' מ"ר/יח"ד' + (r.unit_density_basis && r.unit_density_basis !== 'כללי' ? ' · ' + esc(String(r.unit_density_basis)) : '') + '</div>';
+            if (r.relief_applies && r.est_max_units_relief != null) det += '<div style="opacity:.85"><strong>אופציית הקלת מגרש קטן:</strong> עד ' + esc(String(r.est_max_units_relief)) + ' יח"ד <span style="opacity:.7">(ביטול נסיגה אחורית בקומת הגג · גג ≈ ' + esc(String(r.roof_area_relief_m2)) + ' מ"ר · רשות, לפי שיקול הוועדה)</span></div>';
             if (r.building_lines) {
               const b = r.building_lines;
               det += '<div><strong>סוג מגרש:</strong> ' + (b.lot_type === 'corner' ? 'פינתי (2 חזיתות, ללא קו אחורי)' : 'מנותק/פנימי') + '</div>';
