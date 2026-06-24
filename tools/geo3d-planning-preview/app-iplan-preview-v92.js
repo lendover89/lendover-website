@@ -993,6 +993,7 @@
             if (r.max_floors != null) parts.push('עד ' + r.max_floors + ' קומות' + (r.partial_roof_floors ? ' + ' + r.partial_roof_floors + ' גג חלקי' : ''));
             if (r.coverage_pct != null) parts.push('תכסית ' + r.coverage_pct + '%');
             if (r.est_above_ground_area_m2 != null) parts.push('≈ ' + r.est_above_ground_area_m2 + ' מ"ר (עיקרי+שירות)');
+            if (r.est_max_units != null) parts.push('≈ ' + r.est_max_units + ' יח"ד');
             html += '<div class="parcel-plan-rights">' +
               '<div>' + esc(r.category_label || '') + (r.fronting_street ? ' (חזית: ' + esc(r.fronting_street) + ')' : '') + '</div>' +
               (parts.length ? '<div>' + esc(parts.join(' · ')) + '</div>' : '') +
@@ -1011,7 +1012,8 @@
               }
               if (sc.length) det += '<div style="opacity:.8"><strong>תרחישים חלופיים:</strong> ' + esc(sc.join(' · ')) + '</div>';
             }
-            if (r.service_area_m2 != null) det += '<div><strong>שטחי שירות:</strong> ' + esc(String(r.service_area_m2)) + ' מ"ר</div>';
+            if (r.est_max_units != null) det += '<div><strong>מס׳ יח"ד מקסימלי (מוערך):</strong> ' + esc(String(r.est_max_units)) + ' יח"ד <span style="opacity:.7">(שטח מעל הקרקע ÷ מקדם צפיפות)</span></div>';
+            if (r.unit_density_m2 != null) det += '<div style="opacity:.8">מקדם צפיפות (שטח דירה ממוצע): ' + esc(String(r.unit_density_m2)) + ' מ"ר/יח"ד' + (r.unit_density_basis && r.unit_density_basis !== 'כללי' ? ' · ' + esc(String(r.unit_density_basis)) : '') + '</div>';
             if (r.building_lines) {
               const b = r.building_lines;
               det += '<div><strong>סוג מגרש:</strong> ' + (b.lot_type === 'corner' ? 'פינתי (2 חזיתות, ללא קו אחורי)' : 'מנותק/פנימי') + '</div>';
