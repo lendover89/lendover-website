@@ -304,7 +304,7 @@
         <a id="auth-goto-forgot" style="font-size:0.82rem">שכחתי סיסמה</a>
       </div>
       <p class="auth-privacy-note">
-        הפרטים נשמרים בצורה מאובטחת בהתאם ל<a href="https://www.lendover.co.il/privacy.html" target="_blank">מדיניות הפרטיות</a>
+        בהרשמה אתה מאשר את <a href="https://www.lendover.co.il/terms.html" target="_blank">תנאי השימוש</a> ואת <a href="https://www.lendover.co.il/privacy.html" target="_blank">מדיניות הפרטיות</a> של לנדובר ב.ר 2026 בע"מ
       </p>
     `;
 
@@ -405,7 +405,7 @@
         <a id="auth-goto-login">יש לך חשבון? <strong>התחבר</strong></a>
       </div>
       <p class="auth-privacy-note">
-        הפרטים נשמרים בצורה מאובטחת בהתאם ל<a href="https://www.lendover.co.il/privacy.html" target="_blank">מדיניות הפרטיות</a>
+        בהרשמה אתה מאשר את <a href="https://www.lendover.co.il/terms.html" target="_blank">תנאי השימוש</a> ואת <a href="https://www.lendover.co.il/privacy.html" target="_blank">מדיניות הפרטיות</a> של לנדובר ב.ר 2026 בע"מ
       </p>
     `;
 
