@@ -164,7 +164,6 @@
         (r.building_lines && r.building_lines.road_width_m != null ? '<div class="kv"><div class="k">רוחב דרך</div><div class="v">' + esc(r.building_lines.road_width_m) + ' מ׳</div></div>' : '') +
         '</div>';
       h += '<div class="status"><strong>אופן החישוב:</strong> ' + esc(r.rights_model || 'תכסית × קומות') + ' · <strong>תכסית:</strong> ' + esc(r.coverage_basis || '') + '</div>';
-      if (r.building_lines && r.building_lines.source) h += '<div class="status">מקור קווי בניין: ' + esc(r.building_lines.source) + '</div>';
       if (r.zone === 'low_build' && r.lowbuild_plan) h += '<div class="status">בנייה נמוכה — תכנית מתחמית ' + esc(r.lowbuild_plan) + ' (3-4 קומות; קוטג׳ים פחות).</div>';
       if (r.zone === 'unesco') h += '<div class="status">מתחם הכרזת אונסקו — חריגה מגובה או מקווי בניין מהווה סטייה ניכרת.</div>';
       if (r.est_note) h += '<div class="status">' + esc(r.est_note) + '</div>';
