@@ -1001,7 +1001,9 @@
             let det = '';
             det += '<div><strong>אופן החישוב:</strong> תכסית מותרת × מספר קומות (זכויות נפחיות)</div>';
             if (r.coverage_basis) det += '<div><strong>תכסית:</strong> ' + esc(r.coverage_basis) + '</div>';
-            if (r.coverage_area_m2 != null) det += '<div><strong>שטח תכסית:</strong> ' + esc(String(r.coverage_area_m2)) + ' מ"ר × ' + esc(String(r.max_floors)) + ' קומות' + (r.partial_roof_floors ? ' + גג חלקי' : '') + '</div>';
+            if (r.coverage_area_m2 != null) det += '<div><strong>שטח תכסית (קומה טיפוסית):</strong> ' + esc(String(r.coverage_area_m2)) + ' מ"ר × ' + esc(String(r.max_floors)) + ' קומות' + (r.partial_roof_floors ? ' + גג חלקי' : '') + '</div>';
+            if (r.ground_enclosed_area_m2 != null) det += '<div style="opacity:.85">· קומת קרקע — שטח מבונה ≈ ' + esc(String(r.ground_enclosed_area_m2)) + ' מ"ר <span style="opacity:.7">(ה-footprint המלא נספר בזכויות; רצועה מפולשת 3 מ׳ בחזית)</span></div>';
+            if (r.roof_area_m2 != null) det += '<div style="opacity:.85">· קומת גג חלקית — תכסית ≈ ' + esc(String(r.roof_area_m2)) + ' מ"ר <span style="opacity:.7">(נסיגות 3/2 מ׳)</span></div>';
             const _isCorner = r.building_lines && r.building_lines.lot_type === 'corner';
             {
               // Corner vs interior is DETERMINED per parcel (rights-page 2-front signal) — not a "what-if".
@@ -1012,6 +1014,7 @@
             }
             if (r.est_max_units != null) det += '<div><strong>מס׳ יח"ד מקסימלי (מוערך):</strong> ' + esc(String(r.est_max_units)) + ' יח"ד <span style="opacity:.7">(שטח מעל הקרקע ÷ מקדם צפיפות)</span></div>';
             if (r.unit_density_m2 != null) det += '<div style="opacity:.8">מקדם צפיפות (שטח דירה ממוצע): ' + esc(String(r.unit_density_m2)) + ' מ"ר/יח"ד' + (r.unit_density_basis && r.unit_density_basis !== 'כללי' ? ' · ' + esc(String(r.unit_density_basis)) : '') + '</div>';
+            if (r.balcony_area_m2 != null) det += '<div style="opacity:.85"><strong>מרפסות (בנוסף לזכויות):</strong> ≈ ' + esc(String(r.balcony_area_m2)) + ' מ"ר <span style="opacity:.7">(≈12 מ"ר ליח"ד · מוגבל בהבלטה ≤1.6 מ׳ — אומדן)</span></div>';
             if (r.relief_applies && r.est_max_units_relief != null) det += '<div style="opacity:.85"><strong>אופציית הקלת מגרש קטן:</strong> עד ' + esc(String(r.est_max_units_relief)) + ' יח"ד <span style="opacity:.7">(ביטול נסיגה אחורית בקומת הגג · גג ≈ ' + esc(String(r.roof_area_relief_m2)) + ' מ"ר · רשות, לפי שיקול הוועדה)</span></div>';
             if (r.building_lines) {
               const b = r.building_lines;
