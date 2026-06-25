@@ -912,6 +912,10 @@
           if (p.landuse && Array.isArray(p.landuse.designations) && p.landuse.designations.length && p.rights_mode !== 'landuse') {
             html += '<div class="parcel-plan-status" style="opacity:.8">ייעוד: ' + esc(p.landuse.designations[0].landuse_label || '') + '</div>';
           }
+          if (p.rights_review && p.rights_review.status === 'manual') {
+            html += '<div class="parcel-plan-status" style="color:#b45309">⚠ זכויות לאימות ידני' +
+              (p.rights_review.reason ? ' <span style="opacity:.7">(' + esc(p.rights_review.reason) + ')</span>' : '') + '</div>';
+          }
           if (p.rights_mode === 'h619_methamim' && Array.isArray(p.categories) && p.categories.length) {
             const dom = p.categories.find((c) => c.dominant) || p.categories[0];
             const a = (dom && dom.applicable) || {};
