@@ -1003,7 +1003,17 @@
             if (r.coverage_basis) det += '<div><strong>תכסית:</strong> ' + esc(r.coverage_basis) + '</div>';
             if (r.coverage_area_m2 != null) det += '<div><strong>שטח תכסית (קומה טיפוסית):</strong> ' + esc(String(r.coverage_area_m2)) + ' מ"ר × ' + esc(String(r.max_floors)) + ' קומות' + (r.partial_roof_floors ? ' + גג חלקי' : '') + '</div>';
             if (r.ground_enclosed_area_m2 != null) det += '<div style="opacity:.85">· קומת קרקע — שטח מבונה ≈ ' + esc(String(r.ground_enclosed_area_m2)) + ' מ"ר <span style="opacity:.7">(ה-footprint המלא נספר בזכויות; רצועה מפולשת 3 מ׳ בחזית)</span></div>';
-            if (r.roof_area_m2 != null) det += '<div style="opacity:.85">· קומת גג חלקית — תכסית ≈ ' + esc(String(r.roof_area_m2)) + ' מ"ר <span style="opacity:.7">(נסיגות 3/2 מ׳)</span></div>';
+            if (r.roof_floors_m2 && r.roof_floors_m2.length >= 2) {
+              const _rc = r.building_lines && r.building_lines.lot_type === 'corner';
+              for (let _i = 0; _i < r.roof_floors_m2.length; _i++) {
+                const _lbl = _rc ? ('קומת גג חלקית ' + (_i === 0 ? 'תחתונה' : 'עליונה') + ' (נסיגה 3+2 מ׳ משתי החזיתות)')
+                                 : (_i === 0 ? 'קומת גג חלקית תחתונה (נסיגה 3 מ׳ קדמי)' : 'קומת גג חלקית עליונה (נסיגה 3 מ׳ קדמי + 2 מ׳ אחורי)');
+                det += '<div style="opacity:.85">· ' + _lbl + ' ≈ ' + esc(String(r.roof_floors_m2[_i])) + ' מ"ר</div>';
+              }
+              det += '<div style="opacity:.85">· סה"כ גג חלקי ≈ ' + esc(String(r.roof_area_m2)) + ' מ"ר</div>';
+            } else if (r.roof_area_m2 != null) {
+              det += '<div style="opacity:.85">· קומת גג חלקית — תכסית ≈ ' + esc(String(r.roof_area_m2)) + ' מ"ר <span style="opacity:.7">(נסיגות 3/2 מ׳)</span></div>';
+            }
             const _isCorner = r.building_lines && r.building_lines.lot_type === 'corner';
             {
               // Corner vs interior is DETERMINED per parcel (rights-page 2-front signal) — not a "what-if".
