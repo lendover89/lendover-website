@@ -1040,7 +1040,6 @@
                 if (b.rear_m != null) bl.push('אחורי ' + b.rear_m + 'מ׳');
               }
               if (bl.length) det += '<div><strong>קווי בניין:</strong> ' + esc(bl.join(' · ')) + (b.road_width_m != null ? ' · רוחב דרך ' + esc(String(b.road_width_m)) + 'מ׳' : '') + '</div>';
-              if (b.source) det += '<div style="opacity:.7">מקור קווי בניין: ' + esc(b.source) + '</div>';
             }
             if (r.zone === 'low_build' && r.lowbuild_plan) det += '<div><strong>בנייה נמוכה:</strong> תכנית מתחמית ' + esc(r.lowbuild_plan) + ' (3-4 קומות; קוטג׳ים פחות)</div>';
             if (r.zone === 'unesco') det += '<div><strong>מתחם אונסקו:</strong> חריגה מגובה/קווי בניין = סטייה ניכרת</div>';
