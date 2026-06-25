@@ -1018,7 +1018,7 @@
             if (r.relief_applies && r.est_max_units_relief != null) det += '<div style="opacity:.85"><strong>אופציית הקלת מגרש קטן:</strong> עד ' + esc(String(r.est_max_units_relief)) + ' יח"ד <span style="opacity:.7">(ביטול נסיגה אחורית בקומת הגג · גג ≈ ' + esc(String(r.roof_area_relief_m2)) + ' מ"ר · רשות, לפי שיקול הוועדה)</span></div>';
             if (r.building_lines) {
               const b = r.building_lines;
-              det += '<div><strong>סוג מגרש:</strong> ' + (b.lot_type === 'corner' ? 'פינתי (2 חזיתות, ללא קו אחורי)' : 'מנותק/פנימי') + '</div>';
+              det += '<div><strong>סוג מגרש:</strong> ' + (b.lot_type === 'corner' ? 'פינתי (2 חזיתות, ללא קו אחורי)' : 'רגיל') + '</div>';
               const bl = [];
               if (b.lot_type === 'corner') {
                 if (b.front_m != null) bl.push('קדמי ציר ארוך: ' + b.front_m + 'מ׳');
