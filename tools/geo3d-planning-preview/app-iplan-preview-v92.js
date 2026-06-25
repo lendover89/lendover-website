@@ -896,10 +896,22 @@
           (data.parcel_area_m2 ? ' (' + esc(String(data.parcel_area_m2)) + ' מ"ר)' : '') + '</strong>' +
           '<div style="margin:6px 0"><a href="' + esc(reportUrl) + '" target="_blank" rel="noopener" class="parcel-plan-action parcel-plan-action--link">📄 דו״ח זכויות מלא לחלקה →</a></div>' +
           '<div class="parcel-plans-list">';
+        if (data.governing_landuse && data.governing_landuse.landuse_label) {
+          const g = data.governing_landuse;
+          html = html.replace('<div class="parcel-plans-list">',
+            '<div class="parcel-landuse-headline" style="margin:6px 0;padding:6px 8px;background:#eef4ff;border-right:3px solid #2563eb;border-radius:4px">' +
+            '<strong>ייעוד עיקרי:</strong> ' + esc(g.landuse_label) +
+            (g.pl_number ? ' <span style="opacity:.7">(' + esc(g.pl_number) + ')</span>' : '') +
+            '<div style="font-size:12px;opacity:.7">ייעוד מ-iplan — טרם חולצו זכויות מספריות לתכנית זו</div></div>' +
+            '<div class="parcel-plans-list">');
+        }
         data.plans.forEach((p) => {
           const title = (p.pl_number ? p.pl_number + ' · ' : '') + (p.pl_name || 'תכנית');
           html += '<div class="parcel-plan-item"><div class="parcel-plan-title">' + esc(title) + '</div>';
           if (p.status) html += '<div class="parcel-plan-status">' + esc(p.status) + '</div>';
+          if (p.landuse && Array.isArray(p.landuse.designations) && p.landuse.designations.length && p.rights_mode !== 'landuse') {
+            html += '<div class="parcel-plan-status" style="opacity:.8">ייעוד: ' + esc(p.landuse.designations[0].landuse_label || '') + '</div>';
+          }
           if (p.rights_mode === 'h619_methamim' && Array.isArray(p.categories) && p.categories.length) {
             const dom = p.categories.find((c) => c.dominant) || p.categories[0];
             const a = (dom && dom.applicable) || {};
@@ -1047,6 +1059,12 @@
             if (r.est_note) det += '<div style="opacity:.7;margin-top:4px">' + esc(r.est_note) + '</div>';
             det += '<div style="opacity:.6;margin-top:4px">היקף לפי גבול תכנית תא/3729; תכסית לפי קווי בניין פר-חלקה.</div>';
             if (det) html += '<details class="parcel-rights-details" style="margin-top:6px"><summary style="cursor:pointer;color:#2563eb">פרטים מלאים ▾</summary><div style="margin-top:4px;line-height:1.6">' + det + '</div></details>';
+          } else if (p.rights_mode === 'landuse' && p.landuse && Array.isArray(p.landuse.designations) && p.landuse.designations.length) {
+            const d0 = p.landuse.designations[0];
+            html += '<div class="parcel-plan-rights">' +
+              '<div>ייעוד: ' + esc(d0.landuse_label || '') +
+              (d0.pct_of_parcel != null ? ' <span style="opacity:.7">(' + esc(String(d0.pct_of_parcel)) + '% מהחלקה)</span>' : '') + '</div>' +
+              '<div class="parcel-plan-status">טרם חולצו זכויות מספריות לתכנית זו</div></div>';
           } else {
             html += '<div class="parcel-plan-status">אין זכויות מחולצות לתכנית זו (גבול בלבד).</div>';
           }
