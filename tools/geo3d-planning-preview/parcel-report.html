@@ -133,8 +133,8 @@
         '<div class="kv"><div class="k">קטגוריה</div><div class="v">' + esc(r.category_label || '') + '</div></div>' +
         (r.fronting_street ? '<div class="kv"><div class="k">חזית לרחוב ראשי</div><div class="v">' + esc(r.fronting_street) + '</div></div>' : '') +
         (r.max_floors != null ? '<div class="kv"><div class="k">קומות מרביות</div><div class="v">' + esc(r.max_floors) + (r.partial_roof_floors ? ' + ' + esc(r.partial_roof_floors) + ' גג חלקי' : '') + '</div></div>' : '') +
-        (r.building_lines && r.building_lines.lot_type ? '<div class="kv"><div class="k">סוג מגרש</div><div class="v">' + (r.building_lines.lot_type === 'corner' ? 'פינתי (2 חזיתות, ללא אחורי)' : 'מנותק/פנימי') + '</div></div>' : '') +
-        (r.coverage_pct != null ? '<div class="kv"><div class="k">תכסית' + (r.building_lines && r.building_lines.lot_type === 'corner' ? ' (פינתי)' : ' (מנותק)') + '</div><div class="v">' + esc(r.coverage_pct) + '%</div></div>' : '') +
+        (r.building_lines && r.building_lines.lot_type ? '<div class="kv"><div class="k">סוג מגרש</div><div class="v">' + (r.building_lines.lot_type === 'corner' ? 'פינתי (2 חזיתות, ללא אחורי)' : 'רגיל') + '</div></div>' : '') +
+        (r.coverage_pct != null ? '<div class="kv"><div class="k">תכסית' + (r.building_lines && r.building_lines.lot_type === 'corner' ? ' (פינתי)' : ' (רגיל)') + '</div><div class="v">' + esc(r.coverage_pct) + '%</div></div>' : '') +
         (r.coverage_pct_party_wall != null && !(r.building_lines && r.building_lines.lot_type === 'corner') ? '<div class="kv"><div class="k">תכסית — תרחיש קיר משותף (בנייה צמודה)</div><div class="v">' + esc(r.coverage_pct_party_wall) + '%</div></div>' : '') +
         (r.coverage_area_m2 != null ? '<div class="kv"><div class="k">שטח תכסית (קומה טיפוסית)</div><div class="v">' + esc(r.coverage_area_m2) + ' מ"ר</div></div>' : '') +
         (r.ground_enclosed_area_m2 != null ? '<div class="kv"><div class="k">קומת קרקע — שטח מבונה (אחרי מפולשת 3 מ׳)</div><div class="v">' + esc(r.ground_enclosed_area_m2) + ' מ"ר</div></div>' : '') +
