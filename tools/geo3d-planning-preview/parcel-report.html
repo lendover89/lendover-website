@@ -111,6 +111,10 @@
     if (p.rights_mode === 'h619_methamim' && p.confidence) h += '<span class="badge ' + esc(p.confidence) + '">' + esc(confLabel(p.confidence)) + '</span>';
     h += '</div>';
     if (p.status) h += '<div class="status">' + esc(p.status) + (p.date ? ' · ' + esc(p.date) : '') + '</div>';
+    if (p.rights_review && p.rights_review.status === 'manual') {
+      h += '<div class="status" style="color:#b45309">⚠ זכויות לאימות ידני' +
+        (p.rights_review.reason ? ' (' + esc(p.rights_review.reason) + ')' : '') + '</div>';
+    }
     if (p.rights_mode === 'h619_methamim' && Array.isArray(p.categories) && p.categories.length) {
       const dom = p.categories.find((c) => c.dominant) || p.categories[0];
       const a = (dom && dom.applicable) || {};
