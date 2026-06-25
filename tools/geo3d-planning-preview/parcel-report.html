@@ -168,6 +168,11 @@
       if (r.zone === 'unesco') h += '<div class="status">מתחם הכרזת אונסקו — חריגה מגובה או מקווי בניין מהווה סטייה ניכרת.</div>';
       if (r.est_note) h += '<div class="status">' + esc(r.est_note) + '</div>';
       h += '<div class="status">' + esc(r.note || '') + ' · היקף לפי גבול תכנית תא/3729; תכסית לפי קווי בניין פר-חלקה.</div>';
+    } else if (p.rights_mode === 'landuse' && p.landuse && p.landuse.designations && p.landuse.designations.length) {
+      const d0 = p.landuse.designations[0];
+      h += '<div class="rights">ייעוד: ' + esc(d0.landuse_label || '') +
+        (d0.pct_of_parcel != null ? ' <span class="muted">(' + esc(String(d0.pct_of_parcel)) + '% מהחלקה)</span>' : '') +
+        '<div class="muted">טרם חולצו זכויות מספריות</div></div>';
     } else {
       h += '<div class="status">אין זכויות מחולצות לתכנית זו (גבול בלבד).</div>';
     }
