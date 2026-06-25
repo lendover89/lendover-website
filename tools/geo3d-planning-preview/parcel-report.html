@@ -136,8 +136,11 @@
         (r.building_lines && r.building_lines.lot_type ? '<div class="kv"><div class="k">סוג מגרש</div><div class="v">' + (r.building_lines.lot_type === 'corner' ? 'פינתי (2 חזיתות, ללא אחורי)' : 'מנותק/פנימי') + '</div></div>' : '') +
         (r.coverage_pct != null ? '<div class="kv"><div class="k">תכסית' + (r.building_lines && r.building_lines.lot_type === 'corner' ? ' (פינתי)' : ' (מנותק)') + '</div><div class="v">' + esc(r.coverage_pct) + '%</div></div>' : '') +
         (r.coverage_pct_party_wall != null && !(r.building_lines && r.building_lines.lot_type === 'corner') ? '<div class="kv"><div class="k">תכסית — תרחיש קיר משותף (בנייה צמודה)</div><div class="v">' + esc(r.coverage_pct_party_wall) + '%</div></div>' : '') +
-        (r.coverage_area_m2 != null ? '<div class="kv"><div class="k">שטח תכסית</div><div class="v">' + esc(r.coverage_area_m2) + ' מ"ר</div></div>' : '') +
+        (r.coverage_area_m2 != null ? '<div class="kv"><div class="k">שטח תכסית (קומה טיפוסית)</div><div class="v">' + esc(r.coverage_area_m2) + ' מ"ר</div></div>' : '') +
+        (r.ground_enclosed_area_m2 != null ? '<div class="kv"><div class="k">קומת קרקע — שטח מבונה (אחרי מפולשת 3 מ׳)</div><div class="v">' + esc(r.ground_enclosed_area_m2) + ' מ"ר</div></div>' : '') +
+        (r.roof_area_m2 != null ? '<div class="kv"><div class="k">קומת גג חלקית — תכסית</div><div class="v">' + esc(r.roof_area_m2) + ' מ"ר</div></div>' : '') +
         (r.est_above_ground_area_m2 != null ? '<div class="kv"><div class="k">שטח מעל הקרקע (עיקרי+שירות) ≈</div><div class="v">' + esc(r.est_above_ground_area_m2) + ' מ"ר</div></div>' : '') +
+        (r.balcony_area_m2 != null ? '<div class="kv"><div class="k">מרפסות (בנוסף, ≈12 מ"ר/יח"ד) ≈</div><div class="v">' + esc(r.balcony_area_m2) + ' מ"ר</div></div>' : '') +
         (r.est_max_units != null ? '<div class="kv"><div class="k">מס׳ יח"ד מקסימלי (מוערך)</div><div class="v">' + esc(r.est_max_units) + ' יח"ד</div></div>' : '') +
         (r.unit_density_m2 != null ? '<div class="kv"><div class="k">מקדם צפיפות (שטח דירה ממוצע)</div><div class="v">' + esc(r.unit_density_m2) + ' מ"ר/יח"ד' + (r.unit_density_basis && r.unit_density_basis !== 'כללי' ? ' · ' + esc(r.unit_density_basis) : '') + '</div></div>' : '') +
         (r.relief_applies && r.est_max_units_relief != null ? '<div class="kv"><div class="k">אופציית הקלת מגרש קטן (יח"ד)</div><div class="v">עד ' + esc(r.est_max_units_relief) + ' יח"ד · גג ' + esc(r.roof_area_relief_m2) + ' מ"ר (רשות)</div></div>' : '') +
