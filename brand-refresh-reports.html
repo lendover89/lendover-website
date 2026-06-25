@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>דוחות נדל״ן וכלים לקבלת החלטות | לנדובר</title>
-  <meta name="description" content="דוחות נדל״ן ממוקדים שמסדרים מידע תכנוני, קנייני ועסקי כדי להבין נכס, מגרש או הזדמנות לפני שמתקדמים." />
+  <title>דוחות נדל״ן לקבלת החלטות | לנדובר</title>
+  <meta name="description" content="דוחות נדל״ן שמרכזים את המידע החשוב על נכס או מגרש, מסמנים פערים וסיכונים, ועוזרים להבין אם יש בסיס להתקדם." />
   <meta name="robots" content="noindex,nofollow" />
   <link rel="canonical" href="https://www.lendover.co.il/brand-refresh-reports.html" />
   <link rel="icon" type="image/png" href="logo-transparent.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="/style.css?v=20260505-offsetfix3" />
-  <meta property="og:title" content="דוחות נדל״ן וכלים לקבלת החלטות | לנדובר" />
-  <meta property="og:description" content="דוחות נדל״ן ממוקדים שמסדרים מידע תכנוני, קנייני ועסקי כדי להבין נכס, מגרש או הזדמנות לפני שמתקדמים." />
+  <meta property="og:title" content="דוחות נדל״ן לקבלת החלטות | לנדובר" />
+  <meta property="og:description" content="דוחות נדל״ן שמרכזים את המידע החשוב על נכס או מגרש, מסמנים פערים וסיכונים, ועוזרים להבין אם יש בסיס להתקדם." />
   <meta property="og:image" content="https://www.lendover.co.il/aharon-portrait.jpg" />
   <meta property="og:url" content="https://www.lendover.co.il/brand-refresh-reports.html" />
   <meta property="og:type" content="website" />
@@ -35,7 +35,12 @@
     .check-item{background:#fbf8f3;border:1px solid #eadfce;border-radius:12px;padding:18px 20px}
     .check-item strong{display:block;color:var(--color-dark);font-size:18px;margin-bottom:6px}
     .check-item p{margin:0;color:#555;line-height:1.65}
-    @media(max-width:820px){.preview-grid{grid-template-columns:1fr}.mini-hero{min-height:340px;padding:104px 0 62px}.preview-panel,.preview-card{padding:22px}}
+    .report-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:28px}
+    .flow-step{background:#fff;border:1px solid #eadfce;border-radius:14px;padding:20px;box-shadow:0 8px 28px rgba(26,43,74,.05)}
+    .flow-step span{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:var(--color-dark);color:#fff;font-weight:700;margin-bottom:12px}
+    .flow-step h3{font-size:18px;margin:0 0 8px;color:var(--color-dark)}
+    .flow-step p{margin:0;color:#555;line-height:1.7;font-size:15px}
+    @media(max-width:820px){.preview-grid,.report-flow{grid-template-columns:1fr}.mini-hero{min-height:340px;padding:104px 0 62px}.preview-panel,.preview-card{padding:22px}}
   </style>
 </head>
 <body>
@@ -69,8 +74,8 @@
   </video>
   <div class="mini-hero-overlay"></div>
   <div class="container">
-    <h1>דוחות נדל״ן וכלים לקבלת החלטות</h1>
-    <p>דוח טוב לא אמור להרשים בעובי שלו. הוא אמור לחסוך בלבול, להראות מה חשוב, ולתת בסיס ברור להחלטה על נכס, מגרש או הזדמנות.</p>
+    <h1>דוחות נדל״ן לקבלת החלטות</h1>
+    <p>דוח טוב לא נמדד בכמות העמודים שלו. הוא נמדד בשאלה אחת פשוטה: האם אחריו ברור יותר מה יש כאן, מה חסר, ומה נכון לעשות עכשיו.</p>
   </div>
 </section>
 
@@ -78,21 +83,49 @@
   <section style="padding:64px 0;background:var(--color-cream);">
     <div class="container">
       <div class="preview-panel">
-        <h2 class="section-title">פחות ניירת, יותר בהירות</h2>
-        <p style="font-size:18px;line-height:1.8;color:#444;margin:0;max-width:900px;">הרבה מידע נדל״ני זמין היום, אבל הוא מפוזר, טכני ולעיתים סותר. הדוחות נועדו לעשות סדר: מה ידוע, מה חסר, מה מטריד, ומה שווה בדיקה נוספת.</p>
+        <h2 class="section-title">מסמך עבודה, לא ערימת חומר</h2>
+        <p style="font-size:18px;line-height:1.8;color:#444;margin:0;max-width:900px;">הדוח נועד לקחת מידע שמפוזר בין נסחים, תכניות, אתרי מידע, מפות ושיחות - ולהפוך אותו למסמך אחד שאפשר לפתוח לפני החלטה. לא במקום עורך דין, שמאי או מתכנן, אלא כדי להגיע אליהם עם שאלה מדויקת יותר.</p>
       </div>
       <div class="preview-grid">
         <article class="preview-card">
-          <h3>זכויות ופוטנציאל</h3>
-          <p>תמונה תכנונית קצרה וברורה: מה קיים, מה אפשר לבדוק, ומה עלול להגביל את המהלך.</p>
+          <h3>מה יודעים על הנכס</h3>
+          <p>זיהוי בסיסי של הנכס, המיקום, הבעלות, המצב התכנוני והמידע שכבר אפשר לאמת ממקורות גלויים.</p>
         </article>
         <article class="preview-card">
-          <h3>גוש, חלקה וסביבה</h3>
-          <p>חיבור בין בעלות, מיקום, תכנון וסביבת הנכס, בלי להפוך את זה לערימת צילומי מסך.</p>
+          <h3>מה עדיין צריך לבדוק</h3>
+          <p>פערים, סתירות, נקודות לא פתורות ושאלות שצריך להפנות לאנשי המקצוע הנכונים לפני שמתקדמים.</p>
         </article>
         <article class="preview-card">
-          <h3>כלים שחוסכים עבודה שחורה</h3>
-          <p>טאבו, תכסית, מי תהום ובדיקות עזר נוספות שמקצרות דרך ומפחיתות טעויות טכניות.</p>
+          <h3>מה המשמעות להחלטה</h3>
+          <p>תרגום של המידע לשורה תחתונה מעשית: האם יש כאן בסיס להמשך, ומה עלול לשנות את התמונה.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:64px 0;background:#fff;">
+    <div class="container">
+      <h2 class="section-title center">איך הדוח בנוי</h2>
+      <div class="report-flow">
+        <article class="flow-step">
+          <span>1</span>
+          <h3>זיהוי</h3>
+          <p>מגדירים בדיוק על איזה נכס, חלקה, בניין או מתחם מדברים.</p>
+        </article>
+        <article class="flow-step">
+          <span>2</span>
+          <h3>איסוף</h3>
+          <p>מרכזים את החומר התכנוני, הקנייני והסביבתי הרלוונטי.</p>
+        </article>
+        <article class="flow-step">
+          <span>3</span>
+          <h3>ניתוח</h3>
+          <p>מפרידים בין מידע חשוב, רעש, פערים וסימני אזהרה.</p>
+        </article>
+        <article class="flow-step">
+          <span>4</span>
+          <h3>החלטה</h3>
+          <p>מסיימים עם תמונת מצב וצעד הבא, לא עם עוד בלבול.</p>
         </article>
       </div>
     </div>
@@ -100,19 +133,19 @@
 
   <section style="padding:64px 0;background:#fff;">
     <div class="container" style="max-width:980px;">
-      <h2 class="section-title center">מתי דוח כזה עוזר</h2>
+      <h2 class="section-title center">מתי זה שימושי</h2>
       <div class="check-list">
         <div class="check-item">
-          <strong>יזמים ומשקיעים</strong>
-          <p>כשצריך להבין מהר אם יש כאן משהו ששווה זמן, כסף ובדיקת עומק.</p>
+          <strong>לפני רכישה או השקעה</strong>
+          <p>כשצריך להבין אם הנכס מצדיק בדיקת עומק, או שהסיכון כבר נראה מוקדם מדי.</p>
         </div>
         <div class="check-item">
-          <strong>בעלי נכסים</strong>
-          <p>כשיש נכס ורוצים לדעת מה אפשר לעשות איתו, לפני שמתחילים לרדוף אחרי תשובות.</p>
+          <strong>לפני שיחה עם אנשי מקצוע</strong>
+          <p>כדי להגיע לעורך דין, שמאי, מתכנן או יזם עם חומר מסודר ושאלות טובות יותר.</p>
         </div>
         <div class="check-item">
-          <strong>אנשי מקצוע</strong>
-          <p>כשצריך בסיס מסודר לשיחה עם מתכנן, שמאי, עורך דין, יזם או שותף עסקי.</p>
+          <strong>כשיש תחושת פוטנציאל אבל אין תמונה</strong>
+          <p>כשהנכס נראה מעניין, אבל עדיין לא ברור אם הסיפור מחזיק תכנונית, קניינית או עסקית.</p>
         </div>
       </div>
     </div>
@@ -121,7 +154,7 @@
   <section class="cta-section">
     <div class="container">
       <h2>רוצים להסתכל על זה יחד?</h2>
-      <p>נבין בקצרה מה עומד על הפרק, איפה חסרה בהירות, ומה כדאי לבדוק לפני שמתקדמים.</p>
+      <p>נבין איזה נכס או שאלה עומדים על הפרק, ואיזה סוג דוח באמת יעזור לקבל החלטה.</p>
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
         <a href="contact.html" class="btn-cta">קבעו שיחה</a>
         <a href="https://wa.me/972585197507" class="btn-cta" style="background:transparent;border:2px solid white;" target="_blank" rel="noopener">וואטסאפ ישיר</a>
