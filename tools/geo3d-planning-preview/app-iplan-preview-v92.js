@@ -1069,6 +1069,17 @@
               '<div>ייעוד: ' + esc(d0.landuse_label || '') +
               (d0.pct_of_parcel != null ? ' <span style="opacity:.7">(' + esc(String(d0.pct_of_parcel)) + '% מהחלקה)</span>' : '') + '</div>' +
               '<div class="parcel-plan-status">טרם חולצו זכויות מספריות לתכנית זו</div></div>';
+          } else if (p.rights_mode === 'mavat_quantities' && Array.isArray(p.quantities) && p.quantities.length) {
+            html += '<div class="parcel-plan-rights">';
+            html += '<div class="parcel-plan-status"><strong>כמויות מאושרות (רמת תכנית — מאב"ת)</strong></div>';
+            p.quantities.forEach(function (q) {
+              var val = q.add || q.auth || q.impl || '';
+              html += '<div>' + esc(q.desc || '') + ': ' + esc(String(val)) + (q.unit ? ' ' + esc(q.unit) : '') +
+                      (q.remark ? ' <span style="opacity:.7">(' + esc(q.remark) + ')</span>' : '') + '</div>';
+            });
+            if (p.floors_from_prose) html += '<div>קומות (לפי הוראות התכנית): ' + esc(String(p.floors_from_prose)) + '</div>';
+            html += '<div class="parcel-plan-status" style="opacity:.7;font-size:.9em">' + esc(p.note || 'נתונים ברמת התכנית, לא פר-חלקה') + '</div>';
+            html += '</div>';
           } else {
             html += '<div class="parcel-plan-status">אין זכויות מחולצות לתכנית זו (גבול בלבד).</div>';
           }
