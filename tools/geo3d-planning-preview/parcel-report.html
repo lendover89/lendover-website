@@ -177,6 +177,17 @@
       h += '<div class="rights">ייעוד: ' + esc(d0.landuse_label || '') +
         (d0.pct_of_parcel != null ? ' <span class="muted">(' + esc(String(d0.pct_of_parcel)) + '% מהחלקה)</span>' : '') +
         '<div class="muted">טרם חולצו זכויות מספריות</div></div>';
+    } else if (p.rights_mode === 'mavat_quantities' && Array.isArray(p.quantities) && p.quantities.length) {
+      h += '<div class="status"><strong>כמויות מאושרות (רמת תכנית — מאב"ת)</strong></div>';
+      h += '<div class="rights">';
+      p.quantities.forEach(function (q) {
+        var val = q.add || q.auth || q.impl || '';
+        h += '<div>' + esc(q.desc || '') + ': ' + esc(String(val)) + (q.unit ? ' ' + esc(q.unit) : '') +
+             (q.remark ? ' <span class="muted">(' + esc(q.remark) + ')</span>' : '') + '</div>';
+      });
+      if (p.floors_from_prose) h += '<div>קומות (לפי הוראות התכנית): ' + esc(String(p.floors_from_prose)) + '</div>';
+      h += '</div>';
+      h += '<div class="status muted">' + esc(p.note || 'נתונים ברמת התכנית, לא פר-חלקה') + '</div>';
     } else {
       h += '<div class="status">אין זכויות מחולצות לתכנית זו (גבול בלבד).</div>';
     }
