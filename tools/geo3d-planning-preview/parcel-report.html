@@ -174,6 +174,24 @@
       if (r.zone === 'unesco') h += '<div class="status">מתחם הכרזת אונסקו — חריגה מגובה או מקווי בניין מהווה סטייה ניכרת.</div>';
       if (r.est_note) h += '<div class="status">' + esc(r.est_note) + '</div>';
       h += '<div class="status">' + esc(r.note || '') + ' · היקף לפי גבול תכנית תא/3729; תכסית לפי קווי בניין פר-חלקה.</div>';
+    } else if (p.rights_mode === 'renewal' && p.renewal) {
+      const r = p.renewal;
+      const sb = r.setbacks || {};
+      h += '<div class="grid">' +
+        (r.coverage_base_pct != null ? '<div class="kv"><div class="k">בסיס תכסית</div><div class="v">' + esc(String(r.coverage_base_pct)) + '%</div></div>' : '') +
+        (r.est_max_units != null ? '<div class="kv"><div class="k">יח"ד מרבי (' + esc(String(r.density_cap_units_per_dunam || 45)) + '/דונם)</div><div class="v">' + esc(String(r.est_max_units)) + '</div></div>' : '') +
+        (sb.front != null ? '<div class="kv"><div class="k">קו בניין קדמי</div><div class="v">' + esc(String(sb.front)) + ' מ\'</div></div>' : '') +
+        (sb.side != null ? '<div class="kv"><div class="k">צידי</div><div class="v">' + esc(String(sb.side)) + ' מ\'</div></div>' : '') +
+        (sb.rear != null ? '<div class="kv"><div class="k">אחורי</div><div class="v">' + esc(String(sb.rear)) + ' מ\'</div></div>' : '') +
+        '</div>';
+      h += '<h3>זכויות לפי גובה הבניין הקיים</h3><table><tr><th>בניין קיים</th><th>מקדם</th><th>קומות</th><th>שטח מעל הקרקע (מוערך)</th></tr>' +
+        (r.scenarios || []).map(function (s) {
+          return '<tr><td>' + esc(s.existing_floors_label || '') + '</td><td>' + esc(String(s.rights_coefficient)) +
+            '</td><td>' + esc(String(s.max_floors)) + (s.roof_floor ? ' + גג' : '') +
+            '</td><td>' + (s.est_above_ground_area_m2 != null ? esc(s.est_above_ground_area_m2) + ' מ"ר' : '') + '</td></tr>';
+        }).join('') + '</table>';
+      if (r.bonus_note) h += '<div class="status muted">' + esc(r.bonus_note) + '</div>';
+      h += '<div class="status muted">' + esc(r.note || 'הזכויות חולצו מתקנון התכנית — לאימות מול הוועדה המקומית.') + '</div>';
     } else if (p.rights_mode === 'landuse' && p.landuse && p.landuse.designations && p.landuse.designations.length) {
       const d0 = p.landuse.designations[0];
       h += '<div class="rights">ייעוד: ' + esc(d0.landuse_label || '') +
