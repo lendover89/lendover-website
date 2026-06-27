@@ -981,8 +981,14 @@
               if (r.far != null) parts.push((typeof r.far === 'number' && r.far <= 100) ? (r.far + '% בנייה') : (r.far + ' מ"ר'));
               if (r.coverage_pct != null) parts.push('תכסית ' + r.coverage_pct + '%');
               if (r.housing_units != null) parts.push(r.housing_units + ' יח"ד');
-              return '<div>תא ' + esc(c.cell_no) + ' (' + esc(c.zone_name || '') + ')' + (parts.length ? ' · ' + esc(parts.join(' · ')) : '') + '</div>';
+              return '<div>תא ' + esc(c.cell_no) + ' (' + esc(c.zone_name || '') + ')' + (parts.length ? ' · ' + esc(parts.join(' · ')) : '')
+                + (c.match_quality ? ' <span style="opacity:.65;font-size:.85em">— '
+                    + (c.match_quality === 'mavat_exact' ? 'מקור: מאב"ת' : 'מקור: חילוץ OCR')
+                    + '</span>' : '')
+                + '</div>';
             }).join('') + '</div>';
+            html += '<div style="margin-top:6px;opacity:.7;font-size:.85em">'
+                  + 'הזכויות חולצו אוטומטית ממקור רשמי — לאימות מול הוועדה המקומית.</div>';
             var bnc = (p.enrichment && p.enrichment.bonuses) || [];
             if (bnc.length) {
               var sc = new Set();
