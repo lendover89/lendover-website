@@ -100,10 +100,12 @@
   function cellsTable(cells) {
     if (!Array.isArray(cells) || !cells.length) return '';
     const farTxt = (f) => f == null ? '' : ((typeof f === 'number' && f <= 100) ? f + '%' : f + ' מ"ר');
-    return '<h3>זכויות לפי תא שטח</h3><table><tr><th>תא</th><th>ייעוד</th><th>בנייה</th><th>קומות</th><th>תכסית</th><th>יח"ד</th><th>גובה</th></tr>' +
+    return '<h3>זכויות לפי תא שטח</h3><table><tr><th>תא</th><th>ייעוד</th><th>בנייה</th><th>קומות</th><th>תכסית</th><th>יח"ד</th><th>גובה</th><th>מקור</th></tr>' +
       cells.map((c) => { const r = c.rights || {}; return '<tr><td>' + esc(c.cell_no) + '</td><td>' + esc(c.zone_name || '') +
         '</td><td>' + esc(farTxt(r.far)) + '</td><td>' + esc(r.floors) + '</td><td>' + esc(r.coverage_pct != null ? r.coverage_pct + '%' : '') +
-        '</td><td>' + esc(r.housing_units) + '</td><td>' + esc(r.height_m) + '</td></tr>'; }).join('') + '</table>';
+        '</td><td>' + esc(r.housing_units) + '</td><td>' + esc(r.height_m) + '</td>' +
+        '<td>' + esc(c.match_quality === 'mavat_exact' ? 'מאב"ת' : (c.match_quality ? 'חילוץ OCR' : '—')) + '</td></tr>'; }).join('') +
+      '</table><p class="note" style="opacity:.7">הזכויות חולצו אוטומטית ממקור רשמי — לאימות מול הוועדה המקומית.</p>';
   }
 
   function planCard(p) {
