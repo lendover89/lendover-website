@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ליווי עסקאות נדל״ן מורכבות | לנדובר</title>
-  <meta name="description" content="ליווי עסקאות נדל״ן מורכבות עם ראייה תכנונית, עסקית וניהולית: זכויות, חסמים, בעלויות, שווי, סיכונים וסדר פעולות לעסקה." />
+  <title>ליווי תכנוני ואסטרטגי לאורך עסקת נדל״ן | לנדובר</title>
+  <meta name="description" content="ליווי מתמשך לעסקאות נדל״ן: בדיקה ראשונית, מיפוי סיכונים, עדכונים לפי התקדמות העסקה, בדיקות נקודתיות ותמיכה לפני החלטות רכישה, חתימה או מו״מ." />
   <meta name="robots" content="noindex,nofollow" />
   <link rel="canonical" href="https://www.lendover.co.il/brand-refresh-consulting.html" />
   <link rel="icon" type="image/png" href="logo-transparent.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="/style.css?v=20260505-offsetfix3" />
-  <meta property="og:title" content="ליווי עסקאות נדל״ן מורכבות | לנדובר" />
-  <meta property="og:description" content="ליווי עסקאות נדל״ן מורכבות עם ראייה תכנונית, עסקית וניהולית: זכויות, חסמים, בעלויות, שווי, סיכונים וסדר פעולות לעסקה." />
+  <meta property="og:title" content="ליווי תכנוני ואסטרטגי לאורך עסקת נדל״ן | לנדובר" />
+  <meta property="og:description" content="ליווי מתמשך לעסקאות נדל״ן: בדיקה ראשונית, מיפוי סיכונים, עדכונים לפי התקדמות העסקה, בדיקות נקודתיות ותמיכה לפני החלטות רכישה, חתימה או מו״מ." />
   <meta property="og:image" content="https://www.lendover.co.il/aharon-portrait.jpg" />
   <meta property="og:url" content="https://www.lendover.co.il/brand-refresh-consulting.html" />
   <meta property="og:type" content="website" />
@@ -23,7 +23,7 @@
     body{direction:rtl;width:100%;max-width:100%;overflow-x:hidden;position:relative}
     header,nav{max-width:100vw}
     nav{width:100%;box-sizing:border-box}
-    nav,.container,.preview-grid,.split-section,.preview-card,.preview-panel,.check-item{min-width:0}
+    nav,.container,.preview-grid,.split-section,.timeline-grid,.decision-grid,.preview-card,.preview-panel,.check-item,.timeline-step,.decision-card{min-width:0}
     .preview-badge{position:fixed;left:16px;bottom:16px;z-index:9999;background:#1a2b4a;color:white;padding:8px 12px;border-radius:999px;font-size:13px;box-shadow:0 4px 18px rgba(0,0,0,.18)}
     .mini-hero{position:relative;min-height:390px;display:flex;align-items:center;color:#fff;text-align:center;padding:118px 0 78px;overflow:hidden;background:var(--color-dark)}
     .mini-hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
@@ -42,28 +42,37 @@
     .check-item{background:#fbf8f3;border:1px solid #eadfce;border-radius:12px;padding:18px 20px}
     .check-item strong{display:block;color:var(--color-dark);font-size:18px;margin-bottom:6px}
     .check-item p{margin:0;color:#555;line-height:1.65}
+    .timeline-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-top:28px}
+    .timeline-step{background:#fff;border:1px solid #eadfce;border-radius:14px;padding:20px;box-shadow:0 8px 28px rgba(26,43,74,.05)}
+    .timeline-step span{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:var(--color-dark);color:#fff;font-weight:700;margin-bottom:12px}
+    .timeline-step h3{font-size:18px;margin:0 0 8px;color:var(--color-dark)}
+    .timeline-step p{margin:0;color:#555;line-height:1.7;font-size:15px}
+    .decision-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:28px}
+    .decision-card{background:#fbf8f3;border:1px solid #eadfce;border-radius:14px;padding:24px}
+    .decision-card h3{font-size:21px;margin:0 0 10px;color:var(--color-dark)}
+    .decision-card p{font-size:16px;line-height:1.75;color:#555;margin:0}
     .split-section{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start}
     .plain-copy p{font-size:18px;line-height:1.85;color:#444;margin:0 0 16px}
     .quiet-list{background:#fbf8f3;border:1px solid #eadfce;border-radius:14px;padding:24px}
     .quiet-list h3{margin:0 0 14px;color:var(--color-dark);font-size:22px}
     .quiet-list ul{margin:0;padding:0 20px 0 0;color:#555;line-height:1.9}
     .quiet-list li{margin-bottom:8px}
-    .preview-panel,.preview-card,.check-item,.quiet-list{max-width:100%;overflow-wrap:break-word}
+    .preview-panel,.preview-card,.check-item,.quiet-list,.timeline-step,.decision-card{max-width:100%;overflow-wrap:break-word}
     @media(max-width:820px){
       .container{width:min(100% - 32px,1100px)}
-      .preview-grid,.split-section{grid-template-columns:1fr;gap:16px}
+      .preview-grid,.split-section,.timeline-grid,.decision-grid{grid-template-columns:1fr;gap:16px}
       main>section{padding:44px 0!important}
       .mini-hero{min-height:auto;padding:92px 0 46px}
       .mini-hero h1{font-size:clamp(28px,8vw,36px);line-height:1.15;margin-bottom:12px}
       .mini-hero p{font-size:16px;line-height:1.65}
-      .preview-panel,.preview-card,.check-item,.quiet-list{padding:20px;border-radius:10px}
+      .preview-panel,.preview-card,.check-item,.quiet-list,.timeline-step,.decision-card{padding:20px;border-radius:10px}
       .section-title{font-size:24px;line-height:1.25;margin-bottom:24px}
-      .preview-card h3,.check-item strong{font-size:18px}
-      .preview-card p,.check-item p,.plain-copy p{font-size:15.5px;line-height:1.75}
+      .preview-card h3,.check-item strong,.timeline-step h3,.decision-card h3{font-size:18px}
+      .preview-card p,.check-item p,.plain-copy p,.timeline-step p,.decision-card p{font-size:15.5px;line-height:1.75}
     }
     @media(max-width:420px){
       .container{width:calc(100% - 28px)}
-      .preview-panel,.preview-card,.check-item,.quiet-list{padding:18px}
+      .preview-panel,.preview-card,.check-item,.quiet-list,.timeline-step,.decision-card{padding:18px}
       .mini-hero h1{font-size:29px}
     }
   </style>
@@ -99,8 +108,8 @@
   </video>
   <div class="mini-hero-overlay"></div>
   <div class="container">
-    <h1>ליווי עסקאות נדל״ן מורכבות</h1>
-    <p>כשעסקת נדל״ן כוללת זכויות תכנוניות, בעלויות, שווי, לוחות זמנים, יזמים, רשויות וסיכון עסקי - לא מספיק לקרוא מסמך אחד. לנדובר מלווה את העסקה כמכלול: מה באמת עומד על השולחן, איפה נקודות הכשל, ומה צריך לקרות כדי להתקדם נכון.</p>
+    <h1>ליווי תכנוני ואסטרטגי לאורך עסקת נדל״ן</h1>
+    <p>עסקת נדל״ן לא נגמרת בדוח אחד. היא משתנה ככל שנכנסים לעומק: תכנון, בעלויות, זכויות, תב״עות, היטלים, התנגדויות, לוחות זמנים וסיכונים שלא הופיעו בתחילת הדרך.</p>
   </div>
 </section>
 
@@ -108,21 +117,54 @@
   <section style="padding:64px 0;background:var(--color-cream);">
     <div class="container">
       <div class="preview-panel">
-        <h2 class="section-title">לראות את העסקה לפני שמתחייבים אליה</h2>
-        <p style="font-size:18px;line-height:1.8;color:#444;margin:0;max-width:900px;">בעסקאות נדל״ן מורכבות, הבעיה כמעט אף פעם לא נמצאת רק במקום אחד. זכויות בנייה, תב״ע, היתרים, בעלויות, היטלים, תשתיות, מימון, שותפים ולוחות זמנים משפיעים אחד על השני. העבודה היא לחבר את כל החלקים לתמונה עסקית אחת, ולנהל את הסיכונים לפני שהם הופכים להפתעות יקרות.</p>
+        <h2 class="section-title">לא תוצר חד־פעמי. מסגרת ליווי לאורך הדרך.</h2>
+        <p style="font-size:18px;line-height:1.8;color:#444;margin:0;max-width:900px;">דוח תכנוני נותן תמונת מצב בנקודת זמן. ליווי עסקה נועד למשהו אחר: להישאר עם העסקה כשהמידע משתנה, כשעולות שאלות חדשות, כשצריך להחליט אם להתקדם, לשנות מבנה, לפתוח מו״מ מחדש או לעצור לפני התחייבות יקרה.</p>
       </div>
       <div class="preview-grid">
         <article class="preview-card">
-          <h3>ניתוח תכנוני ועסקי</h3>
-          <p>בדיקת הזכויות, מצב התכנון, מגבלות המגרש, סביבת הפרויקט והמשמעות שלהם על השווי, התזרים והכדאיות.</p>
+          <h3>בדיקה שמתפתחת עם העסקה</h3>
+          <p>מתחילים מתמונת מצב ראשונית, ומעמיקים לפי מה שעולה: תכנון, בעלויות, זכויות, היטלים, חסמים, מסמכים, צדדים לעסקה ושאלות מסחריות.</p>
         </article>
         <article class="preview-card">
-          <h3>ניהול סיכונים</h3>
-          <p>סימון מוקדם של חסמים בבעלויות, תשתיות, רגולציה, היטלים, התנגדויות, מימון או תלות בגורמים חיצוניים.</p>
+          <h3>תמיכה בנקודות החלטה</h3>
+          <p>לפני רכישה, חתימה, פנייה לבעלים, כניסה לשותפות, שינוי מחיר או התקדמות למו״מ - בודקים מה באמת ידוע ומה עדיין מסוכן.</p>
         </article>
         <article class="preview-card">
-          <h3>הובלת בדיקות העסקה</h3>
-          <p>סדר פעולות ברור: מה בודקים קודם, מול מי, איזה איש מקצוע צריך להיכנס, ואיזו תשובה משנה את מבנה העסקה.</p>
+          <h3>חיבור בין אנשי המקצוע</h3>
+          <p>שמאי, עורך דין, מתכנן, יזם, בעלים ורשות מקומית מסתכלים כל אחד מזווית אחרת. הליווי מחבר את המידע לשפה עסקית אחת.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:64px 0;background:#fff;">
+    <div class="container">
+      <h2 class="section-title center">איך הליווי עובד לאורך העסקה</h2>
+      <div class="timeline-grid">
+        <article class="timeline-step">
+          <span>1</span>
+          <h3>בדיקה ראשונית</h3>
+          <p>ממקמים את הנכס או המתחם, בודקים את שכבות המידע המרכזיות ומבינים אם יש בסיס להמשך.</p>
+        </article>
+        <article class="timeline-step">
+          <span>2</span>
+          <h3>מיפוי סיכונים</h3>
+          <p>מסמנים חסמים תכנוניים, קנייניים, מסחריים או תפעוליים שיכולים להשפיע על המחיר, הזמן או עצם הכדאיות.</p>
+        </article>
+        <article class="timeline-step">
+          <span>3</span>
+          <h3>סדר בדיקות</h3>
+          <p>קובעים מה בודקים עכשיו, מה מחכה לשלב הבא, ואיזה איש מקצוע צריך להיכנס כדי לא לבזבז זמן וכסף מוקדם מדי.</p>
+        </article>
+        <article class="timeline-step">
+          <span>4</span>
+          <h3>עדכונים שוטפים</h3>
+          <p>כשמגיע מסמך חדש, תשובה מהרשות, טיוטת הסכם או שינוי בהנחות העסקה - מעדכנים את תמונת הסיכון.</p>
+        </article>
+        <article class="timeline-step">
+          <span>5</span>
+          <h3>תמיכה בהחלטות</h3>
+          <p>לפני התחייבות, חתימה, שינוי מחיר או מו״מ נוסף - מתרגמים את הנתונים להמלצת פעולה ברורה.</p>
         </article>
       </div>
     </div>
@@ -132,47 +174,51 @@
     <div class="container">
       <div class="split-section">
         <div class="plain-copy">
-          <h2 class="section-title">מפת העסקה</h2>
-          <p>עסקה מורכבת צריכה תמונה אחת שמחזיקה יחד את התכנון, הבעלות, השווי, המיסוי, לוחות הזמנים והגורמים המעורבים. בלי זה, קל להתקדם על בסיס אופטימיות, הנחות עבודה או מידע שכל אחד רואה רק מהזווית שלו.</p>
-          <p>הליווי מתרגם את כל החלקים האלה לשאלות עסקיות ברורות: מה באמת קונים, על מה נשען הפוטנציאל, איפה עלול להיווצר עיכוב, איזה סיכון צריך לתמחר, ומה חייב להיסגר לפני שממשיכים לשלב הבא.</p>
+          <h2 class="section-title">מה נשאר פתוח לאורך הדרך</h2>
+          <p>בעסקה אמיתית, השאלה החשובה היא לא רק “מה כתוב בתכנית”. השאלה היא מה המשמעות של כל שינוי על העסקה: האם המחיר עדיין נכון, האם הסיכון גדל, האם צריך תנאי מתלה, האם כדאי להרחיב בדיקה, והאם ההנחות שעליהן התחלתם עדיין מחזיקות.</p>
+          <p>הליווי לא בא להחליף עורך דין, שמאי או מתכנן. הוא מחזיק את התמונה המרחבית־תכנונית והעסקית, ועוזר להפוך מידע מפוזר לסדר פעולות שאפשר לעבוד איתו.</p>
         </div>
         <aside class="quiet-list">
-          <h3>תוצרי הליווי</h3>
+          <h3>מה נכנס לליווי</h3>
           <ul>
-            <li>תמונת מצב עסקית-תכנונית של העסקה.</li>
-            <li>רשימת סיכונים, חסמים ופערי מידע לטיפול.</li>
-            <li>סדר בדיקות מול מתכננים, עורכי דין, שמאים, רשויות וגורמים נוספים.</li>
-            <li>המלצה מעשית להמשך: להתקדם, לשנות מבנה עסקה, לפתוח מו״מ מחדש או לעצור.</li>
+            <li>בדיקות נקודתיות לפי שאלות שעולות במהלך העסקה.</li>
+            <li>מיפוי פערי מידע וסיכונים שצריך לסגור לפני התקדמות.</li>
+            <li>תמיכה בהכנת שאלות לשמאי, עורך דין, מתכנן או רשות.</li>
+            <li>עזרה בהבנת המשמעות העסקית של מידע תכנוני וקנייני.</li>
           </ul>
         </aside>
       </div>
     </div>
   </section>
 
-  <section style="padding:64px 0;background:#fff;">
+  <section style="padding:64px 0;background:var(--color-cream);">
     <div class="container" style="max-width:980px;">
-      <h2 class="section-title center">מתי זה נכון במיוחד</h2>
-      <div class="check-list">
-        <div class="check-item">
-          <strong>לפני רכישת קרקע או נכס עם פוטנציאל</strong>
-          <p>כשהשווי נשען על זכויות, שינוי תכנוני, השבחה עתידית או הנחות שצריך לפרק לפני חתימה.</p>
-        </div>
-        <div class="check-item">
-          <strong>לפני כניסה לשותפות או עסקת יזמות</strong>
-          <p>כשיש בעלי קרקע, יזם, משקיע או שותף אפשרי, וצריך להבין אם מבנה העסקה מחזיק מבחינה תכנונית ועסקית.</p>
-        </div>
-        <div class="check-item">
-          <strong>כשיש הרבה מידע אבל אין תמונה אחת</strong>
-          <p>כשהשמאי, עורך הדין, המתכנן והיזם מסתכלים כל אחד מזווית אחרת, וצריך לחבר את הכול לשפה עסקית ברורה.</p>
-        </div>
+      <h2 class="section-title center">למי זה מתאים</h2>
+      <div class="decision-grid">
+        <article class="decision-card">
+          <h3>יזמים שבוחנים עסקה לפני כניסה עמוקה</h3>
+          <p>כשרוצים להבין מוקדם אם העסקה מחזיקה, אילו בדיקות חייבות להתבצע לפני התחייבות, ואיפה עלול להסתתר סיכון שמשנה את הכדאיות.</p>
+        </article>
+        <article class="decision-card">
+          <h3>בעלי קרקע או נכסים לפני התחייבות</h3>
+          <p>כשרוצים להבין מה באמת יש בנכס, מה אפשרי תכנונית, ומה צריך לברר לפני מכירה, שותפות, ייזום או חתימה על מסמך מחייב.</p>
+        </article>
+        <article class="decision-card">
+          <h3>נציגויות דיירים ובעלי דירות</h3>
+          <p>כשהפרויקט מתפתח לאורך זמן וצריך עין מקצועית שתעזור להבין הצעות, מסמכים, שינויי תכנון וסיכונים לפני קבלת החלטות.</p>
+        </article>
+        <article class="decision-card">
+          <h3>עורכי דין שמלווים עסקה</h3>
+          <p>כשצריך שכבת בדיקה תכנונית־מרחבית לצד ההליך המשפטי, כדי לשאול את השאלות הנכונות לפני שהמו״מ מתקבע.</p>
+        </article>
       </div>
     </div>
   </section>
 
   <section class="cta-section">
     <div class="container">
-      <h2>יש עסקת נדל״ן מורכבת על השולחן?</h2>
-      <p>נבין את מבנה העסקה, נזהה את הסיכונים המרכזיים, ונבנה סדר בדיקות לפני שמתחייבים.</p>
+      <h2>בוחנים עסקה? שווה לדבר לפני שמתחייבים.</h2>
+      <p>שלחו כתובת, גוש/חלקה או תיאור קצר של העסקה. נבין באיזה שלב אתם נמצאים, מה כבר ידוע, ומה חייב להיבדק לפני הצעד הבא.</p>
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
         <a href="contact.html" class="btn-cta">קבעו שיחה</a>
         <a href="https://wa.me/972585197507" class="btn-cta" style="background:transparent;border:2px solid white;" target="_blank" rel="noopener">וואטסאפ ישיר</a>
