@@ -1084,13 +1084,33 @@
                       (s.est_above_ground_area_m2 != null ? ' · ≈ ' + esc(String(s.est_above_ground_area_m2)) + ' מ"ר' : '') +
                       '</div>';
             });
+            let det = '';
+            if (r.coverage_base_pct != null && r.lot_area_m2 != null) {
+              det += '<div class="parcel-plan-status" style="opacity:.75">שטח = בסיס ' + esc(String(r.coverage_base_pct)) + '% × ' + esc(String(r.lot_area_m2)) + ' מ"ר × מקדם</div>';
+            }
+            if (r.detail) {
+              const dt = r.detail, bz = dt.bonuses || {}, ln = dt.lines_he || {}, ad = dt.additions || {};
+              const wb = (r.scenarios || []).map(function (s) { return s.est_above_with_bonuses; }).filter(function (x) { return x != null; });
+              if (bz.total_plus_m2) det += '<div>בונוסים (סעיף 6.1, מותנים): עד +' + esc(bz.total_plus_m2) + ' מ"ר (' + esc(String(bz.total_pct)) + '%)' + (wb.length ? ' · שטח עם בונוסים: עד ' + esc(wb[wb.length - 1]) + ' מ"ר' : '') + '</div>';
+              (bz.items || []).forEach(function (it) {
+                det += '<div style="opacity:.8;font-size:.9em">• ' + esc(it.label_he || it.code || '') + ' (' + esc(String(it.pct)) + '%' + (it.plus_m2 != null ? ', +' + esc(it.plus_m2) + ' מ"ר' : '') + ')</div>';
+              });
+              const extra = [];
+              if (ad.public_m2) extra.push((ln.public || 'שטח ציבורי') + ': +' + ad.public_m2 + ' מ"ר');
+              if (ad.amenity_m2) extra.push((ln.amenity || 'שטחים משותפים') + ': +' + ad.amenity_m2 + ' מ"ר');
+              ['balconies', 'commercial', 'basement', 'unit_mix'].forEach(function (k) { if (ln[k]) extra.push(ln[k]); });
+              if (extra.length) det += '<div class="parcel-plan-status" style="margin-top:4px"><strong>זכויות נוספות:</strong></div>' + extra.map(function (t) { return '<div style="opacity:.8;font-size:.9em">• ' + esc(t) + '</div>'; }).join('');
+              const sc = [ln.scope, ln.height_cap].filter(Boolean).join(' · ');
+              if (sc) det += '<div class="parcel-plan-status" style="opacity:.7">' + esc(sc) + '</div>';
+            }
             html += '<div class="parcel-plan-rights">' +
               '<div class="parcel-plan-status"><strong>זכויות התחדשות (הריסה ובנייה מחדש)</strong></div>' +
               (facts.length ? '<div>' + esc(facts.join(' · ')) + '</div>' : '') +
               (sbTxt ? '<div>קווי בניין: ' + esc(sbTxt) + ' מ\'</div>' : '') +
               (scen ? '<div style="margin-top:4px">לפי גובה הבניין הקיים:</div>' + scen : '') +
-              (r.bonus_note ? '<div class="parcel-plan-status" style="opacity:.75">' + esc(r.bonus_note) + '</div>' : '') +
+              det +
               '<div style="margin-top:6px;opacity:.7;font-size:.85em">' + esc(r.note || 'הזכויות חולצו מתקנון התכנית — לאימות מול הוועדה המקומית.') + '</div>' +
+              (!r.detail && r.bonus_note ? '<div class="parcel-plan-status" style="opacity:.75">' + esc(r.bonus_note) + '</div>' : '') +
               '</div>';
           } else if (p.rights_mode === 'landuse' && p.landuse && Array.isArray(p.landuse.designations) && p.landuse.designations.length) {
             const d0 = p.landuse.designations[0];
