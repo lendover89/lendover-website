@@ -1069,6 +1069,29 @@
             if (r.est_note) det += '<div style="opacity:.7;margin-top:4px">' + esc(r.est_note) + '</div>';
             det += '<div style="opacity:.6;margin-top:4px">היקף לפי גבול תכנית תא/3729; תכסית לפי קווי בניין פר-חלקה.</div>';
             if (det) html += '<details class="parcel-rights-details" style="margin-top:6px"><summary style="cursor:pointer;color:#2563eb">פרטים מלאים ▾</summary><div style="margin-top:4px;line-height:1.6">' + det + '</div></details>';
+          } else if (p.rights_mode === 'renewal' && p.renewal) {
+            const r = p.renewal;
+            const facts = [];
+            if (r.coverage_base_pct != null) facts.push('בסיס תכסית ' + r.coverage_base_pct + '%');
+            if (r.est_max_units != null) facts.push('עד ' + r.est_max_units + ' יח"ד (' + (r.density_cap_units_per_dunam || 45) + '/דונם)');
+            const sb = r.setbacks || {};
+            const sbTxt = [sb.front != null ? 'קדמי ' + sb.front : null, sb.side != null ? 'צידי ' + sb.side : null, sb.rear != null ? 'אחורי ' + sb.rear : null].filter(Boolean).join(' · ');
+            let scen = '';
+            (r.scenarios || []).forEach(function (s) {
+              scen += '<div>' + esc(s.existing_floors_label || '') + ': ' +
+                      'מקדם ' + esc(String(s.rights_coefficient)) + ' · עד ' + esc(String(s.max_floors)) + ' קומות' +
+                      (s.roof_floor ? ' + גג' : '') +
+                      (s.est_above_ground_area_m2 != null ? ' · ≈ ' + esc(String(s.est_above_ground_area_m2)) + ' מ"ר' : '') +
+                      '</div>';
+            });
+            html += '<div class="parcel-plan-rights">' +
+              '<div class="parcel-plan-status"><strong>זכויות התחדשות (הריסה ובנייה מחדש)</strong></div>' +
+              (facts.length ? '<div>' + esc(facts.join(' · ')) + '</div>' : '') +
+              (sbTxt ? '<div>קווי בניין: ' + esc(sbTxt) + ' מ\'</div>' : '') +
+              (scen ? '<div style="margin-top:4px">לפי גובה הבניין הקיים:</div>' + scen : '') +
+              (r.bonus_note ? '<div class="parcel-plan-status" style="opacity:.75">' + esc(r.bonus_note) + '</div>' : '') +
+              '<div style="margin-top:6px;opacity:.7;font-size:.85em">' + esc(r.note || 'הזכויות חולצו מתקנון התכנית — לאימות מול הוועדה המקומית.') + '</div>' +
+              '</div>';
           } else if (p.rights_mode === 'landuse' && p.landuse && Array.isArray(p.landuse.designations) && p.landuse.designations.length) {
             const d0 = p.landuse.designations[0];
             html += '<div class="parcel-plan-rights">' +
