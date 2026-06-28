@@ -1074,18 +1074,21 @@
             const facts = [];
             if (r.coverage_base_pct != null && r.coverage_basis !== 'between_building_lines') facts.push('בסיס תכסית ' + r.coverage_base_pct + '%');
             if (r.est_max_units != null) facts.push('עד ' + r.est_max_units + ' יח"ד (' + (r.density_cap_units_per_dunam || 45) + '/דונם)');
+            if (r.zone_name) facts.unshift('אזור תכנון: ' + r.zone_name);
             const sb = r.setbacks || {};
             const sbTxt = [sb.front != null ? 'קדמי ' + sb.front : null, sb.side != null ? 'צידי ' + sb.side : null, sb.rear != null ? 'אחורי ' + sb.rear : null].filter(Boolean).join(' · ');
             let scen = '';
             (r.scenarios || []).forEach(function (s) {
               scen += '<div>' + esc(s.existing_floors_label || '') + ': ' +
-                      'מקדם ' + esc(String(s.rights_coefficient)) + ' · עד ' + esc(String(s.max_floors)) + ' קומות' +
+                      (r.zone_name ? '' : 'מקדם ' + esc(String(s.rights_coefficient)) + ' · ') + 'עד ' + esc(String(s.max_floors)) + ' קומות' +
                       (s.roof_floor ? ' + גג' : '') +
                       (s.est_above_ground_area_m2 != null ? ' · ≈ ' + esc(String(s.est_above_ground_area_m2)) + ' מ"ר' : '') +
                       '</div>';
             });
             let det = '';
-            if (r.coverage_basis === 'between_building_lines' && r.between_lines_area_m2 != null) {
+            if (r.zone_name && r.lot_area_m2 != null) {
+              det += '<div class="parcel-plan-status" style="opacity:.75">שטח מוערך = אחוזי בנייה (לפי אזור-התכנון) × שטח המגרש (' + esc(String(r.lot_area_m2)) + ' מ"ר)</div>';
+            } else if (r.coverage_basis === 'between_building_lines' && r.between_lines_area_m2 != null) {
               det += '<div class="parcel-plan-status" style="opacity:.75">שטח ≈ תכסית% × השטח שבין קווי הבניין (' + esc(String(r.between_lines_area_m2)) + ' מ"ר, מתוך מגרש ' + esc(String(r.lot_area_m2)) + ' מ"ר) × קומות</div>';
             } else if (r.coverage_base_pct != null && r.lot_area_m2 != null) {
               det += '<div class="parcel-plan-status" style="opacity:.75">שטח = בסיס ' + esc(String(r.coverage_base_pct)) + '% × ' + esc(String(r.lot_area_m2)) + ' מ"ר × מקדם</div>';
