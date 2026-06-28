@@ -1107,7 +1107,7 @@
               '<div class="parcel-plan-status"><strong>זכויות התחדשות (הריסה ובנייה מחדש)</strong></div>' +
               (facts.length ? '<div>' + esc(facts.join(' · ')) + '</div>' : '') +
               (sbTxt ? '<div>קווי בניין: ' + esc(sbTxt) + ' מ\'</div>' : '') +
-              (scen ? '<div style="margin-top:4px">לפי גובה הבניין הקיים:</div>' + scen : '') +
+              (scen ? ((r.scenarios || []).length > 1 ? '<div style="margin-top:4px">לפי גובה הבניין הקיים:</div>' : '') + scen : '') +
               det +
               '<div style="margin-top:6px;opacity:.7;font-size:.85em">' + esc(r.note || 'הזכויות חולצו מתקנון התכנית — לאימות מול הוועדה המקומית.') + '</div>' +
               (!r.detail && r.bonus_note ? '<div class="parcel-plan-status" style="opacity:.75">' + esc(r.bonus_note) + '</div>' : '') +
