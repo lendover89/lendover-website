@@ -184,7 +184,7 @@
         (sb.side != null ? '<div class="kv"><div class="k">צידי</div><div class="v">' + esc(String(sb.side)) + ' מ\'</div></div>' : '') +
         (sb.rear != null ? '<div class="kv"><div class="k">אחורי</div><div class="v">' + esc(String(sb.rear)) + ' מ\'</div></div>' : '') +
         '</div>';
-      h += '<h3>זכויות לפי גובה הבניין הקיים</h3><table><tr><th>בניין קיים</th><th>מקדם</th><th>קומות</th><th>שטח מעל הקרקע (מוערך)</th><th>עם בונוסים §6.1</th></tr>' +
+      h += '<h3>' + ((r.scenarios || []).length > 1 ? 'זכויות לפי גובה הבניין הקיים' : 'זכויות בנייה מוערכות') + '</h3><table><tr><th>' + ((r.scenarios || []).length > 1 ? 'בניין קיים' : 'מתווה') + '</th><th>מקדם</th><th>קומות</th><th>שטח מעל הקרקע (מוערך)</th><th>עם בונוסים §6.1</th></tr>' +
         (r.scenarios || []).map(function (s) {
           return '<tr><td>' + esc(s.existing_floors_label || '') + '</td><td>' + esc(String(s.rights_coefficient)) +
             '</td><td>' + esc(String(s.max_floors)) + (s.roof_floor ? ' + גג' : '') +
