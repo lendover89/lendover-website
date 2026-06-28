@@ -178,7 +178,8 @@
       const r = p.renewal;
       const sb = r.setbacks || {};
       h += '<div class="grid">' +
-        (r.coverage_base_pct != null ? '<div class="kv"><div class="k">בסיס תכסית</div><div class="v">' + esc(String(r.coverage_base_pct)) + '%</div></div>' : '') +
+        (r.coverage_base_pct != null && r.coverage_basis !== 'between_building_lines' ? '<div class="kv"><div class="k">בסיס תכסית</div><div class="v">' + esc(String(r.coverage_base_pct)) + '%</div></div>' : '') +
+        (r.coverage_basis === 'between_building_lines' && r.between_lines_area_m2 != null ? '<div class="kv"><div class="k">שטח שבין קווי הבניין</div><div class="v">' + esc(String(r.between_lines_area_m2)) + ' מ"ר</div></div>' : '') +
         (r.est_max_units != null ? '<div class="kv"><div class="k">יח"ד מרבי (' + esc(String(r.density_cap_units_per_dunam || 45)) + '/דונם)</div><div class="v">' + esc(String(r.est_max_units)) + '</div></div>' : '') +
         (sb.front != null ? '<div class="kv"><div class="k">קו בניין קדמי</div><div class="v">' + esc(String(sb.front)) + ' מ\'</div></div>' : '') +
         (sb.side != null ? '<div class="kv"><div class="k">צידי</div><div class="v">' + esc(String(sb.side)) + ' מ\'</div></div>' : '') +
@@ -191,7 +192,8 @@
             '</td><td>' + (s.est_above_ground_area_m2 != null ? esc(s.est_above_ground_area_m2) + ' מ"ר' : '') +
             '</td><td>' + (s.est_above_with_bonuses != null ? esc(s.est_above_with_bonuses) + ' מ"ר' : '—') + '</td></tr>';
         }).join('') + '</table>';
-      if (r.coverage_base_pct != null && r.lot_area_m2 != null) h += '<div class="status muted">חישוב שטח מעל הקרקע: בסיס תכסית ' + esc(String(r.coverage_base_pct)) + '% × שטח מגרש ' + esc(String(r.lot_area_m2)) + ' מ"ר × מקדם הזכויות</div>';
+      if (r.coverage_basis === 'between_building_lines' && r.between_lines_area_m2 != null) h += '<div class="status muted">חישוב שטח מעל הקרקע: תכסית% × השטח שבין קווי הבניין (' + esc(String(r.between_lines_area_m2)) + ' מ"ר, מתוך מגרש ' + esc(String(r.lot_area_m2)) + ' מ"ר) × מספר קומות</div>';
+      else if (r.coverage_base_pct != null && r.lot_area_m2 != null) h += '<div class="status muted">חישוב שטח מעל הקרקע: בסיס תכסית ' + esc(String(r.coverage_base_pct)) + '% × שטח מגרש ' + esc(String(r.lot_area_m2)) + ' מ"ר × מקדם הזכויות</div>';
       if (r.detail) {
         const dt = r.detail, bz = dt.bonuses || {}, ln = dt.lines_he || {}, ad = dt.additions || {};
         if (Array.isArray(bz.items) && bz.items.length) {
