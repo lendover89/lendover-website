@@ -173,7 +173,7 @@
       if (r.zone === 'low_build' && r.lowbuild_plan) h += '<div class="status">בנייה נמוכה — תכנית מתחמית ' + esc(r.lowbuild_plan) + ' (3-4 קומות; קוטג׳ים פחות).</div>';
       if (r.zone === 'unesco') h += '<div class="status">מתחם הכרזת אונסקו — חריגה מגובה או מקווי בניין מהווה סטייה ניכרת.</div>';
       if (r.est_note) h += '<div class="status">' + esc(r.est_note) + '</div>';
-      h += '<div class="status">' + esc(r.note || '') + ' · היקף לפי גבול תכנית תא/3729; תכסית לפי קווי בניין פר-חלקה.</div>';
+      h += '<div class="status">' + esc(r.note || '') + ' · היקף לפי גבול תכנית ' + esc(p.pl_number || '') + '.</div>';
     } else if (p.rights_mode === 'renewal' && p.renewal) {
       const r = p.renewal;
       const sb = r.setbacks || {};
