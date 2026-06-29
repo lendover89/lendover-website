@@ -1067,7 +1067,7 @@
             if (r.zone === 'unesco') det += '<div><strong>מתחם אונסקו:</strong> חריגה מגובה/קווי בניין = סטייה ניכרת</div>';
             if (r.nearest_main_street && !r.fronting_street) det += '<div><strong>רחוב ראשי קרוב:</strong> ' + esc(r.nearest_main_street) + ' (' + esc(String(r.dist_to_main_m)) + ' מ׳)</div>';
             if (r.est_note) det += '<div style="opacity:.7;margin-top:4px">' + esc(r.est_note) + '</div>';
-            det += '<div style="opacity:.6;margin-top:4px">היקף לפי גבול תכנית תא/3729; תכסית לפי קווי בניין פר-חלקה.</div>';
+            det += '<div style="opacity:.6;margin-top:4px">היקף לפי גבול תכנית ' + esc(p.pl_number || '') + '.</div>';
             if (det) html += '<details class="parcel-rights-details" style="margin-top:6px"><summary style="cursor:pointer;color:#2563eb">פרטים מלאים ▾</summary><div style="margin-top:4px;line-height:1.6">' + det + '</div></details>';
           } else if (p.rights_mode === 'renewal' && p.renewal) {
             const r = p.renewal;
