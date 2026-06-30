@@ -70,8 +70,8 @@ input {
 }
 
 .brand img {
-  width: 42px;
-  height: 42px;
+  height: 44px;
+  width: auto;
   object-fit: contain;
 }
 
@@ -1314,8 +1314,8 @@ button.planning-legend__item:not(.is-on) span {
   }
 
   .brand img {
-    width: 32px;
-    height: 32px;
+    height: 34px;
+    width: auto;
   }
 
   .header-actions {
