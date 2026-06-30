@@ -899,7 +899,7 @@
         if (data.governing_landuse && data.governing_landuse.landuse_label) {
           const g = data.governing_landuse;
           html = html.replace('<div class="parcel-plans-list">',
-            '<div class="parcel-landuse-headline" style="margin:6px 0;padding:6px 8px;background:#eef4ff;border-right:3px solid #2563eb;border-radius:4px">' +
+            '<div class="parcel-landuse-headline" style="margin:6px 0;padding:6px 8px;background:rgba(37,99,235,0.18);border-right:3px solid #60a5fa;border-radius:4px;color:#e8f0ff">' +
             '<strong>ייעוד עיקרי:</strong> ' + esc(g.landuse_label) +
             (g.pl_number ? ' <span style="opacity:.7">(' + esc(g.pl_number) + ')</span>' : '') +
             '<div style="font-size:12px;opacity:.7">ייעוד מ-iplan — טרם חולצו זכויות מספריות לתכנית זו</div></div>' +
