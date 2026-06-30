@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>דו״ח זכויות בנייה לחלקה — Lendover</title>
+  <title>דו״ח זכויות בנייה לחלקה — IsraMap</title>
   <style>
     :root { --blue:#2563eb; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc; }
     * { box-sizing: border-box; }
@@ -30,17 +30,25 @@
     .note { color:var(--muted); font-size:.85rem; margin-top:10px; }
     .loading,.error { text-align:center; padding:40px; color:var(--muted); }
     .error { color:#dc2626; }
-    @media print { body{background:#fff;} .card{box-shadow:none;} }
+    .brand-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; background:#121619; border-radius:10px; padding:12px 18px; margin-bottom:16px; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .brand-bar img { height:40px; width:auto; display:block; }
+    .export-btn { display:inline-flex; align-items:center; gap:6px; background:var(--blue); color:#fff; border:0; border-radius:8px; padding:9px 16px; font-size:.95rem; font-weight:600; cursor:pointer; font-family:inherit; }
+    .export-btn:hover { background:#1d4ed8; }
+    @media print { body{background:#fff;} .card{box-shadow:none;} .no-print{display:none !important;} }
   </style>
 </head>
 <body>
 <div class="wrap">
   <header>
+    <div class="brand-bar">
+      <img src="isramap-logo.png" alt="IsraMap">
+      <button class="export-btn no-print" type="button" onclick="window.print()">⬇ ייצוא ל-PDF</button>
+    </div>
     <h1>דו״ח זכויות בנייה לחלקה</h1>
     <div class="sub" id="sub">טוען…</div>
   </header>
   <div id="content"><div class="loading">טוען נתונים…</div></div>
-  <div class="note">המקור: מאגר זכויות הבנייה של Lendover (חילוץ אוטומטי). אינו תחליף לבדיקה סטטוטורית מול התקנון ונספחי התכנית.</div>
+  <div class="note">המקור: מאגר זכויות הבנייה של IsraMap (חילוץ אוטומטי). אינו תחליף לבדיקה סטטוטורית מול התקנון ונספחי התכנית.</div>
 </div>
 <script>
   const GROUNDWATER_API = 'https://groundwater.lendover.co.il';
