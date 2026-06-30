@@ -137,6 +137,26 @@
         '</div>';
       if (p.categories.length > 1) h += '<div class="status">אזורים נוספים חופפים: ' + esc(p.categories.slice(1).map((c) => c.category + (c.coverage_pct != null ? ' (' + c.coverage_pct + '%)' : '')).join(' · ')) + '</div>';
       h += setbacksHtml(dom.setbacks) + bandsTable(dom.bands) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + ch4Html(p.ch4_rules) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
+      if (dom.calculation) {
+        const c = dom.calculation;
+        const bindingHe = c.binding === 'envelope'
+          ? 'המעטפת מגבילה — ה-' + esc(c.far_above_pct) + '% לא נכנס במלואו בקווי הבניין'
+          : 'הזכויות נכנסות בקווי הבניין (האחוזים קובעים)';
+        h += '<h3>שורה תחתונה — זכויות בנייה</h3>' +
+          '<div class="grid">' +
+          '<div class="kv"><div class="k">לפי אחוזים (' + esc(c.far_above_pct) + '% × מגרש)</div><div class="v">' + esc(c.total_buildable_far_m2) + ' מ"ר</div></div>' +
+          (c.est_above_envelope_m2 != null ? '<div class="kv"><div class="k">לפי מעטפת קווי בניין (' + esc(c.floors) + ' קומות)</div><div class="v">' + esc(c.est_above_envelope_m2) + ' מ"ר</div></div>' : '') +
+          '<div class="kv" style="font-weight:700"><div class="k">מותר לבנייה (הקובע)</div><div class="v">' + esc(c.est_above_binding_m2) + ' מ"ר</div></div>' +
+          (c.below_ground_far_m2 != null ? '<div class="kv"><div class="k">מתחת לקרקע (' + esc(c.far_below_pct) + '%)</div><div class="v">' + esc(c.below_ground_far_m2) + ' מ"ר</div></div>' : '') +
+          (c.est_max_units != null ? '<div class="kv"><div class="k">מס\' יח"ד (אומדן, ' + esc(c.unit_density_m2) + ' מ"ר/יח"ד)</div><div class="v">~' + esc(c.est_max_units) + '</div></div>' : '') +
+          '</div>' +
+          '<div class="status">' + bindingHe + '</div>' +
+          (Array.isArray(c.per_floor) && c.per_floor.length
+            ? '<table><tr><th>קומה</th><th>תכסית</th><th>שטח</th></tr>' +
+              c.per_floor.map(function(f){return '<tr><td>' + esc(f.level_name) + '</td><td>' + esc(f.coverage_pct) + '%</td><td>' + esc(f.coverage_m2) + ' מ"ר</td></tr>';}).join('') +
+              '</table>' : '') +
+          '<p class="note" style="opacity:.7">' + esc(c.note) + '</p>';
+      }
     } else if (p.rights_mode === 'cell_polygons') {
       h += cellsTable(p.cells) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
     } else if (p.rights_mode === 'building_rights_tracks') {
