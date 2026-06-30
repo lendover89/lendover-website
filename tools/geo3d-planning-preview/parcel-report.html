@@ -174,6 +174,7 @@
       if (r.zone === 'unesco') h += '<div class="status">מתחם הכרזת אונסקו — חריגה מגובה או מקווי בניין מהווה סטייה ניכרת.</div>';
       if (r.est_note) h += '<div class="status">' + esc(r.est_note) + '</div>';
       h += '<div class="status">' + esc(r.note || '') + ' · היקף לפי גבול תכנית ' + esc(p.pl_number || '') + '.</div>';
+      if (p.status === 'בהליכי אישור') h += '<div class="status" style="color:#b45309;font-weight:600">תכנית בהליכי אישור (הכרעה בהתנגדויות) — האומדן אינו תחליף סטטוטורי; לאימות מול הוועדה המקומית.</div>';
     } else if (p.rights_mode === 'renewal' && p.renewal) {
       const r = p.renewal;
       const sb = r.setbacks || {};
