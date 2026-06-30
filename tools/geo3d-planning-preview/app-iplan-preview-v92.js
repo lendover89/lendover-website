@@ -974,6 +974,22 @@
               });
             }
             if (det) html += '<details class="parcel-rights-details" style="margin-top:6px"><summary style="cursor:pointer;color:#2563eb">פרטים מלאים ▾</summary><div style="margin-top:4px;line-height:1.6">' + det + '</div></details>';
+            if (dom.calculation) {
+              const c = dom.calculation;
+              const bindingHe = c.binding === 'envelope'
+                ? 'המעטפת מגבילה — ' + esc(c.far_above_pct) + '% לא נכנס במלואו בקווי הבניין'
+                : 'הזכויות נכנסות בקווי הבניין (האחוזים קובעים)';
+              html += '<div style="margin-top:8px;padding:6px 8px;background:rgba(37,99,235,0.10);border-right:3px solid #60a5fa;border-radius:4px">' +
+                '<div style="font-weight:700;margin-bottom:4px">שורה תחתונה — זכויות בנייה</div>' +
+                '<div>לפי אחוזים (' + esc(c.far_above_pct) + '% × מגרש): ' + esc(c.total_buildable_far_m2) + ' מ"ר</div>' +
+                (c.est_above_envelope_m2 != null ? '<div>לפי מעטפת קווי בניין (' + esc(c.floors) + ' קומות): ' + esc(c.est_above_envelope_m2) + ' מ"ר</div>' : '') +
+                '<div style="font-weight:700">מותר לבנייה (הקובע): ' + esc(c.est_above_binding_m2) + ' מ"ר</div>' +
+                (c.below_ground_far_m2 != null ? '<div>מתחת לקרקע (' + esc(c.far_below_pct) + '%): ' + esc(c.below_ground_far_m2) + ' מ"ר</div>' : '') +
+                (c.est_max_units != null ? '<div>מס\' יח"ד (אומדן): ~' + esc(c.est_max_units) + '</div>' : '') +
+                '<div style="margin-top:4px;opacity:.8;font-size:.9em">' + esc(bindingHe) + '</div>' +
+                '<div style="margin-top:4px;opacity:.65;font-size:.82em">' + esc(c.note) + '</div>' +
+                '</div>';
+            }
           } else if (p.rights_mode === 'cell_polygons' && Array.isArray(p.cells) && p.cells.length) {
             html += '<div class="parcel-plan-rights">' + p.cells.slice(0, 8).map(function (c) {
               var r = c.rights || {}; var parts = [];
