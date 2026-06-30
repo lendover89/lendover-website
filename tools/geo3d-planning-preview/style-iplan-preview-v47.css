@@ -70,7 +70,7 @@ input {
 }
 
 .brand img {
-  height: 44px;
+  height: 50px;
   width: auto;
   object-fit: contain;
 }
@@ -1314,7 +1314,7 @@ button.planning-legend__item:not(.is-on) span {
   }
 
   .brand img {
-    height: 34px;
+    height: 40px;
     width: auto;
   }
 
