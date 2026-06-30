@@ -1068,6 +1068,7 @@
             if (r.nearest_main_street && !r.fronting_street) det += '<div><strong>רחוב ראשי קרוב:</strong> ' + esc(r.nearest_main_street) + ' (' + esc(String(r.dist_to_main_m)) + ' מ׳)</div>';
             if (r.est_note) det += '<div style="opacity:.7;margin-top:4px">' + esc(r.est_note) + '</div>';
             det += '<div style="opacity:.6;margin-top:4px">היקף לפי גבול תכנית ' + esc(p.pl_number || '') + '.</div>';
+            if (p.status === 'בהליכי אישור') det += '<div style="margin-top:4px;color:#b45309;font-weight:600">תכנית בהליכי אישור (הכרעה בהתנגדויות) — האומדן אינו תחליף סטטוטורי; לאימות מול הוועדה המקומית.</div>';
             if (det) html += '<details class="parcel-rights-details" style="margin-top:6px"><summary style="cursor:pointer;color:#2563eb">פרטים מלאים ▾</summary><div style="margin-top:4px;line-height:1.6">' + det + '</div></details>';
           } else if (p.rights_mode === 'renewal' && p.renewal) {
             const r = p.renewal;
