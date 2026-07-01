@@ -980,7 +980,7 @@
                 ? 'המעטפת מגבילה — ' + esc(c.far_above_pct) + '% לא נכנס במלואו בקווי הבניין'
                 : 'הזכויות נכנסות בקווי הבניין (האחוזים קובעים)';
               html += '<div style="margin-top:8px;padding:6px 8px;background:rgba(37,99,235,0.10);border-right:3px solid #60a5fa;border-radius:4px">' +
-                '<div style="font-weight:700;margin-bottom:4px">שורה תחתונה — זכויות בנייה</div>' +
+                '<div style="font-weight:700;margin-bottom:4px">שורה תחתונה — זכויות בנייה (מסלול הריסה ובנייה)</div>' +
                 '<div>לפי אחוזים (' + esc(c.far_above_pct) + '% × מגרש): ' + esc(c.total_buildable_far_m2) + ' מ"ר</div>' +
                 (c.est_above_envelope_m2 != null ? '<div>לפי מעטפת קווי בניין (' + esc(c.floors) + ' קומות): ' + esc(c.est_above_envelope_m2) + ' מ"ר</div>' : '') +
                 '<div style="font-weight:700">מותר לבנייה (הקובע): ' + esc(c.est_above_binding_m2) + ' מ"ר</div>' +
@@ -989,6 +989,18 @@
                 '<div style="margin-top:4px;opacity:.8;font-size:.9em">' + esc(bindingHe) + '</div>' +
                 '<div style="margin-top:4px;opacity:.65;font-size:.82em">' + esc(c.note) + '</div>' +
                 '</div>';
+              if (c.hizuk) {
+                const hz = c.hizuk;
+                html += '<div style="margin-top:8px;padding:6px 8px;background:rgba(16,185,129,0.10);border-right:3px solid #34d399;border-radius:4px">' +
+                  '<div style="font-weight:700;margin-bottom:4px">מסלול חלופי — חיזוק ותוספות (תמ"א 38/23)</div>' +
+                  '<div>תוספת: +' + esc(hz.added_full_floors) + ' קומות מלאות + קומת גג חלקית</div>' +
+                  (hz.added_floors_area_m2 != null ? '<div>שטח הקומות הנוספות (אומדן): ' + esc(hz.added_floors_area_m2) + ' מ"ר</div>' : '') +
+                  (hz.roof_area_m2 != null ? '<div>קומת גג חלקית: ' + esc(hz.roof_area_m2) + ' מ"ר</div>' : '') +
+                  (hz.added_total_m2 != null ? '<div style="font-weight:700">סה"כ תוספת מוערכת: ' + esc(hz.added_total_m2) + ' מ"ר</div>' : '') +
+                  '<div>הרחבת יח"ד קיימת: עד ' + esc(hz.expand_per_existing_unit_m2) + ' מ"ר ליח"ד</div>' +
+                  '<div style="margin-top:4px;opacity:.65;font-size:.82em">' + esc(hz.note) + '</div>' +
+                  '</div>';
+              }
             }
           } else if (p.rights_mode === 'cell_polygons' && Array.isArray(p.cells) && p.cells.length) {
             html += '<div class="parcel-plan-rights">' + p.cells.slice(0, 8).map(function (c) {
