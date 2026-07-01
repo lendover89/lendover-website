@@ -985,7 +985,7 @@
                 (c.est_above_envelope_m2 != null ? '<div>לפי מעטפת קווי בניין (' + esc(c.floors) + ' קומות): ' + esc(c.est_above_envelope_m2) + ' מ"ר</div>' : '') +
                 '<div style="font-weight:700">מותר לבנייה (הקובע): ' + esc(c.est_above_binding_m2) + ' מ"ר</div>' +
                 (c.below_ground_far_m2 != null ? '<div>מתחת לקרקע (' + esc(c.far_below_pct) + '%): ' + esc(c.below_ground_far_m2) + ' מ"ר</div>' : '') +
-                (c.est_max_units != null ? '<div>מס\' יח"ד (אומדן): ~' + esc(c.est_max_units) + '</div>' : '') +
+                (c.est_max_units != null ? '<div>מס\' יח"ד מירבי (אומדן, §4.1.2ח): ~' + esc(c.est_max_units) + (c.unit_basis ? ' <span style="opacity:.7;font-size:.85em">(' + esc(c.unit_basis.service_pct) + '% שירות · ~' + esc(c.unit_basis.avg_unit_m2) + ' מ"ר/יח"ד · מקס\' ' + esc(c.unit_basis.per_dunam_cap) + '/דונם)</span>' : '') + '</div>' : '') +
                 '<div style="margin-top:4px;opacity:.8;font-size:.9em">' + esc(bindingHe) + '</div>' +
                 '<div style="margin-top:4px;opacity:.65;font-size:.82em">' + esc(c.note) + '</div>' +
                 '</div>';
