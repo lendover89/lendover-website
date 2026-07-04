@@ -1100,6 +1100,38 @@
             if (det) html += '<details class="parcel-rights-details" style="margin-top:6px"><summary style="cursor:pointer;color:#2563eb">פרטים מלאים ▾</summary><div style="margin-top:4px;line-height:1.6">' + det + '</div></details>';
           } else if (p.rights_mode === 'renewal' && p.renewal) {
             const r = p.renewal;
+            if (r.street_class) {
+              var pf = r.per_floor || {};
+              var lt = r.is_corner ? 'פינתי' : 'רגיל';
+              var oh = '';
+              (r.options || []).forEach(function (o) {
+                oh += '<div style="opacity:.85;font-size:.9em">• ' + esc(o.label_he || '') +
+                      (o.plus_m2 != null ? ': +' + esc(String(o.plus_m2)) + ' מ"ר' : '') +
+                      (o.note ? ' — ' + esc(o.note) : '') + '</div>';
+              });
+              var body;
+              if (r.below_min_lot) {
+                body = '<div style="margin-top:6px;color:#c0623a">' + esc(r.note || '') + '</div>';
+              } else {
+                body =
+                  '<div>תכסית ' + esc(String(r.coverage_base_pct)) + '% מהשטח שבין קווי הבניין · ' + esc(String(r.floors)) + ' קומות</div>' +
+                  (r.between_lines_area_m2 != null ? '<div class="parcel-plan-status" style="opacity:.75">שטח בין קווי הבניין ≈ ' + esc(String(r.between_lines_area_m2)) + ' מ"ר</div>' : '') +
+                  '<div style="margin-top:4px">פירוט פר-קומה:</div>' +
+                  '<div style="opacity:.85;font-size:.9em">• קומת קרקע: ' + esc(String(pf.ground)) + ' מ"ר' + (r.street_class === 'commercial' ? ' (בנסיגת חזית מסחרית)' : '') + '</div>' +
+                  '<div style="opacity:.85;font-size:.9em">• קומה טיפוסית ×' + esc(String(pf.typical_floors_n)) + ': ' + esc(String(pf.typical)) + ' מ"ר</div>' +
+                  '<div style="opacity:.85;font-size:.9em">• קומת גג (75%): ' + esc(String(pf.roof)) + ' מ"ר</div>' +
+                  '<div style="margin-top:4px"><strong>סה"כ מעל הקרקע ≈ ' + esc(String(r.est_above_ground_area_m2)) + ' מ"ר</strong></div>' +
+                  (r.est_max_units != null ? '<div>מס\' יח"ד מוערך: ' + esc(String(r.est_max_units)) + ' (מחלק ' + esc(String(r.unit_divisor_m2)) + ' מ"ר/יח"ד)</div>' : '') +
+                  (r.view_funnel_note ? '<div class="parcel-plan-status" style="color:#c0623a">' + esc(r.view_funnel_note) + '</div>' : '') +
+                  (oh ? '<div style="margin-top:4px">אופציות/תוספות מותנות:</div>' + oh : '');
+              }
+              html += '<div class="parcel-plan-rights">' +
+                '<div class="parcel-plan-status"><strong>זכויות רג/1900 — הריסה ובנייה מחדש</strong></div>' +
+                '<div>' + esc(r.street_class_he || '') + ' · מגרש ' + esc(String(r.lot_area_m2)) + ' מ"ר (' + lt + ')' + (r.lot_width_m != null ? ' · חזית ' + esc(String(r.lot_width_m)) + ' מ\'' : '') + '</div>' +
+                body +
+                '<div style="margin-top:6px;opacity:.7;font-size:.85em">' + esc(!r.below_min_lot && r.note ? r.note : 'לאימות מול הוועדה המקומית.') + '</div>' +
+                '</div>';
+            } else {
             const facts = [];
             if (r.coverage_base_pct != null && r.coverage_basis !== 'between_building_lines') facts.push('בסיס תכסית ' + r.coverage_base_pct + '%');
             if (r.est_max_units != null) facts.push('עד ' + r.est_max_units + ' יח"ד (' + (r.density_cap_units_per_dunam || 45) + '/דונם)');
@@ -1146,6 +1178,7 @@
               '<div style="margin-top:6px;opacity:.7;font-size:.85em">' + esc(r.note || 'הזכויות חולצו מתקנון התכנית — לאימות מול הוועדה המקומית.') + '</div>' +
               (!r.detail && r.bonus_note ? '<div class="parcel-plan-status" style="opacity:.75">' + esc(r.bonus_note) + '</div>' : '') +
               '</div>';
+            }
           } else if (p.rights_mode === 'landuse' && p.landuse && Array.isArray(p.landuse.designations) && p.landuse.designations.length) {
             const d0 = p.landuse.designations[0];
             html += '<div class="parcel-plan-rights">' +
