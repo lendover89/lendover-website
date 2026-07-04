@@ -194,8 +194,10 @@ nav {
 
 /* Page banner (for sub-pages) */
 .page-banner {
-  height: 340px;
-  margin-top: 102px; /* fixed header offset: top strip + nav */
+  min-height: 390px;
+  height: auto;
+  margin-top: 0;
+  padding: 118px 20px 78px;
   position: relative;
   display: flex;
   align-items: center;
@@ -219,7 +221,18 @@ nav {
 }
 
 .page-banner .hero-content h1 {
-  font-size: clamp(32px, 5vw, 52px);
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 1.08;
+  margin: 0 0 18px;
+  font-weight: 700;
+}
+
+.page-banner .hero-content p {
+  font-size: clamp(18px, 2.2vw, 24px);
+  max-width: 880px;
+  margin: 0 auto;
+  line-height: 1.65;
+  opacity: .94;
 }
 
 /* ─── SECTIONS GENERAL ─── */
@@ -631,10 +644,20 @@ footer a:hover { color: white; }
   }
 
   .page-banner {
-    height: 220px;
-    margin-top: 82px; /* fixed mobile header offset */
+    min-height: auto;
+    height: auto;
+    margin-top: 0;
+    padding: 92px 20px 46px;
   }
-  .page-banner .hero-content h1 { font-size: clamp(24px, 6vw, 36px); }
+  .page-banner .hero-content h1 {
+    font-size: clamp(28px, 8vw, 36px);
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .page-banner .hero-content p {
+    font-size: 16px;
+    line-height: 1.65;
+  }
 
   .service-card {
     padding: 24px 20px;
@@ -716,9 +739,7 @@ footer a:hover { color: white; }
 
 /* ─── BREADCRUMBS ─── */
 .breadcrumbs {
-  background: #f5f5f5;
-  padding: 12px 20px;
-  border-bottom: 1px solid #eee;
+  display: none;
 }
 
 .breadcrumbs ol {
@@ -1244,6 +1265,5 @@ body.a11y-keyboard-nav *:focus {
   color: #4a4a4a;
   margin-bottom: 16px;
 }
-
 
 
