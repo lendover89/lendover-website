@@ -527,7 +527,7 @@ footer a:hover { color: white; }
 }
 
 /* Mobile / narrow tablet */
-@media (max-width: 860px) {
+@media (max-width: 1100px) {
   .hamburger { display: flex; }
 
   nav {
@@ -1244,5 +1244,6 @@ body.a11y-keyboard-nav *:focus {
   color: #4a4a4a;
   margin-bottom: 16px;
 }
+
 
 
