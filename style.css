@@ -526,8 +526,8 @@ footer a:hover { color: white; }
   .tools-grid { grid-template-columns: 1fr 1fr; }
 }
 
-/* Mobile */
-@media (max-width: 768px) {
+/* Mobile / narrow tablet */
+@media (max-width: 860px) {
   .hamburger { display: flex; }
 
   nav {
