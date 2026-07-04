@@ -218,6 +218,41 @@
       if (p.status === 'בהליכי אישור') h += '<div class="status" style="color:#b45309;font-weight:600">תכנית בהליכי אישור (הכרעה בהתנגדויות) — האומדן אינו תחליף סטטוטורי; לאימות מול הוועדה המקומית.</div>';
     } else if (p.rights_mode === 'renewal' && p.renewal) {
       const r = p.renewal;
+      if (r.street_class) {
+        var pf = r.per_floor || {};
+        var lt = r.is_corner ? 'פינתי' : 'רגיל';
+        h += '<div class="grid">' +
+          '<div class="kv"><div class="k">סיווג רחוב</div><div class="v">' + esc(r.street_class_he || '') + '</div></div>' +
+          '<div class="kv"><div class="k">סוג מגרש</div><div class="v">' + lt + '</div></div>' +
+          '<div class="kv"><div class="k">שטח מגרש</div><div class="v">' + esc(String(r.lot_area_m2)) + ' מ"ר</div></div>' +
+          (r.lot_width_m != null ? '<div class="kv"><div class="k">רוחב חזית</div><div class="v">' + esc(String(r.lot_width_m)) + ' מ\'</div></div>' : '') +
+          '</div>';
+        if (r.below_min_lot) {
+          h += '<div class="status muted">' + esc(r.note || '') + '</div>';
+        } else {
+          var sb = r.setbacks || {};
+          h += '<div class="grid">' +
+            '<div class="kv"><div class="k">תכסית (מהשטח שבין קווי הבניין)</div><div class="v">' + esc(String(r.coverage_base_pct)) + '%</div></div>' +
+            '<div class="kv"><div class="k">קומות</div><div class="v">' + esc(String(r.floors)) + '</div></div>' +
+            (r.between_lines_area_m2 != null ? '<div class="kv"><div class="k">שטח בין קווי הבניין</div><div class="v">' + esc(String(r.between_lines_area_m2)) + ' מ"ר</div></div>' : '') +
+            (r.est_max_units != null ? '<div class="kv"><div class="k">יח"ד מוערך (מחלק ' + esc(String(r.unit_divisor_m2)) + ')</div><div class="v">' + esc(String(r.est_max_units)) + '</div></div>' : '') +
+            '<div class="kv"><div class="k">קווי בניין</div><div class="v">קדמי ' + esc(String(sb.front)) + ' · צידי ' + esc(String(sb.side)) + ' · אחורי ' + esc(String(sb.rear)) + ' מ\'</div></div>' +
+            '</div>';
+          h += '<h3>פירוט פר-קומה</h3><table><tr><th>מרכיב</th><th>שטח מוערך</th></tr>' +
+            '<tr><td>קומת קרקע' + (r.street_class === 'commercial' ? ' (בנסיגת חזית מסחרית)' : '') + '</td><td>' + esc(String(pf.ground)) + ' מ"ר</td></tr>' +
+            '<tr><td>קומה טיפוסית ×' + esc(String(pf.typical_floors_n)) + '</td><td>' + esc(String(pf.typical)) + ' מ"ר</td></tr>' +
+            '<tr><td>קומת גג (75%)</td><td>' + esc(String(pf.roof)) + ' מ"ר</td></tr>' +
+            '<tr><td><strong>סה"כ מעל הקרקע</strong></td><td><strong>' + esc(String(r.est_above_ground_area_m2)) + ' מ"ר</strong></td></tr></table>';
+          if (r.view_funnel_note) h += '<div class="status muted">' + esc(r.view_funnel_note) + '</div>';
+          if (Array.isArray(r.options) && r.options.length) {
+            h += '<h3>אופציות / תוספות מותנות</h3><div class="rights">' +
+              r.options.map(function (o) {
+                return '<div>' + esc(o.label_he || '') + (o.plus_m2 != null ? ': +' + esc(String(o.plus_m2)) + ' מ"ר' : '') + (o.note ? ' — ' + esc(o.note) : '') + '</div>';
+              }).join('') + '</div>';
+          }
+        }
+        h += '<div class="status muted">' + esc(!r.below_min_lot && r.note ? r.note : 'לאימות מול הוועדה המקומית.') + '</div>';
+      } else {
       const sb = r.setbacks || {};
       h += '<div class="grid">' +
         (r.zone_name ? '<div class="kv"><div class="k">אזור תכנון</div><div class="v">' + esc(r.zone_name) + '</div></div>' : '') +
@@ -258,6 +293,7 @@
         if (sc) h += '<div class="status muted">' + esc(sc) + '</div>';
       }
       h += '<div class="status muted">' + esc(r.note || 'הזכויות חולצו מתקנון התכנית — לאימות מול הוועדה המקומית.') + '</div>';
+      }
     } else if (p.rights_mode === 'landuse' && p.landuse && p.landuse.designations && p.landuse.designations.length) {
       const d0 = p.landuse.designations[0];
       h += '<div class="rights">ייעוד: ' + esc(d0.landuse_label || '') +
