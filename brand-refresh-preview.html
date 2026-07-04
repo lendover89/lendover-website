@@ -370,8 +370,45 @@
   ]
 }</script>
 <!-- LENDOVER_ENTITY_SCHEMA_END -->
+
+  <style>
+    .merged-service-anchor{scroll-margin-top:96px}
+    .preview-panel{background:#fff;border:1px solid #eadfce;border-radius:14px;padding:28px;box-shadow:0 8px 28px rgba(26,43,74,.07);max-width:100%;overflow-wrap:break-word}
+    .preview-panel p{font-size:18px;line-height:1.8;color:#444;margin:0;max-width:900px}
+    .preview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:28px;min-width:0}
+    .preview-card{background:#fff;border:1px solid #eadfce;border-radius:14px;padding:24px;box-shadow:0 8px 28px rgba(26,43,74,.06);max-width:100%;overflow-wrap:break-word}
+    .preview-card h3{font-size:21px;margin:0 0 10px;color:var(--color-dark)}
+    .preview-card p{font-size:16px;line-height:1.7;color:#555;margin:0}
+    .check-list{display:grid;gap:16px;margin-top:24px}
+    .check-item{background:#fbf8f3;border:1px solid #eadfce;border-radius:12px;padding:18px 20px;max-width:100%;overflow-wrap:break-word}
+    .check-item strong{display:block;color:var(--color-dark);font-size:18px;margin-bottom:6px}
+    .check-item p{margin:0;color:#555;line-height:1.65}
+    .method-grid,.report-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:28px;min-width:0}
+    .timeline-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-top:28px;min-width:0}
+    .method-step,.flow-step,.timeline-step{background:#fff;border:1px solid #eadfce;border-radius:14px;padding:20px;box-shadow:0 8px 28px rgba(26,43,74,.05);max-width:100%;overflow-wrap:break-word}
+    .method-step span,.flow-step span,.timeline-step span{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:var(--color-dark);color:#fff;font-weight:700;margin-bottom:12px}
+    .method-step h3,.flow-step h3,.timeline-step h3{font-size:18px;margin:0 0 8px;color:var(--color-dark)}
+    .method-step p,.flow-step p,.timeline-step p{margin:0;color:#555;line-height:1.7;font-size:15px}
+    .decision-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:28px;min-width:0}
+    .decision-card{background:#fbf8f3;border:1px solid #eadfce;border-radius:14px;padding:24px;max-width:100%;overflow-wrap:break-word}
+    .decision-card h3{font-size:21px;margin:0 0 10px;color:var(--color-dark)}
+    .decision-card p{font-size:16px;line-height:1.75;color:#555;margin:0}
+    .split-section{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start;min-width:0}
+    .plain-copy p{font-size:18px;line-height:1.85;color:#444;margin:0 0 16px}
+    .quiet-list{background:#fbf8f3;border:1px solid #eadfce;border-radius:14px;padding:24px;max-width:100%;overflow-wrap:break-word}
+    .quiet-list h3{margin:0 0 14px;color:var(--color-dark);font-size:22px}
+    .quiet-list ul{margin:0;padding:0 20px 0 0;color:#555;line-height:1.9}
+    .quiet-list li{margin-bottom:8px}
+    @media(max-width:820px){
+      .preview-grid,.method-grid,.report-flow,.timeline-grid,.decision-grid,.split-section{grid-template-columns:1fr;gap:16px}
+      .preview-panel,.preview-card,.check-item,.method-step,.flow-step,.timeline-step,.decision-card,.quiet-list{padding:20px;border-radius:10px}
+      .preview-card h3,.check-item strong,.method-step h3,.flow-step h3,.timeline-step h3,.decision-card h3{font-size:18px}
+      .preview-panel p,.preview-card p,.check-item p,.method-step p,.flow-step p,.plain-copy p,.timeline-step p,.decision-card p{font-size:15.5px;line-height:1.75}
+    }
+    @media(max-width:420px){.preview-panel,.preview-card,.check-item,.method-step,.flow-step,.timeline-step,.decision-card,.quiet-list{padding:18px}}
+  </style>
 </head>
-<body>
+<body id="top">
 <div style="position:fixed; left:16px; bottom:16px; z-index:9999; background:#1a2b4a; color:white; padding:8px 12px; border-radius:999px; font-size:13px; box-shadow:0 4px 18px rgba(0,0,0,.18);">טיוטת מיתוג</div>
 
 <!-- ─── HEADER ─── -->
@@ -385,12 +422,12 @@
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links">
-      <li><a href="brand-refresh-preview.html" class="active">בית</a></li>
-      <li><a href="brand-refresh-consulting.html">ליווי עסקאות</a></li>
-      <li><a href="brand-refresh-reports.html">דוחות תכנוניים</a></li>
+      <li><a href="#top" class="active">בית</a></li>
+      <li><a href="#consulting">ליווי עסקאות</a></li>
+      <li><a href="#reports">דוחות תכנוניים</a></li>
       <li><a href="tools.html">כלים</a></li>
-      <li><a href="brand-refresh-opportunities.html">איתור עסקאות</a></li>
-      <li><a href="services.html">התחדשות עירונית</a></li>
+      <li><a href="#opportunities">איתור עסקאות</a></li>
+      <li><a href="services-developers.html">התחדשות עירונית</a></li>
       <li><a href="#about">אודות</a></li>
       <li><a href="contact.html">יצירת קשר</a></li>
     </ul>
@@ -447,17 +484,17 @@
     <h2 class="section-title center">תחומי פעילות</h2>
     <p style="text-align:center; color:#555; max-width:820px; margin:0 auto 32px; line-height:1.8;">ייעוץ, ניתוח וכלים לקבלת החלטות בנדל״ן — בלי לצמצם את העבודה רק להתחדשות עירונית, ובלי להפוך אותה למוצר אחד.</p>
     <div class="services-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); margin-top:32px;">
-      <a id="opportunities" class="service-card" href="contact.html" style="border-top:4px solid var(--color-bronze);">
+      <a class="service-card" href="#opportunities" style="border-top:4px solid var(--color-bronze);">
         <h3 style="font-size:22px;">איתור הזדמנויות</h3>
         <p>זיהוי נכסים, קרקעות ומהלכים עם פוטנציאל עסקי, לפני שהם הופכים להזדמנות ברורה לכולם.</p>
-        <p style="color:var(--color-bronze); font-weight:600; margin-top:12px;">בדיקת הזדמנות ←</p>
+        <p style="color:var(--color-bronze); font-weight:600; margin-top:12px;">לאיתור עסקאות ←</p>
       </a>
-      <a class="service-card" href="brand-refresh-reports.html" style="border-top:4px solid var(--color-sage);">
+      <a class="service-card" href="#reports" style="border-top:4px solid var(--color-sage);">
         <h3 style="font-size:22px;">ניתוחים ודוחות</h3>
         <p>בחינת זכויות, מגבלות, עלויות, סיכונים והיתכנות כלכלית, לצד דוחות תכנוניים שמסדרים את הנתונים לפני החלטה.</p>
         <p style="color:var(--color-bronze); font-weight:600; margin-top:12px;">לדוחות וניתוחים ←</p>
       </a>
-      <a class="service-card" href="brand-refresh-consulting.html" style="border-top:4px solid var(--color-bronze);">
+      <a class="service-card" href="#consulting" style="border-top:4px solid var(--color-bronze);">
         <h3 style="font-size:22px;">ליווי עסקאות</h3>
         <p>סיוע בקבלת החלטות לאורך חיי הפרויקט: ליווי תכנוני, ניהול העסקה, תיאום גורמים מקצועיים ותמיכה במו״מ.</p>
         <p style="color:var(--color-bronze); font-weight:600; margin-top:12px;">לליווי עסקאות ←</p>
@@ -470,6 +507,249 @@
     </div>
   </div>
 </section>
+
+
+<!-- ─── MERGED SERVICE DETAILS ─── -->
+<section id="opportunities" class="merged-service-anchor" style="padding:64px 0;background:var(--color-cream);">
+    <div class="container">
+      <div class="preview-panel">
+        <h2 class="section-title">איתור יזום לפני שהעסקה מגיעה לשוק</h2>
+        <p style="font-size:18px;line-height:1.8;color:#444;margin:0;max-width:900px;">העבודה מתחילה מהגדרה של מה מחפשים: קרקע, בניין, פרויקט או מתחם עם מאפיינים שמתאימים למהלך יזמי. משם בודקים שכבות תכנון, זכויות, מצב קיים וסביבה עירונית, כדי להגיע לרשימה ממוקדת של יעדים שאפשר לפנות אליהם באופן יזום.</p>
+      </div>
+      <div class="preview-grid">
+        <article class="preview-card">
+          <h3>פרופיל יזמי ברור</h3>
+          <p>מגדירים מה מחפשים: קרקע פנויה, בניין ותיק, מגרש עם זכויות, אזור התחדשות עירונית, גודל מינימלי או מאפיינים תכנוניים אחרים.</p>
+        </article>
+        <article class="preview-card">
+          <h3>סינון תכנוני ב-GIS</h3>
+          <p>מצליבים שכבות תכנון, גושים וחלקות, בנייה קיימת, סביבה עירונית וזכויות כדי לצמצם מרחב גדול לרשימת יעדים שאפשר לעבוד איתה.</p>
+        </article>
+        <article class="preview-card">
+          <h3>רשימת יעדים לפנייה</h3>
+          <p>בסוף נשארים עם מגרשים, בניינים או מתחמים שנראים רלוונטיים לבדיקה ולפנייה יזומה לבעלים, לפני שהם הופכים להזדמנות משווקת או תחרותית.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:64px 0;background:#fff;">
+    <div class="container">
+      <h2 class="section-title center">איך האיתור עובד</h2>
+      <div class="method-grid">
+        <article class="method-step">
+          <span>1</span>
+          <h3>מגדירים פרופיל</h3>
+          <p>איזה סוג פרויקט מחפשים, באיזה אזור, ומה הופך קרקע, בניין או מתחם למעניין מבחינה יזמית.</p>
+        </article>
+        <article class="method-step">
+          <span>2</span>
+          <h3>מסננים במפה</h3>
+          <p>מצליבים GIS, תכניות, גושים וחלקות, בנייה קיימת, סביבת תכנון ונתונים שמצביעים על פוטנציאל.</p>
+        </article>
+        <article class="method-step">
+          <span>3</span>
+          <h3>מורידים רעש</h3>
+          <p>מוציאים החוצה נכסים קטנים מדי, מורכבים מדי, לא רלוונטיים תכנונית או כאלה שלא מתאימים לפרופיל שהוגדר.</p>
+        </article>
+        <article class="method-step">
+          <span>4</span>
+          <h3>מכינים רשימת יעדים</h3>
+          <p>מגבשים רשימה ממוקדת של קרקעות, בניינים או מתחמים לפנייה יזומה ולבדיקה המשכית.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:64px 0;background:#fff;">
+    <div class="container" style="max-width:980px;">
+      <h2 class="section-title center">למי זה מתאים</h2>
+      <div class="check-list">
+        <div class="check-item">
+          <strong>יזמים שמחפשים קרקעות או פרויקטים</strong>
+          <p>כשרוצים לייצר מקור עצמאי להזדמנויות, ולא להסתמך רק על מה שמגיע דרך מתווכים, מכרזים או קשרים קיימים.</p>
+        </div>
+        <div class="check-item">
+          <strong>חברות עם פרופיל רכישה ברור</strong>
+          <p>כשיש קריטריונים ידועים לקרקע, פרויקט או מתחם, אבל צריך דרך שיטתית למצוא מועמדים שמתקרבים אליהם.</p>
+        </div>
+        <div class="check-item">
+          <strong>מי שרוצה להגיע לפני השוק</strong>
+          <p>לפני שהמגרש או הפרויקט מתפרסם, לפני שנכנסים מתחרים, ולפני שהמחיר כבר משקף את כל הפוטנציאל.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+<section id="reports" class="merged-service-anchor" style="padding:64px 0;background:var(--color-cream);">
+    <div class="container">
+      <div class="preview-panel">
+        <h2 class="section-title">דוח מסודר במקום חיפוש מפוזר</h2>
+        <p>במקום לפתוח כמה מערכות, להצליב תכניות, לחפש מפות ולנסות להבין מה רלוונטי, הדוח מרכז את המידע במקום אחד. הוא מיועד למי שרוצה תמונת מצב תכנונית מסודרת על נכס ספציפי, בלי להפוך את הבדיקה לפרויקט בפני עצמו.</p>
+      </div>
+      <div class="preview-grid">
+        <article class="preview-card">
+          <h3>בדיקת זכויות ותכנון</h3>
+          <p>ריכוז התכניות החלות, ייעודי הקרקע, זכויות הבנייה, מגבלות ושימושים רלוונטיים לנכס או למתחם.</p>
+        </article>
+        <article class="preview-card">
+          <h3>תמונת שטח וסביבה</h3>
+          <p>מבט על גבולות המגרש, הרחובות, המבנים הסמוכים, שימושי הקרקע בסביבה ונגישות, כדי להבין את המציאות הפיזית סביב הנכס.</p>
+        </article>
+        <article class="preview-card">
+          <h3>סיכום ברור לפעולה</h3>
+          <p>מסקנות קצרות, נקודות פתוחות להמשך בדיקה וקישורים למקורות, כדי שיהיה אפשר להתקדם בלי לאסוף הכול מחדש.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:64px 0;background:#fff;">
+    <div class="container">
+      <h2 class="section-title center">מה מקבלים בקובץ</h2>
+      <div class="report-flow">
+        <article class="flow-step">
+          <span>1</span>
+          <h3>זיהוי הנכס</h3>
+          <p>כתובת, גוש/חלקה, גבולות, מפות בסיס ומידע שמוודא שהבדיקה מתייחסת לנכס הנכון.</p>
+        </article>
+        <article class="flow-step">
+          <span>2</span>
+          <h3>מידע תכנוני</h3>
+          <p>תב״עות, ייעודי קרקע, שימושים, זכויות, מגבלות, מסמכי תכנון וקישורים למקורות הרלוונטיים.</p>
+        </article>
+        <article class="flow-step">
+          <span>3</span>
+          <h3>מפות וצילומי מצב</h3>
+          <p>מפות, שכבות תכנון, סביבת הנכס, תשתיות או סימונים רלוונטיים לפי סוג הבדיקה.</p>
+        </article>
+        <article class="flow-step">
+          <span>4</span>
+          <h3>סיכום ממצאים</h3>
+          <p>ריכוז קצר של מה נמצא, מה לא נמצא, ומה מומלץ לבדוק בהמשך מול ועדה, שמאי או עורך דין.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:64px 0;background:#fff;">
+    <div class="container" style="max-width:980px;">
+      <h2 class="section-title center">מתי מזמינים דוח</h2>
+      <div class="check-list">
+        <div class="check-item">
+          <strong>לפני רכישה או בדיקה שמאית</strong>
+          <p>כשרוצים להגיע לשלב הבא עם חומר מסודר ולא רק תחושה כללית לגבי הנכס.</p>
+        </div>
+        <div class="check-item">
+          <strong>לפני פנייה לבעלים או דיירים</strong>
+          <p>כשרוצים להבין את הנתונים הבסיסיים לפני שמתחילים שיחה על נכס או מתחם.</p>
+        </div>
+        <div class="check-item">
+          <strong>כשצריך לסנן כמה נכסים</strong>
+          <p>כשיש כמה כתובות או חלקות ורוצים תוצר אחיד שיעזור להשוות ביניהן.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+<section id="consulting" class="merged-service-anchor" style="padding:64px 0;background:var(--color-cream);">
+    <div class="container">
+      <div class="preview-panel">
+        <h2 class="section-title">סיוע בקבלת החלטות וניהול העסקה לאורך זמן</h2>
+        <p style="font-size:18px;line-height:1.8;color:#444;margin:0;max-width:900px;">דוח עונה על שאלה נקודתית. ליווי עסקה מחבר את כל ציר ההחלטות: מה נכון לעשות עכשיו, איזה מידע חסר, איך זה משפיע על המו״מ, מי צריך להיכנס לתמונה, ומה הצעד הבא שמקדם את העסקה בלי להגדיל סיכון מיותר.</p>
+      </div>
+      <div class="preview-grid">
+        <article class="preview-card">
+          <h3>ליווי בקבלת החלטות</h3>
+          <p>בכל נקודת הכרעה בוחנים את האפשרויות, את ההשלכות ואת המחיר של טעות: להתקדם, לשנות תנאים, להכניס יועץ, לפתוח מו״מ או לעצור.</p>
+        </article>
+        <article class="preview-card">
+          <h3>ליווי תכנוני</h3>
+          <p>תרגום תכניות, זכויות, מדיניות עירונית, מגבלות ותהליכי רישוי למשמעות מעשית: מה אפשר לקדם, מה דורש שינוי, ומה משפיע על העסקה.</p>
+        </article>
+        <article class="preview-card">
+          <h3>ליווי בניהול העסקה</h3>
+          <p>סדר פעולות, תיאום בין אנשי מקצוע, הכנת שאלות, ניהול פערי מידע ותמיכה בשיחות עם בעלים, יזמים, עורכי דין, מתכננים ורשויות.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:64px 0;background:#fff;">
+    <div class="container">
+      <h2 class="section-title center">איך הליווי משתלב בחיי הפרויקט</h2>
+      <div class="timeline-grid">
+        <article class="timeline-step">
+          <span>1</span>
+          <h3>הבנת נקודת הפתיחה</h3>
+          <p>מגדירים מה עומד על השולחן, מי הצדדים, מה מטרת העסקה, ומהם הנושאים שיקבעו אם נכון להתקדם.</p>
+        </article>
+        <article class="timeline-step">
+          <span>2</span>
+          <h3>בניית דרך פעולה</h3>
+          <p>מחליטים מה צריך לקרות קודם: מול בעלים, יזם, רשות, מתכנן, עורך דין, שמאי או גורם מקצועי אחר.</p>
+        </article>
+        <article class="timeline-step">
+          <span>3</span>
+          <h3>ליווי תכנוני שוטף</h3>
+          <p>עוקבים אחרי תכניות, זכויות, מדיניות, מגבלות ותשובות שמגיעות לאורך הדרך, ומבינים איך הן משנות את העסקה.</p>
+        </article>
+        <article class="timeline-step">
+          <span>4</span>
+          <h3>ניהול העסקה והמו״מ</h3>
+          <p>מסייעים בניהול שאלות, פערים, תנאים מסחריים, ציפיות צדדים וסדר עבודה כדי שהעסקה לא תתנהל על הנחות לא בדוקות.</p>
+        </article>
+        <article class="timeline-step">
+          <span>5</span>
+          <h3>החלטות לאורך הדרך</h3>
+          <p>בכל שלב חוזרים לשאלה העסקית: להמשיך, לשנות כיוון, להקשיח תנאים, להכניס בדיקה נוספת או לעצור.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:64px 0;background:#fff;">
+    <div class="container">
+      <div class="split-section">
+        <div class="plain-copy">
+          <h2 class="section-title">יתרונות הליווי</h2>
+          <p>בעסקה אמיתית יש הרבה תנועה: מסמכים, שיחות, טיוטות, דרישות, תשובות מהרשות, הערות של עורכי דין, שמאות, תכנון, שינויי מחיר וציפיות של הצדדים. הליווי מחבר את כל המידע הזה לתמונה עסקית אחת, כדי שכל החלטה תתקבל בזמן הנכון ועל בסיס הנתונים הנכונים.</p>
+          <p>היתרון הוא בסדר, בתזמון ובשיקול הדעת: להבין מה חשוב עכשיו, מה מסוכן, מה אפשר לדחות, ומה חייב להיסגר לפני שממשיכים.</p>
+        </div>
+        <aside class="quiet-list">
+          <h3>מה נכנס לליווי</h3>
+          <ul>
+            <li>ליווי בקבלת החלטות לאורך חיי הפרויקט.</li>
+            <li>ליווי תכנוני מול תכניות, זכויות, מדיניות ורישוי.</li>
+            <li>סיוע בניהול העסקה, המו״מ וסדר הפעולות.</li>
+            <li>תיאום שאלות ופערים מול עורכי דין, שמאים, מתכננים ורשויות.</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:64px 0;background:var(--color-cream);">
+    <div class="container" style="max-width:980px;">
+      <h2 class="section-title center">למי זה מתאים</h2>
+      <div class="decision-grid">
+        <article class="decision-card">
+          <h3>יזמים שמנהלים עסקה לאורך זמן</h3>
+          <p>כשהעסקה דורשת תכנון, מו״מ, בדיקות, תיאום יועצים והחלטות מתמשכות ולא רק חוות דעת ראשונית.</p>
+        </article>
+        <article class="decision-card">
+          <h3>בעלי קרקע או נכסים במהלך מו״מ</h3>
+          <p>כשרוצים להבין את המשמעות של הצעות, תנאים, זכויות ותכנון, ולנהל את התהליך בלי להישען רק על הצד השני.</p>
+        </article>
+        <article class="decision-card">
+          <h3>נציגויות דיירים ובעלי דירות</h3>
+          <p>כשהפרויקט מתקדם בשלבים וצריך ליווי שמסייע להבין הצעות, מסמכים, שינויי תכנון, חלופות והחלטות מול יזמים.</p>
+        </article>
+        <article class="decision-card">
+          <h3>עורכי דין שמלווים עסקה או פרויקט</h3>
+          <p>כשצריך גורם מקצועי שמרכז את ההיבט התכנוני־עסקי לצד ההליך המשפטי ומסייע לחדד שאלות, תנאים וסיכונים.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
 <!-- ─── WHY IT MATTERS ─── -->
 <section style="padding:64px 0; background:#fff;">
@@ -653,6 +933,7 @@
 <script src="/tools/tracker.js"></script>
 </body>
 </html>
+
 
 
 
