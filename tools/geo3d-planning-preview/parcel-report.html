@@ -218,7 +218,11 @@
       if (p.status === 'בהליכי אישור') h += '<div class="status" style="color:#b45309;font-weight:600">תכנית בהליכי אישור (הכרעה בהתנגדויות) — האומדן אינו תחליף סטטוטורי; לאימות מול הוועדה המקומית.</div>';
     } else if (p.rights_mode === 'renewal' && p.renewal) {
       const r = p.renewal;
-      if (r.street_class) {
+      if (r.street_class && r.excluded) {
+        h += '<h3>רג/1900 — התחדשות בניינית</h3>' +
+          '<div class="status" style="color:#c0623a">' + esc(r.note || 'התכנית אינה חלה על מגרש זה.') + '</div>' +
+          '<div class="status muted">לאימות מול הוועדה המקומית.</div>';
+      } else if (r.street_class) {
         var pf = r.per_floor || {};
         var lt = r.is_corner ? 'פינתי' : 'רגיל';
         h += '<div class="grid">' +
