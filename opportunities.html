@@ -17,6 +17,45 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="he_IL" />
 
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "מה זה איתור עסקאות מחוץ לשוק?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "איתור עסקאות מחוץ לשוק הוא תהליך יזום שבו מגדירים פרופיל נכס או מתחם, מסננים מועמדים ב-GIS ובמידע תכנוני, ובונים רשימת יעדים לפנייה לפני שההזדמנות מתפרסמת או מגיעה למתווכים."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "איך GIS עוזר למצוא קרקעות ופרויקטים?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GIS מאפשר להצליב שכבות כמו גושים וחלקות, בנייה קיימת, תכנון, שימושי קרקע, סביבת רחוב, מגבלות ופוטנציאל התחדשות. כך מצמצמים אזור גדול לרשימה ממוקדת של נכסים ששווה לבדוק."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "האם הרשימה שמתקבלת היא עסקה מוכנה?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "לא. רשימת היעדים היא נקודת פתיחה איכותית לפנייה ובדיקה. לאחר איתור מועמדים צריך לבדוק בעלויות, היתכנות תכנונית, רצון בעלים, מגבלות וסיכון עסקי לפני שמתקדמים."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "למי מתאים שירות איתור העסקאות?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "השירות מתאים ליזמים, חברות נדל״ן, בעלי הון ובעלי קרקע שמחפשים מקור עצמאי להזדמנויות ורוצים לעבוד בצורה שיטתית במקום להסתמך רק על עסקאות שמגיעות מהשוק."
+      }
+    }
+  ]
+}</script>
+
   <style>
     html{direction:rtl;width:100%;max-width:100%;overflow-x:hidden}
     body{direction:rtl;width:100%;max-width:100%;overflow-x:hidden;position:relative}
@@ -74,7 +113,7 @@
 
 <header>
   <nav>
-    <a class="nav-logo" href="brand-refresh-preview.html"><img src="logo-transparent.png" alt="לוגו לנדובר" />לנדובר</a>
+    <a class="nav-logo" href="/"><img src="logo-transparent.png" alt="לוגו לנדובר" />לנדובר</a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="תפריט">
       <span></span><span></span><span></span>
     </button>
@@ -175,6 +214,31 @@
     </div>
   </section>
 
+  <section style="padding:64px 0;background:#fff;">
+    <div class="container" style="max-width:980px;">
+      <h2 class="section-title center">שאלות נפוצות</h2>
+      <div class="check-list">
+        <div class="check-item">
+          <strong>מה זה איתור עסקאות מחוץ לשוק?</strong>
+          <p>איתור עסקאות מחוץ לשוק הוא תהליך יזום שבו מגדירים פרופיל נכס או מתחם, מסננים מועמדים ב-GIS ובמידע תכנוני, ובונים רשימת יעדים לפנייה לפני שההזדמנות מתפרסמת או מגיעה למתווכים.</p>
+        </div>
+        <div class="check-item">
+          <strong>איך GIS עוזר למצוא קרקעות ופרויקטים?</strong>
+          <p>GIS מאפשר להצליב שכבות כמו גושים וחלקות, בנייה קיימת, תכנון, שימושי קרקע, סביבת רחוב, מגבלות ופוטנציאל התחדשות. כך מצמצמים אזור גדול לרשימה ממוקדת של נכסים ששווה לבדוק.</p>
+        </div>
+        <div class="check-item">
+          <strong>האם הרשימה שמתקבלת היא עסקה מוכנה?</strong>
+          <p>לא. רשימת היעדים היא נקודת פתיחה איכותית לפנייה ובדיקה. לאחר איתור מועמדים צריך לבדוק בעלויות, היתכנות תכנונית, רצון בעלים, מגבלות וסיכון עסקי לפני שמתקדמים.</p>
+        </div>
+        <div class="check-item">
+          <strong>למי מתאים שירות איתור העסקאות?</strong>
+          <p>השירות מתאים ליזמים, חברות נדל״ן, בעלי הון ובעלי קרקע שמחפשים מקור עצמאי להזדמנויות ורוצים לעבוד בצורה שיטתית במקום להסתמך רק על עסקאות שמגיעות מהשוק.</p>
+        </div>
+      </div>
+      <p style="margin-top:24px;text-align:center;line-height:1.8;"><a href="articles/gis-opportunity-engine-for-developers.html" style="color:var(--color-bronze);font-weight:600;text-decoration:none;">קראו על GIS כמנוע איתור ליזמים</a> &nbsp; | &nbsp; <a href="reports.html" style="color:var(--color-bronze);font-weight:600;text-decoration:none;">רוצים לבדוק יעד ספציפי? עברו לדוחות</a></p>
+    </div>
+  </section>
+
   <section class="cta-section">
     <div class="container">
       <h2>רוצים לבנות רשימת יעדים?</h2>
@@ -208,12 +272,13 @@
       <a href="https://www.linkedin.com/in/aharon-lendover-911b23111/" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
       <a href="https://www.facebook.com/1122403224281860" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
     </div>
-    <p>&copy; 2026 לנדובר ב.ר 2026 בע"מ. כל הזכויות שמורות. טיוטת Preview פנימית.</p>
+    <p>&copy; 2026 לנדובר ב.ר 2026 בע"מ. כל הזכויות שמורות.</p>
   </div>
 </footer>
 <script src="accessibility-widget.js"></script>
 </body>
 </html>
+
 
 
 
