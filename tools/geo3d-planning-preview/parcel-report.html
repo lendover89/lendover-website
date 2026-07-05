@@ -333,6 +333,12 @@
     try {
       const r = await fetch(GROUNDWATER_API + '/api/planning/parcel-rights?gush=' + encodeURIComponent(gush) + '&helka=' + encodeURIComponent(helka), { credentials: 'include' });
       const d = await r.json();
+      if (d && d.error_kind) {
+        const kindMsg = d.error_kind === 'timeout' ? 'חישוב הזכויות התארך מדי.' : 'שירות הזכויות אינו זמין כרגע.';
+        document.getElementById('content').innerHTML = '<div class="error">' + kindMsg +
+          ' <a href="javascript:location.reload()">נסה שוב</a></div>';
+        return;
+      }
       if (!r.ok || !d || !d.available || !Array.isArray(d.plans) || !d.plans.length) {
         document.getElementById('content').innerHTML = '<div class="error">' + esc((d && d.message) || 'לא נמצאו זכויות לחלקה.') + '</div>';
         return;
