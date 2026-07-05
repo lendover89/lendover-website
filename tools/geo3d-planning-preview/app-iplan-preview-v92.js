@@ -1128,6 +1128,7 @@
                   '<div style="opacity:.85;font-size:.9em">• קומת גג (75%): ' + esc(String(pf.roof)) + ' מ"ר</div>' +
                   '<div style="margin-top:4px"><strong>סה"כ מעל הקרקע ≈ ' + esc(String(r.est_above_ground_area_m2)) + ' מ"ר</strong></div>' +
                   (r.est_max_units != null ? '<div>מס\' יח"ד מוערך: ' + esc(String(r.est_max_units)) + ' (מחלק ' + esc(String(r.unit_divisor_m2)) + ' מ"ר/יח"ד)</div>' : '') +
+                  (r.balcony && r.balcony.total_m2 != null ? '<div style="margin-top:4px"><strong>מרפסות (בנוסף לזכויות):</strong> סה"כ ≈ ' + esc(String(r.balcony.total_m2)) + ' מ"ר <span style="opacity:.7">(עד ' + esc(String(r.balcony.per_unit_m2)) + ' מ"ר ליח"ד × ' + esc(String(r.est_max_units)) + ')</span></div>' + (r.balcony.front_projection_max_m2 != null ? '<div style="opacity:.8;font-size:.9em">מתוכן ניתן להבליט מעבר לקו הקדמי עד ≈ ' + esc(String(r.balcony.front_projection_max_m2)) + ' מ"ר (הבלטה 1 מ\' על 50% מהחזית) — היתר בתחום קווי הבניין.</div>' : '') : '') +
                   (r.view_funnel_note ? '<div class="parcel-plan-status" style="color:#c0623a">' + esc(r.view_funnel_note) + '</div>' : '') +
                   (oh ? '<div style="margin-top:4px">אופציות/תוספות מותנות:</div>' + oh : '');
               }
