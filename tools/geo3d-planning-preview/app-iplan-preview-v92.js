@@ -1373,7 +1373,7 @@
               encoding: 'terrarium',
               bounds: [34.244, 29.486, 35.898, 33.330],
               tiles: [
-                TILE_BASE + '/geo3d-terrain/{z}/{x}/{y}.png?v=2'
+                TILE_BASE + '/geo3d-terrain/{z}/{x}/{y}.png?v=3'
               ]
             },
             hybridBuildings: {
