@@ -247,6 +247,12 @@
             '<tr><td>קומה טיפוסית ×' + esc(String(pf.typical_floors_n)) + '</td><td>' + esc(String(pf.typical)) + ' מ"ר</td></tr>' +
             '<tr><td>קומת גג (75%)</td><td>' + esc(String(pf.roof)) + ' מ"ר</td></tr>' +
             '<tr><td><strong>סה"כ מעל הקרקע</strong></td><td><strong>' + esc(String(r.est_above_ground_area_m2)) + ' מ"ר</strong></td></tr></table>';
+          if (r.balcony && r.balcony.total_m2 != null) {
+            h += '<h3>מרפסות (בנוסף לזכויות)</h3><table><tr><th>מרכיב</th><th>שטח מוערך</th></tr>' +
+              '<tr><td>סה"כ שטח מרפסות (עד ' + esc(String(r.balcony.per_unit_m2)) + ' מ"ר ליח"ד × ' + esc(String(r.est_max_units)) + ' יח"ד)</td><td><strong>≈ ' + esc(String(r.balcony.total_m2)) + ' מ"ר</strong></td></tr>' +
+              (r.balcony.front_projection_max_m2 != null ? '<tr><td>מתוכן להבלטה מעבר לקו הקדמי (1 מ׳ על 50% מהחזית) — היתר בתחום קווי הבניין</td><td>עד ≈ ' + esc(String(r.balcony.front_projection_max_m2)) + ' מ"ר</td></tr>' : '') +
+              '</table>';
+          }
           if (r.view_funnel_note) h += '<div class="status muted">' + esc(r.view_funnel_note) + '</div>';
           if (Array.isArray(r.options) && r.options.length) {
             h += '<h3>אופציות / תוספות מותנות</h3><div class="rights">' +
