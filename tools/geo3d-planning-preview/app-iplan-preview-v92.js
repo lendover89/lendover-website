@@ -875,12 +875,27 @@
           '<span>חיתוך ראשוני לפי גיאומטריית החלקה והקו הכחול. בחר ייעודי קרקע ואז לחץ על תא שטח במפה כדי לבדוק זכויות בנייה מטבלה 5, כשיש התאמה בטוחה.</span></div>';
       }
 
+      const parcelRightsCache = new Map();               // 'gush/helka' -> {t, data}
+      const PARCEL_RIGHTS_CACHE_MS = 10 * 60 * 1000;
+      let parcelRightsSeq = 0;                            // guards stale responses overwriting newer clicks
+
+      function rightsErrorText(kind) {
+        if (kind === 'timeout') return 'חישוב הזכויות התארך מדי — נסה שוב.';
+        if (kind === 'backend_down' || kind === 'backend_error') return 'שירות הזכויות אינו זמין כרגע — נסה שוב בעוד רגע.';
+        return 'שגיאה בטעינת זכויות בנייה.';
+      }
+
       async function fetchParcelRights(gush, helka) {
+        const cacheKey = gush + '/' + helka;
+        const hit = parcelRightsCache.get(cacheKey);
+        if (hit && (Date.now() - hit.t) < PARCEL_RIGHTS_CACHE_MS) return hit.data;
         const url = PLANNING_API + '/api/planning/parcel-rights?gush=' +
           encodeURIComponent(gush) + '&helka=' + encodeURIComponent(helka);
         const r = await fetch(url, { credentials: 'include' });
         const d = await r.json().catch(() => null);
         if (!r.ok || !d) throw new Error((d && d.error) || 'שגיאה בטעינת זכויות בנייה.');
+        if (d.error_kind) throw new Error(rightsErrorText(d.error_kind));
+        parcelRightsCache.set(cacheKey, { t: Date.now(), data: d });
         return d;
       }
 
@@ -1217,13 +1232,21 @@
         const h = button.dataset.prHelka;
         const box = document.querySelector('[data-parcel-rights-result]');
         if (!g || !h) return;
+        const seq = ++parcelRightsSeq;
+        button.disabled = true;
         if (box) box.innerHTML = '<div class="parcel-plans-result is-loading">טוען זכויות בנייה לחלקה...</div>';
         fetchParcelRights(g, h).then((d) => {
+          if (seq !== parcelRightsSeq) return;
           const b = document.querySelector('[data-parcel-rights-result]');
           if (b) b.innerHTML = parcelRightsHtml(d);
         }).catch((e) => {
+          if (seq !== parcelRightsSeq) return;
           const b = document.querySelector('[data-parcel-rights-result]');
-          if (b) b.innerHTML = '<div class="parcel-plans-result is-error">' + escapeHtml(e.message || 'שגיאה') + '</div>';
+          if (b) b.innerHTML = '<div class="parcel-plans-result is-error">' + escapeHtml(e.message || 'שגיאה') +
+            ' <button class="parcel-plan-action" type="button" data-parcel-rights data-pr-gush="' +
+            escapeHtml(String(g)) + '" data-pr-helka="' + escapeHtml(String(h)) + '">נסה שוב</button></div>';
+        }).finally(() => {
+          button.disabled = false;
         });
       }
 
