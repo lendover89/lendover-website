@@ -1100,7 +1100,13 @@
             if (det) html += '<details class="parcel-rights-details" style="margin-top:6px"><summary style="cursor:pointer;color:#2563eb">פרטים מלאים ▾</summary><div style="margin-top:4px;line-height:1.6">' + det + '</div></details>';
           } else if (p.rights_mode === 'renewal' && p.renewal) {
             const r = p.renewal;
-            if (r.street_class) {
+            if (r.street_class && r.excluded) {
+              html += '<div class="parcel-plan-rights">' +
+                '<div class="parcel-plan-status"><strong>רג/1900 — התחדשות בניינית</strong></div>' +
+                '<div style="margin-top:6px;color:#c0623a">' + esc(r.note || 'התכנית אינה חלה על מגרש זה.') + '</div>' +
+                '<div style="margin-top:6px;opacity:.7;font-size:.85em">לאימות מול הוועדה המקומית.</div>' +
+                '</div>';
+            } else if (r.street_class) {
               var pf = r.per_floor || {};
               var lt = r.is_corner ? 'פינתי' : 'רגיל';
               var oh = '';
