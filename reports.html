@@ -17,6 +17,45 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="he_IL" />
 
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "מה כולל דוח תכנוני של לנדובר?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "הדוח מרכז כתובת או גוש/חלקה, תכניות חלות, ייעודי קרקע, זכויות, מגבלות, מפות, סביבת הנכס וסיכום ממצאים ברור. המטרה היא להפוך מידע מפוזר לתמונה שניתן לפעול לפיה."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "מתי מספיק דוח ומתי צריך ליווי?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "דוח מתאים כשצריך תמונת מצב נקודתית על נכס או מתחם. ליווי מתאים כאשר יש עסקה פעילה, מו״מ, החלטות מתמשכות או צורך לתאם בין עורכי דין, שמאים, מתכננים ורשויות."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "האם הדוח מחליף בדיקה משפטית או שמאית?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "לא. הדוח אינו מחליף עורך דין, שמאי או בדיקה רשמית מול רשות. הוא מסדר את המידע התכנוני והמרחבי, מציף שאלות חשובות ומסייע להבין מה צריך לבדוק הלאה."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "איזה מידע צריך לשלוח כדי להתחיל?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "אפשר להתחיל מכתובת, גוש/חלקה, קובץ נכסים או תיאור של מתחם. ככל שהמידע הראשוני מדויק יותר, קל יותר למקד את הדוח בשאלות החשובות באמת."
+      }
+    }
+  ]
+}</script>
+
   <style>
     html{direction:rtl;width:100%;max-width:100%;overflow-x:hidden}
     body{direction:rtl;width:100%;max-width:100%;overflow-x:hidden;position:relative}
@@ -68,7 +107,7 @@
 
 <header>
   <nav>
-    <a class="nav-logo" href="brand-refresh-preview.html"><img src="logo-transparent.png" alt="לוגו לנדובר" />לנדובר</a>
+    <a class="nav-logo" href="/"><img src="logo-transparent.png" alt="לוגו לנדובר" />לנדובר</a>
     <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="תפריט">
       <span></span><span></span><span></span>
     </button>
@@ -169,6 +208,31 @@
     </div>
   </section>
 
+  <section style="padding:64px 0;background:#fff;">
+    <div class="container" style="max-width:980px;">
+      <h2 class="section-title center">שאלות נפוצות</h2>
+      <div class="check-list">
+        <div class="check-item">
+          <strong>מה כולל דוח תכנוני של לנדובר?</strong>
+          <p>הדוח מרכז כתובת או גוש/חלקה, תכניות חלות, ייעודי קרקע, זכויות, מגבלות, מפות, סביבת הנכס וסיכום ממצאים ברור. המטרה היא להפוך מידע מפוזר לתמונה שניתן לפעול לפיה.</p>
+        </div>
+        <div class="check-item">
+          <strong>מתי מספיק דוח ומתי צריך ליווי?</strong>
+          <p>דוח מתאים כשצריך תמונת מצב נקודתית על נכס או מתחם. ליווי מתאים כאשר יש עסקה פעילה, מו״מ, החלטות מתמשכות או צורך לתאם בין עורכי דין, שמאים, מתכננים ורשויות.</p>
+        </div>
+        <div class="check-item">
+          <strong>האם הדוח מחליף בדיקה משפטית או שמאית?</strong>
+          <p>לא. הדוח אינו מחליף עורך דין, שמאי או בדיקה רשמית מול רשות. הוא מסדר את המידע התכנוני והמרחבי, מציף שאלות חשובות ומסייע להבין מה צריך לבדוק הלאה.</p>
+        </div>
+        <div class="check-item">
+          <strong>איזה מידע צריך לשלוח כדי להתחיל?</strong>
+          <p>אפשר להתחיל מכתובת, גוש/חלקה, קובץ נכסים או תיאור של מתחם. ככל שהמידע הראשוני מדויק יותר, קל יותר למקד את הדוח בשאלות החשובות באמת.</p>
+        </div>
+      </div>
+      <p style="margin-top:24px;text-align:center;line-height:1.8;"><a href="tools.html" style="color:var(--color-bronze);font-weight:600;text-decoration:none;">אפשר להתחיל גם מהכלים המתקדמים</a> &nbsp; | &nbsp; <a href="consulting.html" style="color:var(--color-bronze);font-weight:600;text-decoration:none;">צריכים ליווי החלטות? עברו לליווי עסקאות</a></p>
+    </div>
+  </section>
+
   <section class="cta-section">
     <div class="container">
       <h2>רוצים להזמין דוח?</h2>
@@ -202,12 +266,13 @@
       <a href="https://www.linkedin.com/in/aharon-lendover-911b23111/" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
       <a href="https://www.facebook.com/1122403224281860" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
     </div>
-    <p>&copy; 2026 לנדובר ב.ר 2026 בע"מ. כל הזכויות שמורות. טיוטת Preview פנימית.</p>
+    <p>&copy; 2026 לנדובר ב.ר 2026 בע"מ. כל הזכויות שמורות.</p>
   </div>
 </footer>
 <script src="accessibility-widget.js"></script>
 </body>
 </html>
+
 
 
 
