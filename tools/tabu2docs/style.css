@@ -59,6 +59,12 @@ nav {
 
 /* ── Hero ────────────────────────────────── */
 .hero {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  display: block;
+  position: static;
+  overflow: visible;
   background: var(--charcoal);
   color: #fff;
   text-align: center;
@@ -372,3 +378,4 @@ code {
   .review-meta { grid-template-columns: 1fr 1fr; }
   .review-meta .info-item.wide { grid-column: 1 / -1; }
 }
+
