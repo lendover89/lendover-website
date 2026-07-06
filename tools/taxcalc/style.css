@@ -46,6 +46,12 @@ nav {
 
 /* Hero */
 .hero {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  display: block;
+  position: static;
+  overflow: visible;
   background: var(--charcoal);
   color: #fff; text-align: center;
   padding: 28px 24px 24px;
@@ -360,3 +366,4 @@ footer a, .about-tool a { color: #1a6fb5; text-decoration: none; }
 @media (max-width: 1320px) {
   #mode-developer .container { max-width: calc(100vw - 32px); }
 }
+
