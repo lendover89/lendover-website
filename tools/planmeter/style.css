@@ -33,6 +33,12 @@ body {
 
 /* hero */
 .hero {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  display: block;
+  position: static;
+  overflow: visible;
   background: var(--charcoal);
   color: #fff;
   text-align: center;
@@ -353,4 +359,5 @@ body {
   .card { padding: 20px 18px; }
   #drop-zone { padding: 26px 14px; }
 }
+
 
