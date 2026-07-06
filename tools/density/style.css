@@ -34,6 +34,12 @@ body {
 
 /* ── Hero ────────────────────────────────── */
 .hero {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  display: block;
+  position: static;
+  overflow: visible;
   background: var(--charcoal);
   color: #fff;
   text-align: center;
@@ -283,3 +289,4 @@ body {
   #results-table thead th, #results-table tbody td { padding: 8px 6px; }
   .cell-locality { max-width: 120px; font-size: 0.78rem; }
 }
+
