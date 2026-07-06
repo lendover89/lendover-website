@@ -200,15 +200,7 @@
         landUse: {
           title: 'ייעודי קרקע',
           source: PLANNING_SOURCES.landUse,
-          urls: [
-            { url: IPLAN_API + '/compilation_tmm_tel_aviv/MapServer/7/query', bbox: [34.65, 31.92, 34.98, 32.28] },
-            { url: IPLAN_API + '/compilation_tmm_merkaz/MapServer/12/query', bbox: [34.62, 31.72, 35.22, 32.48] },
-            { url: IPLAN_API + '/compilation_tmm_haifa/MapServer/7/query', bbox: [34.82, 32.30, 35.35, 33.08] },
-            { url: IPLAN_API + '/compilation_tmm_jerusalem/MapServer/6/query', bbox: [34.95, 31.48, 35.42, 32.12] },
-            { url: IPLAN_API + '/compilation_tmm_darom/MapServer/8/query', bbox: [34.15, 29.42, 35.55, 31.95] },
-            { url: IPLAN_API + '/compilation_tmm_tzafonn/MapServer/8/query', bbox: [35.00, 32.52, 35.95, 33.42] }
-          ],
-          outFields: 'PLAN_NAME,TYPE_NAME,AREA_dunam',
+          vector: true,
           minZoom: PRACTICAL_LAYER_ZOOM.planningLandUse
         },
         tama1: {
@@ -270,6 +262,30 @@
         '#22c55e', '#84cc16', '#facc15', '#f97316', '#38bdf8',
         '#a855f7', '#ec4899', '#14b8a6', '#eab308', '#94a3b8'
       ];
+      // XPlan landuse_group categories served by the land-use MVT tiles (values must match the DB).
+      const PLANNING_LANDUSE_GROUPS = [
+        { key: 'מגורים', color: '#22c55e' },
+        { key: 'מסחר', color: '#f472b6' },
+        { key: 'תעסוקה', color: '#a855f7' },
+        { key: 'תעשייה / מלאכה', color: '#f97316' },
+        { key: 'תחבורה / דרכים', color: '#facc15' },
+        { key: 'מבנים ומוסדות ציבור', color: '#60a5fa' },
+        { key: 'שטחים פתוחים / שצ״פ', color: '#34d399' },
+        { key: 'חקלאי', color: '#84cc16' },
+        { key: 'תשתיות / מתקנים הנדסיים', color: '#fb923c' },
+        { key: 'מלונאות / תיירות', color: '#c084fc' },
+        { key: 'בית קברות', color: '#94a3b8' },
+        { key: 'שטח לתכנון בעתיד', color: '#cbd5e1' },
+        { key: 'אחר', color: '#f59e0b' }
+      ];
+      const PLANNING_LANDUSE_GROUP_COLOR_EXPRESSION = (() => {
+        const expression = ['match', ['coalesce', ['get', 'landuse_group'], 'אחר']];
+        PLANNING_LANDUSE_GROUPS.forEach((item) => {
+          if (item.key !== 'אחר') expression.push(item.key, item.color);
+        });
+        expression.push('#f59e0b');
+        return expression;
+      })();
       const DETAILED_PLANNING_COLORS = [
         '#22c55e', '#38bdf8', '#f59e0b', '#a855f7', '#ec4899',
         '#14b8a6', '#eab308', '#64748b', '#ef4444', '#84cc16'
@@ -1736,38 +1752,12 @@
       }
 
       function planningLandUseTypeExpression() {
-        const typeName = ['coalesce',
-          ['get', 'TYPE_NAME'],
-          ['get', 'type_name'],
-          ['get', 'mavat_name'],
-          ['get', 'MAVAT_NAME'],
-          ['get', 'LABEL'],
-          ['get', 'NAME'],
-          ''
-        ];
-        return ['case',
-          ['>=', ['index-of', 'מגורים', typeName], 0], 'מגורים',
-          ['>=', ['index-of', 'עירוני', typeName], 0], 'עירוני',
-          ['>=', ['index-of', 'תעסוקה', typeName], 0], 'תעסוקה',
-          ['>=', ['index-of', 'תעש', typeName], 0], 'תעשייה',
-          ['>=', ['index-of', 'דרך', typeName], 0], 'דרך',
-          ['>=', ['index-of', 'נחל', typeName], 0], 'נחל / מים',
-          ['>=', ['index-of', 'מים', typeName], 0], 'נחל / מים',
-          'אחר'
-        ];
+        return ['coalesce', ['get', 'landuse_group'], 'אחר'];
       }
 
       function setDefaultPlanningLandUseLegend() {
         if (!planningLandUseLegend) return;
-        const items = [
-          { key: 'מגורים', label: 'מגורים', color: '#22c55e' },
-          { key: 'עירוני', label: 'עירוני', color: '#84cc16' },
-          { key: 'תעסוקה', label: 'תעסוקה', color: '#a855f7' },
-          { key: 'תעשייה', label: 'תעשייה', color: '#f97316' },
-          { key: 'דרך', label: 'דרך', color: '#facc15' },
-          { key: 'נחל / מים', label: 'נחל / מים', color: '#38bdf8' },
-          { key: 'אחר', label: 'אחר', color: '#f59e0b' }
-        ];
+        const items = PLANNING_LANDUSE_GROUPS.map((item) => ({ key: item.key, label: item.key, color: item.color }));
         planningLandUseLegend.innerHTML = '<div class="planning-legend__title">ייעודי קרקע</div>' +
           items.map((item) => (
             '<button class="planning-legend__item' + (planningLandUseHiddenCategories.has(item.key) ? '' : ' is-on') +
@@ -2014,6 +2004,10 @@
         const source = map.getSource(config.source);
         if (config.vector) {
           clearPlanningFeatureIndexForLayer(key);
+          if (key === 'landUse' && planningEnabled && planningLayerEnabled.landUse) {
+            setDefaultPlanningLandUseLegend();
+            applyPlanningLandUseCategoryFilter();
+          }
           return { key, count: 0, vector: true };
         }
         if (!source || !planningEnabled || !planningLayerEnabled[key]) {
@@ -2152,8 +2146,11 @@
         const rows = key === 'landUse' ? [
           ['שכבה', title],
           ['ייעוד', props.TYPE_NAME || props.mavat_name],
+          ['קבוצה', props.landuse_group],
+          ['תא שטח', props.num],
           ['תכנית', props.PLAN_NAME || planName],
-          ['שטח', formatPlanningAreaSqm(props.AREA_dunam, 'dunam')]
+          ['מספר תכנית', planNumber],
+          ['שטח', props.AREA_dunam ? formatPlanningAreaSqm(props.AREA_dunam, 'dunam') : formatPlanningAreaSqm(planningLandUseAreaSqm(props), 'sqm')]
         ] : key === 'urbanRenewal' ? [
           ['שכבה', props.source_layer || title],
           ['סטטוס', props.status_label],
@@ -2262,6 +2259,9 @@
         }
         if (props.fid !== null && props.fid !== undefined && props.planning_layer === 'urbanRenewal') {
           return 'urbanRenewal|fid|' + (props.source_layer || '') + '|' + props.fid;
+        }
+        if (props.fid !== null && props.fid !== undefined && props.planning_layer === 'landUse') {
+          return 'landUse|fid|' + props.fid;
         }
         const objectId = props.OBJECTID ?? props.objectid ?? props.ObjectId ?? props.OBJECTID_1 ?? props.objectid_1;
         if (objectId !== null && objectId !== undefined) {
@@ -2482,6 +2482,26 @@
       async function fetchPlanningBlueLineFeatures(renderedFeatures) {
         const features = await Promise.all((renderedFeatures || []).map((feature) => fetchPlanningBlueLineFeature(feature)));
         return uniquePlanningFeatures(features.filter(Boolean));
+      }
+
+      async function fetchPlanningLandUseFeature(renderedFeature) {
+        const fid = renderedFeature && renderedFeature.properties && renderedFeature.properties.fid;
+        if (!fid) return renderedFeature || null;
+        try {
+          const response = await fetch(PLANNING_API + '/api/planning/landuse/feature/' + encodeURIComponent(fid), {
+            credentials: 'include'
+          });
+          if (!response.ok) return renderedFeature;
+          const feature = await response.json();
+          if (!feature || !feature.geometry) return renderedFeature;
+          feature.properties = {
+            ...(renderedFeature.properties || {}),
+            ...(feature.properties || {})
+          };
+          return feature;
+        } catch (error) {
+          return renderedFeature;
+        }
       }
 
       function geometryBBox(geometry) {
@@ -3089,6 +3109,8 @@
         if (!feature) return false;
         if ((feature.properties || {}).planning_layer === 'blueLines') {
           feature = await fetchPlanningBlueLineFeature(feature);
+        } else if ((feature.properties || {}).planning_layer === 'landUse') {
+          feature = await fetchPlanningLandUseFeature(feature);
         }
         if (selectedPlanningFeature && planningFeatureIdentity(selectedPlanningFeature) === planningFeatureIdentity(feature)) {
           clearPlanningSelection();
@@ -3522,8 +3544,14 @@
           maxzoom: 16
         });
 
+        map.addSource(PLANNING_SOURCES.landUse, {
+          type: 'vector',
+          tiles: [PLANNING_API + '/api/planning/landuse/{z}/{x}/{y}.pbf'],
+          minzoom: 9,
+          maxzoom: 16
+        });
+
         [
-          PLANNING_SOURCES.landUse,
           PLANNING_SOURCES.notice77,
           PLANNING_SOURCES.tama1,
           PLANNING_SOURCES.transport,
@@ -3586,25 +3614,11 @@
           id: 'planning-landuse-fill',
           type: 'fill',
           source: PLANNING_SOURCES.landUse,
+          'source-layer': 'landuse',
           minzoom: PRACTICAL_LAYER_ZOOM.planningLandUse,
           layout: { visibility: 'none' },
           paint: {
-            'fill-color': [
-              'case',
-              ['>=', ['index-of', 'מגורים', ['coalesce', ['get', 'TYPE_NAME'], '']], 0],
-              '#22c55e',
-              ['>=', ['index-of', 'עירוני', ['coalesce', ['get', 'TYPE_NAME'], '']], 0],
-              '#84cc16',
-              ['>=', ['index-of', 'תעסוקה', ['coalesce', ['get', 'TYPE_NAME'], '']], 0],
-              '#a855f7',
-              ['>=', ['index-of', 'תעש', ['coalesce', ['get', 'TYPE_NAME'], '']], 0],
-              '#f97316',
-              ['>=', ['index-of', 'דרך', ['coalesce', ['get', 'TYPE_NAME'], '']], 0],
-              '#facc15',
-              ['>=', ['index-of', 'נחל', ['coalesce', ['get', 'TYPE_NAME'], '']], 0],
-              '#38bdf8',
-              '#f59e0b'
-            ],
+            'fill-color': PLANNING_LANDUSE_GROUP_COLOR_EXPRESSION,
             'fill-opacity': [
               'interpolate',
               ['linear'],
@@ -3620,6 +3634,7 @@
           id: 'planning-landuse-line',
           type: 'line',
           source: PLANNING_SOURCES.landUse,
+          'source-layer': 'landuse',
           minzoom: PRACTICAL_LAYER_ZOOM.planningLandUse,
           layout: { visibility: 'none' },
           paint: {
