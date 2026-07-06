@@ -65,6 +65,12 @@ nav {
 
 /* ── Hero ────────────────────────────────── */
 .hero {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  display: block;
+  position: static;
+  overflow: visible;
   background: var(--charcoal);
   color: #fff;
   text-align: center;
@@ -522,3 +528,4 @@ nav {
   .search-row-actions { flex-direction: column; }
   #add-parcel-btn, #search-btn { width: 100%; }
 }
+
