@@ -63,6 +63,12 @@ nav {
 }
 /* ── Hero banner ─────────────────────────── */
 .hero {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  display: block;
+  position: static;
+  overflow: visible;
   background: var(--charcoal);
   color: #fff;
   text-align: center;
@@ -318,3 +324,4 @@ nav {
   .info-grid { grid-template-columns: 1fr; }
   .info-item.wide { grid-column: 1; }
 }
+
