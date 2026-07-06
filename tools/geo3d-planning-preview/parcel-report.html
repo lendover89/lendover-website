@@ -50,283 +50,12 @@
   <div id="content"><div class="loading">טוען נתונים…</div></div>
   <div class="note">המקור: מאגר זכויות הבנייה של IsraMap (חילוץ אוטומטי). אינו תחליף לבדיקה סטטוטורית מול התקנון ונספחי התכנית.</div>
 </div>
+<script src="rights-render.js?v=20260706b"></script>
 <script>
   const GROUNDWATER_API = 'https://groundwater.lendover.co.il';
   const params = new URLSearchParams(location.search);
   const gush = params.get('gush'), helka = params.get('helka');
-  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  const confLabel = (c) => c === 'high' ? 'ודאי' : (c === 'medium' ? 'בינוני' : 'לא ודאי');
-
-  function bandsTable(bands) {
-    if (!Array.isArray(bands) || !bands.length) return '';
-    return '<h3>זכויות לפי גודל מגרש</h3><table><tr><th>גודל מגרש (מ"ר)</th><th>קומות</th><th>% מעל</th><th>% מתחת</th><th>% שירות</th><th>הערות</th></tr>' +
-      bands.map((b) => '<tr><td>' + esc((b.min_lot_m2 != null ? b.min_lot_m2 : '') + (b.max_lot_m2 != null ? '–' + b.max_lot_m2 : (b.min_lot_m2 != null ? '+' : ''))) +
-        '</td><td>' + esc(b.max_floors) + '</td><td>' + esc(b.rights_above_pct) + '</td><td>' + esc(b.rights_below_pct) +
-        '</td><td>' + esc(b.service_area_pct) + '</td><td>' + esc(b.remarks || '') + '</td></tr>').join('') + '</table>';
-  }
-  function setbacksHtml(sb) {
-    if (!sb) return '';
-    const p = [];
-    if (sb.front != null) p.push(['קדמי', sb.front]);
-    if (sb.side != null) p.push(['צידי', sb.side]);
-    if (sb.rear != null) p.push(['אחורי', sb.rear]);
-    if (sb.roof_front != null) p.push(['גג קדמי', sb.roof_front]);
-    if (!p.length) return '';
-    return '<h3>קווי בניין (מ׳)</h3><div class="grid">' + p.map((x) => '<div class="kv"><div class="k">' + esc(x[0]) + '</div><div class="v">' + esc(x[1]) + '</div></div>').join('') + '</div>';
-  }
-  function mixHtml(mix) {
-    if (!mix || typeof mix !== 'object') return '';
-    const rows = [];
-    if (mix.max_units_per_dunam != null) rows.push(['צפיפות מרבית', mix.max_units_per_dunam + ' יח\'/דונם']);
-    if (mix.max_units_per_dunam_main_streets_over_1_5dunam != null) rows.push(['צפיפות ברח\' ראשי (>1.5ד\')', mix.max_units_per_dunam_main_streets_over_1_5dunam + ' יח\'/דונם']);
-    if (mix.min_unit_size_m2 != null) rows.push(['גודל דירה מינ\'', mix.min_unit_size_m2 + ' מ"ר']);
-    let h = '';
-    if (rows.length) h += '<div class="grid">' + rows.map((r) => '<div class="kv"><div class="k">' + esc(r[0]) + '</div><div class="v">' + esc(r[1]) + '</div></div>').join('') + '</div>';
-    if (Array.isArray(mix.bands) && mix.bands.length) {
-      h += '<table><tr><th>סוג דירה</th><th>טווח (מ"ר)</th><th>אחוז</th></tr>' +
-        mix.bands.map((b) => '<tr><td>' + esc(b.label) + '</td><td>' + esc((b.size_min_m2 != null ? b.size_min_m2 : '') + (b.size_max_m2 != null ? '–' + b.size_max_m2 : '+')) + '</td><td>' + esc(b.pct != null ? b.pct + '%' : '') + '</td></tr>').join('') + '</table>';
-    }
-    return h ? '<h3>תמהיל דירות</h3>' + h : '';
-  }
-  function ch4Html(rules) {
-    if (!Array.isArray(rules) || !rules.length) return '';
-    return '<h3>כללי פרק 4 (קריטיים)</h3><table><tr><th>סעיף</th><th>נושא</th><th>ערך</th><th>כלל/תנאי</th></tr>' +
-      rules.map((r) => '<tr><td>' + esc(r.section) + '</td><td>' + esc(r.topic) + '</td><td>' + esc((r.value != null ? r.value : '') + (r.unit ? ' ' + r.unit : '')) + '</td><td>' + esc(r.rule || r.condition || '') + '</td></tr>').join('') + '</table>';
-  }
-  function bonusesHtml(bonuses) {
-    if (!Array.isArray(bonuses) || !bonuses.length) return '';
-    const seen = new Set(); const items = [];
-    bonuses.forEach((b) => { const l = (b.label_he || '').trim(); if (l && !seen.has(l)) { seen.add(l); items.push('<li>' + esc(l) + (b.raw_text ? ' <span class="raw">— ' + esc(b.raw_text) + '</span>' : '') + '</li>'); } });
-    return items.length ? '<h3>בונוסים והקלות (' + items.length + ')</h3><ul>' + items.join('') + '</ul>' : '';
-  }
-  function tracksHtml(tracks) {
-    if (!Array.isArray(tracks) || !tracks.length) return '';
-    return '<h3>זכויות (מתוך חילוץ התכנית)</h3><table><tr><th>מסלול/ייעוד</th><th>% בנייה</th><th>קומות</th><th>תכסית</th></tr>' +
-      tracks.map((t) => '<tr><td>' + esc(t.track) + '</td><td>' + esc(t.far_percent != null ? t.far_percent + '%' : '') + '</td><td>' + esc(t.floors) + '</td><td>' + esc(t.coverage_pct != null ? t.coverage_pct + '%' : '') + '</td></tr>').join('') + '</table>';
-  }
-
-  function cellsTable(cells) {
-    if (!Array.isArray(cells) || !cells.length) return '';
-    const farTxt = (f) => f == null ? '' : ((typeof f === 'number' && f <= 100) ? f + '%' : f + ' מ"ר');
-    return '<h3>זכויות לפי תא שטח</h3><table><tr><th>תא</th><th>ייעוד</th><th>בנייה</th><th>קומות</th><th>תכסית</th><th>יח"ד</th><th>גובה</th><th>מקור</th></tr>' +
-      cells.map((c) => { const r = c.rights || {}; return '<tr><td>' + esc(c.cell_no) + '</td><td>' + esc(c.zone_name || '') +
-        '</td><td>' + esc(farTxt(r.far)) + '</td><td>' + esc(r.floors) + '</td><td>' + esc(r.coverage_pct != null ? r.coverage_pct + '%' : '') +
-        '</td><td>' + esc(r.housing_units) + '</td><td>' + esc(r.height_m) + '</td>' +
-        '<td>' + esc(c.match_quality === 'mavat_exact' ? 'מאב"ת' : (c.match_quality ? 'חילוץ OCR' : '—')) + '</td></tr>'; }).join('') +
-      '</table><p class="note" style="opacity:.7">הזכויות חולצו אוטומטית ממקור רשמי — לאימות מול הוועדה המקומית.</p>';
-  }
-
-  function planCard(p) {
-    let h = '<div class="card"><div class="plan-title">' + esc((p.pl_number ? p.pl_number + ' · ' : '') + (p.pl_name || 'תכנית'));
-    if (p.rights_mode === 'h619_methamim' && p.confidence) h += '<span class="badge ' + esc(p.confidence) + '">' + esc(confLabel(p.confidence)) + '</span>';
-    h += '</div>';
-    if (p.status) h += '<div class="status">' + esc(p.status) + (p.date ? ' · ' + esc(p.date) : '') + '</div>';
-    if (p.rights_review && p.rights_review.status === 'manual') {
-      h += '<div class="status" style="color:#b45309">⚠ זכויות לאימות ידני' +
-        (p.rights_review.reason ? ' (' + esc(p.rights_review.reason) + ')' : '') + '</div>';
-    }
-    if (p.rights_mode === 'h619_methamim' && Array.isArray(p.categories) && p.categories.length) {
-      const dom = p.categories.find((c) => c.dominant) || p.categories[0];
-      const a = (dom && dom.applicable) || {};
-      h += '<div class="grid">' +
-        '<div class="kv"><div class="k">אזור (מתחם)</div><div class="v">' + esc(dom.category) + '</div></div>' +
-        '<div class="kv"><div class="k">כיסוי/ודאות</div><div class="v">' + esc(p.dominant_coverage_pct != null ? p.dominant_coverage_pct + '%' : '—') + '</div></div>' +
-        (a.max_floors != null ? '<div class="kv"><div class="k">קומות מרביות</div><div class="v">' + esc(a.max_floors) + '</div></div>' : '') +
-        (a.rights_above_pct != null ? '<div class="kv"><div class="k">% בנייה מעל</div><div class="v">' + esc(a.rights_above_pct) + '%</div></div>' : '') +
-        (a.rights_below_pct != null ? '<div class="kv"><div class="k">% מתחת</div><div class="v">' + esc(a.rights_below_pct) + '%</div></div>' : '') +
-        '</div>';
-      if (p.categories.length > 1) h += '<div class="status">אזורים נוספים חופפים: ' + esc(p.categories.slice(1).map((c) => c.category + (c.coverage_pct != null ? ' (' + c.coverage_pct + '%)' : '')).join(' · ')) + '</div>';
-      h += setbacksHtml(dom.setbacks) + bandsTable(dom.bands) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + ch4Html(p.ch4_rules) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
-      if (dom.calculation) {
-        const c = dom.calculation;
-        const bindingHe = c.binding === 'envelope'
-          ? 'המעטפת מגבילה — ה-' + esc(c.far_above_pct) + '% לא נכנס במלואו בקווי הבניין'
-          : 'הזכויות נכנסות בקווי הבניין (האחוזים קובעים)';
-        h += '<h3>שורה תחתונה — זכויות בנייה (מסלול הריסה ובנייה)</h3>' +
-          '<div class="grid">' +
-          '<div class="kv"><div class="k">לפי אחוזים (' + esc(c.far_above_pct) + '% × מגרש)</div><div class="v">' + esc(c.total_buildable_far_m2) + ' מ"ר</div></div>' +
-          (c.est_above_envelope_m2 != null ? '<div class="kv"><div class="k">לפי מעטפת קווי בניין (' + esc(c.floors) + ' קומות)</div><div class="v">' + esc(c.est_above_envelope_m2) + ' מ"ר</div></div>' : '') +
-          '<div class="kv" style="font-weight:700"><div class="k">מותר לבנייה (הקובע)</div><div class="v">' + esc(c.est_above_binding_m2) + ' מ"ר</div></div>' +
-          (c.below_ground_far_m2 != null ? '<div class="kv"><div class="k">מתחת לקרקע (' + esc(c.far_below_pct) + '%)</div><div class="v">' + esc(c.below_ground_far_m2) + ' מ"ר</div></div>' : '') +
-          (c.est_max_units != null ? '<div class="kv"><div class="k">מס\' יח"ד מירבי (אומדן, §4.1.2ח)</div><div class="v">~' + esc(c.est_max_units) + '</div></div>' : '') +
-          '</div>' +
-          '<div class="status">' + bindingHe + '</div>' +
-          (c.est_max_units != null && c.unit_basis ? '<div class="status" style="opacity:.75">אומדן יח"ד: לאחר ' + esc(c.unit_basis.service_pct) + '% שטחי שירות · ~' + esc(c.unit_basis.avg_unit_m2) + ' מ"ר/יח"ד ממוצע (תמהיל: 20% ≥110 מ"ר, יתר ≥50 מ"ר) · מקס\' ' + esc(c.unit_basis.per_dunam_cap) + ' יח"ד/דונם</div>' : '') +
-          (Array.isArray(c.per_floor) && c.per_floor.length
-            ? '<table><tr><th>קומה</th><th>תכסית</th><th>שטח</th></tr>' +
-              c.per_floor.map(function(f){return '<tr><td>' + esc(f.level_name) + '</td><td>' + esc(f.coverage_pct) + '%</td><td>' + esc(f.coverage_m2) + ' מ"ר</td></tr>';}).join('') +
-              '</table>' : '') +
-          '<p class="note" style="opacity:.7">' + esc(c.note) + '</p>';
-        if (c.hizuk) {
-          const hz = c.hizuk;
-          h += '<h3>מסלול חלופי — חיזוק ותוספות (תמ"א 38/23)</h3>' +
-            '<div class="grid">' +
-            '<div class="kv"><div class="k">תוספת קומות</div><div class="v">+' + esc(hz.added_full_floors) + ' קומות מלאות + קומת גג חלקית</div></div>' +
-            (hz.added_floors_area_m2 != null ? '<div class="kv"><div class="k">שטח הקומות הנוספות (אומדן)</div><div class="v">' + esc(hz.added_floors_area_m2) + ' מ"ר</div></div>' : '') +
-            (hz.roof_area_m2 != null ? '<div class="kv"><div class="k">קומת גג חלקית</div><div class="v">' + esc(hz.roof_area_m2) + ' מ"ר</div></div>' : '') +
-            (hz.added_total_m2 != null ? '<div class="kv" style="font-weight:700"><div class="k">סה"כ תוספת מוערכת</div><div class="v">' + esc(hz.added_total_m2) + ' מ"ר</div></div>' : '') +
-            '<div class="kv"><div class="k">הרחבת יח"ד קיימת</div><div class="v">עד ' + esc(hz.expand_per_existing_unit_m2) + ' מ"ר ליח"ד</div></div>' +
-            '</div>' +
-            '<p class="note" style="opacity:.7">' + esc(hz.note) + '</p>';
-        }
-      }
-    } else if (p.rights_mode === 'cell_polygons') {
-      h += cellsTable(p.cells) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
-    } else if (p.rights_mode === 'building_rights_tracks') {
-      h += tracksHtml(p.tracks) + mixHtml(p.enrichment && p.enrichment.dwelling_mix) + bonusesHtml(p.enrichment && p.enrichment.bonuses);
-    } else if (p.rights_mode === 'rova4' && p.rova4) {
-      const r = p.rova4;
-      h += '<div class="grid">' +
-        '<div class="kv"><div class="k">קטגוריה</div><div class="v">' + esc(r.category_label || '') + '</div></div>' +
-        (r.fronting_street ? '<div class="kv"><div class="k">חזית לרחוב ראשי</div><div class="v">' + esc(r.fronting_street) + '</div></div>' : '') +
-        (r.max_floors != null ? '<div class="kv"><div class="k">קומות מרביות</div><div class="v">' + esc(r.max_floors) + (r.partial_roof_floors ? ' + ' + esc(r.partial_roof_floors) + ' גג חלקי' : '') + '</div></div>' : '') +
-        (r.building_lines && r.building_lines.lot_type ? '<div class="kv"><div class="k">סוג מגרש</div><div class="v">' + (r.building_lines.lot_type === 'corner' ? 'פינתי (2 חזיתות, ללא אחורי)' : 'רגיל') + '</div></div>' : '') +
-        (r.coverage_pct != null ? '<div class="kv"><div class="k">תכסית' + (r.building_lines && r.building_lines.lot_type === 'corner' ? ' (פינתי)' : ' (רגיל)') + '</div><div class="v">' + esc(r.coverage_pct) + '%</div></div>' : '') +
-        (r.coverage_pct_party_wall != null && !(r.building_lines && r.building_lines.lot_type === 'corner') ? '<div class="kv"><div class="k">תכסית — תרחיש קיר משותף (בנייה צמודה)</div><div class="v">' + esc(r.coverage_pct_party_wall) + '%</div></div>' : '') +
-        (r.coverage_area_m2 != null ? '<div class="kv"><div class="k">שטח תכסית (קומה טיפוסית)</div><div class="v">' + esc(r.coverage_area_m2) + ' מ"ר</div></div>' : '') +
-        (r.ground_enclosed_area_m2 != null ? '<div class="kv"><div class="k">קומת קרקע — שטח מבונה (אחרי מפולשת 3 מ׳)</div><div class="v">' + esc(r.ground_enclosed_area_m2) + ' מ"ר</div></div>' : '') +
-        (function(){
-          var f = r.roof_floors_m2;
-          if (f && f.length >= 2) {
-            var corner = r.building_lines && r.building_lines.lot_type === 'corner';
-            var rows = '';
-            for (var i = 0; i < f.length; i++) {
-              var lbl = corner ? ('קומת גג חלקית ' + (i === 0 ? 'תחתונה' : 'עליונה') + ' (נסיגה 3+2 מ׳ משתי החזיתות)')
-                               : (i === 0 ? 'קומת גג חלקית תחתונה (נסיגה 3 מ׳ קדמי)' : 'קומת גג חלקית עליונה (נסיגה 3 מ׳ קדמי + 2 מ׳ אחורי)');
-              rows += '<div class="kv"><div class="k">' + lbl + '</div><div class="v">' + esc(f[i]) + ' מ"ר</div></div>';
-            }
-            return rows + '<div class="kv"><div class="k">סה"כ גג חלקי</div><div class="v">' + esc(r.roof_area_m2) + ' מ"ר</div></div>';
-          }
-          return r.roof_area_m2 != null ? '<div class="kv"><div class="k">קומת גג חלקית — תכסית</div><div class="v">' + esc(r.roof_area_m2) + ' מ"ר</div></div>' : '';
-        })() +
-        (r.est_above_ground_area_m2 != null ? '<div class="kv"><div class="k">שטח מעל הקרקע (עיקרי+שירות) ≈</div><div class="v">' + esc(r.est_above_ground_area_m2) + ' מ"ר</div></div>' : '') +
-        (r.balcony_area_m2 != null ? '<div class="kv"><div class="k">מרפסות (בנוסף, ≈12 מ"ר/יח"ד) ≈</div><div class="v">' + esc(r.balcony_area_m2) + ' מ"ר</div></div>' : '') +
-        (r.est_max_units != null ? '<div class="kv"><div class="k">מס׳ יח"ד מקסימלי (מוערך)</div><div class="v">' + esc(r.est_max_units) + ' יח"ד</div></div>' : '') +
-        (r.unit_density_m2 != null ? '<div class="kv"><div class="k">מקדם צפיפות (שטח דירה ממוצע)</div><div class="v">' + esc(r.unit_density_m2) + ' מ"ר/יח"ד' + (r.unit_density_basis && r.unit_density_basis !== 'כללי' ? ' · ' + esc(r.unit_density_basis) : '') + '</div></div>' : '') +
-        (r.relief_applies && r.est_max_units_relief != null ? '<div class="kv"><div class="k">אופציית הקלת מגרש קטן (יח"ד)</div><div class="v">עד ' + esc(r.est_max_units_relief) + ' יח"ד · גג ' + esc(r.roof_area_relief_m2) + ' מ"ר (רשות)</div></div>' : '') +
-        (r.building_lines && r.building_lines.front_m != null ? '<div class="kv"><div class="k">קו בניין קדמי' + (r.building_lines.lot_type === 'corner' ? ' (ציר ארוך)' : '') + '</div><div class="v">' + esc(r.building_lines.front_m) + ' מ׳</div></div>' : '') +
-        (r.building_lines && r.building_lines.front2_m != null ? '<div class="kv"><div class="k">קו בניין קדמי (ציר קצר)</div><div class="v">' + esc(r.building_lines.front2_m) + ' מ׳</div></div>' : '') +
-        (r.building_lines && r.building_lines.side_m != null ? '<div class="kv"><div class="k">קו בניין צדדי</div><div class="v">' + esc(r.building_lines.side_m) + ' מ׳</div></div>' : '') +
-        (r.building_lines && r.building_lines.rear_m != null ? '<div class="kv"><div class="k">קו בניין אחורי</div><div class="v">' + esc(r.building_lines.rear_m) + ' מ׳</div></div>' : '') +
-        (r.building_lines && r.building_lines.road_width_m != null ? '<div class="kv"><div class="k">רוחב דרך</div><div class="v">' + esc(r.building_lines.road_width_m) + ' מ׳</div></div>' : '') +
-        '</div>';
-      h += '<div class="status"><strong>אופן החישוב:</strong> ' + esc(r.rights_model || 'תכסית × קומות') + ' · <strong>תכסית:</strong> ' + esc(r.coverage_basis || '') + '</div>';
-      if (r.zone === 'low_build' && r.lowbuild_plan) h += '<div class="status">בנייה נמוכה — תכנית מתחמית ' + esc(r.lowbuild_plan) + ' (3-4 קומות; קוטג׳ים פחות).</div>';
-      if (r.zone === 'unesco') h += '<div class="status">מתחם הכרזת אונסקו — חריגה מגובה או מקווי בניין מהווה סטייה ניכרת.</div>';
-      if (r.est_note) h += '<div class="status">' + esc(r.est_note) + '</div>';
-      h += '<div class="status">' + esc(r.note || '') + ' · היקף לפי גבול תכנית ' + esc(p.pl_number || '') + '.</div>';
-      if (p.status === 'בהליכי אישור') h += '<div class="status" style="color:#b45309;font-weight:600">תכנית בהליכי אישור (הכרעה בהתנגדויות) — האומדן אינו תחליף סטטוטורי; לאימות מול הוועדה המקומית.</div>';
-    } else if (p.rights_mode === 'renewal' && p.renewal) {
-      const r = p.renewal;
-      if (r.street_class && r.excluded) {
-        h += '<h3>רג/1900 — התחדשות בניינית</h3>' +
-          '<div class="status" style="color:#c0623a">' + esc(r.note || 'התכנית אינה חלה על מגרש זה.') + '</div>' +
-          '<div class="status muted">לאימות מול הוועדה המקומית.</div>';
-      } else if (r.street_class) {
-        var pf = r.per_floor || {};
-        var lt = r.is_corner ? 'פינתי' : 'רגיל';
-        h += '<div class="grid">' +
-          '<div class="kv"><div class="k">סיווג רחוב</div><div class="v">' + esc(r.street_class_he || '') + '</div></div>' +
-          '<div class="kv"><div class="k">סוג מגרש</div><div class="v">' + lt + '</div></div>' +
-          '<div class="kv"><div class="k">שטח מגרש</div><div class="v">' + esc(String(r.lot_area_m2)) + ' מ"ר</div></div>' +
-          (r.lot_width_m != null ? '<div class="kv"><div class="k">רוחב חזית</div><div class="v">' + esc(String(r.lot_width_m)) + ' מ\'</div></div>' : '') +
-          '</div>';
-        if (r.below_min_lot) {
-          h += '<div class="status muted">' + esc(r.note || '') + '</div>';
-        } else {
-          var sb = r.setbacks || {};
-          h += '<div class="grid">' +
-            '<div class="kv"><div class="k">תכסית (מהשטח שבין קווי הבניין)</div><div class="v">' + esc(String(r.coverage_base_pct)) + '%</div></div>' +
-            '<div class="kv"><div class="k">קומות</div><div class="v">' + esc(String(r.floors)) + '</div></div>' +
-            (r.between_lines_area_m2 != null ? '<div class="kv"><div class="k">שטח בין קווי הבניין</div><div class="v">' + esc(String(r.between_lines_area_m2)) + ' מ"ר</div></div>' : '') +
-            (r.est_max_units != null ? '<div class="kv"><div class="k">יח"ד מוערך (מחלק ' + esc(String(r.unit_divisor_m2)) + ')</div><div class="v">' + esc(String(r.est_max_units)) + '</div></div>' : '') +
-            '<div class="kv"><div class="k">קווי בניין</div><div class="v">קדמי ' + esc(String(sb.front)) + ' · צידי ' + esc(String(sb.side)) + ' · אחורי ' + esc(String(sb.rear)) + ' מ\'</div></div>' +
-            '</div>';
-          h += '<h3>פירוט פר-קומה</h3><table><tr><th>מרכיב</th><th>שטח מוערך</th></tr>' +
-            '<tr><td>קומת קרקע' + (r.street_class === 'commercial' ? ' (בנסיגת חזית מסחרית)' : '') + '</td><td>' + esc(String(pf.ground)) + ' מ"ר</td></tr>' +
-            '<tr><td>קומה טיפוסית ×' + esc(String(pf.typical_floors_n)) + '</td><td>' + esc(String(pf.typical)) + ' מ"ר</td></tr>' +
-            '<tr><td>קומת גג (75%)</td><td>' + esc(String(pf.roof)) + ' מ"ר</td></tr>' +
-            '<tr><td><strong>סה"כ מעל הקרקע</strong></td><td><strong>' + esc(String(r.est_above_ground_area_m2)) + ' מ"ר</strong></td></tr></table>';
-          if (r.balcony && r.balcony.total_m2 != null) {
-            h += '<h3>מרפסות (בנוסף לזכויות)</h3><table><tr><th>מרכיב</th><th>שטח מוערך</th></tr>' +
-              '<tr><td>סה"כ שטח מרפסות (עד ' + esc(String(r.balcony.per_unit_m2)) + ' מ"ר ליח"ד × ' + esc(String(r.est_max_units)) + ' יח"ד)</td><td><strong>≈ ' + esc(String(r.balcony.total_m2)) + ' מ"ר</strong></td></tr>' +
-              (r.balcony.front_projection_max_m2 != null ? '<tr><td>מתוכן להבלטה מעבר לקו הקדמי (1 מ׳ על 50% מהחזית) — היתר בתחום קווי הבניין</td><td>עד ≈ ' + esc(String(r.balcony.front_projection_max_m2)) + ' מ"ר</td></tr>' : '') +
-              '</table>';
-          }
-          if (r.view_funnel_note) h += '<div class="status muted">' + esc(r.view_funnel_note) + '</div>';
-          if (Array.isArray(r.options) && r.options.length) {
-            h += '<h3>אופציות / תוספות מותנות</h3><div class="rights">' +
-              r.options.map(function (o) {
-                return '<div>' + esc(o.label_he || '') + (o.plus_m2 != null ? ': +' + esc(String(o.plus_m2)) + ' מ"ר' : '') + (o.note ? ' — ' + esc(o.note) : '') + '</div>';
-              }).join('') + '</div>';
-          }
-        }
-        h += '<div class="status muted">' + esc(!r.below_min_lot && r.note ? r.note : 'לאימות מול הוועדה המקומית.') + '</div>';
-      } else {
-      const sb = r.setbacks || {};
-      h += '<div class="grid">' +
-        (r.zone_name ? '<div class="kv"><div class="k">אזור תכנון</div><div class="v">' + esc(r.zone_name) + '</div></div>' : '') +
-        (r.coverage_base_pct != null && r.coverage_basis !== 'between_building_lines' ? '<div class="kv"><div class="k">בסיס תכסית</div><div class="v">' + esc(String(r.coverage_base_pct)) + '%</div></div>' : '') +
-        (r.coverage_basis === 'between_building_lines' && r.between_lines_area_m2 != null ? '<div class="kv"><div class="k">שטח שבין קווי הבניין</div><div class="v">' + esc(String(r.between_lines_area_m2)) + ' מ"ר</div></div>' : '') +
-        (r.est_max_units != null ? '<div class="kv"><div class="k">יח"ד מרבי (' + esc(String(r.density_cap_units_per_dunam || 45)) + '/דונם)</div><div class="v">' + esc(String(r.est_max_units)) + '</div></div>' : '') +
-        (sb.front != null ? '<div class="kv"><div class="k">קו בניין קדמי</div><div class="v">' + esc(String(sb.front)) + ' מ\'</div></div>' : '') +
-        (sb.side != null ? '<div class="kv"><div class="k">צידי</div><div class="v">' + esc(String(sb.side)) + ' מ\'</div></div>' : '') +
-        (sb.rear != null ? '<div class="kv"><div class="k">אחורי</div><div class="v">' + esc(String(sb.rear)) + ' מ\'</div></div>' : '') +
-        '</div>';
-      h += '<h3>' + ((r.scenarios || []).length > 1 ? 'תרחישי זכויות אפשריים' : 'זכויות בנייה מוערכות') + '</h3><table><tr><th>' + ((r.scenarios || []).length > 1 ? 'תרחיש' : 'מתווה') + '</th><th>מקדם</th><th>קומות</th><th>שטח מעל הקרקע (מוערך)</th><th>עם בונוסים §6.1</th></tr>' +
-        (r.scenarios || []).map(function (s) {
-          return '<tr><td>' + esc(s.existing_floors_label || '') + '</td><td>' + (r.zone_name ? '—' : esc(String(s.rights_coefficient))) +
-            '</td><td>' + esc(String(s.max_floors)) + (s.roof_floor ? ' + גג' : '') +
-            '</td><td>' + (s.est_above_ground_area_m2 != null ? esc(s.est_above_ground_area_m2) + ' מ"ר' : '') +
-            '</td><td>' + (s.est_above_with_bonuses != null ? esc(s.est_above_with_bonuses) + ' מ"ר' : '—') + '</td></tr>';
-        }).join('') + '</table>';
-      if (r.zone_name && r.lot_area_m2 != null) h += '<div class="status muted">חישוב שטח מעל הקרקע: אחוזי בנייה (לפי אזור-התכנון) × שטח המגרש (' + esc(String(r.lot_area_m2)) + ' מ"ר)</div>';
-      else if (r.coverage_basis === 'between_building_lines' && r.between_lines_area_m2 != null) h += '<div class="status muted">חישוב שטח מעל הקרקע: תכסית% × השטח שבין קווי הבניין (' + esc(String(r.between_lines_area_m2)) + ' מ"ר, מתוך מגרש ' + esc(String(r.lot_area_m2)) + ' מ"ר) × מספר קומות</div>';
-      else if (r.coverage_base_pct != null && r.lot_area_m2 != null) h += '<div class="status muted">חישוב שטח מעל הקרקע: בסיס תכסית ' + esc(String(r.coverage_base_pct)) + '% × שטח מגרש ' + esc(String(r.lot_area_m2)) + ' מ"ר × מקדם הזכויות</div>';
-      if (r.detail) {
-        const dt = r.detail, bz = dt.bonuses || {}, ln = dt.lines_he || {}, ad = dt.additions || {};
-        if (Array.isArray(bz.items) && bz.items.length) {
-          h += '<h3>בונוסים אפשריים (סעיף 6.1) — מותנים, לשיקול הוועדה</h3><table><tr><th>בונוס</th><th>%</th><th>תוספת למגרש</th></tr>' +
-            bz.items.map(function (it) {
-              return '<tr><td>' + esc(it.label_he || it.code || '') + '</td><td>' + esc(String(it.pct)) + '%</td><td>' +
-                (it.plus_m2 != null ? '+' + esc(it.plus_m2) + ' מ"ר' : '') + '</td></tr>';
-            }).join('') +
-            '<tr><td><strong>סה"כ אם כל הבונוסים מנוצלים</strong></td><td><strong>' + esc(String(bz.total_pct)) + '%</strong></td><td><strong>' +
-            (bz.total_plus_m2 != null ? '+' + esc(bz.total_plus_m2) + ' מ"ר' : '') + '</strong></td></tr></table>';
-        }
-        const extra = [];
-        if (ad.public_m2) extra.push((ln.public || 'שטח ציבורי מבונה') + ': +' + ad.public_m2 + ' מ"ר');
-        if (ad.amenity_m2) extra.push((ln.amenity || 'שטחים משותפים') + ': +' + ad.amenity_m2 + ' מ"ר');
-        ['balconies', 'commercial', 'basement', 'unit_mix'].forEach(function (k) { if (ln[k]) extra.push(ln[k]); });
-        if (extra.length) h += '<h3>זכויות נוספות</h3><div class="rights">' + extra.map(function (t) { return '<div>' + esc(t) + '</div>'; }).join('') + '</div>';
-        const sc = [ln.scope, ln.height_cap].filter(Boolean).join(' · ');
-        if (sc) h += '<div class="status muted">' + esc(sc) + '</div>';
-      }
-      h += '<div class="status muted">' + esc(r.note || 'הזכויות חולצו מתקנון התכנית — לאימות מול הוועדה המקומית.') + '</div>';
-      }
-    } else if (p.rights_mode === 'landuse' && p.landuse && p.landuse.designations && p.landuse.designations.length) {
-      const d0 = p.landuse.designations[0];
-      h += '<div class="rights">ייעוד: ' + esc(d0.landuse_label || '') +
-        (d0.pct_of_parcel != null ? ' <span class="muted">(' + esc(String(d0.pct_of_parcel)) + '% מהחלקה)</span>' : '') +
-        '<div class="muted">טרם חולצו זכויות מספריות</div></div>';
-    } else if (p.rights_mode === 'mavat_quantities' && Array.isArray(p.quantities) && p.quantities.length) {
-      h += '<div class="status"><strong>כמויות מאושרות (רמת תכנית — מאב"ת)</strong></div>';
-      h += '<div class="rights">';
-      p.quantities.forEach(function (q) {
-        var val = q.add || q.auth || q.impl || '';
-        h += '<div>' + esc(q.desc || '') + ': ' + esc(String(val)) + (q.unit ? ' ' + esc(q.unit) : '') +
-             (q.remark ? ' <span class="muted">(' + esc(q.remark) + ')</span>' : '') + '</div>';
-      });
-      if (p.floors_from_prose) h += '<div>קומות (לפי הוראות התכנית): ' + esc(String(p.floors_from_prose)) + '</div>';
-      h += '</div>';
-      h += '<div class="status muted">' + esc(p.note || 'נתונים ברמת התכנית, לא פר-חלקה') + '</div>';
-    } else {
-      h += '<div class="status">אין זכויות מחולצות לתכנית זו (גבול בלבד).</div>';
-    }
-    h += '</div>';
-    return h;
-  }
-
+  const esc = RightsRender.reportEsc;
   async function load() {
     if (!gush || !helka) { document.getElementById('content').innerHTML = '<div class="error">חסר גוש/חלקה בכתובת.</div>'; return; }
     document.getElementById('sub').textContent = 'גוש ' + gush + ' · חלקה ' + helka;
@@ -334,6 +63,10 @@
       const r = await fetch(GROUNDWATER_API + '/api/planning/parcel-rights?gush=' + encodeURIComponent(gush) + '&helka=' + encodeURIComponent(helka), { credentials: 'include' });
       const d = await r.json();
       if (d && d.error_kind) {
+        if (d.error_kind === 'not_found') {
+          document.getElementById('content').innerHTML = '<div class="error">לא נמצאו נתוני חלקה במאגר.</div>';
+          return;
+        }
         const kindMsg = d.error_kind === 'timeout' ? 'חישוב הזכויות התארך מדי.' : 'שירות הזכויות אינו זמין כרגע.';
         document.getElementById('content').innerHTML = '<div class="error">' + kindMsg +
           ' <a href="javascript:location.reload()">נסה שוב</a></div>';
@@ -344,7 +77,7 @@
         return;
       }
       document.getElementById('sub').textContent = 'גוש ' + gush + ' · חלקה ' + helka + (d.parcel_area_m2 ? ' · ' + d.parcel_area_m2 + ' מ"ר · ' : ' · ') + d.plans.length + ' תכניות חלות';
-      document.getElementById('content').innerHTML = d.plans.map(planCard).join('');
+      document.getElementById('content').innerHTML = d.plans.map((p) => RightsRender.reportCard(p)).join('');
     } catch (e) {
       document.getElementById('content').innerHTML = '<div class="error">שגיאה בטעינת הנתונים.</div>';
     }
