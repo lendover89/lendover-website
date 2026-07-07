@@ -206,45 +206,20 @@
         tama1: {
           title: 'תמ״א 1 - מגבלות וסביבה',
           source: PLANNING_SOURCES.tama1,
-          urls: [
-            IPLAN_API + '/TAMA_1/MapServer/11/query',
-            IPLAN_API + '/TAMA_1/MapServer/34/query',
-            IPLAN_API + '/TAMA_1/MapServer/35/query',
-            IPLAN_API + '/TAMA_1/MapServer/38/query',
-            IPLAN_API + '/TAMA_1/MapServer/39/query',
-            IPLAN_API + '/TAMA_1/MapServer/51/query',
-            IPLAN_API + '/TAMA_1/MapServer/72/query',
-            IPLAN_API + '/TAMA_1/MapServer/73/query'
-          ],
-          outFields: '*',
+          vector: true,
           minZoom: PRACTICAL_LAYER_ZOOM.planningDetailed
         },
         transport: {
           title: 'תחבורה',
           source: PLANNING_SOURCES.transport,
-          urls: [
-            IPLAN_API + '/road_compilation/MapServer/2/query',
-            IPLAN_API + '/road_compilation/MapServer/3/query',
-            IPLAN_API + '/train_compilation/MapServer/0/query',
-            IPLAN_API + '/Tama_35_1/MapServer/12/query',
-            IPLAN_API + '/tmm_3_21/MapServer/16/query',
-            IPLAN_API + '/tmm_2_9/MapServer/10/query'
-          ],
-          outFields: '*',
+          vector: true,
           minZoom: PRACTICAL_LAYER_ZOOM.planningDetailed
         },
         tama70: {
           title: 'תמ״א 70 / מטרו',
           source: PLANNING_SOURCES.tama70,
-          urls: [
-            IPLAN_API + '/tma_70/MapServer/2/query',
-            IPLAN_API + '/tma_70/MapServer/3/query',
-            IPLAN_API + '/tma_70/MapServer/4/query',
-            IPLAN_API + '/tma_70/MapServer/6/query'
-          ],
-          outFields: '*',
-          minZoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
-          noPagination: true
+          vector: true,
+          minZoom: PRACTICAL_LAYER_ZOOM.planningDetailed
         },
         urbanRenewal: {
           title: 'התחדשות עירונית',
@@ -296,6 +271,13 @@
         tama70: 'תמ״א 70',
         urbanRenewal: 'התחדשות'
       };
+      const DETAILED_PLANNING_LAYER_TARGETS = {
+        tama1: ['planning-tama1-fill', 'planning-tama1-line-halo', 'planning-tama1-line'],
+        transport: ['planning-transport-fill', 'planning-transport-rail-halo', 'planning-transport-line', 'planning-transport-point'],
+        tama70: ['planning-tama70-fill', 'planning-tama70-boundary', 'planning-tama70-route-halo', 'planning-tama70-line', 'planning-tama70-stations'],
+        urbanRenewal: ['planning-renewal-fill', 'planning-renewal-line']
+      };
+      const VECTOR_DETAILED_PLANNING_KEYS = ['tama1', 'transport', 'tama70'];
       const DETAILED_PLANNING_FIXED_COLORS = {
         'שטחים פתוחים': '#34d399',
         'תשתיות': '#fb923c',
@@ -1881,6 +1863,18 @@
         setDetailedPlanningLegend();
       }
 
+      function refreshVectorDetailedPlanningLegend(key) {
+        const layers = (DETAILED_PLANNING_LAYER_TARGETS[key] || []).filter((layerId) => map.getLayer(layerId));
+        if (!layers.length) return;
+        let rendered = [];
+        try {
+          rendered = map.queryRenderedFeatures({ layers });
+        } catch (error) {
+          return;
+        }
+        rememberDetailedPlanningLegend(key, rendered);
+      }
+
       function detailedPlanningCategoryFilter(key) {
         const hidden = detailedPlanningHiddenCategories[key];
         const filters = [];
@@ -1895,12 +1889,7 @@
       }
 
       function applyDetailedPlanningCategoryFilters(key) {
-        const targets = {
-          tama1: ['planning-tama1-fill', 'planning-tama1-line-halo', 'planning-tama1-line'],
-          transport: ['planning-transport-fill', 'planning-transport-rail-halo', 'planning-transport-line', 'planning-transport-point'],
-          tama70: ['planning-tama70-fill', 'planning-tama70-boundary', 'planning-tama70-route-halo', 'planning-tama70-line', 'planning-tama70-stations'],
-          urbanRenewal: ['planning-renewal-fill', 'planning-renewal-line']
-        }[key] || [];
+        const targets = DETAILED_PLANNING_LAYER_TARGETS[key] || [];
         const categoryFilter = detailedPlanningCategoryFilter(key);
         targets.forEach((layerId) => {
           if (!map.getLayer(layerId)) return;
@@ -2007,6 +1996,14 @@
           if (key === 'landUse' && planningEnabled && planningLayerEnabled.landUse) {
             setDefaultPlanningLandUseLegend();
             applyPlanningLandUseCategoryFilter();
+          }
+          if (VECTOR_DETAILED_PLANNING_KEYS.includes(key)) {
+            if (planningEnabled && planningLayerEnabled[key]) {
+              refreshVectorDetailedPlanningLegend(key);
+            } else {
+              detailedPlanningLegendByLayer.delete(key);
+              setDetailedPlanningLegend();
+            }
           }
           return { key, count: 0, vector: true };
         }
@@ -2260,8 +2257,9 @@
         if (props.fid !== null && props.fid !== undefined && props.planning_layer === 'urbanRenewal') {
           return 'urbanRenewal|fid|' + (props.source_layer || '') + '|' + props.fid;
         }
-        if (props.fid !== null && props.fid !== undefined && props.planning_layer === 'landUse') {
-          return 'landUse|fid|' + props.fid;
+        if (props.fid !== null && props.fid !== undefined &&
+            ['landUse', 'tama1', 'transport', 'tama70'].includes(props.planning_layer)) {
+          return props.planning_layer + '|fid|' + props.fid;
         }
         const objectId = props.OBJECTID ?? props.objectid ?? props.ObjectId ?? props.OBJECTID_1 ?? props.objectid_1;
         if (objectId !== null && objectId !== undefined) {
@@ -2484,11 +2482,20 @@
         return uniquePlanningFeatures(features.filter(Boolean));
       }
 
-      async function fetchPlanningLandUseFeature(renderedFeature) {
-        const fid = renderedFeature && renderedFeature.properties && renderedFeature.properties.fid;
-        if (!fid) return renderedFeature || null;
+      const PLANNING_VECTOR_FEATURE_PATHS = {
+        landUse: 'landuse',
+        tama1: 'tama1',
+        transport: 'transport',
+        tama70: 'tama70'
+      };
+
+      async function fetchPlanningVectorFeature(renderedFeature) {
+        const props = renderedFeature && renderedFeature.properties ? renderedFeature.properties : {};
+        const path = PLANNING_VECTOR_FEATURE_PATHS[props.planning_layer];
+        const fid = props.fid;
+        if (!path || !fid) return renderedFeature || null;
         try {
-          const response = await fetch(PLANNING_API + '/api/planning/landuse/feature/' + encodeURIComponent(fid), {
+          const response = await fetch(PLANNING_API + '/api/planning/' + path + '/feature/' + encodeURIComponent(fid), {
             credentials: 'include'
           });
           if (!response.ok) return renderedFeature;
@@ -3109,8 +3116,8 @@
         if (!feature) return false;
         if ((feature.properties || {}).planning_layer === 'blueLines') {
           feature = await fetchPlanningBlueLineFeature(feature);
-        } else if ((feature.properties || {}).planning_layer === 'landUse') {
-          feature = await fetchPlanningLandUseFeature(feature);
+        } else if (PLANNING_VECTOR_FEATURE_PATHS[(feature.properties || {}).planning_layer]) {
+          feature = await fetchPlanningVectorFeature(feature);
         }
         if (selectedPlanningFeature && planningFeatureIdentity(selectedPlanningFeature) === planningFeatureIdentity(feature)) {
           clearPlanningSelection();
@@ -3552,10 +3559,20 @@
         });
 
         [
+          [PLANNING_SOURCES.tama1, 'tama1'],
+          [PLANNING_SOURCES.transport, 'transport'],
+          [PLANNING_SOURCES.tama70, 'tama70']
+        ].forEach(([sourceId, path]) => {
+          map.addSource(sourceId, {
+            type: 'vector',
+            tiles: [PLANNING_API + '/api/planning/' + path + '/{z}/{x}/{y}.pbf'],
+            minzoom: 10,
+            maxzoom: 16
+          });
+        });
+
+        [
           PLANNING_SOURCES.notice77,
-          PLANNING_SOURCES.tama1,
-          PLANNING_SOURCES.transport,
-          PLANNING_SOURCES.tama70,
           PLANNING_SOURCES.urbanRenewal,
           PLANNING_SOURCES.highlight
         ].forEach((sourceId) => {
@@ -3673,6 +3690,7 @@
           id: 'planning-tama1-fill',
           type: 'fill',
           source: PLANNING_SOURCES.tama1,
+          'source-layer': 'tama1',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           layout: { visibility: 'none' },
          paint: {
@@ -3709,6 +3727,7 @@
           id: 'planning-tama1-line-halo',
           type: 'line',
           source: PLANNING_SOURCES.tama1,
+          'source-layer': 'tama1',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           layout: { visibility: 'none' },
           paint: {
@@ -3745,6 +3764,7 @@
           id: 'planning-tama1-line',
           type: 'line',
           source: PLANNING_SOURCES.tama1,
+          'source-layer': 'tama1',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           layout: { visibility: 'none' },
           paint: {
@@ -3783,6 +3803,7 @@
           id: 'planning-transport-fill',
           type: 'fill',
           source: PLANNING_SOURCES.transport,
+          'source-layer': 'transport',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           filter: ['match', ['geometry-type'], ['Polygon', 'MultiPolygon'], true, false],
           layout: { visibility: 'none' },
@@ -3796,6 +3817,7 @@
           id: 'planning-transport-rail-halo',
           type: 'line',
           source: PLANNING_SOURCES.transport,
+          'source-layer': 'transport',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           filter: ['match', ['get', 'planning_category_key'], ['מסילת רכבת מאושרת', 'מסילת רכבת עם הוראות מעבר'], true, false],
           layout: { visibility: 'none' },
@@ -3817,6 +3839,7 @@
           id: 'planning-transport-line',
           type: 'line',
           source: PLANNING_SOURCES.transport,
+          'source-layer': 'transport',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           filter: ['match', ['geometry-type'], ['LineString', 'MultiLineString'], true, false],
           layout: { visibility: 'none' },
@@ -3847,6 +3870,7 @@
           id: 'planning-transport-point',
           type: 'circle',
           source: PLANNING_SOURCES.transport,
+          'source-layer': 'transport',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           filter: ['match', ['geometry-type'], ['Point', 'MultiPoint'], true, false],
           layout: { visibility: 'none' },
@@ -3868,6 +3892,7 @@
           id: 'planning-tama70-fill',
           type: 'fill',
           source: PLANNING_SOURCES.tama70,
+          'source-layer': 'tama70',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           filter: ['match', ['get', 'planning_category_key'], ['מרחב ליבה', 'טבעת ראשונה', 'תחום חיפוש למעבר ציבורי'], true, false],
           layout: { visibility: 'none' },
@@ -3881,6 +3906,7 @@
           id: 'planning-tama70-boundary',
           type: 'line',
           source: PLANNING_SOURCES.tama70,
+          'source-layer': 'tama70',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           filter: ['==', ['get', 'planning_category_key'], 'גבול תמ״א 70'],
           layout: { visibility: 'none' },
@@ -3895,6 +3921,7 @@
           id: 'planning-tama70-route-halo',
           type: 'line',
           source: PLANNING_SOURCES.tama70,
+          'source-layer': 'tama70',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           filter: ['match', ['geometry-type'], ['LineString', 'MultiLineString'], true, false],
           layout: { visibility: 'none' },
@@ -3909,6 +3936,7 @@
           id: 'planning-tama70-line',
           type: 'line',
           source: PLANNING_SOURCES.tama70,
+          'source-layer': 'tama70',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           layout: { visibility: 'none' },
           paint: {
@@ -3922,6 +3950,7 @@
           id: 'planning-tama70-stations',
           type: 'circle',
           source: PLANNING_SOURCES.tama70,
+          'source-layer': 'tama70',
           minzoom: PRACTICAL_LAYER_ZOOM.planningDetailed,
           filter: ['==', ['get', 'planning_category_key'], 'תחנות מטרו'],
           layout: { visibility: 'none' },
@@ -4510,6 +4539,19 @@
 
       map.on('moveend', () => {
         if (planningEnabled) schedulePlanningLoad(180);
+      });
+
+      map.on('idle', () => {
+        // Vector detail layers stream in tiles after load — refresh their legend
+        // once the map settles (DOM-only; rememberDetailedPlanningLegend accumulates).
+        if (!planningEnabled) return;
+        let touched = false;
+        VECTOR_DETAILED_PLANNING_KEYS.forEach((key) => {
+          if (!planningLayerEnabled[key]) return;
+          refreshVectorDetailedPlanningLegend(key);
+          touched = true;
+        });
+        if (touched) updatePlanningLegendsVisibility();
       });
 
       map.on('error', (event) => {
