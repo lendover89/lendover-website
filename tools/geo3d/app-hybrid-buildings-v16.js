@@ -475,7 +475,7 @@
               // data only goes to z15; overzoom z15 tiles for higher view zooms
               maxzoom: 15,
               tiles: [
-                TILE_BASE + '/tiles/prod.buildings_3d_hybrid_il_candidate/{z}/{x}/{y}?v=20260528-zoom-qc'
+                TILE_BASE + '/tiles/prod.geo3d_buildings3d_lite/{z}/{x}/{y}?v=20260708-lite'
               ]
             },
             parcelOwnership: {
@@ -1242,7 +1242,7 @@
           id: 'buildings-3d',
           type: 'fill-extrusion',
           source: 'hybridBuildings',
-          'source-layer': 'prod.buildings_3d_hybrid_il_candidate',
+          'source-layer': 'prod.geo3d_buildings3d_lite',
           minzoom: 14,
           paint: {
             'fill-extrusion-color': [
