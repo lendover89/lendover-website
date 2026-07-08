@@ -406,6 +406,7 @@
     <button class="tab active" onclick="switchTab('dashboard',this)">📊 דשבורד</button>
     <button class="tab" onclick="switchTab('users',this)">👥 משתמשים</button>
     <button class="tab" onclick="switchTab('usage',this)">📈 שימוש בכלים</button>
+    <button class="tab" onclick="switchTab('requests',this)">📥 בקשות גישה <span id="req-badge" style="display:none;background:#e11d48;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-inline-start:4px"></span></button>
   </div>
 
   <div class="content">
@@ -667,6 +668,24 @@
 
     </div>
 
+    <!-- Access Requests Tab -->
+    <div class="tab-panel" id="tab-requests">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h2 style="margin:0">בקשות גישה ל-IsraMap</h2>
+        <button class="btn btn-primary btn-sm" onclick="loadAccessRequests()">רענן</button>
+      </div>
+      <table class="users">
+        <thead>
+          <tr>
+            <th>שם</th><th>אימייל</th><th>טלפון</th><th>חברה</th>
+            <th>סיבה</th><th>תאריך</th><th>פעולות</th>
+          </tr>
+        </thead>
+        <tbody id="requests-tbody"></tbody>
+      </table>
+      <div id="requests-empty" style="display:none;color:var(--sage);margin-top:12px">אין בקשות ממתינות.</div>
+    </div>
+
   </div>
 </div>
 
@@ -764,6 +783,7 @@ function showApp() {
   document.getElementById('app').style.display = 'flex';
   loadStats();
   loadUsers(1);
+  loadAccessRequests();
   if (liveInterval) clearInterval(liveInterval);
   liveInterval = setInterval(refreshLive, 30000);
 }
@@ -778,6 +798,7 @@ function switchTab(name, btn) {
   if (name === 'usage' && !usageLoaded) {
     loadUsage();
   }
+  if (name === 'requests') { loadAccessRequests(); }
 }
 
 // ── Stats / Dashboard ─────────────────────────────────────────────
@@ -1179,6 +1200,61 @@ async function setIsramap(userId, access) {
     toast(access ? 'גישת IsraMap אושרה' : 'גישת IsraMap בוטלה', 'ok');
     loadUsers(usersState.page);
   } catch(e) {
+    toast('שגיאה בביצוע הפעולה', 'err');
+  }
+}
+
+// ── Access Requests ──────────────────────────────────────────────
+
+async function loadAccessRequests() {
+  try {
+    var res = await apiFetch('/admin/access-requests?status=pending');
+    if (res.status === 401 || res.status === 403) { doLogout(); return; }
+    if (!res.ok) throw new Error();
+    var d = await res.json();
+    renderAccessRequests(d);
+  } catch (e) {
+    toast('שגיאה בטעינת בקשות הגישה', 'err');
+  }
+}
+
+function renderAccessRequests(d) {
+  var reqs = d.requests || [];
+  var badge = document.getElementById('req-badge');
+  if (d.pending_count > 0) { badge.textContent = d.pending_count; badge.style.display = ''; }
+  else { badge.style.display = 'none'; }
+  var tbody = document.getElementById('requests-tbody');
+  var empty = document.getElementById('requests-empty');
+  tbody.innerHTML = '';
+  if (!reqs.length) { empty.style.display = ''; return; }
+  empty.style.display = 'none';
+  reqs.forEach(function (r) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>' + esc(r.name) + '</td>' +
+      '<td dir="ltr">' + esc(r.email) + '</td>' +
+      '<td dir="ltr">' + esc(r.phone || '') + '</td>' +
+      '<td>' + esc(r.company || '') + '</td>' +
+      '<td style="max-width:280px;white-space:normal">' + esc(r.reason || '') + '</td>' +
+      '<td dir="ltr" style="white-space:nowrap">' + esc((r.created_at || '').slice(0, 16)) + '</td>' +
+      '<td style="white-space:nowrap">' +
+        '<button class="btn btn-success btn-sm" onclick="decideRequest(' + r.id + ',\'approve\')">אשר</button> ' +
+        '<button class="btn btn-outline btn-sm" onclick="decideRequest(' + r.id + ',\'reject\')">דחה</button>' +
+      '</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+async function decideRequest(reqId, decision) {
+  try {
+    var res = await apiFetch('/admin/access-requests/' + reqId + '/decide', {
+      method: 'POST', body: JSON.stringify({ decision: decision })
+    });
+    if (res.status === 401 || res.status === 403) { doLogout(); return; }
+    if (!res.ok) throw new Error();
+    toast(decision === 'approve' ? 'הבקשה אושרה — נשלח מייל למשתמש' : 'הבקשה נדחתה', 'ok');
+    loadAccessRequests();
+  } catch (e) {
     toast('שגיאה בביצוע הפעולה', 'err');
   }
 }
