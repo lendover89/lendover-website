@@ -499,6 +499,7 @@
               <th class="sortable" data-sort="company" onclick="sortUsers('company')">חברה<span class="sort-ind" data-sort-ind="company"></span></th>
               <th class="sortable" data-sort="verified" onclick="sortUsers('verified')">מאומת<span class="sort-ind" data-sort-ind="verified"></span></th>
               <th class="sortable" data-sort="blocked" onclick="sortUsers('blocked')">סטטוס<span class="sort-ind" data-sort-ind="blocked"></span></th>
+              <th title="גישה ל-IsraMap (isramap.co.il)">IsraMap</th>
               <th class="sortable" data-sort="created_at" onclick="sortUsers('created_at')">נרשם<span class="sort-ind" data-sort-ind="created_at"></span></th>
               <th class="sortable" data-sort="last_app_tool" onclick="sortUsers('last_app_tool')" title="האפליקציה האחרונה שבה המשתמש השתמש">אפליקציה אחרונה<span class="sort-ind" data-sort-ind="last_app_tool"></span></th>
               <th class="sortable" data-sort="last_app_use" onclick="sortUsers('last_app_use')" title="השימוש האחרון באחת האפליקציות באתר">שימוש אחרון באפליקציה<span class="sort-ind" data-sort-ind="last_app_use"></span></th>
@@ -516,7 +517,7 @@
             </tr>
           </thead>
           <tbody id="users-body">
-            <tr><td colspan="20" class="loader">טוען...</td></tr>
+            <tr><td colspan="22" class="loader">טוען...</td></tr>
           </tbody>
         </table>
         <div class="pagination" id="pagination" style="display:none">
@@ -952,7 +953,7 @@ async function loadUsers(page) {
   if (tool) params += '&tool=' + encodeURIComponent(tool);
 
   var tbody = document.getElementById('users-body');
-  tbody.innerHTML = '<tr><td colspan="20" class="loader">טוען...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="22" class="loader">טוען...</td></tr>';
   document.getElementById('pagination').style.display = 'none';
 
   try {
@@ -962,7 +963,7 @@ async function loadUsers(page) {
     var d = await res.json();
     renderUsers(d);
   } catch(e) {
-    tbody.innerHTML = '<tr><td colspan="20" class="empty">שגיאה בטעינה</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="22" class="empty">שגיאה בטעינה</td></tr>';
   }
 }
 
@@ -970,7 +971,7 @@ function renderUsers(d) {
   updateSortIndicators();
   var tbody = document.getElementById('users-body');
   if (!d.users || !d.users.length) {
-    tbody.innerHTML = '<tr><td colspan="20" class="empty">לא נמצאו משתמשים</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="22" class="empty">לא נמצאו משתמשים</td></tr>';
     return;
   }
 
@@ -987,6 +988,12 @@ function renderUsers(d) {
     var blockBtn = u.blocked
       ? '<button class="btn btn-success btn-sm" onclick="setBlock(' + u.id + ',false)">שחרר</button>'
       : '<button class="btn btn-danger btn-sm" onclick="setBlock(' + u.id + ',true)">חסום</button>';
+    var isramapBadge = u.isramap_access
+      ? '<span class="badge badge-green">✓</span>'
+      : '<span class="badge badge-gray">✗</span>';
+    var isramapBtn = u.isramap_access
+      ? '<button class="btn btn-outline btn-sm" onclick="setIsramap(' + u.id + ',false)">בטל IsraMap</button>'
+      : '<button class="btn btn-success btn-sm" onclick="setIsramap(' + u.id + ',true)">אשר IsraMap</button>';
     var deleteBtn = '<button class="btn btn-delete btn-sm" style="margin-right:4px" ' +
       'onclick="deleteUser(' + u.id + ',\'' + esc(u.name).replace(/'/g, "\\'") + '\')">מחק</button>';
 
@@ -1014,6 +1021,7 @@ function renderUsers(d) {
       '<td>' + esc(u.company || '—') + '</td>' +
       '<td>' + verBadge + '</td>' +
       '<td>' + blockBadge + '</td>' +
+      '<td style="white-space:nowrap">' + isramapBadge + ' ' + isramapBtn + '</td>' +
       '<td>' + fmtDate(u.created_at) + '</td>' +
       '<td>' + esc(toolLabel(u.last_app_tool)) + '</td>' +
       '<td>' + fmtDate(u.last_app_use || u.last_tool_use) + '</td>' +
@@ -1154,6 +1162,21 @@ async function setBlock(userId, block) {
     if (res.status === 401 || res.status === 403) { doLogout(); return; }
     if (!res.ok) throw new Error();
     toast(block ? 'המשתמש נחסם' : 'החסימה הוסרה', 'ok');
+    loadUsers(usersState.page);
+  } catch(e) {
+    toast('שגיאה בביצוע הפעולה', 'err');
+  }
+}
+
+async function setIsramap(userId, access) {
+  try {
+    var res = await apiFetch('/admin/users/' + userId + '/isramap', {
+      method: 'POST',
+      body: JSON.stringify({ access: access ? 1 : 0 })
+    });
+    if (res.status === 401 || res.status === 403) { doLogout(); return; }
+    if (!res.ok) throw new Error();
+    toast(access ? 'גישת IsraMap אושרה' : 'גישת IsraMap בוטלה', 'ok');
     loadUsers(usersState.page);
   } catch(e) {
     toast('שגיאה בביצוע הפעולה', 'err');
