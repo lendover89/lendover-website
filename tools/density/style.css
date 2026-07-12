@@ -21,7 +21,7 @@
   --shadow:      0 2px 12px rgba(0,0,0,0.08);
 }
 
-html { font-size: 16px; }
+html { font-size: 16px; max-width: 100%; overflow-x: hidden; }
 
 body {
   font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
@@ -30,6 +30,8 @@ body {
   direction: rtl;
   min-height: 100vh;
   padding-bottom: 48px;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* ── Hero ────────────────────────────────── */
@@ -49,7 +51,7 @@ body {
 .hero p  { font-size: 1rem; color: rgba(255,255,255,0.75); font-weight: 300; }
 
 /* ── Container ───────────────────────────── */
-.container { max-width: 880px; margin: 36px auto 0; padding: 0 16px; }
+.container { width: 100%; max-width: 880px; margin: 36px auto 0; padding: 0 16px; }
 
 /* ── Section heading ─────────────────────── */
 .section-title {
@@ -79,9 +81,11 @@ body {
   align-items: end;
   margin-bottom: 12px;
 }
-.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-group { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .field-group label { font-size: 0.85rem; font-weight: 600; color: var(--charcoal); }
 .field-group input[type="text"] {
+  width: 100%;
+  min-width: 0;
   padding: 10px 12px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
