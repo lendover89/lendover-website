@@ -45,13 +45,13 @@
   <link rel="stylesheet" href="/style-herounify1.css" />
   <link rel="stylesheet" href="style.css?v=20260706-tool-hero-fix33">
   <style>
-    nav{padding:10px 32px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #e0ddd6}
-    .nav-app-brand,.nav-site-brand{text-decoration:none;display:flex;align-items:center}
-    .nav-app-logo{height:140px;width:auto}
+    nav{padding:8px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:72px;height:auto;background:#fff;border-bottom:1px solid #e0ddd6;overflow:visible}
+    .nav-app-brand,.nav-site-brand{text-decoration:none;display:flex;align-items:center;min-width:0}
+    .nav-app-logo{display:block;height:56px;width:auto;max-width:min(220px,42vw);object-fit:contain}
     .nav-site-brand{opacity:.8;transition:opacity .2s}
     .nav-site-brand:hover{opacity:1}
-    .nav-site-logo{height:100px;width:auto}
-    @media(max-width:520px){.nav-app-logo{height:90px}.nav-site-logo{height:64px}}
+    .nav-site-logo{display:block;height:52px;width:auto;max-width:min(190px,38vw);object-fit:contain}
+    @media(max-width:520px){nav{padding:6px 12px;gap:12px;min-height:56px}.nav-app-logo{height:44px;max-width:44vw}.nav-site-logo{height:40px;max-width:40vw}}
   </style>
 <!-- LENDOVER_ENTITY_SCHEMA_START -->
 <script type="application/ld+json">{
