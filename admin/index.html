@@ -482,6 +482,7 @@
           <option value="density">Density</option>
           <option value="feescalc">אגרות והיטלים</option>
           <option value="geo3d">Geo3D</option>
+          <option value="isramap">IsraMap</option>
           <option value="taxcalc">פטור ממס</option>
           <option value="planmeter">PlanMeter</option>
         </select>
@@ -512,13 +513,14 @@
               <th class="sortable" data-sort="density" onclick="sortUsers('density')" title="Density — מספר שימושים">Density<span class="sort-ind" data-sort-ind="density"></span></th>
               <th class="sortable" data-sort="feescalc" onclick="sortUsers('feescalc')" title="מחשבון אגרות והיטלים — מספר שימושים">אגרות והיטלים<span class="sort-ind" data-sort-ind="feescalc"></span></th>
               <th class="sortable" data-sort="geo3d" onclick="sortUsers('geo3d')" title="Geo3D — מספר שימושים">Geo3D<span class="sort-ind" data-sort-ind="geo3d"></span></th>
+              <th class="sortable" data-sort="isramap" onclick="sortUsers('isramap')" title="IsraMap — מספר שימושים">IsraMap<span class="sort-ind" data-sort-ind="isramap"></span></th>
               <th class="sortable" data-sort="taxcalc" onclick="sortUsers('taxcalc')" title="פטור ממס בהתחדשות עירונית — מספר שימושים">פטור ממס<span class="sort-ind" data-sort-ind="taxcalc"></span></th>
               <th class="sortable" data-sort="planmeter" onclick="sortUsers('planmeter')" title="PlanMeter — מספר תשריטים שעובדו">PlanMeter<span class="sort-ind" data-sort-ind="planmeter"></span></th>
               <th>פעולה</th>
             </tr>
           </thead>
           <tbody id="users-body">
-            <tr><td colspan="22" class="loader">טוען...</td></tr>
+            <tr><td colspan="23" class="loader">טוען...</td></tr>
           </tbody>
         </table>
         <div class="pagination" id="pagination" style="display:none">
@@ -605,6 +607,11 @@
           <div class="breakdown" id="u-geo3d-sub"></div>
         </div>
         <div class="usage-card">
+          <div class="tool-name">IsraMap</div>
+          <div class="total" id="u-isramap-total">—</div>
+          <div class="breakdown" id="u-isramap-sub"></div>
+        </div>
+        <div class="usage-card">
           <div class="tool-name">פטור ממס</div>
           <div class="total" id="u-taxcalc-total">—</div>
           <div class="breakdown" id="u-taxcalc-sub"></div>
@@ -655,6 +662,10 @@
         <div class="table-wrap">
           <h3>Geo3D — משתמשים מובילים</h3>
           <table class="mini-table"><tbody id="tbl-top-geo3d"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
+        </div>
+        <div class="table-wrap">
+          <h3>IsraMap — משתמשים מובילים</h3>
+          <table class="mini-table"><tbody id="tbl-top-isramap"><tr><td colspan="3" class="loader">טוען...</td></tr></tbody></table>
         </div>
         <div class="table-wrap">
           <h3>פטור ממס — משתמשים מובילים</h3>
@@ -932,6 +943,7 @@ function toolLabel(tool) {
     density: 'Density',
     feescalc: 'אגרות והיטלים',
     geo3d: 'Geo3D',
+    isramap: 'IsraMap',
     taxcalc: 'פטור ממס',
     planmeter: 'PlanMeter'
   };
@@ -974,7 +986,7 @@ async function loadUsers(page) {
   if (tool) params += '&tool=' + encodeURIComponent(tool);
 
   var tbody = document.getElementById('users-body');
-  tbody.innerHTML = '<tr><td colspan="22" class="loader">טוען...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="23" class="loader">טוען...</td></tr>';
   document.getElementById('pagination').style.display = 'none';
 
   try {
@@ -984,7 +996,7 @@ async function loadUsers(page) {
     var d = await res.json();
     renderUsers(d);
   } catch(e) {
-    tbody.innerHTML = '<tr><td colspan="22" class="empty">שגיאה בטעינה</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="23" class="empty">שגיאה בטעינה</td></tr>';
   }
 }
 
@@ -992,7 +1004,7 @@ function renderUsers(d) {
   updateSortIndicators();
   var tbody = document.getElementById('users-body');
   if (!d.users || !d.users.length) {
-    tbody.innerHTML = '<tr><td colspan="22" class="empty">לא נמצאו משתמשים</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="23" class="empty">לא נמצאו משתמשים</td></tr>';
     return;
   }
 
@@ -1026,6 +1038,7 @@ function renderUsers(d) {
     var dnUses  = u.density_uses     || 0;
     var fcUses  = u.feescalc_uses    || 0;
     var g3dUses = u.geo3d_uses       || 0;
+    var imUses  = u.isramap_uses     || 0;
     var txUses  = u.taxcalc_uses     || 0;
     var pmUses  = u.planmeter_uses   || 0;
 
@@ -1054,6 +1067,7 @@ function renderUsers(d) {
       usageCell(dnUses) +
       usageCell(fcUses) +
       usageCell(g3dUses) +
+      usageCell(imUses) +
       usageCell(txUses) +
       usageCell(pmUses) +
       '<td style="white-space:nowrap">' + '<button class="btn btn-outline btn-sm usage-detail-btn" onclick="showUserUsage(' + u.id + ',\'' + esc(u.name).replace(/'/g, "\\'") + '\')">שימושים</button> ' + blockBtn + ' ' + deleteBtn + '</td>' +
@@ -1146,6 +1160,7 @@ function renderUserUsage(userId, d, filters) {
     ['density', 'Density'],
     ['feescalc', 'אגרות והיטלים'],
     ['geo3d', 'Geo3D'],
+    ['isramap', 'IsraMap'],
     ['taxcalc', 'פטור ממס'],
     ['planmeter', 'PlanMeter']
   ].map(function(o) {
@@ -1325,7 +1340,7 @@ async function loadPlanMeterStats() {
 }
 
 function renderUsage(d) {
-  var tools = ['tabutab', 'tabucaunt', 'buildcalc', 'groundwater', 'tabu2docs', 'density', 'feescalc', 'geo3d', 'taxcalc', 'planmeter'];
+  var tools = ['tabutab', 'tabucaunt', 'buildcalc', 'groundwater', 'tabu2docs', 'density', 'feescalc', 'geo3d', 'isramap', 'taxcalc', 'planmeter'];
 
   // Summary cards
   tools.forEach(function(tool) {
@@ -1363,7 +1378,7 @@ function renderUsageChart(daily) {
   (daily || []).forEach(function(r) {
     var day = r.day;
     if (!day) return;
-    if (!byDay[day]) byDay[day] = { tabutab: 0, tabucaunt: 0, buildcalc: 0, groundwater: 0, tabu2docs: 0, density: 0, feescalc: 0, geo3d: 0, taxcalc: 0, planmeter: 0 };
+    if (!byDay[day]) byDay[day] = { tabutab: 0, tabucaunt: 0, buildcalc: 0, groundwater: 0, tabu2docs: 0, density: 0, feescalc: 0, geo3d: 0, isramap: 0, taxcalc: 0, planmeter: 0 };
     if (r.tool && byDay[day].hasOwnProperty(r.tool)) {
       byDay[day][r.tool] = r.uses || 0;
     }
@@ -1390,6 +1405,7 @@ function renderUsageChart(daily) {
   var dnData  = days.map(function(d){ return (byDay[d] && byDay[d].density)     || 0; });
   var fcData  = days.map(function(d){ return (byDay[d] && byDay[d].feescalc)    || 0; });
   var g3dData = days.map(function(d){ return (byDay[d] && byDay[d].geo3d)       || 0; });
+  var imData  = days.map(function(d){ return (byDay[d] && byDay[d].isramap)     || 0; });
   var txData  = days.map(function(d){ return (byDay[d] && byDay[d].taxcalc)     || 0; });
   var pmData  = days.map(function(d){ return (byDay[d] && byDay[d].planmeter)   || 0; });
 
@@ -1408,6 +1424,7 @@ function renderUsageChart(daily) {
         { label: 'Density',   data: dnData,  backgroundColor: 'rgba(154,95,46,.9)',    borderRadius: 3 },
         { label: 'אגרות',     data: fcData,  backgroundColor: 'rgba(96,125,139,.75)',  borderRadius: 3 },
         { label: 'Geo3D',     data: g3dData, backgroundColor: 'rgba(104,152,132,.85)', borderRadius: 3 },
+        { label: 'IsraMap',   data: imData,  backgroundColor: 'rgba(67,127,181,.85)',  borderRadius: 3 },
         { label: 'פטור ממס',  data: txData,  backgroundColor: 'rgba(91,200,196,.85)',  borderRadius: 3 },
         { label: 'PlanMeter', data: pmData,  backgroundColor: 'rgba(184,116,61,.85)',  borderRadius: 3 }
       ]
@@ -1475,7 +1492,6 @@ checkSession();
 </script>
 </body>
 </html>
-
 
 
 
