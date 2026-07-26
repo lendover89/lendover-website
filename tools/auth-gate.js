@@ -139,6 +139,89 @@
       border-radius: 50%; animation: auth-spin 0.6s linear infinite;
       vertical-align: middle; margin-inline-start: 8px;
     }
+    .lendover-webinar-banner {
+      position: sticky;
+      top: 0;
+      z-index: 9990;
+      direction: rtl;
+      font-family: 'Heebo', 'Assistant', Arial, sans-serif;
+      background:
+        linear-gradient(90deg, rgba(34, 220, 229, 0.18), transparent 30%),
+        linear-gradient(270deg, rgba(184, 116, 61, 0.14), transparent 34%),
+        #071012;
+      border-bottom: 1px solid rgba(34, 220, 229, 0.28);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.16);
+    }
+    .lendover-webinar-banner__inner {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+      align-items: center;
+      gap: 14px;
+      width: min(1120px, calc(100% - 28px));
+      min-height: 58px;
+      margin: 0 auto;
+      padding: 9px 0;
+      color: #f7fbfb;
+    }
+    .lendover-webinar-banner__kicker {
+      color: #22dce5;
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .lendover-webinar-banner__title {
+      min-width: 0;
+      color: #f7fbfb;
+      font-size: 17px;
+      font-weight: 900;
+      line-height: 1.18;
+      overflow-wrap: anywhere;
+    }
+    .lendover-webinar-banner__meta {
+      color: rgba(247, 251, 251, 0.84);
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .lendover-webinar-banner__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 84px;
+      padding: 8px 13px;
+      color: #061012;
+      background: #22dce5;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .lendover-webinar-banner__cta:hover {
+      background: #7cf6ff;
+    }
+    .lendover-webinar-banner__close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      color: #f7fbfb;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .lendover-webinar-banner__close:hover,
+    .lendover-webinar-banner__close:focus-visible {
+      color: #061012;
+      background: #7cf6ff;
+      outline: none;
+    }
     @keyframes auth-spin {
       to { transform: rotate(360deg); }
     }
@@ -155,6 +238,38 @@
       #auth-overlay .auth-field-row {
         flex-direction: column; gap: 0;
       }
+      .lendover-webinar-banner__inner {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 6px 10px;
+        width: calc(100% - 20px);
+        min-height: 0;
+        padding: 9px 0;
+      }
+      .lendover-webinar-banner__kicker,
+      .lendover-webinar-banner__title,
+      .lendover-webinar-banner__meta {
+        grid-column: 1;
+      }
+      .lendover-webinar-banner__kicker {
+        font-size: 12px;
+      }
+      .lendover-webinar-banner__title {
+        font-size: 14px;
+      }
+      .lendover-webinar-banner__meta {
+        font-size: 12px;
+        white-space: normal;
+      }
+      .lendover-webinar-banner__cta {
+        grid-column: 1 / -1;
+        width: 100%;
+        min-width: 0;
+        padding: 8px 10px;
+      }
+      .lendover-webinar-banner__close {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+      }
     }
   `;
 
@@ -166,6 +281,39 @@
     style.id = 'auth-gate-css';
     style.textContent = CSS;
     document.head.appendChild(style);
+  }
+
+  function injectToolWebinarBanner() {
+    const isLendover = /(^|\.)lendover\.co\.il$/i.test(window.location.hostname);
+    const isToolsPage = /^\/tools\//.test(window.location.pathname);
+    const webinarEndsAt = new Date('2026-07-29T13:00:00+03:00');
+    const storageKey = 'lendover-isramap-webinar-banner-dismissed-20260729';
+    if (!isLendover || !isToolsPage || Date.now() >= webinarEndsAt.getTime()) return;
+    if (document.getElementById('lendoverWebinarBanner')) return;
+    try {
+      if (window.localStorage.getItem(storageKey) === '1') return;
+    } catch (_) {}
+
+    const banner = document.createElement('aside');
+    banner.id = 'lendoverWebinarBanner';
+    banner.className = 'lendover-webinar-banner';
+    banner.setAttribute('aria-label', 'וובינר מקצועי לעורכי דין נדל"ן');
+    banner.innerHTML = `
+      <div class="lendover-webinar-banner__inner">
+        <span class="lendover-webinar-banner__kicker">וובינר IsraMap לעורכי דין נדל"ן</span>
+        <span class="lendover-webinar-banner__title">מה צריך לראות במפה לפני מו"מ, חתימה או ליווי פרויקט</span>
+        <span class="lendover-webinar-banner__meta">29.7.2026 · 13:00</span>
+        <a class="lendover-webinar-banner__cta" href="https://isramap.co.il/webinar-lawyers.html">להרשמה</a>
+        <button class="lendover-webinar-banner__close" type="button" aria-label="סגור באנר וובינר">×</button>
+      </div>`;
+
+    banner.querySelector('.lendover-webinar-banner__close')?.addEventListener('click', () => {
+      try {
+        window.localStorage.setItem(storageKey, '1');
+      } catch (_) {}
+      banner.remove();
+    });
+    document.body.prepend(banner);
   }
 
   // ── CSRF ─────────────────────────────────────────────────────────
@@ -732,6 +880,14 @@
       window.showAuthModal(() => resolve());
     });
   };
+
+  // Show the IsraMap webinar banner on Lendover tool pages while the campaign is active.
+  injectCSS();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectToolWebinarBanner, { once: true });
+  } else {
+    injectToolWebinarBanner();
+  }
 
   // Fetch CSRF token on load (non-blocking)
   fetchCsrfToken();
