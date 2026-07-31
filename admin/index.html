@@ -1251,7 +1251,7 @@ function renderAccessRequests(d) {
       '<td dir="ltr">' + esc(r.phone || '') + '</td>' +
       '<td>' + esc(r.company || '') + '</td>' +
       '<td style="max-width:280px;white-space:normal">' + esc(r.reason || '') + '</td>' +
-      '<td dir="ltr" style="white-space:nowrap">' + esc((r.created_at || '').slice(0, 16)) + '</td>' +
+      '<td dir="ltr" style="white-space:nowrap">' + fmtDate(r.created_at) + '</td>' +
       '<td style="white-space:nowrap">' +
         '<button class="btn btn-success btn-sm" onclick="decideRequest(' + r.id + ',\'approve\')">אשר</button> ' +
         '<button class="btn btn-outline btn-sm" onclick="decideRequest(' + r.id + ',\'reject\')">דחה</button>' +
