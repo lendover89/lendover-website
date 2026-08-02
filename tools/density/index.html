@@ -3,33 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>צפיפות יחידות דיור לפי גוש וחלקה — Density | חינם</title>
-  <meta name="description" content="בדיקת צפיפות יחידות דיור לפי גוש וחלקה: חישוב יחידות לדונם, כולל תמיכה במתחם של עד 10 חלקות ומפה אינטראקטיבית. כלי של אהרון לנדובר." />
+  <title>מחשבון הצפיפות עבר ל־ISRAMAP | לנדובר</title>
+  <meta name="description" content="מחשבון הצפיפות של לנדובר שודרג והוטמע בתוך ISRAMAP — מפת התכנון של ישראל. בדיקת צפיפות לפי גוש וחלקה זמינה היום כחלק ממערכת המפה והתכנון." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.lendover.co.il/tools/density/" />
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.lendover.co.il/tools/density/" />
-  <meta property="og:title" content="Density — חישוב צפיפות לפי גוש וחלקה" />
-  <meta property="og:description" content="הזן גוש וחלקה (או מתחם של חלקות) — קבל מיידית צפיפות, שטח ומפה. חינם." />
+  <meta property="og:title" content="מחשבון הצפיפות עבר ל־ISRAMAP" />
+  <meta property="og:description" content="בדיקת צפיפות לפי גוש וחלקה זמינה עכשיו בתוך ISRAMAP, יחד עם שכבות תכנון והקשר מרחבי מלא." />
   <meta property="og:image" content="https://www.lendover.co.il/logo-transparent-new.png" />
   <meta property="og:locale" content="he_IL" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Density — חישוב צפיפות לפי גוש וחלקה" />
-  <meta name="twitter:description" content="חישוב צפיפות יחידות/דונם, תמיכה במתחם, תצוגת מפה. חינם." />
+  <meta name="twitter:title" content="מחשבון הצפיפות עבר ל־ISRAMAP" />
+  <meta name="twitter:description" content="מחשבון הצפיפות הוטמע בתוך ISRAMAP — מפת התכנון של ישראל." />
   <meta name="twitter:image" content="https://www.lendover.co.il/logo-transparent-new.png" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "Density — חישוב צפיפות",
+    "name": "מחשבון הצפיפות בתוך ISRAMAP",
     "url": "https://www.lendover.co.il/tools/density/",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Web",
     "inLanguage": "he",
-    "description": "כלי חינמי לחישוב צפיפות בנייה (יחידות לדונם) לפי גוש וחלקה. תומך בחלקה בודדת או במתחם של עד 10 חלקות. מציג את החלקות על מפה אינטראקטיבית.",
+    "description": "מחשבון הצפיפות של לנדובר שודרג והוטמע בתוך ISRAMAP. הבדיקה לפי גוש וחלקה זמינה כחלק ממערכת מפה ותכנון רחבה יותר.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ILS" },
     "author": { "@type": "Person", "name": "אהרון לנדובר", "url": "https://www.lendover.co.il" }
   }
@@ -171,7 +171,7 @@
       "@type": "WebPage",
       "@id": "https://www.lendover.co.il/tools/density/#webpage",
       "url": "https://www.lendover.co.il/tools/density/",
-      "name": "חישוב צפיפות לפי גוש וחלקה — Density | חינם",
+      "name": "מחשבון הצפיפות עבר ל־ISRAMAP",
       "inLanguage": "he-IL",
       "isPartOf": {
         "@id": "https://www.lendover.co.il/#website"
@@ -197,7 +197,7 @@
         "@type": "Country",
         "name": "Israel"
       },
-      "description": "חישוב צפיפות בנייה (יחידות/דונם) לפי גוש וחלקה — כולל תמיכה במתחם של עד 10 חלקות. מציג את החלקות על מפה. כלי של אהרון לנדובר."
+      "description": "מחשבון הצפיפות של לנדובר שודרג והוטמע בתוך ISRAMAP — מפת התכנון של ישראל. הבדיקה זמינה כחלק מהקשר תכנוני ומרחבי מלא יותר."
     }
   ]
 }</script>
@@ -268,6 +268,120 @@
     }
   }
 </style>
+
+<style id="density-isramap-transition-style">
+  .transition-hero {
+    background: #2f3337;
+    color: #fff;
+    padding: 42px 24px 38px;
+    text-align: center;
+  }
+  .transition-hero h1 {
+    font-size: clamp(1.75rem, 4vw, 2.45rem);
+    line-height: 1.25;
+    margin: 0 0 12px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+  .transition-hero p {
+    max-width: 760px;
+    margin: 0 auto;
+    color: rgba(255,255,255,.82);
+    font-size: 1.08rem;
+    line-height: 1.75;
+  }
+  .transition-layout {
+    width: 100%;
+    max-width: 960px;
+    margin: 36px auto 0;
+    padding: 0 16px 34px;
+  }
+  .transition-panel {
+    background: #fff;
+    border-top: 3px solid var(--copper);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 30px 34px;
+    margin-bottom: 22px;
+  }
+  .transition-panel h2 {
+    color: var(--charcoal);
+    font-size: 1.24rem;
+    margin: 0 0 12px;
+    font-weight: 800;
+  }
+  .transition-panel p,
+  .transition-panel li {
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  .transition-panel p + p { margin-top: 12px; }
+  .transition-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+  }
+  .transition-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 11px 20px;
+    border-radius: var(--radius);
+    font-family: 'Heebo', sans-serif;
+    font-size: .98rem;
+    font-weight: 800;
+    text-decoration: none;
+    border: 1.5px solid var(--copper);
+    transition: background .2s, color .2s, border-color .2s;
+  }
+  .transition-btn.primary {
+    background: var(--copper);
+    color: #fff;
+  }
+  .transition-btn.primary:hover { background: var(--copper-dark); border-color: var(--copper-dark); }
+  .transition-btn.secondary { color: var(--copper-dark); background: transparent; }
+  .transition-btn.secondary:hover { background: var(--copper-light); }
+  .transition-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .transition-point {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    background: #fbfaf8;
+  }
+  .transition-point strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--charcoal);
+    font-size: .98rem;
+  }
+  .transition-point span {
+    display: block;
+    color: #666;
+    line-height: 1.65;
+    font-size: .93rem;
+  }
+  .transition-note {
+    font-size: .84rem !important;
+    color: #777 !important;
+    margin-top: 18px;
+  }
+  @media (max-width: 760px) {
+    .transition-hero { padding: 32px 18px 30px; }
+    .transition-layout { margin-top: 24px; }
+    .transition-panel { padding: 24px 20px; }
+    .transition-grid { grid-template-columns: 1fr; }
+    .transition-actions { flex-direction: column; }
+    .transition-btn { width: 100%; }
+  }
+</style>
 </head>
 <body>
 
@@ -280,120 +394,47 @@
   </a>
 </nav>
 
-<div class="hero">
-  <h1>חישוב צפיפות לפי גוש וחלקה</h1>
-  <p>הזינו חלקה או מתחם של עד 10 חלקות — קבלו צפיפות, שטח ומפה</p>
-</div>
-
-<div class="container">
-
-  <div class="card">
-    <p class="section-title">חיפוש</p>
-
-    <form id="lookup-form" autocomplete="off" novalidate>
-      <div id="rows-container">
-        <!-- rows יווצרו דינמית ב-app.js -->
-      </div>
-
-      <div class="row-actions">
-        <button type="button" id="add-row-btn" class="btn-secondary">+ הוסף חלקה</button>
-        <span id="rows-counter" class="rows-counter">חלקה 1 מתוך מקסימום 10</span>
-      </div>
-
-      <button type="submit" id="lookup-btn">חשב צפיפות</button>
-    </form>
-
-    <div id="spinner">
-      <div class="spin"></div>
-      <p>מחפש...</p>
-    </div>
-
-    <div id="error-box"></div>
-  </div>
-
-  <div id="not-found-card" class="card">
-    <div class="not-found-msg">
-      <span class="not-found-icon">🔍</span>
-      <p id="not-found-text"></p>
-    </div>
-    <button id="reset-btn-2">חיפוש חדש</button>
-  </div>
-
-  <div id="result-card" class="card">
-    <p class="section-title">תוצאות</p>
-
-    <!-- Aggregate summary (compound only) -->
-    <div id="aggregate-box">
-      <div class="agg-grid">
-        <div class="agg-item">
-          <label>סה"כ יחידות רשומות</label>
-          <span id="agg-subs">—</span>
-        </div>
-        <div class="agg-item">
-          <label>שטח כולל (דונם)</label>
-          <span id="agg-area">—</span>
-        </div>
-        <div class="agg-item agg-highlight">
-          <label>צפיפות מצרפית</label>
-          <span id="agg-density">—</span>
-          <small>יחידות / דונם</small>
-        </div>
-      </div>
-      <p id="agg-note" class="agg-note"></p>
-    </div>
-
-    <!-- Per-parcel table -->
-    <div class="table-wrap">
-      <table id="results-table">
-        <thead>
-          <tr>
-            <th>גוש</th>
-            <th>חלקה</th>
-            <th>יחידות</th>
-            <th>שטח (ד')</th>
-            <th>צפיפות</th>
-            <th>כתובת / יישוב</th>
-          </tr>
-        </thead>
-        <tbody id="results-tbody"></tbody>
-      </table>
-    </div>
-
-    <!-- Map -->
-    <div id="map"></div>
-
-    <button id="reset-btn">חיפוש חדש</button>
-  </div>
-
-  <p class="privacy-note">הנתונים מבוססים על שכבות GIS ומאגר הטאבו.</p>
-</div>
-
-<section class="about-tool" style="max-width:680px;margin:40px auto 0;padding:0 20px 40px;text-align:right;direction:rtl;font-family:inherit;color:#444;line-height:1.7">
-  <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:8px;color:#1a2b4a">אודות Density</h2>
-  <p>Density הוא כלי מבית <a href="https://www.lendover.co.il" style="color:#1a6fb5;text-decoration:none">לנדובר</a>, הבית לפתרונות נדל״ן. הכלי מחשב צפיפות בנייה (יחידות לדונם) לפי גוש וחלקה — ערך קריטי בבדיקת היתכנות של פרויקטי התחדשות עירונית.</p>
-  <p>הזינו גוש וחלקה — הכלי מחזיר מיידית את מספר תתי-החלקות הרשומים בטאבו (יחידות), שטח החלקה בדונם, וצפיפות מחושבת. ניתן להוסיף עד 10 חלקות יחד למתחם — הכלי יחשב צפיפות מצרפית (סך היחידות חלקי סך השטח) ויציג את כל החלקות על מפה אינטראקטיבית.</p>
-  <p style="font-size:0.78rem;color:#999;font-style:italic;margin-top:-4px">* יחידה = תת-חלקה רשומה בטאבו (לא בהכרח דירת מגורים).</p>
-  <h2 style="font-size:1.08rem;font-weight:700;margin:22px 0 8px;color:#1a2b4a">איך לפרש את תוצאת הצפיפות?</h2>
-  <p>צפיפות קיימת נמוכה יכולה להצביע על פוטנציאל תכנוני, אבל רק אם יש מדיניות עירונית, זכויות בנייה ותנאי מגרש שתומכים בכך. צפיפות קיימת גבוהה אינה פוסלת פרויקט, אבל בדרך כלל מקטינה את מרווח התכנון והכלכלה ומחייבת בדיקה זהירה יותר.</p>
-  <p>במתחם של כמה חלקות חשוב להסתכל על הצפיפות המצרפית ולא רק על חלקה אחת. חלקה חריגה אחת יכולה להטות את התמונה, ולכן כדאי להשוות גם בעלויות, שטחי מגרש, מבני ציבור סמוכים, רוחב רחובות ומגבלות תכנון.</p>
-  <p>כלים נוספים: <a href="https://www.lendover.co.il/tools/tabucaunt/" style="color:#1a6fb5;text-decoration:none">TabuCount</a> — בדיקת בעלים בטאבו | <a href="https://www.lendover.co.il/tools/buildcalc/" style="color:#1a6fb5;text-decoration:none">BuildCalc</a> — מחשבון תכסית | <a href="https://www.lendover.co.il/tools/groundwater/" style="color:#1a6fb5;text-decoration:none">Groundwater</a> — מי תהום</p>
-
-  <h2 style="font-size:1.1rem;font-weight:700;margin:24px 0 12px;color:#1a2b4a">שאלות נפוצות</h2>
-  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">איך מחושבת הצפיפות?</summary><p style="margin:8px 0 0 16px">צפיפות = מספר תתי-חלקות (יחידות רשומות בטאבו) חלקי שטח החלקה בדונם. במתחם — סכום היחידות חלקי סכום השטחים.</p></details>
-  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">למה זה חשוב בהתחדשות עירונית?</summary><p style="margin:8px 0 0 16px">צפיפות קיימת היא קלט קריטי לבדיקת כדאיות של פינוי בינוי או תמ"א 38. ככל שהצפיפות הקיימת נמוכה יותר, כך פוטנציאל ההגדלה עשוי להיות גדול יותר — אבל רק יחד עם זכויות, מדיניות תכנון, מגבלות מגרש ובעלויות.</p></details>
-  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם צפיפות נמוכה מספיקה כדי להחליט על כניסה למתחם?</summary><p style="margin:8px 0 0 16px">לא. צפיפות היא סינון ראשוני. לפני החלטה עסקית צריך לבדוק גם תב"עות, מדיניות הרשות, זכויות קיימות ומוצעות, מספר בעלים, תחרות יזמית וסיכוני ביצוע.</p></details>
-  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">מה זה "מתחם"?</summary><p style="margin:8px 0 0 16px">פרויקטי התחדשות עירונית לרוב כוללים מספר חלקות סמוכות. הכלי מאפשר להזין עד 10 חלקות יחד — מקבל צפיפות אחת מצרפית למתחם כולו.</p></details>
-  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם הנתונים עדכניים?</summary><p style="margin:8px 0 0 16px">המספרים מבוססים על שכבות GIS ומאגר הטאבו. הנתונים נטענים מעת לעת.</p></details>
+<section class="transition-hero">
+  <h1>מחשבון הצפיפות עבר ל־ISRAMAP</h1>
+  <p>כלי הצפיפות העצמאי של לנדובר שודרג והוטמע בתוך ISRAMAP — מפת התכנון של ישראל.</p>
 </section>
 
+<main class="transition-layout">
+  <section class="transition-panel" aria-labelledby="transition-title">
+    <h2 id="transition-title">אותה בדיקה, בתוך מערכת מלאה יותר</h2>
+    <p>במקום לחשב צפיפות ככלי נפרד, בדיקת צפיפות לפי גוש וחלקה זמינה עכשיו בתוך ISRAMAP, יחד עם שכבות תכנון, חלקות, נתוני מתחם והקשר מרחבי מלא.</p>
+    <p>המעבר מאפשר לבצע את הבדיקה במקום שבו מתקבלת ההחלטה התכנונית: על המפה, לצד מידע על סביבת המתחם, תכנון תקף, גבולות חלקות ונתונים נוספים שמסייעים להבין אם יש כאן הזדמנות אמיתית להתחדשות עירונית.</p>
+    <div class="transition-actions" aria-label="פעולות">
+      <a class="transition-btn primary" href="https://isramap.co.il/" target="_blank" rel="noopener">כניסה ל־ISRAMAP</a>
+      <a class="transition-btn secondary" href="https://www.lendover.co.il/contact.html">בקשת גישה / יצירת קשר</a>
+    </div>
+    <p class="transition-note">אם הגעת לכאן כדי לחשב צפיפות לפי גוש וחלקה — היכולת עדיין קיימת, פשוט במקום הנכון יותר.</p>
+  </section>
 
-<section class="tool-next-steps-links" style="max-width:680px;margin:34px auto 0;padding:20px;border:1px solid #eadfce;border-radius:14px;background:#fbf8f3;text-align:right;direction:rtl;line-height:1.7;color:#444">
-  <h2 style="font-size:1.08rem;margin:0 0 8px;color:#1a2b4a">מה עושים עם נתון הצפיפות?</h2>
-  <p style="margin:0 0 10px">צפיפות היא כלי סינון: היא עוזרת להבין אם מתחם שווה בדיקה, אבל לא מחליפה בדיקת זכויות, מדיניות עירונית, בעלויות, תחרות וסיכויי קידום מול הרשות.</p>
-  <p style="margin:0 0 10px">אם הצפיפות נראית מעניינת, השלב הבא הוא בדיקת GIS ותכנון מלאה: מה מותר לבנות, כמה בעלים יש, האם יש מגבלות הנדסיות, ומה הסיכוי האמיתי לקדם פרויקט.</p>
-  <p style="margin:0">להמשך: <a href="../../articles/gis-opportunity-engine-for-developers.html" style="color:#1a6fb5;text-decoration:none">GIS לאיתור הזדמנויות</a> | <a href="../../services-developers.html" style="color:#1a6fb5;text-decoration:none">ליווי יזמים</a> | <a href="../../tools/buildcalc/" style="color:#1a6fb5;text-decoration:none">מחשבון תכסית</a></p>
-</section>
+  <section class="transition-panel" aria-labelledby="why-title">
+    <h2 id="why-title">למה העברנו את הכלי?</h2>
+    <div class="transition-grid">
+      <div class="transition-point">
+        <strong>יותר הקשר תכנוני</strong>
+        <span>צפיפות היא רק התחלה. בתוך ISRAMAP אפשר לבחון אותה לצד שכבות תכנון, חלקות ומידע מרחבי נוסף.</span>
+      </div>
+      <div class="transition-point">
+        <strong>פחות עבודה ידנית</strong>
+        <span>הבדיקה משתלבת בזרימת העבודה של המפה, בלי לעבור בין כלי נפרד לבין מערכת התכנון.</span>
+      </div>
+      <div class="transition-point">
+        <strong>תוצאה שימושית יותר</strong>
+        <span>הצפיפות מקבלת משמעות טובה יותר כשהיא מוצגת כחלק ממתחם, סביבה וזכויות תכנון.</span>
+      </div>
+    </div>
+  </section>
 
+  <section class="transition-panel" aria-labelledby="density-title">
+    <h2 id="density-title">איך עדיין נכון לחשוב על צפיפות?</h2>
+    <p>צפיפות קיימת היא כלי סינון חשוב בבדיקת היתכנות להתחדשות עירונית: היא עוזרת להבין כמה יחידות קיימות ביחס לשטח המגרש או המתחם.</p>
+    <p>אבל צפיפות לבדה לא מספיקה. צריך לבדוק גם מדיניות עירונית, זכויות בנייה, מגבלות מגרש, בעלויות, תחרות יזמית וסיכויי קידום מול הרשות. לכן החיבור ל־ISRAMAP הוא לא רק מעבר טכני — הוא שדרוג של הבדיקה עצמה.</p>
+  </section>
+</main>
 
 <!-- ─── WHATSAPP FLOAT ─── -->
 <a class="whatsapp-float" href="https://wa.me/972585197507" target="_blank" rel="noopener" title="WhatsApp" aria-label="שליחת הודעת WhatsApp">
@@ -408,15 +449,13 @@
   &nbsp;|&nbsp; <a href="https://www.lendover.co.il/privacy.html" style="color:#1a6fb5;text-decoration:none">מדיניות פרטיות</a>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="../auth-gate.js"></script>
-<script src="app.js?v=2"></script>
 <script>window._lvSource='density';</script>
 <script src="/tools/tracker.js"></script>
 
 <script src="/accessibility-widget.js?v=20260505appfix"></script>
 </body>
 </html>
+
 
 
 
