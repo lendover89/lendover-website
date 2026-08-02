@@ -3,147 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>מחשבון עומק מי תהום לפי מיקום / גוש וחלקה | לנדובר</title>
-  <meta name="description" content="מחשבון עומק מי תהום לפי מיקום, פוליגון או גוש וחלקה. בדיקה ראשונית לסיכוני חפירה, חניונים, דיפון ואיטום בפרויקטי נדל״ן והתחדשות עירונית." />
+  <title>מחשבון מי התהום עבר ל־ISRAMAP | לנדובר</title>
+  <meta name="description" content="מחשבון עומק מי התהום של לנדובר שודרג והוטמע בתוך ISRAMAP — מפת התכנון של ישראל. בדיקת מי תהום לפי מיקום, פוליגון או גוש וחלקה זמינה היום כחלק ממערכת המפה והתכנון." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.lendover.co.il/tools/groundwater/" />
+  <link rel="alternate" hreflang="he" href="https://www.lendover.co.il/tools/groundwater/" />
+  <link rel="icon" type="image/png" href="/logo-transparent.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/style-herounify1.css" />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.lendover.co.il/tools/groundwater/" />
-  <meta property="og:title" content="מחשבון עומק מי תהום — לנדובר" />
-  <meta property="og:description" content="בדיקה ראשונית לעומק מי תהום לפי מיקום, פוליגון או גוש וחלקה — לזיהוי סיכוני חפירה, חניונים, דיפון ואיטום." />
-  <meta property="og:image" content="https://www.lendover.co.il/logo-transparent-new.png" />
+  <meta property="og:title" content="מחשבון מי התהום עבר ל־ISRAMAP" />
+  <meta property="og:description" content="בדיקת עומק מי תהום זמינה עכשיו בתוך ISRAMAP, יחד עם שכבות תכנון, חלקות והקשר מרחבי מלא." />
+  <meta property="og:image" content="https://isramap.co.il/isramap-og.png" />
   <meta property="og:locale" content="he_IL" />
-  <meta property="og:site_name" content="לנדובר - הבית לפתרונות נדל&quot;ן" />
-
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="מחשבון עומק מי תהום — לנדובר" />
-  <meta name="twitter:description" content="בדיקה ראשונית לעומק מי תהום ולסיכוני חפירה, דיפון ואיטום בפרויקט נדל״ן." />
-  <meta name="twitter:image" content="https://www.lendover.co.il/logo-transparent-new.png" />
+  <meta name="twitter:title" content="מחשבון מי התהום עבר ל־ISRAMAP" />
+  <meta name="twitter:description" content="מחשבון מי התהום הוטמע בתוך ISRAMAP — מפת התכנון של ישראל." />
+  <meta name="twitter:image" content="https://isramap.co.il/isramap-og.png" />
 
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "SoftwareApplication",
-      "name": "מחשבון עומק מי תהום",
-      "url": "https://www.lendover.co.il/tools/groundwater/",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Web",
-      "inLanguage": "he",
-      "description": "חישוב עומק הקרקע עד מפלס מי התהום לפי מיקום במפה, פוליגון או גוש/חלקה. כלי GIS לבדיקה ראשונית של סיכוני חפירה, חניונים תת־קרקעיים, דיפון ואיטום בפרויקטי נדל״ן והתחדשות עירונית באזור אקוויפר החוף.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "ILS"
-      },
-      "author": {
-        "@type": "Person",
-        "name": "אהרון לנדובר",
-        "url": "https://www.lendover.co.il"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "לנדובר ב.ר 2026 בע\"מ",
-        "url": "https://www.lendover.co.il"
-      },
-      "keywords": [
-        "מי תהום",
-        "אקוויפר החוף",
-        "GIS",
-        "התחדשות עירונית",
-        "פינוי בינוי",
-        "חניון תת קרקעי",
-        "דיפון",
-        "איטום",
-        "בדיקת היתכנות"
-      ],
-      "about": [
-        {
-          "@type": "Thing",
-          "name": "מי תהום"
-        },
-        {
-          "@type": "Thing",
-          "name": "התחדשות עירונית"
-        },
-        {
-          "@type": "Thing",
-          "name": "GIS לנדל״ן"
-        },
-        {
-          "@type": "Thing",
-          "name": "בדיקת היתכנות לפרויקט נדל״ן"
-        }
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "איך המחשבון מחשב את עומק מי התהום?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "המחשבון משווה בין גובה הקרקע לבין מפלס מי התהום, שניהם במטרים מעל פני הים. ההפרש ביניהם הוא העומק המשוער עד מי התהום בנקודה או בשטח שנבחרו."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "למה מי תהום חשובים בפרויקט התחדשות עירונית?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "מי תהום גבוהים יכולים להשפיע על חפירה, חניונים תת־קרקעיים, דיפון, איטום, שאיבת מים, עלויות ביצוע ולוחות זמנים. לכן כדאי לזהות את הסיכון כבר בשלב הבדיקה הראשונית ולא רק אחרי תכנון מתקדם."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "איזה אזורים מכוסים במחשבון?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "נכון להיום הכיסוי הוא באזור אקוויפר החוף, בערך מחיפה עד אשקלון. מחוץ לאזור הכיסוי המחשבון עשוי להחזיר שאין נתונים."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "מה רמת הדיוק של התוצאה?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "הכלי מתאים לבדיקה ראשונית ולא להחלטה הנדסית מחייבת. גובה הקרקע ומפלס מי התהום מבוססים על שכבות GIS ציבוריות, ולכן קיימת אי־ודאות, בעיקר באזורים מרוחקים מקווי מדידה או במקומות עם תנאי קרקע מורכבים."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "האם המחשבון מחליף יועץ קרקע או קידוחים?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "לא. המחשבון אינו מחליף יועץ קרקע, הידרולוג, קידוחי ניסיון או תכנון הנדסי. הוא כלי סינון מוקדם שמסייע לזהות דגלים אדומים לפני השקעה בבדיקות עמוקות יותר."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "איך יזם צריך להשתמש בתוצאה?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "אם התוצאה מצביעה על עומק קטן עד מי התהום, כדאי להתייחס לכך כסיכון מוקדם ולשלב בדיקת קרקע/מים בתהליך ההיתכנות. אם העומק גדול, עדיין לא מדובר באישור הנדסי, אלא באינדיקציה ראשונית בלבד."
-          }
-        }
-      ]
-    }
-  ]
-}
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "מחשבון מי התהום בתוך ISRAMAP",
+    "url": "https://www.lendover.co.il/tools/groundwater/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "he",
+    "description": "מחשבון עומק מי התהום של לנדובר שודרג והוטמע בתוך ISRAMAP. הבדיקה לפי מיקום, פוליגון או גוש וחלקה זמינה כחלק ממערכת מפה ותכנון רחבה יותר.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ILS" },
+    "author": { "@type": "Person", "name": "אהרון לנדובר", "url": "https://www.lendover.co.il" }
+  }
   </script>
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
-  <link rel="stylesheet" href="/style-herounify1.css" />
-  <link rel="stylesheet" href="style.css?v=20260706-tools-css">
-  <link rel="stylesheet" href="mobile.css?v=20260531-layout" />
-  <link rel="icon" href="https://www.lendover.co.il/logo-transparent-new.png" />
-
-  <script src="https://www.lendover.co.il/tools/auth-gate.js"></script>
 <!-- LENDOVER_ENTITY_SCHEMA_START -->
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -175,7 +70,7 @@
         "ריבוי בעלים",
         "מי תהום",
         "תכסית",
-        "צפיפות",
+        "מי תהום",
         "ליווי בעלי דירות",
         "ליווי יזמים בנדל״ן והתחדשות עירונית"
       ],
@@ -228,7 +123,7 @@
         "ריבוי בעלים",
         "מי תהום",
         "תכסית",
-        "צפיפות",
+        "מי תהום",
         "ליווי בעלי דירות",
         "ליווי יזמים בנדל״ן והתחדשות עירונית"
       ],
@@ -248,217 +143,262 @@
       "inLanguage": "he-IL",
       "publisher": {
         "@id": "https://www.lendover.co.il/#organization"
-      },
-      "about": [
-        {
-          "@id": "https://www.lendover.co.il/#aharon-lendover"
-        },
-        {
-          "@id": "https://www.lendover.co.il/#organization"
-        }
-      ]
+      }
     },
     {
       "@type": "WebPage",
       "@id": "https://www.lendover.co.il/tools/groundwater/#webpage",
       "url": "https://www.lendover.co.il/tools/groundwater/",
-      "name": "מחשבון עומק מי תהום לפי מיקום / גוש וחלקה | לנדובר",
+      "name": "מחשבון מי התהום עבר ל־ISRAMAP",
       "inLanguage": "he-IL",
       "isPartOf": {
         "@id": "https://www.lendover.co.il/#website"
       },
-      "about": [
-        {
-          "@id": "https://www.lendover.co.il/#aharon-lendover"
-        },
-        {
-          "@id": "https://www.lendover.co.il/#organization"
-        }
-      ],
       "author": {
         "@id": "https://www.lendover.co.il/#aharon-lendover"
       },
       "publisher": {
         "@id": "https://www.lendover.co.il/#organization"
       },
-      "provider": {
-        "@id": "https://www.lendover.co.il/#organization"
-      },
-      "areaServed": {
-        "@type": "Country",
-        "name": "Israel"
-      },
-      "description": "מחשבון עומק מי תהום לפי מיקום, פוליגון או גוש וחלקה. בדיקה ראשונית לסיכוני חפירה, חניונים, דיפון ואיטום בפרויקטי נדל״ן והתחדשות עירונית."
+      "description": "מחשבון עומק מי התהום של לנדובר שודרג והוטמע בתוך ISRAMAP — מפת התכנון של ישראל."
     }
   ]
 }</script>
 <!-- LENDOVER_ENTITY_SCHEMA_END -->
 
-<style id="lendover-whatsapp-float-style">
-  .whatsapp-float{position:fixed;bottom:28px;left:28px;z-index:9999;display:flex;align-items:center;gap:10px;background:#25D366;color:#fff;text-decoration:none;padding:12px 22px;border-radius:50px;font-size:15px;font-weight:600;font-family:Arial,sans-serif;box-shadow:0 4px 16px rgba(37,211,102,.35);transition:transform .2s,box-shadow .2s}
-  .whatsapp-float:hover{transform:scale(1.05);box-shadow:0 6px 24px rgba(37,211,102,.45)}
-  .whatsapp-float svg{flex-shrink:0}
-  @media(max-width:640px){.whatsapp-float{bottom:16px;left:16px;padding:10px 14px}.whatsapp-float .wafloat-text{display:none}}
+<style>
+  .isramap-transition-section {
+    background: var(--color-cream);
+  }
+  .isramap-transition-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .isramap-transition-copy p {
+    font-size: 16px;
+    line-height: 1.85;
+    color: #4a4a4a;
+    margin-bottom: 18px;
+  }
+  .isramap-logo-panel {
+    background: #101820;
+    border-radius: 4px;
+    padding: 34px 28px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.12);
+    text-align: center;
+    border-top: 4px solid var(--color-bronze);
+  }
+  .isramap-logo-panel img {
+    width: min(300px, 78vw);
+    height: auto;
+    display: block;
+    margin: 0 auto 18px;
+  }
+  .isramap-logo-panel p {
+    color: rgba(255,255,255,.76);
+    line-height: 1.75;
+    margin: 0;
+  }
+  .isramap-action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    margin-top: 26px;
+  }
+  .isramap-secondary-link {
+    color: var(--color-bronze);
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .density-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+  }
+  .density-info-item {
+    background: white;
+    border-radius: 4px;
+    padding: 28px 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    border-top: 4px solid var(--color-bronze);
+  }
+  .density-info-item h3 {
+    color: var(--color-dark);
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .density-info-item p {
+    color: #555;
+    line-height: 1.75;
+    font-size: 15px;
+  }
+  @media (max-width: 860px) {
+    .isramap-transition-grid,
+    .density-info-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <a href="https://www.lendover.co.il" class="site-logo">
-    <img src="https://www.lendover.co.il/logo-transparent-new.png" alt="לנדובר" height="54">
-  </a>
-  <nav class="site-nav">
-    <a href="https://www.lendover.co.il/tools.html">כל הכלים</a>
-    <a href="https://www.lendover.co.il/about.html">אודות</a>
-    <a href="https://www.lendover.co.il/contact.html">צרו קשר</a>
+<!-- ─── HEADER ─── -->
+<header>
+  <nav>
+    <a class="nav-logo" href="/"><img src="/logo-transparent.png" alt="לוגו לנדובר" />לנדובר</a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="תפריט">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/">בית</a></li>
+      <li><a href="/consulting.html">ליווי עסקאות</a></li>
+      <li><a href="/opportunities.html">איתור עסקאות</a></li>
+      <li><a href="/reports.html">ניתוחים ודוחות</a></li>
+      <li><a href="/urbanrenewal.html">התחדשות עירונית</a></li>
+      <li><a href="/tools.html" class="active">כלים מתקדמים</a></li>
+      <li><a href="/articles.html">כתבות</a></li>
+      <li><a href="/about.html">אודות</a></li>
+      <li><a href="/contact.html">יצירת קשר</a></li>
+    </ul>
   </nav>
 </header>
 
-<main class="app-shell">
-
-  <aside class="panel">
-    <h1 class="panel-title">מחשבון עומק מי תהום</h1>
-    <p class="panel-sub">בחר מיקום וקבל את עומק הקרקע עד מי התהום.</p>
-
-    <div class="tabs">
-      <button class="tab active" data-tab="point">נקודה</button>
-      <button class="tab" data-tab="polygon">שטח</button>
-      <button class="tab" data-tab="parcel">גוש/חלקה</button>
-    </div>
-
-    <section class="tab-pane active" id="pane-point">
-      <p class="hint">לחץ על המפה כדי לקבל עומק בנקודה בודדת.</p>
-      <button class="btn-secondary" id="clear-point" type="button">נקה סימון</button>
-    </section>
-
-    <section class="tab-pane" id="pane-polygon">
-      <p class="hint">סמן מצולע על המפה. בסיום לחיצה כפולה — יוצג min / max / ממוצע.</p>
-      <button class="btn" id="start-draw" type="button">התחל סימון שטח</button>
-      <button class="btn-secondary" id="clear-polygon" type="button">נקה</button>
-    </section>
-
-    <section class="tab-pane" id="pane-parcel">
-      <form id="parcel-form" novalidate>
-        <div class="field">
-          <label for="gush">גוש</label>
-          <input type="number" id="gush" name="gush" min="1" inputmode="numeric" placeholder="לדוגמה 6905" required />
-        </div>
-        <div class="field">
-          <label for="parcel">חלקה</label>
-          <input type="number" id="parcel" name="parcel" min="1" inputmode="numeric" placeholder="לדוגמה 1" required />
-        </div>
-        <button class="btn" type="submit">חשב</button>
-      </form>
-    </section>
-
-    <!-- Result card -->
-    <section class="result" id="result" hidden>
-      <div class="result-title" id="result-title"></div>
-
-      <div class="result-main" id="result-main"></div>
-
-      <dl class="result-meta" id="result-meta"></dl>
-
-      <p class="result-note" id="result-note" hidden></p>
-    </section>
-
-    <div class="msg error" id="error" hidden></div>
-    <div class="msg info"  id="info"  hidden></div>
-
-    <p class="disclaimer">
-      הנתונים מבוססים על שכבות GIS רשמיות. המחשבון אינו מחליף בדיקה של יועץ קרקע וקידוחי ניסיון.
-      <br>
-      המחשבון הינו כלי לבדיקה ראשונית בלבד — לקבלת מידע הנדסי מחייב נדרש סקר קרקע מקצועי.
-    </p>
-
-    <details class="about">
-      <summary>על המחשבון</summary>
-      <p>המחשבון מדגים את גובה הקרקע מקווי הגובה הארציים ואת מפלס מי התהום מנתוני רשות המים, שניהם במטרים מעל פני הים. העומק הוא ההפרש ביניהם.</p>
-      <p>נכון להיום הכיסוי הוא אקוויפר החוף בלבד (אזור צבוע תכלת במפה). מחוץ לאזור זה המחשבון יחזיר "אין נתונים".</p>
-    </details>
-  </aside>
-
-  <div id="map" class="map"></div>
-</main>
-
-
-<section class="tool-next-steps-links" style="max-width:920px;margin:34px auto 0;padding:22px;border:1px solid #eadfce;border-radius:14px;background:#fbf8f3;text-align:right;direction:rtl;line-height:1.75;color:#444">
-  <h2 style="font-size:1.18rem;margin:0 0 10px;color:#1a2b4a">למה עומק מי תהום חשוב בפרויקט נדל״ן?</h2>
-  <p style="margin:0 0 12px">מי תהום הם לא רק נתון הנדסי קטן. בפרויקטים עם חפירה משמעותית, מרתפים או חניונים תת־קרקעיים, מפלס מי תהום גבוה יכול להשפיע על דיפון, איטום, שאיבת מים, עלויות ביצוע ולוחות זמנים.</p>
-  <p style="margin:0 0 12px">בשלב מוקדם של בדיקת היתכנות, המטרה אינה לקבל תשובה הנדסית סופית, אלא לזהות האם קיימת שכבת סיכון שצריך להכניס למודל לפני שמתקדמים עם תכנון, הצעת תמורות או התחייבויות מול בעלי דירות.</p>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0">
-    <div style="padding:14px;border-radius:12px;background:#fff;border:1px solid #eee3d2">
-      <h3 style="font-size:1rem;margin:0 0 8px;color:#1a2b4a">מתי כדאי לבדוק?</h3>
-      <ul style="margin:0;padding-right:18px">
-        <li>לפני בדיקת היתכנות למתחם.</li>
-        <li>לפני תכנון חניונים תת־קרקעיים.</li>
-        <li>לפני כניסה לפרויקט באזור אקוויפר החוף.</li>
-        <li>לפני הצעת תמורות או הערכת עלויות ראשונית.</li>
-      </ul>
-    </div>
-    <div style="padding:14px;border-radius:12px;background:#fff;border:1px solid #eee3d2">
-      <h3 style="font-size:1rem;margin:0 0 8px;color:#1a2b4a">מה הכלי בודק?</h3>
-      <ul style="margin:0;padding-right:18px">
-        <li>גובה קרקע משוער.</li>
-        <li>מפלס מי תהום לפי שכבות GIS.</li>
-        <li>עומק משוער עד מים.</li>
-        <li>בדיקה לפי נקודה, פוליגון או גוש/חלקה.</li>
-      </ul>
-    </div>
-    <div style="padding:14px;border-radius:12px;background:#fff;border:1px solid #eee3d2">
-      <h3 style="font-size:1rem;margin:0 0 8px;color:#1a2b4a">מה הכלי לא מחליף?</h3>
-      <ul style="margin:0;padding-right:18px">
-        <li>יועץ קרקע או הידרולוג.</li>
-        <li>קידוחי ניסיון.</li>
-        <li>תכנון דיפון ואיטום.</li>
-        <li>בדיקה הנדסית מחייבת.</li>
-      </ul>
-    </div>
+<!-- ─── BANNER ─── -->
+<section class="page-banner">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="/iStock-2149918736.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>מחשבון מי התהום עבר ל־<bdi dir="ltr">ISRAMAP</bdi></h1>
+    <p>אותה בדיקת סיכון ראשונית, בתוך מפת התכנון של ישראל</p>
   </div>
-
-  <h2 style="font-size:1.08rem;margin:20px 0 10px;color:#1a2b4a">איך להשתמש בתוצאה?</h2>
-  <p style="margin:0 0 12px">עומק קטן עד מי התהום הוא דגל אדום לבדיקה מקצועית מוקדמת. עומק גדול עשוי להוריד סיכון ראשוני, אבל אינו מהווה אישור הנדסי. בשני המקרים, הערך של הכלי הוא בסינון מוקדם: להבין האם צריך להעמיק בבדיקות לפני שמוציאים כסף וזמן על תכנון מתקדם.</p>
-  <p style="margin:0 0 12px">לדוגמה: אם במתחם מתוכנן חניון תת־קרקעי והתוצאה מצביעה על עומק רדוד יחסית, כדאי להכניס יועץ קרקע/הידרולוג לשיחה מוקדמת — עוד לפני שמגבשים אומדן עלויות או הצעת תמורות.</p>
-
-  <h2 style="font-size:1.08rem;margin:20px 0 10px;color:#1a2b4a">שאלות נפוצות</h2>
-  <details style="padding:10px 0;border-top:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">איך מי תהום משפיעים על פרויקט פינוי־בינוי?</summary><p style="margin:8px 0 0">הם יכולים להשפיע על עומק החפירה, עלות חניונים, דיפון, איטום, שאיבה וניהול סיכוני ביצוע. לכן כדאי לבדוק אותם עוד לפני שמתחייבים לתכנון מפורט.</p></details>
-  <details style="padding:10px 0;border-top:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">האם הכלי מתאים לכל הארץ?</summary><p style="margin:8px 0 0">נכון להיום הכיסוי המרכזי הוא באזור אקוויפר החוף. מחוץ לאזור הכיסוי ייתכן שלא יהיו נתונים זמינים.</p></details>
-  <details style="padding:10px 0;border-top:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">האם אפשר לקבל החלטה עסקית רק לפי המחשבון?</summary><p style="margin:8px 0 0">לא. המחשבון הוא כלי סינון ראשוני. אם מתקבל סיכון משמעותי, צריך לשלב יועץ קרקע/הידרולוג ובדיקות הנדסיות לפני החלטה מחייבת.</p></details>
-  <details style="padding:10px 0;border-top:1px solid #eadfce;border-bottom:1px solid #eadfce"><summary style="cursor:pointer;font-weight:700;color:#1a2b4a">מתי כדאי לפנות לבדיקה מקצועית?</summary><p style="margin:8px 0 0">כאשר מתוכננת חפירה משמעותית, חניון תת־קרקעי, מרתפים, או כאשר המחשבון מצביע על עומק קטן יחסית עד מי התהום.</p></details>
-
-  <p style="margin:16px 0 0"><strong>להמשך בדיקה:</strong> <a href="../../articles/groundwater-risk-urban-renewal.html" style="color:#1a6fb5;text-decoration:none">מי תהום בהתחדשות עירונית</a> | <a href="../../articles/gis-opportunity-engine-for-developers.html" style="color:#1a6fb5;text-decoration:none">GIS לאיתור הזדמנויות</a> | <a href="../../services-developers.html" style="color:#1a6fb5;text-decoration:none">ליווי יזמים</a> | <a href="../../tools/buildcalc/" style="color:#1a6fb5;text-decoration:none">מחשבון תכסית</a></p>
 </section>
 
+<!-- ─── BREADCRUMBS ─── -->
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <div class="container">
+    <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="/"><span itemprop="name">בית</span></a>
+        <meta itemprop="position" content="1" />
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="/tools.html"><span itemprop="name">כלים מתקדמים</span></a>
+        <meta itemprop="position" content="2" />
+      </li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">Groundwater</span>
+        <meta itemprop="position" content="3" />
+      </li>
+    </ol>
+  </div>
+</nav>
+
+<!-- ─── MAIN CONTENT ─── -->
+<section class="isramap-transition-section">
+  <div class="container">
+    <div class="isramap-transition-grid">
+      <div class="isramap-transition-copy">
+        <h2 class="section-title">מחשבון מי התהום הוטמע בתוך <bdi dir="ltr">ISRAMAP</bdi></h2>
+        <p><strong>מחשבון עומק מי התהום העצמאי של לנדובר שודרג והועבר אל <bdi dir="ltr">ISRAMAP</bdi>.</strong></p>
+        <p>במקום לבדוק עומק מי תהום בכלי נפרד, הבדיקה זמינה עכשיו בתוך מערכת המפה, יחד עם שכבות תכנון, גבולות חלקות, מיקום המתחם והקשר מרחבי רחב יותר.</p>
+        <p>המעבר הזה נועד להפוך את הבדיקה לשימושית יותר: מי תהום הם לא נתון הנדסי מנותק. הם מקבלים משמעות כשהם נבחנים ליד מיקום המתחם, עומק חפירה אפשרי, תכנון תת־קרקעי וסביבת הפרויקט.</p>
+        <div class="isramap-action-row">
+          <a href="https://isramap.co.il/" class="btn-cta" target="_blank" rel="noopener">כניסה ל־<bdi dir="ltr">ISRAMAP</bdi></a>
+          <a href="/contact.html" class="isramap-secondary-link">בקשת גישה / יצירת קשר</a>
+        </div>
+      </div>
+      <aside class="isramap-logo-panel" aria-label="ISRAMAP">
+        <img src="https://isramap.co.il/isramap-logo.png" alt="ISRAMAP — מפת התכנון של ישראל" />
+        <p>מפת התכנון של ישראל: שכבות תכנון, חלקות, נתוני מתחם וכלי בדיקה ראשוניים במקום אחד.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title center">למה זה עבר למפה?</h2>
+    <div class="density-info-grid">
+      <div class="density-info-item">
+        <h3>יותר הקשר הנדסי ותכנוני</h3>
+        <p>מפלס מי תהום הוא רק שכבת סיכון אחת. בתוך <bdi dir="ltr">ISRAMAP</bdi> אפשר לבחון אותו ליד תכניות, חלקות ומידע מרחבי רלוונטי.</p>
+      </div>
+      <div class="density-info-item">
+        <h3>בדיקה פחות מנותקת</h3>
+        <p>הנתון חשוב, אבל ההשפעה שלו תלויה במיקום, בחפירה, במרתפים, בחניונים ובסביבת הפרויקט. לכן טבעי שהבדיקה תתבצע בתוך מערכת מפה.</p>
+      </div>
+      <div class="density-info-item">
+        <h3>שמירה על רצף עבודה</h3>
+        <p>במקום לעבור בין כלי עצמאי לבין בדיקת מתחם, המידע מתרכז במקום אחד ומאפשר להבין מוקדם יותר אם יש סיכון ביצועי שדורש תשומת לב.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>רוצים לבדוק מי תהום כחלק מתמונה תכנונית מלאה?</h2>
+    <p>הבדיקה זמינה עכשיו בתוך <bdi dir="ltr">ISRAMAP</bdi>, לצד שכבות תכנון, חלקות ומידע מרחבי נוסף</p>
+    <a href="https://isramap.co.il/" class="btn-cta" target="_blank" rel="noopener">כניסה ל־<bdi dir="ltr">ISRAMAP</bdi></a>
+  </div>
+</section>
 
 <!-- ─── WHATSAPP FLOAT ─── -->
 <a class="whatsapp-float" href="https://wa.me/972585197507" target="_blank" rel="noopener" title="WhatsApp" aria-label="שליחת הודעת WhatsApp">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="white" aria-hidden="true">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
   </svg>
-  <span class="wafloat-text">WhatsApp</span>
+  WhatsApp
 </a>
 
-<footer class="site-footer">
-  <small>© לנדובר · <a href="https://www.lendover.co.il/privacy.html">פרטיות</a> · <a href="https://www.lendover.co.il/terms.html">תנאי שימוש</a></small>
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-info">
+      <p>לנדובר ב.ר 2026 בע"מ, ח.פ. 517351839 | לנדובר - הבית לפתרונות נדל״ן</p>
+      <p>רוטשילד 124, ראשון לציון | <a href="tel:+972585197507">058-5197507</a> | <a href="mailto:Aharon@Lendover.co.il">Aharon@Lendover.co.il</a></p>
+    </div>
+    <div class="footer-links">
+      <a href="/privacy.html">מדיניות פרטיות</a>
+      <a href="/terms.html">תנאי שימוש</a>
+      <a href="/accessibility.html">הצהרת נגישות</a>
+      <a href="https://www.linkedin.com/in/aharon-lendover-911b23111/" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
+      <a href="https://www.facebook.com/1122403224281860" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
+    </div>
+    <p>&copy; 2026 לנדובר ב.ר 2026 בע"מ. כל הזכויות שמורות.</p>
+  </div>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-<script src="app-20260612-jerusalem.js"></script>
+<script>
+  (function() {
+    const navLinks = document.querySelector('.nav-links');
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const parent = this.parentElement;
+        const dropdown = parent.querySelector('.dropdown');
+        if (dropdown && window.innerWidth <= 768) {
+          e.preventDefault();
+          dropdown.classList.toggle('mobile-open');
+          return;
+        }
+        navLinks.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('nav') && navLinks.classList.contains('open')) {
+        navLinks.classList.remove('open');
+      }
+    });
+  })();
+</script>
 
-
-<script src="/accessibility-widget.js?v=20260505appfix"></script>
+<script>window._lvSource='groundwater-isramap-transition';</script>
 <script src="/tools/tracker.js"></script>
+<script src="/accessibility-widget.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
