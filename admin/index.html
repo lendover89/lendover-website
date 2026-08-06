@@ -406,7 +406,7 @@
     <button class="tab active" onclick="switchTab('dashboard',this)">📊 דשבורד</button>
     <button class="tab" onclick="switchTab('users',this)">👥 משתמשים</button>
     <button class="tab" onclick="switchTab('usage',this)">📈 שימוש בכלים</button>
-    <button class="tab" onclick="switchTab('requests',this)">📥 בקשות גישה <span id="req-badge" style="display:none;background:#e11d48;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-inline-start:4px"></span></button>
+    <button class="tab" onclick="switchTab('requests',this)">📥 מתעניינים במנוי <span id="req-badge" style="display:none;background:#e11d48;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-inline-start:4px"></span></button>
   </div>
 
   <div class="content">
@@ -679,22 +679,50 @@
 
     </div>
 
-    <!-- Access Requests Tab -->
+    <!-- Subscription Interest Tab -->
     <div class="tab-panel" id="tab-requests">
+
+      <div style="border:1px solid var(--line,#ddd);border-radius:8px;padding:12px;margin-bottom:18px">
+        <h3 style="margin:0 0 6px">תקופת חסד למשתמשי ההרצה</h3>
+        <p style="margin:0 0 10px;color:#a15c1e">
+          קביעת תאריך תציג באנר למשתמשים הקיימים, ובתאריך זה הגישה שלהם תיסגר.
+        </p>
+        <input type="date" id="grace-date" style="padding:6px">
+        <button class="btn btn-primary btn-sm" onclick="saveGraceDate()">שמור תאריך</button>
+        <button class="btn btn-outline btn-sm" onclick="clearGraceDate()">בטל תאריך</button>
+        <span id="grace-status" style="margin-inline-start:10px;color:var(--sage)"></span>
+      </div>
+
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h2 style="margin:0">בקשות גישה ל-IsraMap</h2>
-        <button class="btn btn-primary btn-sm" onclick="loadAccessRequests()">רענן</button>
+        <h2 style="margin:0">מתעניינים במנוי</h2>
+        <span>
+          <a class="btn btn-outline btn-sm" id="sub-csv" href="#">ייצוא ל-CSV</a>
+          <button class="btn btn-primary btn-sm" onclick="loadSubscriptionInterest()">רענן</button>
+        </span>
       </div>
       <table class="users">
         <thead>
           <tr>
             <th>שם</th><th>אימייל</th><th>טלפון</th><th>חברה</th>
-            <th>סיבה</th><th>תאריך</th><th>פעולות</th>
+            <th>עיסוק</th><th>הערה</th><th>מקור</th><th>תאריך</th>
           </tr>
         </thead>
-        <tbody id="requests-tbody"></tbody>
+        <tbody id="sub-tbody"></tbody>
       </table>
-      <div id="requests-empty" style="display:none;color:var(--sage);margin-top:12px">אין בקשות ממתינות.</div>
+      <div id="sub-empty" style="display:none;color:var(--sage);margin-top:12px">
+        אין עדיין מתעניינים.
+      </div>
+
+      <details style="margin-top:28px">
+        <summary style="cursor:pointer;color:var(--sage)">ארכיון: בקשות גישה (תקופת ההרצה)</summary>
+        <table class="users" style="margin-top:10px">
+          <thead>
+            <tr><th>שם</th><th>אימייל</th><th>סיבה</th><th>סטטוס</th><th>תאריך</th></tr>
+          </thead>
+          <tbody id="archive-tbody"></tbody>
+        </table>
+      </details>
+
     </div>
 
   </div>
@@ -794,7 +822,7 @@ function showApp() {
   document.getElementById('app').style.display = 'flex';
   loadStats();
   loadUsers(1);
-  loadAccessRequests();
+  loadSubscriptionInterest();
   if (liveInterval) clearInterval(liveInterval);
   liveInterval = setInterval(refreshLive, 30000);
 }
@@ -809,7 +837,7 @@ function switchTab(name, btn) {
   if (name === 'usage' && !usageLoaded) {
     loadUsage();
   }
-  if (name === 'requests') { loadAccessRequests(); }
+  if (name === 'requests') { loadSubscriptionInterest(); }
 }
 
 // ── Stats / Dashboard ─────────────────────────────────────────────
@@ -1219,58 +1247,133 @@ async function setIsramap(userId, access) {
   }
 }
 
-// ── Access Requests ──────────────────────────────────────────────
+// ── Subscription Interest ────────────────────────────────────────
 
-async function loadAccessRequests() {
+var SUB_STATUS_HE = { pending: 'ממתין', approved: 'אושר',
+                      rejected: 'נדחה', closed: 'נסגר' };
+
+async function loadSubscriptionInterest() {
   try {
-    var res = await apiFetch('/admin/access-requests?status=pending');
+    var res = await apiFetch('/admin/subscription-interest');
     if (res.status === 401 || res.status === 403) { doLogout(); return; }
     if (!res.ok) throw new Error();
     var d = await res.json();
-    renderAccessRequests(d);
+    renderSubscriptionInterest(d);
+    if (d.unseen > 0) {
+      // Close the read/mark-seen race (see Task 4 §4.2): mark seen only
+      // through the highest id we actually just displayed, so a lead that
+      // arrives in the gap between this GET and the mark-seen POST below
+      // (id > throughId) is NOT marked seen — it stays flagged "new" and
+      // surfaces on the next load, instead of being silently swallowed.
+      var items = d.items || [];
+      var throughId = items.reduce(function (m, r) {
+        return (r && r.id > m) ? r.id : m;
+      }, 0);
+      if (throughId > 0) {
+        await apiFetch('/admin/subscription-interest/mark-seen', {
+          method: 'POST',
+          body: JSON.stringify({ through_id: throughId })
+        });
+      }
+    }
   } catch (e) {
-    toast('שגיאה בטעינת בקשות הגישה', 'err');
+    toast('שגיאה בטעינת רשימת המתעניינים', 'err');
   }
+  loadGraceDate();
+  loadRequestArchive();
 }
 
-function renderAccessRequests(d) {
-  var reqs = d.requests || [];
+function renderSubscriptionInterest(d) {
+  var items = d.items || [];
   var badge = document.getElementById('req-badge');
-  if (d.pending_count > 0) { badge.textContent = d.pending_count; badge.style.display = ''; }
+  if (d.unseen > 0) { badge.textContent = d.unseen; badge.style.display = ''; }
   else { badge.style.display = 'none'; }
-  var tbody = document.getElementById('requests-tbody');
-  var empty = document.getElementById('requests-empty');
+
+  document.getElementById('sub-csv').href = API + '/admin/subscription-interest?format=csv';
+
+  var tbody = document.getElementById('sub-tbody');
+  var empty = document.getElementById('sub-empty');
   tbody.innerHTML = '';
-  if (!reqs.length) { empty.style.display = ''; return; }
+  if (!items.length) { empty.style.display = ''; return; }
   empty.style.display = 'none';
-  reqs.forEach(function (r) {
+
+  items.forEach(function (r) {
+    var isNew = !r.seen_at;
     var tr = document.createElement('tr');
+    if (isNew) tr.style.fontWeight = '600';
     tr.innerHTML =
-      '<td>' + esc(r.name) + '</td>' +
+      '<td>' + (isNew ? '<span style="color:#B8743D">חדש</span> ' : '') + esc(r.name) + '</td>' +
       '<td dir="ltr">' + esc(r.email) + '</td>' +
       '<td dir="ltr">' + esc(r.phone || '') + '</td>' +
       '<td>' + esc(r.company || '') + '</td>' +
-      '<td style="max-width:280px;white-space:normal">' + esc(r.reason || '') + '</td>' +
-      '<td dir="ltr" style="white-space:nowrap">' + fmtDate(r.created_at) + '</td>' +
-      '<td style="white-space:nowrap">' +
-        '<button class="btn btn-success btn-sm" onclick="decideRequest(' + r.id + ',\'approve\')">אשר</button> ' +
-        '<button class="btn btn-outline btn-sm" onclick="decideRequest(' + r.id + ',\'reject\')">דחה</button>' +
-      '</td>';
+      '<td>' + esc(r.profession || '') + '</td>' +
+      '<td style="max-width:280px;white-space:normal">' + esc(r.note || '') + '</td>' +
+      '<td>' + esc(r.source || '') + '</td>' +
+      '<td dir="ltr" style="white-space:nowrap">' + fmtDate(r.updated_at || r.created_at) + '</td>';
     tbody.appendChild(tr);
   });
 }
 
-async function decideRequest(reqId, decision) {
+async function loadRequestArchive() {
   try {
-    var res = await apiFetch('/admin/access-requests/' + reqId + '/decide', {
-      method: 'POST', body: JSON.stringify({ decision: decision })
+    var res = await apiFetch('/admin/access-requests?status=all');
+    if (!res.ok) return;
+    var d = await res.json();
+    var tbody = document.getElementById('archive-tbody');
+    tbody.innerHTML = '';
+    (d.requests || []).forEach(function (r) {
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + esc(r.name) + '</td>' +
+        '<td dir="ltr">' + esc(r.email) + '</td>' +
+        '<td style="max-width:280px;white-space:normal">' + esc(r.reason || '') + '</td>' +
+        '<td>' + esc(SUB_STATUS_HE[r.status] || r.status || '') + '</td>' +
+        '<td dir="ltr" style="white-space:nowrap">' +
+          fmtDate(r.created_at) + '</td>';
+      tbody.appendChild(tr);
+    });
+  } catch (e) { /* the archive is informational; never block the tab on it */ }
+}
+
+// ── Grace date ───────────────────────────────────────────────────
+
+async function loadGraceDate() {
+  try {
+    var res = await apiFetch('/admin/settings/isramap-grace');
+    if (!res.ok) return;
+    var d = await res.json();
+    document.getElementById('grace-date').value = d.grace_until || '';
+    document.getElementById('grace-status').textContent = d.grace_until
+      ? ('פעיל: הגישה תיסגר ב-' + d.grace_until)
+      : 'לא נקבע תאריך. המשתמשים הקיימים ממשיכים כרגיל.';
+  } catch (e) { /* leave the field as-is */ }
+}
+
+async function saveGraceDate() {
+  var value = document.getElementById('grace-date').value || '';
+  if (!value) { toast('בחר תאריך, או לחץ "בטל תאריך"', 'err'); return; }
+  if (!confirm('לקבוע ' + value + ' כתאריך סיום תקופת ההרצה?\n' +
+               'מרגע זה יוצג באנר למשתמשים הקיימים, ובתאריך הזה הגישה שלהם תיסגר.')) return;
+  await postGraceDate(value, 'התאריך נשמר');
+}
+
+async function clearGraceDate() {
+  if (!confirm('לבטל את תאריך סיום ההרצה? כל המשתמשים הקיימים ימשיכו כרגיל.')) return;
+  await postGraceDate('', 'התאריך בוטל');
+}
+
+async function postGraceDate(value, okMsg) {
+  try {
+    var res = await apiFetch('/admin/settings/isramap-grace', {
+      method: 'POST', body: JSON.stringify({ grace_until: value })
     });
     if (res.status === 401 || res.status === 403) { doLogout(); return; }
-    if (!res.ok) throw new Error();
-    toast(decision === 'approve' ? 'הבקשה אושרה — נשלח מייל למשתמש' : 'הבקשה נדחתה', 'ok');
-    loadAccessRequests();
+    var d = await res.json().catch(function () { return {}; });
+    if (!res.ok || !d.success) { toast(d.error || 'שמירת התאריך נכשלה', 'err'); return; }
+    toast(okMsg, 'ok');
+    loadGraceDate();
   } catch (e) {
-    toast('שגיאה בביצוע הפעולה', 'err');
+    toast('שגיאה בשמירת התאריך', 'err');
   }
 }
 
