@@ -123,6 +123,38 @@ nav {
 
 .dropdown a:last-child { border-bottom: none; }
 
+/* IsraMap launcher — deliberately NOT a tenth <li> in .nav-links. The menu is
+   already nine items wide and reads crowded at ten; a separate button also
+   states the right thing, that IsraMap is a product rather than another
+   section of this site. It sits outside .nav-links so it survives the 1100px
+   breakpoint, where .nav-links collapses into the hamburger dropdown and would
+   otherwise hide it behind a tap. */
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: auto;
+  padding: 7px 16px;
+  border-radius: 999px;
+  /* The same #1e2a32 the IsraMap auth modal uses behind its own logo, and for
+     the same measured reason: the wordmark is 27% near-white (#E0E0E0) and 59%
+     cyan (#20C0C0), with zero dark pixels. On this header's white background
+     the near-white half sits at about 1.3:1 -- invisible -- and the cyan at
+     2.3:1, under the 3:1 minimum for a graphical object. The dark chip is what
+     lets the real logo appear at all here; it is not decoration. */
+  background: #1e2a32;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.nav-cta:hover,
+.nav-cta:focus-visible { background: #2b3c47; }
+
+.nav-cta img {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
 /* Mobile hamburger */
 .hamburger {
   display: none;
@@ -547,6 +579,17 @@ footer a:hover { color: white; }
     padding: 0 16px;
     height: 56px;
   }
+
+  /* .nav-links becomes position:absolute below this breakpoint, so it leaves
+     the flex row and the launcher would otherwise stretch across the gap
+     between the logo and the hamburger. Pin it beside the hamburger. */
+  .nav-cta {
+    margin-inline-start: auto;
+    margin-inline-end: 10px;
+    padding: 6px 12px;
+  }
+
+  .nav-cta img { height: 24px; }
 
   .nav-logo {
     font-size: 18px;
