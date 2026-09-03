@@ -20,6 +20,7 @@ const ownersTbody = document.querySelector("#owners-table tbody");
 const backBtn = document.getElementById("back-btn");
 const generateBtn = document.getElementById("generate-btn");
 const generateStatus = document.getElementById("generate-status");
+const isramapResultCta = document.getElementById("isramap-result-cta");
 
 // In-memory state kept between stages so we don't need another upload round-trip.
 let cachedTemplate = null;   // File
@@ -271,6 +272,7 @@ backBtn.addEventListener("click", () => {
   reviewCard.hidden = true;
   uploadCard.hidden = false;
   setStatus(generateStatus, "");
+  if (isramapResultCta) isramapResultCta.hidden = true;
 });
 
 // --- Progress bar helpers ------------------------------------------------
@@ -326,6 +328,7 @@ generateBtn.addEventListener("click", () => {
 
   setBusy(generateBtn, true);
   setStatus(generateStatus, "");
+  if (isramapResultCta) isramapResultCta.hidden = true;
   showProgress();
 
   const fd = new FormData();
@@ -394,6 +397,7 @@ generateBtn.addEventListener("click", () => {
     const filename = parseFilenameFromDisposition(xhr.getResponseHeader("Content-Disposition")) || "merged.zip";
     downloadBlob(xhr.response, filename);
     setStatus(generateStatus, `הורדת הקובץ החלה — ${subunitCount} תתי־חלקות.`, "success");
+    if (isramapResultCta) isramapResultCta.hidden = false;
     hideProgress(1500);
     setBusy(generateBtn, false);
   };
