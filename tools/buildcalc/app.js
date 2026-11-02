@@ -37,6 +37,8 @@ const infoNote       = document.getElementById('info-note');
 const exportBtn      = document.getElementById('export-svg-btn');
 const resetBtn       = document.getElementById('reset-btn');
 const svg            = document.getElementById('parcel-svg');
+const limitCard      = document.getElementById('limit-card');
+const quotaNote      = document.getElementById('quota-note');
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const SVG_W  = 600;
@@ -63,6 +65,26 @@ function hideError() {
 function setSearching(on) {
   spinner.style.display = on ? 'block' : 'none';
   searchBtn.disabled = on;
+}
+
+function renderQuota(quota) {
+  if (!quota) return;
+  quotaNote.style.display = 'block';
+  if (quota.unlimited) {
+    quotaNote.textContent = 'מנוי IsraMap פעיל: כל הבדיקות זמינות ללא הגבלה.';
+    quotaNote.classList.add('quota-unlimited');
+    return;
+  }
+  quotaNote.classList.remove('quota-unlimited');
+  quotaNote.textContent = 'נותרו לך ' + quota.remaining + ' מתוך ' + quota.limit +
+    ' חלקות שונות חינם השבוע. המכסה מתאפסת ביום ראשון.';
+}
+
+function showLimit(quota) {
+  resultCard.style.display = 'none';
+  limitCard.style.display = 'block';
+  if (quota && quota.resets_at) limitCard.dataset.resetsAt = quota.resets_at;
+  limitCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ── SVG coordinate transform ───────────────────────────────────────────────────
@@ -462,6 +484,8 @@ async function searchParcel() {
   // Cache key: sorted "gush-parcel" pairs joined by "_"
   const cacheKey = items.map(i => `${i.gush}-${i.parcel}`).sort().join('_');
   if (parcelCache[cacheKey]) {
+    limitCard.style.display = 'none';
+    renderQuota(parcelCache[cacheKey].quota);
     displayParcel(parcelCache[cacheKey]);
     return;
   }
@@ -487,17 +511,25 @@ async function searchParcel() {
       return;
     }
 
-    // Rate limited
+    const data = await resp.json().catch(() => ({}));
+
+    // Technical rate protection is separate from the weekly product limit.
     if (resp.status === 429) {
       showError('יותר מדי בקשות. נסה שוב בעוד מספר דקות.');
       return;
     }
 
-    const data = await resp.json();
+    if (resp.status === 403 && data.error === 'weekly_limit_reached') {
+      showLimit(data.quota);
+      return;
+    }
+
     if (!data.success) {
       showError(data.error || 'חלקה לא נמצאה');
       return;
     }
+    limitCard.style.display = 'none';
+    renderQuota(data.quota);
     parcelCache[cacheKey] = data;
     displayParcel(data);
   } catch (e) {
