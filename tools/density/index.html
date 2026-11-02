@@ -309,8 +309,8 @@
         <p>במקום לחשב צפיפות ככלי נפרד, בדיקת צפיפות לפי גוש וחלקה זמינה עכשיו בתוך מערכת המפה, יחד עם שכבות תכנון, גבולות חלקות, נתוני מתחם והקשר מרחבי רחב יותר.</p>
         <p>המעבר הזה נועד להפוך את הבדיקה לשימושית יותר: צפיפות היא לא מספר מנותק. היא מקבלת משמעות כשהיא יושבת ליד זכויות, מדיניות, מצב חלקות וסביבת המתחם.</p>
         <div class="isramap-action-row">
-          <a href="https://isramap.co.il/" class="btn-cta" target="_blank" rel="noopener">לצפייה במסלולים ולהצטרפות</a>
-          <span class="isramap-secondary-link">שבוע ראשון חינם</span>
+          <a href="https://isramap.co.il/?utm_source=lendover&utm_medium=referral&utm_campaign=retired_tool_pages&utm_content=density_primary_top" class="btn-cta" target="_blank" rel="noopener" data-lv-cta="isramap_home" data-lv-location="primary_top">לגלות מה אפשר לבדוק ב־<bdi dir="ltr">IsraMap</bdi></a>
+          <a href="https://isramap.co.il/pricing.html?utm_source=lendover&utm_medium=referral&utm_campaign=retired_tool_pages&utm_content=density_pricing_top" class="isramap-secondary-link" target="_blank" rel="noopener" data-lv-cta="isramap_pricing" data-lv-location="pricing_top">למסלולים ומחירים</a>
         </div>
       </div>
       <aside class="isramap-logo-panel" aria-label="ISRAMAP">
@@ -345,8 +345,8 @@
   <div class="container">
     <h2>רוצים לבדוק צפיפות כחלק מתמונה תכנונית מלאה?</h2>
     <p>הבדיקה זמינה עכשיו בתוך <bdi dir="ltr">ISRAMAP</bdi>, לצד שכבות תכנון ומידע מרחבי נוסף</p>
-    <a href="https://isramap.co.il/" class="btn-cta" target="_blank" rel="noopener">לצפייה במסלולים ולהצטרפות</a>
-    <p style="margin-top:12px">שבוע ראשון חינם</p>
+    <a href="https://isramap.co.il/?utm_source=lendover&utm_medium=referral&utm_campaign=retired_tool_pages&utm_content=density_primary_bottom" class="btn-cta" target="_blank" rel="noopener" data-lv-cta="isramap_home" data-lv-location="primary_bottom">לגלות מה אפשר לבדוק ב־<bdi dir="ltr">IsraMap</bdi></a>
+    <p style="margin-top:12px"><a href="https://isramap.co.il/pricing.html?utm_source=lendover&utm_medium=referral&utm_campaign=retired_tool_pages&utm_content=density_pricing_bottom" class="isramap-secondary-link" target="_blank" rel="noopener" data-lv-cta="isramap_pricing" data-lv-location="pricing_bottom">למסלולים ומחירים</a></p>
   </div>
 </section>
 
@@ -401,6 +401,41 @@
 
 <script>window._lvSource='density-isramap-transition';</script>
 <script src="/tools/tracker.js"></script>
+<script>
+  (function () {
+    var eventUrl = 'https://isramap.co.il/auth/analytics/event';
+    document.querySelectorAll('[data-lv-cta]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        var visitorId;
+        try { visitorId = localStorage.getItem('_lv_vid'); } catch (e) {}
+        if (!visitorId) return;
+        var eventId = 'evt_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 14);
+        var payload = JSON.stringify({
+          event_id: eventId,
+          event_name: 'cta_click',
+          visitor_id: visitorId,
+          page_path: location.pathname.replace(/\/$/, '') || '/',
+          referrer_host: location.hostname,
+          properties: {
+            cta: link.getAttribute('data-lv-cta'),
+            flow: 'retired_tool_transition',
+            product_area: 'density',
+            result: link.getAttribute('data-lv-location')
+          }
+        });
+        if (typeof fetch === 'function') {
+          fetch(eventUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload,
+            credentials: 'include',
+            keepalive: true
+          }).catch(function () {});
+        }
+      });
+    });
+  })();
+</script>
 <script src="/accessibility-widget.js"></script>
 </body>
 </html>
