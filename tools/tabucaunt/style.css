@@ -286,8 +286,7 @@ nav {
 
 /* ── Reset button ────────────────────────── */
 #reset-btn,
-#reset-btn-2,
-#reset-btn-3 {
+#reset-btn-2 {
   display: block;
   width: 100%;
   margin-top: 10px;
@@ -303,8 +302,7 @@ nav {
   transition: background 0.2s;
 }
 #reset-btn:hover,
-#reset-btn-2:hover,
-#reset-btn-3:hover { background: var(--copper-light); }
+#reset-btn-2:hover { background: var(--copper-light); }
 
 /* ── Weekly quota ───────────────────────── */
 .quota-note {
