@@ -202,7 +202,8 @@ async function loadQuota() {
       credentials: 'include',
     });
     if (!resp.ok) return;
-    const quota = await resp.json();
+    const data = await resp.json();
+    const quota = data.quota || data;
     if (quota.enforced && !quota.unlimited && quota.remaining === 0) {
       showLimit(quota);
     }
