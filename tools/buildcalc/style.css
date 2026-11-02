@@ -507,6 +507,64 @@ nav {
 }
 #reset-btn:hover { background: var(--copper-light); }
 
+/* ── Weekly quota ───────────────────────── */
+.quota-note {
+  display: none;
+  margin: 18px 0 0;
+  padding: 10px 12px;
+  border: 1px solid #d9c3aa;
+  border-radius: 7px;
+  background: #fbf5ee;
+  color: #70491f;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+}
+.quota-note.quota-unlimited {
+  border-color: #9fcfc7;
+  background: #edf8f6;
+  color: #176158;
+}
+#limit-card { display: none; }
+.limit-card {
+  border-top-color: #27dbe3;
+  text-align: right;
+}
+.limit-logo {
+  display: block;
+  width: 112px;
+  height: auto;
+  margin: 0 0 14px;
+  object-fit: contain;
+}
+.limit-card h2 {
+  margin-bottom: 10px;
+  color: #132f31;
+  font-size: 1.25rem;
+}
+.limit-card > p:not(.limit-reset) {
+  margin-bottom: 18px;
+  color: #4d5f60;
+  line-height: 1.7;
+}
+.limit-card > a {
+  display: block;
+  padding: 13px 16px;
+  border-radius: 7px;
+  background: #061617;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 800;
+}
+.limit-card > a:hover { background: #123638; }
+.limit-reset {
+  margin: 10px 0 4px;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  text-align: center;
+}
+
 /* ── Privacy ─────────────────────────────── */
 .privacy-note {
   text-align: center;
