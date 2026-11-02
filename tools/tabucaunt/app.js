@@ -19,6 +19,9 @@ const breakdownSec   = document.getElementById('breakdown-section');
 const breakdownList  = document.getElementById('breakdown-list');
 const resetBtn       = document.getElementById('reset-btn');
 const resetBtn2      = document.getElementById('reset-btn-2');
+const resetBtn3      = document.getElementById('reset-btn-3');
+const limitCard      = document.getElementById('limit-card');
+const quotaNote      = document.getElementById('quota-note');
 
 const MIN_DISPLAY_MS = 200; // prevent result "flash" on instant responses
 
@@ -56,13 +59,18 @@ form.addEventListener('submit', async (e) => {
       return;
     }
 
-    // Rate limited
+    const data = await resp.json();
+
+    // Technical rate protection is separate from the weekly product limit.
     if (resp.status === 429) {
-      showError('יותר מדי בקשות. נסה שוב בעוד מספר דקות.');
+      showError('יותר מדי בקשות. נסו שוב בעוד מספר דקות.');
       return;
     }
 
-    const data = await resp.json();
+    if (resp.status === 403 && data.error === 'weekly_limit_reached') {
+      showLimit(data.quota);
+      return;
+    }
 
     // Ensure spinner shows for at least MIN_DISPLAY_MS
     const elapsed = Date.now() - t0;
@@ -123,6 +131,8 @@ function renderResult(gush, halka, data) {
   } else {
     breakdownSec.style.display = 'none';
   }
+
+  renderQuota(data.quota);
 }
 
 // ── Reset ────────────────────────────────────────────────────────
@@ -136,6 +146,7 @@ function doReset() {
 
 resetBtn.addEventListener('click',  doReset);
 resetBtn2.addEventListener('click', doReset);
+resetBtn3.addEventListener('click', doReset);
 
 // ── UI helpers ────────────────────────────────────────────────────
 
@@ -145,9 +156,11 @@ function setLoading(on) {
 }
 
 function hideAll() {
-  errorBox.style.display    = 'none';
+  errorBox.style.display     = 'none';
   notFoundCard.style.display = 'none';
   resultCard.style.display   = 'none';
+  limitCard.style.display    = 'none';
+  quotaNote.style.display    = 'none';
 }
 
 function showError(msg) {
@@ -161,6 +174,47 @@ function showNotFound(gush, halka) {
   notFoundCard.style.display = 'block';
 }
 
+function renderQuota(quota) {
+  if (!quota) return;
+
+  quotaNote.style.display = 'block';
+  if (quota.unlimited) {
+    quotaNote.textContent = 'מנוי IsraMap פעיל: כל הבדיקות זמינות ללא הגבלה.';
+    quotaNote.classList.add('quota-unlimited');
+    return;
+  }
+
+  quotaNote.classList.remove('quota-unlimited');
+  quotaNote.textContent = 'נותרו לך ' + quota.remaining + ' מתוך ' + quota.limit +
+    ' בדיקות חינם השבוע. המכסה מתאפסת ביום ראשון.';
+}
+
+function showLimit(quota) {
+  hideAll();
+  limitCard.style.display = 'block';
+  lookupBtn.disabled = true;
+  if (quota && quota.resets_at) {
+    limitCard.dataset.resetsAt = quota.resets_at;
+  }
+}
+
+async function loadQuota() {
+  try {
+    const resp = await fetch('https://tabucaunt.lendover.co.il/quota', {
+      credentials: 'include',
+    });
+    if (!resp.ok) return;
+    const quota = await resp.json();
+    if (quota.enforced && !quota.unlimited && quota.remaining === 0) {
+      showLimit(quota);
+    }
+  } catch (_err) {
+    // A silent pre-check must never block the tool if the quota service is unavailable.
+  }
+}
+
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+loadQuota();
