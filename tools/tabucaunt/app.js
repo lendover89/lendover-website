@@ -19,7 +19,6 @@ const breakdownSec   = document.getElementById('breakdown-section');
 const breakdownList  = document.getElementById('breakdown-list');
 const resetBtn       = document.getElementById('reset-btn');
 const resetBtn2      = document.getElementById('reset-btn-2');
-const resetBtn3      = document.getElementById('reset-btn-3');
 const limitCard      = document.getElementById('limit-card');
 const quotaNote      = document.getElementById('quota-note');
 
@@ -146,7 +145,6 @@ function doReset() {
 
 resetBtn.addEventListener('click',  doReset);
 resetBtn2.addEventListener('click', doReset);
-resetBtn3.addEventListener('click', doReset);
 
 // ── UI helpers ────────────────────────────────────────────────────
 
