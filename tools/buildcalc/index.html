@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>תכסית מגרש ונסיגות לפי גוש וחלקה — BuildCalc | חינם</title>
-  <meta name="description" content="מחשבון תכסית מגרש ונסיגות לפי גוש וחלקה: בדיקת שטח מגרש, תכסית ואילוצי בינוי על בסיס שכבת GIS רשמית של ישראל.">
+  <title>תכסית מגרש ונסיגות לפי גוש וחלקה — BuildCalc | 3 חלקות חינם בשבוע</title>
+  <meta name="description" content="מחשבון תכסית מגרש ונסיגות לפי גוש וחלקה. 3 חלקות שונות חינם בכל שבוע; ב־IsraMap כל הבדיקות ללא הגבלה.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.lendover.co.il/tools/buildcalc/">
 
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.lendover.co.il/tools/buildcalc/">
   <meta property="og:title" content="BuildCalc — מחשבון תכסית לפי גוש וחלקה">
-  <meta property="og:description" content="הזן גוש וחלקה — קבל שטח, גאומטריה ואחוז תכסית עם נסיגות מותאמות אישית. מבוסס GIS רשמי. חינם.">
+  <meta property="og:description" content="הזינו גוש וחלקה וקבלו שטח, גאומטריה ואחוז תכסית. 3 חלקות שונות חינם בכל שבוע.">
   <meta property="og:image" content="https://www.lendover.co.il/logo-transparent-new.png">
   <meta property="og:locale" content="he_IL">
   <meta property="og:site_name" content="לנדובר - הבית לפתרונות נדל&quot;ן">
@@ -20,7 +20,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="BuildCalc — מחשבון תכסית לפי גוש וחלקה">
-  <meta name="twitter:description" content="הזן גוש וחלקה — קבל שטח, גאומטריה ואחוז תכסית. מבוסס GIS רשמי. חינם.">
+  <meta name="twitter:description" content="הזינו גוש וחלקה וקבלו שטח, גאומטריה ואחוז תכסית. 3 חלקות שונות חינם בכל שבוע.">
   <meta name="twitter:image" content="https://www.lendover.co.il/logo-transparent-new.png">
 
   <!-- Schema.org JSON-LD -->
@@ -35,7 +35,7 @@
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Web",
         "inLanguage": "he",
-        "description": "כלי חינמי לחישוב תכסית, שטח מגרש ואחוז כיסוי לפי גוש וחלקה, מבוסס על שכבת GIS רשמית של מגרשי ישראל. מאפשר הגדרת נסיגות מותאמות אישית לכל צלע ומציג תרשים גאומטרי אינטראקטיבי.",
+        "description": "כלי לחישוב תכסית, שטח מגרש ואחוז כיסוי לפי גוש וחלקה, עם 3 חלקות שונות חינם בכל שבוע. ב־IsraMap כל הבדיקות זמינות ללא הגבלה.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -84,7 +84,7 @@
             "name": "האם BuildCalc חינמי?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "כן, BuildCalc חינמי לחלוטין. נדרשת הרשמה חד-פעמית חינמית."
+              "text": "BuildCalc מאפשר לחשב תכסית עבור 3 חלקות שונות חינם בכל שבוע. חישובים חוזרים על אותה חלקה אינם צורכים בדיקה נוספת. ב־IsraMap כל הבדיקות זמינות ללא הגבלה."
             }
           }
         ]
@@ -94,7 +94,7 @@
   </script>
 
   <link rel="stylesheet" href="/style-herounify1.css">
-  <link rel="stylesheet" href="style.css?v=20260706-tool-hero-fix33">
+  <link rel="stylesheet" href="style.css?v=20261102-weekly-quota">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <style>
     nav{padding:10px 32px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #e0ddd6}
@@ -334,7 +334,7 @@
 
 <div class="hero">
   <h1>מחשבון תכסית לפי גוש וחלקה</h1>
-  <p>הזן גוש וחלקה — קבל שטח, גאומטריה ואחוז תכסית עם נסיגות מותאמות אישית</p>
+  <p>3 חלקות שונות חינם בכל שבוע. ב־IsraMap כל הבדיקות ללא הגבלה.</p>
 </div>
 
 <div class="container">
@@ -358,6 +358,15 @@
     </div>
 
     <div id="error-box" style="display:none"></div>
+  </div>
+
+  <!-- Weekly limit card -->
+  <div id="limit-card" class="card limit-card" role="status" aria-live="polite">
+    <img src="https://isramap.co.il/isramap-logo.png" alt="IsraMap" class="limit-logo" width="112" height="56">
+    <h2>מיצית את 3 חישובי התכסית החינמיים השבוע.</h2>
+    <p>ב־IsraMap כל הבדיקות ללא הגבלה. חישוב התכסית הוא רק חלק קטן ממערכת שמרכזת מידע תכנוני, זכויות בנייה, בעלויות, מגבלות, שכבות מידע וניתוח כלכלי.</p>
+    <a href="https://isramap.co.il/pricing.html?utm_source=buildcalc&amp;utm_medium=product_limit&amp;utm_campaign=buildcalc_weekly_limit" target="_blank" rel="noopener" data-lv-cta="buildcalc-limit-to-isramap" data-lv-location="weekly_limit">להתחיל שבוע ניסיון ב־IsraMap</a>
+    <p class="limit-reset">המכסה מתאפסת בכל יום ראשון.</p>
   </div>
 
   <!-- ── Card 2: Results ────────────────────────────────────────── -->
@@ -445,10 +454,13 @@
     <!-- SVG export -->
     <button id="export-svg-btn">שמור ציור כ-SVG</button>
 
+    <p id="quota-note" class="quota-note" aria-live="polite"></p>
+
     <div class="isramap-result-cta" style="margin:22px 0 16px;padding:20px;border-radius:12px;background:#061617;border:1px solid #1b4a4d;text-align:right;color:#f4fbfb">
-      <h3 style="margin:0 0 8px;font-size:1.12rem;color:#fff">התכסית מראה כמה אפשר לכסות. התכנון קובע כמה אפשר לבנות.</h3>
-      <p style="margin:0 0 16px;line-height:1.65;color:#c6d7d8">IsraMap מרכזת את התכניות החלות, ייעודי הקרקע ואומדן זכויות הבנייה.</p>
-      <a href="https://isramap.co.il/" target="_blank" rel="noopener" style="display:block;padding:12px 16px;border-radius:7px;background:#27dbe3;color:#04181a;text-align:center;text-decoration:none;font-weight:800">המשיכו לבדיקת הזכויות ב־IsraMap</a>
+      <img src="https://isramap.co.il/isramap-logo.png" alt="IsraMap" width="96" height="48" style="display:block;width:96px;height:auto;margin:0 0 14px;object-fit:contain">
+      <h3 style="margin:0 0 8px;font-size:1.12rem;color:#fff">ב־IsraMap כל הבדיקות ללא הגבלה.</h3>
+      <p style="margin:0 0 16px;line-height:1.65;color:#c6d7d8">חישוב התכסית הוא רק חלק קטן מהמערכת. המנוי מאפשר לבדוק כמה חלקות ומתחמים שצריך, ולראות במקום אחד את המצב הקיים, התכנון, זכויות הבנייה, המגבלות, שכבות המידע והמשמעות הכלכלית.</p>
+      <a href="https://isramap.co.il/pricing.html?utm_source=buildcalc&amp;utm_medium=product_cta&amp;utm_campaign=buildcalc_to_isramap" target="_blank" rel="noopener" data-lv-cta="buildcalc-to-isramap" data-lv-location="result" style="display:block;padding:12px 16px;border-radius:7px;background:#27dbe3;color:#04181a;text-align:center;text-decoration:none;font-weight:800">להתחיל שבוע ניסיון ב־IsraMap</a>
       <p style="margin:9px 0 0;text-align:center;font-size:.82rem;color:#9fb8ba">שבוע ראשון חינם</p>
     </div>
 
@@ -474,7 +486,7 @@
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">מה ההבדל בין תכסית לאחוז בנייה?</summary><p style="margin:8px 0 0 16px">תכסית היא שטח הכיסוי של הבניין על הקרקע, בעוד שאחוז בנייה כולל את סך כל שטחי הרצפה בכל הקומות. BuildCalc מחשב תכסית בהתאם לנסיגות שהוגדרו.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם תכסית אומרת כמה זכויות בנייה יש?</summary><p style="margin:8px 0 0 16px">לא. תכסית אינה זכויות בנייה. היא בודקת כמה שטח ניתן לכסות על הקרקע לפי גבולות ונסיגות. כדי להבין היתכנות צריך לחבר אותה לזכויות, גובה, שימושים, חניה, צפיפות ומדיניות תכנון.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">על אילו נתונים מתבסס הכלי?</summary><p style="margin:8px 0 0 16px">הכלי מתבסס על שכבת GIS רשמית של מגרשי ישראל הכוללת את גבולות החלקות כפי שנרשמו במרשם המקרקעין.</p></details>
-  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם BuildCalc חינמי?</summary><p style="margin:8px 0 0 16px">כן, BuildCalc חינמי לחלוטין. נדרשת הרשמה חד-פעמית חינמית.</p></details>
+  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם BuildCalc חינמי?</summary><p style="margin:8px 0 0 16px">BuildCalc מאפשר לחשב תכסית עבור 3 חלקות שונות חינם בכל שבוע. חישובים חוזרים על אותה חלקה אינם צורכים בדיקה נוספת. ב־IsraMap כל הבדיקות זמינות ללא הגבלה.</p></details>
 </section>
 
 <!-- Footer -->
@@ -504,14 +516,45 @@
 <script src="https://unpkg.com/proj4@2.9.0/dist/proj4.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="../auth-gate.js?v=20260819a"></script>
-<script src="app.js?v=5"></script>
+<script src="app.js?v=6"></script>
 <script>window._lvSource='buildcalc';</script>
 <script src="/tools/tracker.js"></script>
+<script>
+  (function () {
+    var eventUrl = 'https://isramap.co.il/auth/analytics/event';
+    document.querySelectorAll('[data-lv-cta]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        var visitorId;
+        try { visitorId = localStorage.getItem('_lv_vid'); } catch (e) {}
+        if (!visitorId) return;
+        var payload = JSON.stringify({
+          event_id: 'evt_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 14),
+          event_name: 'cta_click',
+          visitor_id: visitorId,
+          page_path: location.pathname.replace(/\/$/, '') || '/',
+          referrer_host: location.hostname,
+          properties: {
+            cta: link.getAttribute('data-lv-cta'),
+            flow: 'product_quota',
+            product_area: 'buildcalc',
+            result: link.getAttribute('data-lv-location')
+          }
+        });
+        fetch(eventUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+          credentials: 'include',
+          keepalive: true
+        }).catch(function () {});
+      });
+    });
+  })();
+</script>
 
 <script src="/accessibility-widget.js?v=20260505appfix"></script>
 </body>
 </html>
-
 
 
 
