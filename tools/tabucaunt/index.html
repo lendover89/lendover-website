@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>בדיקת בעלים בטאבו לפי גוש וחלקה — TabuCount | חינם</title>
-  <meta name="description" content="בדוק מיידית כמה בעלים רשומים בטאבו לכל גוש וחלקה — חיוני לבדיקת היתכנות פינוי בינוי. ממשק מהיר, חינם. כלי של אהרון לנדובר, מומחה לנדל״ן והתחדשות עירונית." />
+  <title>בדיקת בעלים בטאבו לפי גוש וחלקה — TabuCount | 3 בדיקות חינם בשבוע</title>
+  <meta name="description" content="בדקו מיידית כמה בעלים רשומים בטאבו לפי גוש וחלקה. 3 בדיקות חינם בכל שבוע; ב־IsraMap כל הבדיקות ללא הגבלה." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.lendover.co.il/tools/tabucaunt/" />
 
@@ -84,7 +84,7 @@
             "name": "האם TabuCount חינמי?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "כן, TabuCount חינמי לחלוטין. נדרשת הרשמה חד-פעמית חינמית."
+              "text": "TabuCount מאפשר 3 בדיקות חינם בכל שבוע. ב־IsraMap כל הבדיקות זמינות ללא הגבלה."
             }
           }
         ]
@@ -98,7 +98,7 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" />
   <link rel="stylesheet" href="/style-herounify1.css" />
-  <link rel="stylesheet" href="style.css?v=20260706-tool-hero-fix33">
+  <link rel="stylesheet" href="style.css?v=20261102-weekly-quota">
   <style>
     nav{padding:10px 32px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #e0ddd6}
     .nav-app-brand,.nav-site-brand{text-decoration:none;display:flex;align-items:center}
@@ -339,7 +339,7 @@
 <!-- ── Hero ─────────────────────────────────────────────────── -->
 <div class="hero">
   <h1>בדיקת בעלים בטאבו לפי גוש וחלקה</h1>
-  <p>הזינו גוש וחלקה — קבלו מיד את מספר הבעלים וסוג הבעלות</p>
+  <p>3 בדיקות חינם בכל שבוע. ב־IsraMap כל הבדיקות ללא הגבלה.</p>
 </div>
 
 <!-- ── Main container ───────────────────────────────────────── -->
@@ -397,6 +397,16 @@
     <button id="reset-btn-2">חיפוש חדש</button>
   </div>
 
+  <!-- Weekly limit card -->
+  <div id="limit-card" class="card limit-card" role="status" aria-live="polite">
+    <img src="https://isramap.co.il/isramap-logo.png" alt="IsraMap" class="limit-logo" width="112" height="56">
+    <h2>מיצית את 3 הבדיקות החינמיות השבוע.</h2>
+    <p>ב־IsraMap כל הבדיקות ללא הגבלה. בדיקת מספר הבעלים היא רק חלק קטן ממערכת שמרכזת מידע תכנוני, זכויות בנייה, בעלויות, מגבלות, שכבות מידע וניתוח כלכלי.</p>
+    <a href="https://isramap.co.il/pricing.html?utm_source=tabucount&amp;utm_medium=product_limit&amp;utm_campaign=tabucount_weekly_limit" target="_blank" rel="noopener" data-cta="tabucount-limit-to-isramap">להתחיל שבוע ניסיון ב־IsraMap</a>
+    <p class="limit-reset">המכסה מתאפסת בכל יום ראשון.</p>
+    <button id="reset-btn-3" type="button">חיפוש חדש</button>
+  </div>
+
   <!-- Result card -->
   <div id="result-card" class="card">
     <p class="section-title">תוצאה</p>
@@ -427,6 +437,7 @@
     </div>
 
     <div class="total-summary" id="r-summary"></div>
+    <p id="quota-note" class="quota-note" aria-live="polite"></p>
 
     <div class="isramap-result-cta" style="margin:22px 0 16px;padding:20px;border-radius:12px;background:#061617;border:1px solid #1b4a4d;text-align:right;color:#f4fbfb">
       <img src="https://isramap.co.il/isramap-logo.png" alt="IsraMap" width="96" height="48" style="display:block;width:96px;height:auto;margin:0 0 14px;object-fit:contain">
@@ -457,7 +468,7 @@
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">למה חשוב לדעת מספר בעלים בפינוי בינוי?</summary><p style="margin:8px 0 0 16px">בפרויקטי פינוי בינוי ותמ"א 38, מספר הבעלים קובע את מורכבות ניהול הפרויקט ואת הצורך בהסכמות. לפי החוק, נדרשת הסכמה של 66%–80% מהבעלים, אבל בפועל גם מבנה הבעלות, פיזור הבעלים והיכולת לנהל מו״מ משפיעים מאוד.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם הרבה בעלים אומר שהפרויקט לא אפשרי?</summary><p style="margin:8px 0 0 16px">לא בהכרח. ריבוי בעלים לא פוסל פרויקט, אבל הוא משנה את אסטרטגיית ההתארגנות: צריך להבין מי הבעלים, האם יש יורשים או חברות, כמה דירות מושכרות, והאם נדרש ליווי נציגות או בדיקת טאבו מפורטת.</p></details>
   <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם הנתונים עדכניים?</summary><p style="margin:8px 0 0 16px">הנתונים מבוססים על מאגר טאבו. הנתונים נשמרים מקומית בלבד ואין שידור לשרת חיצוני.</p></details>
-  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם TabuCount חינמי?</summary><p style="margin:8px 0 0 16px">כן, TabuCount חינמי לחלוטין. נדרשת הרשמה חד-פעמית חינמית.</p></details>
+  <details style="margin-bottom:10px"><summary style="cursor:pointer;font-weight:600">האם TabuCount חינמי?</summary><p style="margin:8px 0 0 16px">TabuCount מאפשר 3 בדיקות חינם בכל שבוע. ב־IsraMap כל הבדיקות זמינות ללא הגבלה.</p></details>
 </section>
 
 <!-- Footer -->
@@ -485,7 +496,7 @@
 </footer>
 
 <script src="../auth-gate.js?v=20260819a"></script>
-<script src="app.js"></script>
+<script src="app.js?v=20261102-weekly-quota"></script>
 <script>window._lvSource='tabucaunt';</script>
 <script src="/tools/tracker.js"></script>
 
