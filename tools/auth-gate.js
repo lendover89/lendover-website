@@ -512,6 +512,7 @@
       case 'verify':      renderVerifyScreen(modal); break;
       case 'forgot':      renderForgotScreen(modal); break;
       case 'reset':       renderResetScreen(modal); break;
+      case 'phone':       renderPhoneScreen(modal); break;
     }
 
     // One-shot notice (e.g. an OIDC result message), anchored after the
@@ -660,6 +661,68 @@
         setLoading(btn, false);
       }
     });
+  }
+
+  // ── Phone screen (new social sign-ups, owner 2026-11-18) ──────────
+  // A Google/Microsoft sign-up creates the account with no phone. Accounts
+  // created after the server-side cutoff must add one before using the
+  // tools; the server decides (/profile/phone-status), this screen only asks.
+  // Blocking: no close control, the overlay stays until the number is saved.
+
+  function renderPhoneScreen(modal) {
+    modal.innerHTML = `
+      <img class="auth-logo" src="https://www.lendover.co.il/logo-transparent-new.png" alt="לנדובר">
+      <h2>עוד צעד אחד</h2>
+      <p class="auth-subtitle">כדי להשלים את ההרשמה, הוסף מספר טלפון</p>
+      <div class="auth-error"></div>
+      <form id="auth-phone-form" novalidate>
+        <div class="auth-field">
+          <label for="auth-phone-input">טלפון</label>
+          <input type="tel" id="auth-phone-input" dir="ltr" placeholder="0501234567" required autocomplete="tel" inputmode="tel">
+        </div>
+        <button type="submit" class="auth-btn">שמור והמשך</button>
+      </form>
+    `;
+
+    modal.querySelector('#auth-phone-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = modal.querySelector('.auth-btn');
+      const phone = modal.querySelector('#auth-phone-input').value.replace(/[\s-]/g, '');
+      if (!/^0[0-9]{8,9}$/.test(phone)) {
+        showError(modal, 'מספר טלפון לא תקין (פורמט ישראלי, למשל 0501234567)');
+        return;
+      }
+      hideError(modal);
+      setLoading(btn, true);
+      try {
+        const { data } = await authPost('/profile/phone', { phone });
+        if (!data.success) {
+          showError(modal, data.error || 'שגיאה בשמירת הטלפון');
+          return;
+        }
+        closeOverlay();
+      } catch (err) {
+        showError(modal, 'שגיאת רשת, בדוק את החיבור');
+      } finally {
+        setLoading(btn, false);
+      }
+    });
+  }
+
+  /**
+   * Ask a signed-in account with no phone to add one. Fail-open: a network
+   * error, a 401 (not signed in) or any odd payload shows nothing. Never
+   * replaces a screen that is already open (e.g. an OIDC verify step).
+   */
+  async function checkPhoneRequired() {
+    try {
+      const resp = await fetch(AUTH_API + '/profile/phone-status', { credentials: 'include' });
+      if (!resp.ok) return;
+      const data = await resp.json();
+      if (!data || data.required !== true || _overlay) return;
+      _currentScreen = 'phone';
+      renderOverlay();
+    } catch (e) { /* fail-open */ }
   }
 
   // ── Register screen ──────────────────────────────────────────────
@@ -1201,6 +1264,13 @@
     document.addEventListener('DOMContentLoaded', consumeAuthResult, { once: true });
   } else {
     consumeAuthResult();
+  }
+
+  // A signed-in social account with no phone must add one (same guard: it renders).
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', checkPhoneRequired, { once: true });
+  } else {
+    checkPhoneRequired();
   }
 
 })();
